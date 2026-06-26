@@ -36,8 +36,8 @@ export default function Header() {
 
         {/* Action Button & Mobile Toggle */}
         <div className="flex items-center space-x-2 md:space-x-4">
-          <Link href="/templates">
-            <Button className="rounded-xl px-4 md:px-6 font-sans text-sm md:text-base">Buat Sekarang</Button>
+          <Link href="/templates" className="hidden md:block">
+            <Button className="rounded-xl px-6 font-sans text-base">Buat Sekarang</Button>
           </Link>
           
           <button 
@@ -82,6 +82,11 @@ export default function Header() {
             >
               Cara Kerja
             </Link>
+            <div className="pt-4 border-t border-border-subtle">
+              <Link href="/templates" onClick={() => setIsMobileMenuOpen(false)} className="block">
+                <Button className="w-full rounded-xl py-6 text-lg font-sans">Buat Sekarang</Button>
+              </Link>
+            </div>
           </nav>
         </div>
       )}
