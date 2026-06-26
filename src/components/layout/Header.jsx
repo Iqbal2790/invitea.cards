@@ -51,45 +51,47 @@ export default function Header() {
       </div>
 
       {/* Mobile Navigation Dropdown */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-20 left-0 w-full bg-bg-base border-b border-border-subtle shadow-xl animate-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col p-6 space-y-6">
-            <Link 
-              href="/templates?kategori=undangan" 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
-            >
-              Undangan
+      <div 
+        className={`md:hidden absolute top-20 left-0 w-full bg-bg-base shadow-xl overflow-hidden transition-all duration-300 ease-in-out ${
+          isMobileMenuOpen ? "max-h-[400px] opacity-100 border-b border-border-subtle" : "max-h-0 opacity-0"
+        }`}
+      >
+        <nav className="flex flex-col p-6 space-y-6">
+          <Link 
+            href="/templates?kategori=undangan" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+          >
+            Undangan
+          </Link>
+          <Link 
+            href="/templates?kategori=ucapan" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+          >
+            Ucapan
+          </Link>
+          <Link 
+            href="/#harga" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+          >
+            Harga
+          </Link>
+          <Link 
+            href="/#cara-kerja" 
+            onClick={() => setIsMobileMenuOpen(false)} 
+            className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+          >
+            Cara Kerja
+          </Link>
+          <div className="pt-4 border-t border-border-subtle">
+            <Link href="/templates" onClick={() => setIsMobileMenuOpen(false)} className="block">
+              <Button className="w-full rounded-xl py-6 text-lg font-sans">Buat Sekarang</Button>
             </Link>
-            <Link 
-              href="/templates?kategori=ucapan" 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
-            >
-              Ucapan
-            </Link>
-            <Link 
-              href="/#harga" 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
-            >
-              Harga
-            </Link>
-            <Link 
-              href="/#cara-kerja" 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
-            >
-              Cara Kerja
-            </Link>
-            <div className="pt-4 border-t border-border-subtle">
-              <Link href="/templates" onClick={() => setIsMobileMenuOpen(false)} className="block">
-                <Button className="w-full rounded-xl py-6 text-lg font-sans">Buat Sekarang</Button>
-              </Link>
-            </div>
-          </nav>
-        </div>
-      )}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }
