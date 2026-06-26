@@ -1,7 +1,13 @@
-import Link from "next/link"
-import { Button } from "@/components/ui/Button"
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/Button";
+import { Menu, X } from "lucide-react";
 
 export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border-subtle bg-bg-base/80 backdrop-blur-md">
       <div className="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
@@ -12,7 +18,7 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Navigation */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link href="/templates?kategori=undangan" className="text-sm font-sans font-medium text-text-main hover:text-brand transition-colors">
             Undangan
@@ -28,13 +34,57 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Action Button */}
-        <div className="flex items-center space-x-4">
+        {/* Action Button & Mobile Toggle */}
+        <div className="flex items-center space-x-2 md:space-x-4">
           <Link href="/templates">
-            <Button className="rounded-xl px-6 font-sans">Buat Sekarang</Button>
+            <Button className="rounded-xl px-4 md:px-6 font-sans text-sm md:text-base">Buat Sekarang</Button>
           </Link>
+          
+          <button 
+            className="md:hidden p-2 text-brand bg-brand-light/10 rounded-lg hover:bg-brand-light/30 transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Navigation Dropdown */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-20 left-0 w-full bg-bg-base border-b border-border-subtle shadow-xl animate-in slide-in-from-top-2 duration-200">
+          <nav className="flex flex-col p-6 space-y-6">
+            <Link 
+              href="/templates?kategori=undangan" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+            >
+              Undangan
+            </Link>
+            <Link 
+              href="/templates?kategori=ucapan" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+            >
+              Ucapan
+            </Link>
+            <Link 
+              href="/#harga" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+            >
+              Harga
+            </Link>
+            <Link 
+              href="/#cara-kerja" 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="text-lg font-sans font-medium text-text-main hover:text-brand transition-colors"
+            >
+              Cara Kerja
+            </Link>
+          </nav>
+        </div>
+      )}
     </header>
-  )
+  );
 }
