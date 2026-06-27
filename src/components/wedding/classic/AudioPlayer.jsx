@@ -5,25 +5,27 @@ import { Music, Pause } from 'lucide-react';
 
 export default function AudioPlayer({ src, isPlaying }) {
   const [playing, setPlaying] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   const iframeRef = useRef(null);
   
-  // Ekstrak Video ID dari URL YouTube, mengabaikan parameter list, index, dll
+  // Ekstrak Video ID dari URL YouTube
   const videoIdMatch = src?.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
   const videoId = videoIdMatch ? videoIdMatch[1] : null;
 
-  // Kita biarkan user menekan tombol "Music" secara manual jika browser memblokir autoplay
   useEffect(() => {
     if (isPlaying) {
+      setHasStarted(true);
       setPlaying(true);
     }
   }, [isPlaying]);
 
   useEffect(() => {
-    if (iframeRef.current && iframeRef.current.contentWindow) {
+    // Gunakan postMessage untuk play/pause setelah iframe dimuat
+    if (hasStarted && iframeRef.current && iframeRef.current.contentWindow) {
       const func = playing ? 'playVideo' : 'pauseVideo';
       iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*');
     }
-  }, [playing]);
+  }, [playing, hasStarted]);
 
   const togglePlay = () => {
     setPlaying(!playing);
@@ -33,15 +35,16 @@ export default function AudioPlayer({ src, isPlaying }) {
 
   return (
     <>
-      {/* Iframe YouTube yang sudah dimuat dari awal, tapi tidak auto-play untuk mencegah error Abort */}
-      <div className="fixed top-0 left-0 w-1 h-1 opacity-[0.01] pointer-events-none -z-50 overflow-hidden">
-        <iframe
-          ref={iframeRef}
-          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&playsinline=1`}
-          allow="autoplay"
-          className="w-full h-full"
-        />
-      </div>
+      {hasStarted && (
+        <div className="fixed top-0 left-0 w-1 h-1 opacity-[0.01] pointer-events-none -z-50 overflow-hidden">
+          <iframe
+            ref={iframeRef}
+            src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&playsinline=1&autoplay=1`}
+            allow="autoplay"
+            className="w-full h-full"
+          />
+        </div>
+      )}
 
       {/* Floating Button */}
       {isPlaying && (
