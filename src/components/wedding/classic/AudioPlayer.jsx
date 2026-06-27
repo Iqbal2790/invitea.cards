@@ -1,11 +1,10 @@
 "use client";
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { motion } from 'framer-motion';
 import { Music, Pause } from 'lucide-react';
 
-export default function AudioPlayer({ src, isPlaying }) {
+const AudioPlayer = forwardRef(({ src, isPlaying }, ref) => {
   const [playing, setPlaying] = useState(false);
-  const [hasStarted, setHasStarted] = useState(false);
   const iframeRef = useRef(null);
   const audioRef = useRef(null);
   
@@ -14,28 +13,42 @@ export default function AudioPlayer({ src, isPlaying }) {
   const videoId = videoIdMatch ? videoIdMatch[1] : null;
   const isNativeAudio = !videoId && src;
 
+  useImperativeHandle(ref, () => ({
+    play: () => {
+      setPlaying(true);
+      if (isNativeAudio && audioRef.current) {
+        audioRef.current.play().catch(e => console.log("Autoplay blocked:", e));
+      } else if (videoId && iframeRef.current && iframeRef.current.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+      }
+    }
+  }));
+
   useEffect(() => {
-    if (isPlaying) {
-      setHasStarted(true);
+    if (isPlaying && !playing) {
       setPlaying(true);
     }
   }, [isPlaying]);
 
   useEffect(() => {
-    // Untuk Native Audio (MP3)
-    if (isNativeAudio && audioRef.current) {
-      if (playing) {
-        audioRef.current.play().catch(e => console.log("Autoplay blocked:", e));
-      } else {
+    // Sync external state changes if needed
+    if (playing) {
+      if (isNativeAudio && audioRef.current) {
+        // Only try to play if it's not already playing to avoid overlapping promises
+        if (audioRef.current.paused) {
+           audioRef.current.play().catch(e => console.log("Autoplay blocked:", e));
+        }
+      } else if (videoId && iframeRef.current && iframeRef.current.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'playVideo', args: [] }), '*');
+      }
+    } else {
+      if (isNativeAudio && audioRef.current) {
         audioRef.current.pause();
+      } else if (videoId && iframeRef.current && iframeRef.current.contentWindow) {
+        iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }), '*');
       }
     }
-    // Untuk YouTube Iframe
-    else if (videoId && hasStarted && iframeRef.current && iframeRef.current.contentWindow) {
-      const func = playing ? 'playVideo' : 'pauseVideo';
-      iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*');
-    }
-  }, [playing, hasStarted, isNativeAudio, videoId]);
+  }, [playing, isNativeAudio, videoId]);
 
   const togglePlay = () => {
     setPlaying(!playing);
@@ -45,11 +58,11 @@ export default function AudioPlayer({ src, isPlaying }) {
 
   return (
     <>
-      {hasStarted && videoId && (
+      {videoId && (
         <div className="fixed top-0 left-0 w-1 h-1 opacity-[0.01] pointer-events-none -z-50 overflow-hidden">
           <iframe
             ref={iframeRef}
-            src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&playsinline=1&autoplay=1`}
+            src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&controls=0&playsinline=1`}
             allow="autoplay"
             className="w-full h-full"
           />
@@ -81,4 +94,6 @@ export default function AudioPlayer({ src, isPlaying }) {
       )}
     </>
   );
-}
+});
+
+export default AudioPlayer;

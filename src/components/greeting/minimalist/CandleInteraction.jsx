@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-export default function CandleInteraction({ onBlown, isBlown }) {
+export default function CandleInteraction({ onBlown, isBlown, onStartBlowing }) {
   const [isBlowing, setIsBlowing] = useState(false);
   const [isExtinguished, setIsExtinguished] = useState(false);
   const blowTimeoutRef = useRef(null);
@@ -18,6 +18,7 @@ export default function CandleInteraction({ onBlown, isBlown }) {
     e.preventDefault();
     if (isExtinguished || isBlown) return;
     setIsBlowing(true);
+    if (onStartBlowing) onStartBlowing();
     
     // Jika ditahan selama 3 detik, lilin mati
     blowTimeoutRef.current = setTimeout(() => {

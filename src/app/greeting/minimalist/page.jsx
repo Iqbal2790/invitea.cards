@@ -17,6 +17,13 @@ export default function GreetingMinimalistTemplate() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const data = DUMMY_BIRTHDAY_DATA;
+  const audioRef = useRef(null);
+
+  const handleStartBlowing = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
 
   const handleBlown = () => {
     setShowConfetti(true);
@@ -51,7 +58,7 @@ export default function GreetingMinimalistTemplate() {
             <p className="font-serif text-2xl mb-2">{data.pesan_pembuka}</p>
             <p className="text-[#F8FAFC]/70 text-sm">{data.instruksi}</p>
           </div>
-          <CandleInteraction onBlown={handleBlown} isBlown={currentSlide > 0} />
+          <CandleInteraction onBlown={handleBlown} onStartBlowing={handleStartBlowing} isBlown={currentSlide > 0} />
         </div>
       </motion.section>
     )},
@@ -97,7 +104,7 @@ export default function GreetingMinimalistTemplate() {
         <div className="w-full max-w-md h-full bg-gradient-to-b from-[#17153B] to-[#0A0914] relative shadow-2xl overflow-hidden flex flex-col">
           
           <ConfettiEffect fire={showConfetti} />
-          <AudioPlayer src={data.musik_url} isPlaying={currentSlide > 0} />
+          <AudioPlayer ref={audioRef} src={data.musik_url} isPlaying={currentSlide > 0} />
 
           {/* Wrapper Konten Utama */}
           <div className="flex-1 relative w-full h-full">

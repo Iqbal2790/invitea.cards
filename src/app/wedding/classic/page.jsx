@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { AnimatePresence, motion } from "framer-motion";
 import { DUMMY_WEDDING_DATA } from "@/lib/dummy-data";
@@ -16,6 +16,7 @@ import AudioPlayer from "@/components/wedding/classic/AudioPlayer";
 export default function WeddingClassicTemplate() {
   const data = DUMMY_WEDDING_DATA;
   const [isUnsealed, setIsUnsealed] = useState(false);
+  const audioRef = useRef(null);
 
   // Kunci scroll saat belum di-unseal
   useEffect(() => {
@@ -29,6 +30,14 @@ export default function WeddingClassicTemplate() {
     };
   }, [isUnsealed]);
 
+  const handleUnseal = () => {
+    setIsUnsealed(true);
+    // Call play synchronously within the user interaction event handler
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+
   return (
     <>
       <Head>
@@ -38,7 +47,7 @@ export default function WeddingClassicTemplate() {
       <main className="bg-[#E5E5E5] min-h-screen">
         <div className="w-full max-w-md mx-auto min-h-screen shadow-2xl relative overflow-x-hidden bg-[#fafafa]">
           
-          <AudioPlayer src={data.musik_url} isPlaying={isUnsealed} />
+          <AudioPlayer ref={audioRef} src={data.musik_url} isPlaying={isUnsealed} />
 
           {/* Overlay Amplop */}
           <AnimatePresence>
@@ -51,7 +60,7 @@ export default function WeddingClassicTemplate() {
                 {/* Envelope Flap background */}
                 <div className="absolute inset-x-0 top-0 h-[50dvh] bg-[#fafafa] rounded-b-[50%] shadow-lg border-b border-gray-200" />
                 <div className="relative z-10 w-full flex justify-center">
-                  <WaxSealInteraction onBreak={() => setIsUnsealed(true)} isBroken={isUnsealed} />
+                  <WaxSealInteraction onBreak={handleUnseal} isBroken={isUnsealed} />
                 </div>
               </motion.section>
             )}
