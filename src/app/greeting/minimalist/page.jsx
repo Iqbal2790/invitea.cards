@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { AnimatePresence, motion } from "framer-motion";
 import { DUMMY_BIRTHDAY_DATA } from "@/lib/dummy-data";
