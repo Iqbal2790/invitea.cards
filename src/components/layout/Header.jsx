@@ -2,11 +2,18 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Menu, X } from "lucide-react";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Hide header on preview templates and final invitations
+  if (pathname.startsWith('/wedding') || pathname.startsWith('/greeting') || pathname.startsWith('/u')) {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border-subtle bg-bg-base/80 backdrop-blur-md">

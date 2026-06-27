@@ -7,37 +7,7 @@ import { LayoutTemplate, PenLine, CreditCard, Send, Star, Quote } from "lucide-r
 import { supabase } from "@/lib/supabase";
 import TemplateCard from "@/components/templates/TemplateCard";
 
-// Fallback dummy data if Supabase is empty (Phase 2 was skipped)
-const DUMMY_TEMPLATES = [
-  {
-    id: 'dummy-1',
-    name: 'Elegance Rose',
-    category: 'Undangan Pernikahan',
-    price: 149000,
-    thumbnail_url: '/template-dummy.png',
-  },
-  {
-    id: 'dummy-2',
-    name: 'Classic Minimalist',
-    category: 'Undangan Pernikahan',
-    price: 129000,
-    thumbnail_url: '/template-dummy.png',
-  },
-  {
-    id: 'dummy-3',
-    name: 'Warm Floral',
-    category: 'Kartu Ucapan',
-    price: 49000,
-    thumbnail_url: '/template-dummy.png',
-  },
-  {
-    id: 'dummy-4',
-    name: 'Rustic Earth',
-    category: 'Undangan Pernikahan',
-    price: 139000,
-    thumbnail_url: '/template-dummy.png',
-  }
-];
+import { DUMMY_TEMPLATES } from "@/lib/templates-data";
 
 const TESTIMONIALS = [
   {

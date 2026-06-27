@@ -1,6 +1,16 @@
-import Link from "next/link"
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide footer on preview templates and final invitations
+  if (pathname.startsWith('/wedding') || pathname.startsWith('/greeting') || pathname.startsWith('/u')) {
+    return null;
+  }
+
   return (
     <footer className="border-t border-border-subtle bg-accent-sand">
       <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">

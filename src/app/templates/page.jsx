@@ -2,18 +2,7 @@ import { supabase } from "@/lib/supabase";
 import TemplateCard from "@/components/templates/TemplateCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-
-// Fallback dummy data if Supabase is empty
-const DUMMY_TEMPLATES = [
-  { id: 'd1', name: 'Elegance Rose', category: 'Undangan Pernikahan', price: 149000, thumbnail_url: '/template-dummy.png' },
-  { id: 'd2', name: 'Classic Minimalist', category: 'Undangan Pernikahan', price: 129000, thumbnail_url: '/template-dummy.png' },
-  { id: 'd3', name: 'Warm Floral', category: 'Kartu Ucapan', price: 49000, thumbnail_url: '/template-dummy.png' },
-  { id: 'd4', name: 'Rustic Earth', category: 'Undangan Pernikahan', price: 139000, thumbnail_url: '/template-dummy.png' },
-  { id: 'd5', name: 'Ocean Breeze', category: 'Undangan Pernikahan', price: 159000, thumbnail_url: '/template-dummy.png' },
-  { id: 'd6', name: 'Simple Joy', category: 'Kartu Ucapan', price: 39000, thumbnail_url: '/template-dummy.png' },
-  { id: 'd7', name: 'Royal Gold', category: 'Undangan Pernikahan', price: 199000, thumbnail_url: '/template-dummy.png' },
-  { id: 'd8', name: 'Sweet Peach', category: 'Kartu Ucapan', price: 49000, thumbnail_url: '/template-dummy.png' },
-];
+import { DUMMY_TEMPLATES } from "@/lib/templates-data";
 
 export const metadata = {
   title: "Koleksi Template - Invitea",
