@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-export default function CandleInteraction({ onBlown, isBlown, onStartBlowing }) {
+export default function CandleInteraction({ onBlown, isBlown, onStartBlowing, onStopBlowing }) {
   const [isBlowing, setIsBlowing] = useState(false);
   const [isExtinguished, setIsExtinguished] = useState(false);
   const blowTimeoutRef = useRef(null);
@@ -29,9 +29,13 @@ export default function CandleInteraction({ onBlown, isBlown, onStartBlowing }) 
   };
 
   const stopBlowing = () => {
-    if (isExtinguished) return;
+    if (isExtinguished) {
+      if (onStopBlowing) onStopBlowing();
+      return;
+    }
     setIsBlowing(false);
     clearTimeout(blowTimeoutRef.current);
+    if (onStopBlowing) onStopBlowing();
   };
 
   // Clean up timer
@@ -45,6 +49,8 @@ export default function CandleInteraction({ onBlown, isBlown, onStartBlowing }) 
       onPointerDown={startBlowing}
       onPointerUp={stopBlowing}
       onPointerLeave={stopBlowing}
+      onTouchEnd={stopBlowing}
+      onClick={stopBlowing}
       onContextMenu={(e) => e.preventDefault()} // Disable right click/long press context menu
     >
       {/* Lingkaran Progress Halus */}

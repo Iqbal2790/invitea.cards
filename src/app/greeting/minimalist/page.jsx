@@ -58,7 +58,7 @@ export default function GreetingMinimalistTemplate() {
             <p className="font-serif text-2xl mb-2">{data.pesan_pembuka}</p>
             <p className="text-[#F8FAFC]/70 text-sm">{data.instruksi}</p>
           </div>
-          <CandleInteraction onBlown={handleBlown} onStartBlowing={handleStartBlowing} isBlown={currentSlide > 0} />
+          <CandleInteraction onBlown={handleBlown} onStartBlowing={handleStartBlowing} onStopBlowing={handleStartBlowing} isBlown={currentSlide > 0} />
         </div>
       </motion.section>
     )},
