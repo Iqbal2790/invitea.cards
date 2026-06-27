@@ -7,10 +7,12 @@ export default function AudioPlayer({ src, isPlaying }) {
   const [playing, setPlaying] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const iframeRef = useRef(null);
+  const audioRef = useRef(null);
   
   // Ekstrak Video ID dari URL YouTube
   const videoIdMatch = src?.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
   const videoId = videoIdMatch ? videoIdMatch[1] : null;
+  const isNativeAudio = !videoId && src;
 
   useEffect(() => {
     if (isPlaying) {
@@ -20,22 +22,30 @@ export default function AudioPlayer({ src, isPlaying }) {
   }, [isPlaying]);
 
   useEffect(() => {
-    // Gunakan postMessage untuk play/pause setelah iframe dimuat
-    if (hasStarted && iframeRef.current && iframeRef.current.contentWindow) {
+    // Untuk Native Audio (MP3)
+    if (isNativeAudio && audioRef.current) {
+      if (playing) {
+        audioRef.current.play().catch(e => console.log("Autoplay blocked:", e));
+      } else {
+        audioRef.current.pause();
+      }
+    }
+    // Untuk YouTube Iframe
+    else if (videoId && hasStarted && iframeRef.current && iframeRef.current.contentWindow) {
       const func = playing ? 'playVideo' : 'pauseVideo';
       iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: [] }), '*');
     }
-  }, [playing, hasStarted]);
+  }, [playing, hasStarted, isNativeAudio, videoId]);
 
   const togglePlay = () => {
     setPlaying(!playing);
   };
 
-  if (!videoId) return null;
+  if (!src) return null;
 
   return (
     <>
-      {hasStarted && (
+      {hasStarted && videoId && (
         <div className="fixed top-0 left-0 w-1 h-1 opacity-[0.01] pointer-events-none -z-50 overflow-hidden">
           <iframe
             ref={iframeRef}
@@ -44,6 +54,10 @@ export default function AudioPlayer({ src, isPlaying }) {
             className="w-full h-full"
           />
         </div>
+      )}
+
+      {isNativeAudio && (
+        <audio ref={audioRef} src={src} loop />
       )}
 
       {/* Floating Button */}

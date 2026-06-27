@@ -45,7 +45,7 @@ export const DUMMY_WEDDING_DATA = {
     "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop"
   ],
-  musik_url: "https://www.youtube.com/watch?v=2d_r8CEmrIc&list=PLU-xxn6VuPbq_CIx4OQvOZWN7ztHmRwSE&index=2",
+  musik_url: "/audio/wedding-song.mp3",
   tema: {
     warna_utama: "#B76E79", // Rose Gold
     warna_aksen: "#F4E1E1", // Soft Blush Pink
@@ -103,5 +103,5 @@ export const DUMMY_BIRTHDAY_DATA = {
   ],
   harapan: "Semoga tahun ini kamu lebih tenang, lebih percaya diri, dan lebih sering merasa cukup.",
   penutup: "Semoga harapan yang kamu pilih tadi benar-benar menemukan jalannya tahun ini.",
-  musik_url: "https://www.youtube.com/watch?v=2d_r8CEmrIc&list=PLU-xxn6VuPbq_CIx4OQvOZWN7ztHmRwSE&index=2" // Sama dengan sebelumnya
+  musik_url: "/audio/wedding-song.mp3" // Sama dengan sebelumnya
 };
