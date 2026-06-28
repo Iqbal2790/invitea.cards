@@ -88,8 +88,8 @@ export default async function CheckoutPage(props) {
               <div>
                 <h4 className="font-semibold text-brand-dark mb-1">Informasi Masa Aktif</h4>
                 <p className="text-sm text-brand-dark/80 leading-relaxed">
-                  Pesanan Anda akan tersimpan di sistem kami selama <strong>1 bulan</strong> sejak tanggal pembuatan. 
-                  Selesaikan pembayaran untuk mengaktifkan undangan secara <strong>permanen</strong> dan menikmati seluruh fitur tanpa batasan.
+                  Undangan Anda akan memiliki masa aktif selama <strong>1 bulan</strong> terhitung sejak pembayaran berhasil. 
+                  Selesaikan pembayaran sekarang untuk mempublikasikan undangan Anda dan menikmati seluruh fitur tanpa batasan.
                 </p>
               </div>
             </div>
