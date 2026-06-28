@@ -125,10 +125,14 @@ export default async function CheckoutPage(props) {
 
                     <div>
                       <p className="text-xs font-semibold text-text-muted tracking-wider uppercase mb-1">{subTitle}</p>
-                      <p className="flex items-center justify-center sm:justify-start gap-2 text-text-main font-medium">
+                      <div className="flex items-center justify-center sm:justify-start gap-2 text-text-main">
                         {!isUcapan && <Calendar className="w-4 h-4 text-brand" />}
-                        {subUtama}
-                      </p>
+                        {isUcapan ? (
+                          <h4 className="font-serif text-xl text-text-main">{subUtama}</h4>
+                        ) : (
+                          <p className="font-medium">{subUtama}</p>
+                        )}
+                      </div>
                     </div>
 
                     <div className="pt-2">
