@@ -71,7 +71,56 @@ export async function POST(request) {
 
       console.log(`Order ${actualOrderId} updated to ${finalStatus}`);
 
-      // TODO (Fase 6): Jika finalStatus === 'success', panggil API /api/invitations untuk generate URL undangan live.
+      // Fase 6: Jika finalStatus === 'success', generate URL undangan live (slug).
+      if (finalStatus === 'success') {
+        const { data: orderData } = await supabase
+          .from('orders')
+          .select('*, templates(*)')
+          .eq('id', actualOrderId)
+          .single();
+
+        if (orderData && !orderData.slug) {
+          const isUcapan = (orderData.templates?.category || orderData.templates?.kategori)?.toLowerCase().includes("ucapan");
+          const dataContent = orderData.data_content || {};
+          
+          let baseSlug = "";
+          if (isUcapan) {
+            const penerima = dataContent.nama_penerima || "penerima";
+            baseSlug = `untuk-${penerima.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+          } else {
+            const pria = dataContent.nama_pria || "pria";
+            const wanita = dataContent.nama_wanita || "wanita";
+            baseSlug = `${pria.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${wanita.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+          }
+
+          // Pastikan ujung string bukan dash (-)
+          baseSlug = baseSlug.replace(/-+$/, '');
+          
+          let uniqueSlug = baseSlug;
+          let isUnique = false;
+          
+          while (!isUnique) {
+             const { data: existing } = await supabase.from('orders').select('id').eq('slug', uniqueSlug).maybeSingle();
+             if (!existing) {
+               isUnique = true;
+             } else {
+               const randomStr = crypto.randomBytes(2).toString('hex');
+               uniqueSlug = `${baseSlug}-${randomStr}`;
+             }
+          }
+          
+          const { error: slugError } = await supabase
+            .from('orders')
+            .update({ slug: uniqueSlug })
+            .eq('id', actualOrderId);
+
+          if (slugError) {
+             console.error("Gagal menyimpan slug:", slugError);
+          } else {
+             console.log(`Berhasil membuat slug ${uniqueSlug} untuk pesanan ${actualOrderId}`);
+          }
+        }
+      }
     }
 
     // 5. Berikan respons OK agar Midtrans tidak retry webhook ini terus menerus

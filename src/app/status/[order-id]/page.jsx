@@ -12,6 +12,7 @@ export default function PaymentStatusPage(props) {
 
   const [status, setStatus] = useState("loading"); // loading, success, failed, timeout
   const [errorMsg, setErrorMsg] = useState("");
+  const [slug, setSlug] = useState("");
 
   useEffect(() => {
     if (!orderId) return;
@@ -30,6 +31,7 @@ export default function PaymentStatusPage(props) {
           
           if (paymentStatus === "success" || paymentStatus === "settlement") {
             setStatus("success");
+            if (data.slug) setSlug(data.slug);
             clearInterval(pollInterval);
           } else if (paymentStatus === "failed" || paymentStatus === "cancel" || paymentStatus === "expire" || paymentStatus === "deny") {
             setStatus("failed");
@@ -93,14 +95,42 @@ export default function PaymentStatusPage(props) {
               </p>
             </div>
             
-            {/* TODO: Ganti ke URL undangan live (Fase 6) */}
+            {/* Link Live Undangan */}
             <div className="pt-4 w-full">
-              <p className="text-xs text-text-muted mb-3 uppercase tracking-wider font-semibold">Selanjutnya</p>
-              <Link href="/" className="block">
-                <Button className="w-full h-12 text-base rounded-xl shadow-md hover:-translate-y-1 transition-transform">
-                  Kembali ke Beranda
+              <p className="text-xs text-text-muted mb-3 uppercase tracking-wider font-semibold">Tautan Pesanan Anda</p>
+              
+              <div className="flex items-center gap-2 mb-6 bg-gray-50 border border-gray-200 p-3 rounded-xl overflow-hidden">
+                <input 
+                  type="text" 
+                  readOnly 
+                  value={slug ? `https://invitea.cards/live/${slug}` : `https://invitea.cards/live/${orderId}`}
+                  className="flex-1 bg-transparent text-sm text-gray-700 outline-none w-full truncate"
+                />
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="shrink-0"
+                  onClick={() => {
+                    navigator.clipboard.writeText(slug ? `https://invitea.cards/live/${slug}` : `https://invitea.cards/live/${orderId}`);
+                    alert("Tautan berhasil disalin!");
+                  }}
+                >
+                  Salin
                 </Button>
-              </Link>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <Link href={slug ? `/live/${slug}` : `/live/${orderId}`} className="block">
+                  <Button className="w-full h-12 text-base rounded-xl shadow-md hover:-translate-y-1 transition-transform bg-brand hover:bg-brand-dark">
+                    Buka Pesanan
+                  </Button>
+                </Link>
+                <Link href="/" className="block">
+                  <Button variant="outline" className="w-full h-12 text-base rounded-xl text-text-muted hover:text-text-main">
+                    Kembali ke Beranda
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         )}

@@ -17,7 +17,7 @@ export async function GET(request, props) {
 
     const { data: order, error } = await supabase
       .from('orders')
-      .select('status_payment')
+      .select('status_payment, slug')
       .eq('id', id)
       .single();
 
@@ -25,7 +25,7 @@ export async function GET(request, props) {
       return NextResponse.json({ error: 'Order not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ status: order.status_payment }, { status: 200 });
+    return NextResponse.json({ status: order.status_payment, slug: order.slug }, { status: 200 });
   } catch (error) {
     console.error('API Orders Status Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
