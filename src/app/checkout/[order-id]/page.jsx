@@ -63,7 +63,7 @@ export default async function CheckoutPage(props) {
   }
 
   // Thumbnail
-  const thumbnailUrl = fotoUrls.length > 0 ? fotoUrls[0] : (template?.thumbnail_url || '/template-dummy.png');
+  const thumbnailUrl = template?.thumbnail_url || '/template-dummy.png';
 
   // Harga
   const harga = template?.harga || template?.price || 0;
