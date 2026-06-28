@@ -1,6 +1,7 @@
 export const DUMMY_TEMPLATES = [
   {
-    id: 'wedding-classic',
+    id: 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
+    slug: 'wedding-classic',
     name: 'Elegance Rose',
     category: 'Undangan Pernikahan',
     price: 29000,
@@ -9,7 +10,8 @@ export const DUMMY_TEMPLATES = [
     preview_url: '/wedding/classic'
   },
   {
-    id: 'greeting-minimalist',
+    id: 'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22',
+    slug: 'greeting-minimalist',
     name: 'Midnight Magic',
     category: 'Kartu Ucapan',
     price: 29000,
