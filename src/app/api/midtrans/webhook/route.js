@@ -111,7 +111,11 @@ export async function POST(request) {
           
           const { error: slugError } = await supabase
             .from('orders')
-            .update({ slug: uniqueSlug })
+            .update({ 
+              slug: uniqueSlug,
+              magic_token: crypto.randomUUID(),
+              expired_at: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString()
+            })
             .eq('id', actualOrderId);
 
           if (slugError) {
