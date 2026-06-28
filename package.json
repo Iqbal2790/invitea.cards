@@ -16,9 +16,9 @@
     "lucide-react": "^1.21.0",
     "midtrans-client": "^1.4.3",
     "next": "16.2.9",
-    "qrcode": "^1.5.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-qr-code": "^2.2.0",
     "resend": "^6.14.0",
     "tailwind-merge": "^3.6.0"
   },

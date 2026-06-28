@@ -15,7 +15,7 @@ import {
   CheckCircle2,
   AlertCircle
 } from "lucide-react";
-import QRCode from "qrcode";
+import QRCode from "react-qr-code";
 import { motion } from "framer-motion";
 
 export default function MagicLinkPage() {
@@ -26,8 +26,6 @@ export default function MagicLinkPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
-  
-  const canvasRef = useRef(null);
 
   useEffect(() => {
     async function fetchOrder() {
@@ -54,21 +52,6 @@ export default function MagicLinkPage() {
     ? (typeof window !== "undefined" ? `${window.location.origin}/live/${orderData.slug}` : "")
     : "";
 
-  useEffect(() => {
-    if (liveUrl && canvasRef.current) {
-      QRCode.toCanvas(canvasRef.current, liveUrl, {
-        width: 200,
-        margin: 1,
-        color: {
-          dark: "#1c211b",
-          light: "#ffffff"
-        }
-      }, (error) => {
-        if (error) console.error(error);
-      });
-    }
-  }, [liveUrl, orderData]);
-
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(liveUrl);
@@ -80,12 +63,29 @@ export default function MagicLinkPage() {
   };
 
   const handleDownloadQR = () => {
-    if (!canvasRef.current) return;
-    const url = canvasRef.current.toDataURL("image/png");
-    const link = document.createElement("a");
-    link.download = `QR-Code-Invitea-${orderData?.slug}.png`;
-    link.href = url;
-    link.click();
+    const svg = document.getElementById("qr-code-svg");
+    if (!svg) return;
+    
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new window.Image();
+    
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
+      
+      const pngFile = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.download = `QR-Code-Invitea-${orderData?.slug}.png`;
+      downloadLink.href = `${pngFile}`;
+      downloadLink.click();
+    };
+    
+    img.src = "data:image/svg+xml;base64," + btoa(svgData);
   };
 
   if (loading) {
@@ -201,8 +201,22 @@ export default function MagicLinkPage() {
               <h3 className="font-serif text-xl text-text-main mb-2">QR Code Undangan</h3>
               <p className="text-sm text-text-muted mb-6">Tamu dapat memindai kode ini dari HP mereka.</p>
               
-              <div className="bg-bg-base p-4 rounded-2xl mb-6 inline-block border border-border-subtle shadow-inner">
-                <canvas ref={canvasRef} className="rounded-lg mix-blend-multiply"></canvas>
+              {/* QR Code Container */}
+              <div className="bg-white p-4 rounded-xl border border-border-subtle inline-block mb-4 shadow-sm">
+                {liveUrl ? (
+                  <QRCode
+                    id="qr-code-svg"
+                    value={liveUrl}
+                    size={200}
+                    bgColor="#ffffff"
+                    fgColor="#1c211b"
+                    level="Q"
+                  />
+                ) : (
+                  <div className="w-[200px] h-[200px] flex items-center justify-center bg-bg-base rounded-lg border border-border-subtle">
+                    <span className="text-text-muted text-sm">Menyiapkan QR...</span>
+                  </div>
+                )}
               </div>
 
               <button 
