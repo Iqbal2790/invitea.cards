@@ -69,12 +69,16 @@ export async function POST(request) {
     const serverKey = process.env.MIDTRANS_SERVER_KEY;
     const authHeader = Buffer.from(serverKey + ':').toString('base64');
 
+    const originUrl = request.headers.get("origin") || "https://invitea.cards";
+    const webhookUrl = `${originUrl}/api/midtrans/webhook`;
+
     const midtransRes = await fetch("https://app.sandbox.midtrans.com/snap/v1/transactions", {
       method: "POST",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Basic ${authHeader}`
+        "Authorization": `Basic ${authHeader}`,
+        "X-Override-Notification": webhookUrl
       },
       body: JSON.stringify(payload)
     });
