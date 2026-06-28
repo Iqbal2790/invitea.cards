@@ -88,8 +88,8 @@ export default async function CheckoutPage(props) {
               <div>
                 <h4 className="font-semibold text-brand-dark mb-1">Informasi Masa Aktif</h4>
                 <p className="text-sm text-brand-dark/80 leading-relaxed">
-                  Undangan Anda akan memiliki masa aktif selama <strong>1 bulan</strong> terhitung sejak pembayaran berhasil. 
-                  Selesaikan pembayaran sekarang untuk mempublikasikan undangan Anda dan menikmati seluruh fitur tanpa batasan.
+                  Pesanan Anda akan memiliki masa aktif selama <strong>1 bulan</strong> terhitung sejak pembayaran berhasil. 
+                  Selesaikan pembayaran sekarang untuk mempublikasikan pesanan Anda dan menikmati seluruh fitur tanpa batasan.
                 </p>
               </div>
             </div>
@@ -98,7 +98,7 @@ export default async function CheckoutPage(props) {
             <Card className="overflow-hidden border-border-subtle shadow-sm">
               <div className="bg-white p-6">
                 <h3 className="font-serif font-medium text-lg text-text-main mb-6 border-b border-border-subtle pb-4">
-                  Pratinjau Undangan
+                  Pratinjau {isUcapan ? 'Ucapan' : 'Undangan'}
                 </h3>
                 
                 <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
