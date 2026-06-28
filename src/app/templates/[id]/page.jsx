@@ -127,7 +127,7 @@ export default async function TemplateDetail(props) {
                   Buat dengan Template Ini
                 </Button>
               </Link>
-              <Link href={template.preview_url || `/preview/${template.id}`} className="block" target="_blank">
+              <Link href={template.preview_url || DUMMY_TEMPLATES.find(t => t.id === template.id)?.preview_url || `/preview/${template.id}`} className="block" target="_blank">
                 <Button variant="outline" size="lg" className="w-full h-14 text-lg rounded-xl border-2 border-brand/20 hover:border-brand/50 hover:bg-brand-light/10 hover:-translate-y-1 transition-all duration-300 text-brand">
                   <Eye className="mr-2 h-5 w-5" /> Lihat Preview
                 </Button>
