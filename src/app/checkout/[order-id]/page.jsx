@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Calendar, Heart, ShieldAlert, CreditCard } from "lucide-react";
@@ -16,6 +16,11 @@ export async function generateMetadata(props) {
 export default async function CheckoutPage(props) {
   const params = await props.params;
   const { "order-id": orderId } = params;
+
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
 
   // 1. Fetch order data dari Supabase
   const { data: order, error } = await supabase
