@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { email, template_id, data_content, foto_urls } = body;
+    const { email, template_id, data_content, foto_urls, order_id } = body;
 
     // 1. Validasi data yang masuk
     if (!email || !template_id || !data_content) {
@@ -20,17 +20,21 @@ export async function POST(req) {
     }
 
     // 2. Simpan order baru ke tabel orders dengan status pending
+    const insertPayload = {
+      email,
+      template_id,
+      status_payment: 'pending',
+      data_content,
+      foto_urls: foto_urls || []
+    };
+
+    if (order_id) {
+      insertPayload.id = order_id;
+    }
+
     const { data: order, error } = await supabase
       .from('orders')
-      .insert([
-        {
-          email,
-          template_id,
-          status_payment: 'pending',
-          data_content,
-          foto_urls: foto_urls || []
-        }
-      ])
+      .insert([insertPayload])
       .select('id')
       .single();
 
