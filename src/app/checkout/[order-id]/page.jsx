@@ -38,19 +38,29 @@ export default async function CheckoutPage(props) {
   const dataContent = order.data_content || {};
   const fotoUrls = order.foto_urls || [];
 
-  // Ekstrak info penting
-  // Cari nama panggilan dari field (asumsikan kita punya pria_panggilan & wanita_panggilan)
-  const namaPria = dataContent.pria_panggilan || "Pria";
-  const namaWanita = dataContent.wanita_panggilan || "Wanita";
-  const judulUndangan = `${namaPria} & ${namaWanita}`;
-  
-  // Tanggal acara 1
-  const tanggalAcara = dataContent.acara1_tanggal ? new Date(dataContent.acara1_tanggal).toLocaleDateString('id-ID', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  }) : "Tanggal belum ditentukan";
+  const isUcapan = (template?.category || template?.kategori)?.toLowerCase() === "ucapan";
+
+  let judulTitle, judulUtama, subTitle, subUtama;
+
+  if (isUcapan) {
+    judulTitle = "Penerima";
+    judulUtama = dataContent.penerima || "Penerima";
+    subTitle = "Pengirim";
+    subUtama = dataContent.pengirim || "Pengirim";
+  } else {
+    judulTitle = "Pasangan Berbahagia";
+    const namaPria = dataContent.pria_panggilan || "Pria";
+    const namaWanita = dataContent.wanita_panggilan || "Wanita";
+    judulUtama = `${namaPria} & ${namaWanita}`;
+    
+    subTitle = "Tanggal Acara Utama";
+    subUtama = dataContent.acara1_tanggal ? new Date(dataContent.acara1_tanggal).toLocaleDateString('id-ID', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }) : "Tanggal belum ditentukan";
+  }
 
   // Thumbnail
   const thumbnailUrl = fotoUrls.length > 0 ? fotoUrls[0] : (template?.thumbnail_url || '/template-dummy.png');
@@ -95,7 +105,7 @@ export default async function CheckoutPage(props) {
                   <div className="relative w-32 h-48 rounded-xl overflow-hidden shadow-sm shrink-0 bg-accent-sand/20">
                     <Image
                       src={thumbnailUrl}
-                      alt={judulUndangan}
+                      alt={judulUtama}
                       fill
                       className="object-cover"
                     />
@@ -103,17 +113,21 @@ export default async function CheckoutPage(props) {
                   
                   <div className="flex-1 space-y-4 text-center sm:text-left">
                     <div>
-                      <p className="text-xs font-semibold text-brand tracking-wider uppercase mb-1">Pasangan Berbahagia</p>
+                      <p className="text-xs font-semibold text-brand tracking-wider uppercase mb-1">{judulTitle}</p>
                       <h4 className="font-serif text-2xl text-text-main flex items-center justify-center sm:justify-start gap-2">
-                        {namaPria} <Heart className="w-5 h-5 text-brand fill-brand" /> {namaWanita}
+                        {isUcapan ? judulUtama : (
+                          <>
+                            {dataContent.pria_panggilan || "Pria"} <Heart className="w-5 h-5 text-brand fill-brand" /> {dataContent.wanita_panggilan || "Wanita"}
+                          </>
+                        )}
                       </h4>
                     </div>
 
                     <div>
-                      <p className="text-xs font-semibold text-text-muted tracking-wider uppercase mb-1">Tanggal Acara Utama</p>
+                      <p className="text-xs font-semibold text-text-muted tracking-wider uppercase mb-1">{subTitle}</p>
                       <p className="flex items-center justify-center sm:justify-start gap-2 text-text-main font-medium">
-                        <Calendar className="w-4 h-4 text-brand" />
-                        {tanggalAcara}
+                        {!isUcapan && <Calendar className="w-4 h-4 text-brand" />}
+                        {subUtama}
                       </p>
                     </div>
 
