@@ -9,7 +9,26 @@ export default function PhotoUpload({ label, multiple = true, onChange }) {
   const handleFileChange = (e) => {
     if (e.target.files) {
       const selectedFiles = Array.from(e.target.files);
-      const newFiles = multiple ? [...files, ...selectedFiles] : selectedFiles;
+      
+      // Filter for valid files (JPG/PNG and max 5MB)
+      const validFiles = selectedFiles.filter(file => {
+        const isImage = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg";
+        const isUnder5MB = file.size <= 5 * 1024 * 1024;
+        
+        if (!isImage) alert(`${file.name} bukan format JPG/PNG.`);
+        if (!isUnder5MB) alert(`${file.name} ukurannya melebihi 5MB.`);
+        
+        return isImage && isUnder5MB;
+      });
+
+      let newFiles = multiple ? [...files, ...validFiles] : validFiles;
+      
+      // Max 10 files
+      if (multiple && newFiles.length > 10) {
+        alert("Maksimal hanya diperbolehkan 10 foto.");
+        newFiles = newFiles.slice(0, 10);
+      }
+      
       setFiles(newFiles);
       if (onChange) onChange(newFiles);
     }
