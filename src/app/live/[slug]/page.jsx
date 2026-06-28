@@ -1,10 +1,17 @@
-import { notFound } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
+import WeddingClassicWrapper from "@/components/templates/live/WeddingClassicWrapper";
+import GreetingMinimalistWrapper from "@/components/templates/live/GreetingMinimalistWrapper";
 import LiveUndangan from "@/components/templates/live/LiveUndangan";
 import LiveUcapan from "@/components/templates/live/LiveUcapan";
 import CoverOverlay from "@/components/templates/live/CoverOverlay";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+
+// Peta Template ID ke Komponen Premium
+const TEMPLATE_MAP = {
+  'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11': 'wedding-classic',    // Elegance Rose
+  'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22': 'greeting-minimalist', // Midnight Magic
+};
 
 // Gunakan supabase server client sederhana
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -70,26 +77,39 @@ export default async function LivePage({ params }) {
     );
   }
 
-  const isUcapan = order.templates?.category?.toLowerCase().includes("ucapan");
-  
-  return (
-    <main className="relative">
-      {/* Cover Overlay: Tirai awal untuk undangan */}
-      <CoverOverlay>
-         <h1 className="font-serif text-3xl text-brand-dark mb-2">
-            {isUcapan ? "Surat Untukmu" : "Undangan Pernikahan"}
-         </h1>
-         <p className="text-sm text-brand-dark/70 uppercase tracking-widest font-medium">
-            {isUcapan ? (order.data_content?.nama_penerima || "Seseorang") : `${order.data_content?.nama_pria || "Pria"} & ${order.data_content?.nama_wanita || "Wanita"}`}
-         </p>
-      </CoverOverlay>
+  // Tentukan template mana yang harus dirender berdasarkan template_id
+  const templateSlug = TEMPLATE_MAP[order.template_id];
 
-      {/* Konten Utama */}
-      {isUcapan ? (
-        <LiveUcapan dataContent={order.data_content} fotoUrls={order.foto_urls} />
-      ) : (
-        <LiveUndangan dataContent={order.data_content} fotoUrls={order.foto_urls} />
-      )}
-    </main>
-  );
+  // Render template premium yang sesuai
+  switch (templateSlug) {
+    case 'wedding-classic':
+      // Elegance Rose: Segel lilin, animasi amplop, galeri, countdown, maps
+      return <WeddingClassicWrapper orderData={order} />;
+
+    case 'greeting-minimalist':
+      // Midnight Magic: Lilin tiup, konfeti, surat, memory reel
+      return <GreetingMinimalistWrapper orderData={order} />;
+
+    default: {
+      // Fallback generik jika template_id belum dipetakan
+      const isUcapan = order.templates?.category?.toLowerCase().includes("ucapan");
+      return (
+        <main className="relative">
+          <CoverOverlay>
+             <h1 className="font-serif text-3xl text-brand-dark mb-2">
+                {isUcapan ? "Surat Untukmu" : "Undangan Pernikahan"}
+             </h1>
+             <p className="text-sm text-brand-dark/70 uppercase tracking-widest font-medium">
+                {isUcapan ? (order.data_content?.nama_penerima || "Seseorang") : `${order.data_content?.nama_pria || "Pria"} & ${order.data_content?.nama_wanita || "Wanita"}`}
+             </p>
+          </CoverOverlay>
+          {isUcapan ? (
+            <LiveUcapan dataContent={order.data_content} fotoUrls={order.foto_urls} />
+          ) : (
+            <LiveUndangan dataContent={order.data_content} fotoUrls={order.foto_urls} />
+          )}
+        </main>
+      );
+    }
+  }
 }
