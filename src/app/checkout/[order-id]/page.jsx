@@ -44,13 +44,13 @@ export default async function CheckoutPage(props) {
 
   if (isUcapan) {
     judulTitle = "Penerima";
-    judulUtama = dataContent.penerima || "Penerima";
+    judulUtama = dataContent.nama_penerima || "Penerima";
     subTitle = "Pengirim";
-    subUtama = dataContent.pengirim || "Pengirim";
+    subUtama = dataContent.nama_pengirim || "Pengirim";
   } else {
     judulTitle = "Pasangan Berbahagia";
-    const namaPria = dataContent.pria_panggilan || "Pria";
-    const namaWanita = dataContent.wanita_panggilan || "Wanita";
+    const namaPria = dataContent.nama_pria || "Pria";
+    const namaWanita = dataContent.nama_wanita || "Wanita";
     judulUtama = `${namaPria} & ${namaWanita}`;
     
     subTitle = "Tanggal Acara Utama";
@@ -117,7 +117,7 @@ export default async function CheckoutPage(props) {
                       <h4 className="font-serif text-2xl text-text-main flex items-center justify-center sm:justify-start gap-2">
                         {isUcapan ? judulUtama : (
                           <>
-                            {dataContent.pria_panggilan || "Pria"} <Heart className="w-5 h-5 text-brand fill-brand" /> {dataContent.wanita_panggilan || "Wanita"}
+                            {dataContent.nama_pria || "Pria"} <Heart className="w-5 h-5 text-brand fill-brand" /> {dataContent.nama_wanita || "Wanita"}
                           </>
                         )}
                       </h4>
