@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { createClient } from "@supabase/supabase-js";
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Kita butuh Service Role Key untuk update tabel yang diproteksi RLS (jika ada)
 const supabase = createClient(
@@ -122,6 +125,43 @@ export async function POST(request) {
              console.error("Gagal menyimpan slug:", slugError);
           } else {
              console.log(`Berhasil membuat slug ${uniqueSlug} untuk pesanan ${actualOrderId}`);
+             
+             // Kirim Email Receipt via Resend
+             try {
+               // Perhatikan: Jika domain belum diverifikasi di Resend, 'from' harus menggunakan onboarding@resend.dev
+               // dan email penerima ('to') HANYA BISA dikirim ke email terdaftar di akun Resend Anda.
+               // Nanti ubah ke "hello@invitea.cards" jika domain sudah diverifikasi di Resend.
+               const fromEmail = process.env.NODE_ENV === 'development' ? 'onboarding@resend.dev' : 'onboarding@resend.dev'; 
+               
+               const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://invitea-cards.vercel.app';
+               const magicLink = `${baseUrl}/order/${orderData.magic_token}`;
+               const liveLink = `${baseUrl}/live/${uniqueSlug}`;
+               
+               await resend.emails.send({
+                 from: \`Invitea <\${fromEmail}>\`,
+                 to: [orderData.email],
+                 subject: '🎉 Pembayaran Berhasil! Undangan Anda Sudah Aktif',
+                 html: \`
+                   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+                     <h2 style="color: #4F46E5;">Terima kasih atas pesanan Anda!</h2>
+                     <p>Halo, pembayaran untuk undangan digital Anda telah berhasil kami terima.</p>
+                     
+                     <div style="background-color: #F3F4F6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                       <p style="margin: 0 0 10px 0;"><strong>Link Undangan Live Anda:</strong></p>
+                       <a href="\${liveLink}" style="color: #4F46E5; font-size: 16px;">\${liveLink}</a>
+                       
+                       <p style="margin: 15px 0 10px 0;"><strong>Akses Dashboard Admin Anda:</strong></p>
+                       <a href="\${magicLink}" style="display: inline-block; background-color: #4F46E5; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">Buka Dashboard / Edit Undangan</a>
+                     </div>
+                     
+                     <p style="color: #6B7280; font-size: 14px;"><strong>PENTING:</strong> Simpan email ini baik-baik. Link dashboard di atas adalah kunci rahasia Anda untuk melihat dan mengubah isi undangan.</p>
+                   </div>
+                 \`
+               });
+               console.log("Email receipt berhasil dikirim ke:", orderData.email);
+             } catch (emailError) {
+               console.error("Gagal mengirim email receipt:", emailError);
+             }
           }
         }
       }
