@@ -128,7 +128,7 @@ export default async function CheckoutPage(props) {
                       <div className="flex items-center justify-center sm:justify-start gap-2 text-text-main">
                         {!isUcapan && <Calendar className="w-4 h-4 text-brand" />}
                         {isUcapan ? (
-                          <h4 className="font-serif text-xl text-text-main">{subUtama}</h4>
+                          <h4 className="font-serif text-2xl text-text-main">{subUtama}</h4>
                         ) : (
                           <p className="font-medium">{subUtama}</p>
                         )}
