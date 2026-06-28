@@ -128,12 +128,9 @@ export async function POST(request) {
              
              // Kirim Email Receipt via Resend
              try {
-               // Perhatikan: Jika domain belum diverifikasi di Resend, 'from' harus menggunakan onboarding@resend.dev
-               // dan email penerima ('to') HANYA BISA dikirim ke email terdaftar di akun Resend Anda.
-               // Nanti ubah ke "hello@invitea.cards" jika domain sudah diverifikasi di Resend.
-               const fromEmail = process.env.NODE_ENV === 'development' ? 'onboarding@resend.dev' : 'onboarding@resend.dev'; 
+               const fromEmail = 'hello@invitea.cards'; 
                
-               const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://invitea-cards.vercel.app';
+               const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://invitea.cards';
                const magicLink = `${baseUrl}/order/${orderData.magic_token}`;
                const liveLink = `${baseUrl}/live/${uniqueSlug}`;
                
