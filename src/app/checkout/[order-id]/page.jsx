@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Calendar, Heart, ShieldAlert, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent } from "@/components/ui/Card";
+import CheckoutButton from "@/components/checkout/CheckoutButton";
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -150,10 +151,7 @@ export default async function CheckoutPage(props) {
                     </span>
                   </div>
 
-                  <Button className="w-full h-12 text-base rounded-xl shadow-md hover:-translate-y-1 transition-transform group">
-                    <CreditCard className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                    Bayar Sekarang
-                  </Button>
+                  <CheckoutButton orderId={orderId} />
                   
                   <p className="text-xs text-center text-text-muted">
                     Pembayaran diproses secara aman. Anda akan diarahkan ke halaman pembayaran Midtrans.
