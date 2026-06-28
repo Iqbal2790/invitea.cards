@@ -21,7 +21,7 @@ export default async function CheckoutPage(props) {
   const { data: order, error } = await supabase
     .from('orders')
     .select('*, templates(*)')
-    .eq('order_id', orderId)
+    .eq('id', orderId)
     .single();
 
   if (error || !order) {

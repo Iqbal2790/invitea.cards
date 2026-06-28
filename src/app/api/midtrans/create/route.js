@@ -13,7 +13,7 @@ export async function POST(request) {
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .select('*, templates(*)')
-      .eq('order_id', order_id)
+      .eq('id', order_id)
       .single();
 
     if (orderError || !order) {
@@ -21,7 +21,7 @@ export async function POST(request) {
     }
 
     // Hindari double payment jika status sudah dibayar/sukses
-    if (order.status === 'success' || order.status === 'settlement') {
+    if (order.status_payment === 'success' || order.status_payment === 'settlement') {
       return NextResponse.json({ error: "Order ini sudah dibayar" }, { status: 400 });
     }
 
