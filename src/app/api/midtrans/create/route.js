@@ -56,7 +56,7 @@ export async function POST(request) {
           id: template.id,
           price: harga,
           quantity: 1,
-          name: `Template ${template.name}`
+          name: `Template ${template.nama || template.name || 'Custom'}`
         }
       ],
       customer_details: {

@@ -133,7 +133,7 @@ export default async function CheckoutPage(props) {
 
                     <div className="pt-2">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                        Template: {template?.name || 'Custom'}
+                        Template: {template?.nama || template?.name || 'Custom'}
                       </span>
                     </div>
                   </div>
@@ -154,7 +154,7 @@ export default async function CheckoutPage(props) {
 
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
-                      <span className="text-text-muted">Template {template?.name}</span>
+                      <span className="text-text-muted">Template {template?.nama || template?.name}</span>
                       <span className="font-medium text-text-main">Rp {harga.toLocaleString('id-ID')}</span>
                     </div>
                     <div className="flex justify-between text-sm">
