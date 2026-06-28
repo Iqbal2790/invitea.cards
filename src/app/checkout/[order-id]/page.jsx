@@ -38,7 +38,7 @@ export default async function CheckoutPage(props) {
   const dataContent = order.data_content || {};
   const fotoUrls = order.foto_urls || [];
 
-  const isUcapan = (template?.category || template?.kategori)?.toLowerCase() === "ucapan";
+  const isUcapan = (template?.category || template?.kategori)?.toLowerCase().includes("ucapan");
 
   let judulTitle, judulUtama, subTitle, subUtama;
 
