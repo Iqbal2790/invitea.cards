@@ -4,18 +4,23 @@ import { motion } from "framer-motion";
 import { MailOpen } from "lucide-react";
 import Image from "next/image";
 
+import MusicPlayer from "@/components/invitation/MusicPlayer";
+
 export default function LiveUcapan({ dataContent, fotoUrls }) {
   const { 
-    nama_penerima = "Teman", 
-    pesan = "Semoga hari ini dan seterusnya selalu dipenuhi dengan kebahagiaan.",
-    nama_pengirim = "Seseorang"
+    nama_penerima = "Seseorang", 
+    pesan_ucapan = "Semoga hari ini dan seterusnya selalu dipenuhi dengan kebahagiaan.",
+    nama_pengirim = "Teman",
+    momen = "",
+    youtube_url = ""
   } = dataContent || {};
 
   const heroImage = fotoUrls?.[0] || "/placeholder-greeting.jpg";
   const galleryImages = fotoUrls?.slice(1) || [];
 
   return (
-    <div className="min-h-screen bg-[#fdfbf7] overflow-x-hidden selection:bg-brand selection:text-white">
+    <div className="min-h-screen bg-[#fdfbf7] overflow-x-hidden selection:bg-brand selection:text-white pb-24">
+      {youtube_url && <MusicPlayer youtube_url={youtube_url} />}
       {/* Hero Section */}
       <section className="relative h-[70vh] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -45,7 +50,7 @@ export default function LiveUcapan({ dataContent, fotoUrls }) {
             transition={{ delay: 1, duration: 1 }}
             className="font-serif text-4xl md:text-6xl text-white drop-shadow-lg max-w-2xl"
           >
-            A Special Message For You
+            {momen ? momen : "A Special Message"}
           </motion.h1>
         </div>
       </section>
@@ -63,8 +68,8 @@ export default function LiveUcapan({ dataContent, fotoUrls }) {
           
           <div className="relative">
             <span className="absolute -top-10 -left-6 text-6xl text-brand/10 font-serif">"</span>
-            <p className="font-serif text-2xl md:text-3xl text-text-main leading-relaxed mb-12 relative z-10">
-              {pesan}
+            <p className="font-serif text-xl md:text-3xl text-text-main leading-relaxed mb-12 relative z-10 whitespace-pre-wrap">
+              {pesan_ucapan}
             </p>
             <span className="absolute -bottom-10 -right-6 text-6xl text-brand/10 font-serif">"</span>
           </div>

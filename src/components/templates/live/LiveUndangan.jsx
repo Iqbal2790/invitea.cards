@@ -1,24 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Calendar, MapPin, Heart } from "lucide-react";
+import { Calendar, MapPin, Heart, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import Countdown from "@/components/invitation/Countdown";
+import MapsEmbed from "@/components/invitation/MapsEmbed";
+import MusicPlayer from "@/components/invitation/MusicPlayer";
 
 export default function LiveUndangan({ dataContent, fotoUrls }) {
   const { 
     nama_pria = "Pria", 
     nama_wanita = "Wanita", 
-    akad_waktu = "", 
-    akad_tempat = "", 
-    resepsi_waktu = "", 
-    resepsi_tempat = "" 
+    acara1_nama = "Akad Nikah",
+    acara1_tanggal = "", 
+    acara1_jam = "", 
+    acara1_lokasi = "", 
+    acara1_maps_url = "",
+    acara2_nama = "Resepsi",
+    acara2_tanggal = "", 
+    acara2_jam = "", 
+    acara2_lokasi = "",
+    acara2_maps_url = "",
+    youtube_url = ""
   } = dataContent || {};
 
   const heroImage = fotoUrls?.[0] || "/placeholder-wedding.jpg";
   const galleryImages = fotoUrls?.slice(1) || [];
 
   return (
-    <div className="min-h-screen bg-bg-base overflow-x-hidden selection:bg-brand selection:text-white">
+    <div className="min-h-screen bg-bg-base overflow-x-hidden selection:bg-brand selection:text-white pb-24">
+      {youtube_url && <MusicPlayer youtube_url={youtube_url} />}
       {/* Hero Section */}
       <section className="relative h-screen w-full flex items-center justify-center">
         <div className="absolute inset-0 z-0">
@@ -74,50 +85,80 @@ export default function LiveUndangan({ dataContent, fotoUrls }) {
         >
           <Heart className="w-8 h-8 text-brand mx-auto mb-4 opacity-50" />
           <h2 className="font-serif text-3xl md:text-4xl text-text-main mb-6">Acara Bahagia Kami</h2>
-          <p className="text-text-muted leading-relaxed max-w-2xl mx-auto">
+          <p className="text-text-muted leading-relaxed max-w-2xl mx-auto mb-10">
             Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
           </p>
+          {(acara1_tanggal || acara2_tanggal) && (
+             <div className="mb-10">
+               <Countdown 
+                 tanggal_acara={acara1_tanggal || acara2_tanggal} 
+                 jam_acara={acara1_tanggal ? acara1_jam : acara2_jam} 
+               />
+             </div>
+          )}
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-          {/* Akad */}
+          {/* Acara 1 */}
           <motion.div 
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="bg-white p-8 rounded-3xl border border-border-subtle shadow-sm text-center relative overflow-hidden group"
+            className="bg-white p-8 rounded-3xl border border-border-subtle shadow-sm text-center relative overflow-hidden group flex flex-col h-full"
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-brand transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-            <h3 className="font-serif text-2xl text-text-main mb-6">Akad Nikah</h3>
+            <h3 className="font-serif text-2xl text-text-main mb-6">{acara1_nama}</h3>
             <div className="flex items-center justify-center gap-3 text-text-muted mb-4">
-              <Calendar className="w-5 h-5 text-brand" />
-              <p>{akad_waktu || "TBA"}</p>
+              <Calendar className="w-5 h-5 text-brand shrink-0" />
+              <p>{acara1_tanggal ? new Date(acara1_tanggal).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : "TBA"} {acara1_jam && `• ${acara1_jam}`}</p>
             </div>
-            <div className="flex items-center justify-center gap-3 text-text-muted">
-              <MapPin className="w-5 h-5 text-brand" />
-              <p>{akad_tempat || "TBA"}</p>
+            <div className="flex items-center justify-center gap-3 text-text-muted mb-6 flex-1">
+              <MapPin className="w-5 h-5 text-brand shrink-0" />
+              <p>{acara1_lokasi || "TBA"}</p>
             </div>
+            {acara1_maps_url && (
+              <div className="w-full mt-4 space-y-4">
+                <a href={acara1_maps_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-brand hover:text-brand-dark font-medium transition-colors">
+                  <ExternalLink className="w-4 h-4" /> Buka di Maps
+                </a>
+                <div className="w-full h-48 rounded-xl overflow-hidden shadow-inner">
+                  <MapsEmbed url={acara1_maps_url} />
+                </div>
+              </div>
+            )}
           </motion.div>
 
-          {/* Resepsi */}
-          <motion.div 
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="bg-brand-dark p-8 rounded-3xl shadow-lg text-center text-white relative overflow-hidden"
-          >
-            <h3 className="font-serif text-2xl mb-6 text-brand">Resepsi</h3>
-            <div className="flex items-center justify-center gap-3 text-white/80 mb-4">
-              <Calendar className="w-5 h-5 text-brand" />
-              <p>{resepsi_waktu || "TBA"}</p>
-            </div>
-            <div className="flex items-center justify-center gap-3 text-white/80">
-              <MapPin className="w-5 h-5 text-brand" />
-              <p>{resepsi_tempat || "TBA"}</p>
-            </div>
-          </motion.div>
+          {/* Acara 2 */}
+          {acara2_nama && (
+            <motion.div 
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.4 }}
+              className="bg-brand-dark p-8 rounded-3xl shadow-lg text-center text-white relative overflow-hidden flex flex-col h-full"
+            >
+              <h3 className="font-serif text-2xl mb-6 text-brand">{acara2_nama}</h3>
+              <div className="flex items-center justify-center gap-3 text-white/80 mb-4">
+                <Calendar className="w-5 h-5 text-brand shrink-0" />
+                <p>{acara2_tanggal ? new Date(acara2_tanggal).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : "TBA"} {acara2_jam && `• ${acara2_jam}`}</p>
+              </div>
+              <div className="flex items-center justify-center gap-3 text-white/80 mb-6 flex-1">
+                <MapPin className="w-5 h-5 text-brand shrink-0" />
+                <p>{acara2_lokasi || "TBA"}</p>
+              </div>
+              {acara2_maps_url && (
+                <div className="w-full mt-4 space-y-4">
+                  <a href={acara2_maps_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm text-brand hover:text-white font-medium transition-colors">
+                    <ExternalLink className="w-4 h-4" /> Buka di Maps
+                  </a>
+                  <div className="w-full h-48 rounded-xl overflow-hidden shadow-inner bg-white/10">
+                    <MapsEmbed url={acara2_maps_url} />
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          )}
         </div>
       </section>
 
