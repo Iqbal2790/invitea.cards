@@ -100,14 +100,15 @@ export default function BuatOrderClient({ template }) {
             <div className="w-16 h-16 relative rounded-xl overflow-hidden shrink-0 shadow-sm">
               <Image 
                 src={template.thumbnail_url || "/template-dummy.png"} 
-                alt={template.name}
+                alt={template.name || 'Template Image'}
                 fill
                 className="object-cover"
+                sizes="64px"
               />
             </div>
             <div>
               <h3 className="text-lg font-serif font-semibold text-text-main">{template.name}</h3>
-              <p className="text-sm text-text-muted">{template.category}</p>
+              <p className="text-sm text-text-muted">{template.category || template.kategori || 'Template'}</p>
             </div>
           </div>
 

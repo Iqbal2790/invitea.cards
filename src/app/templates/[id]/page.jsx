@@ -74,7 +74,7 @@ export default async function TemplateDetail(props) {
             <div className="relative aspect-[3/4] w-full bg-accent-sand/20">
               <Image
                 src={template.thumbnail_url || '/template-dummy.png'}
-                alt={template.name}
+                alt={template.name || 'Template Image'}
                 fill
                 className="object-cover"
                 priority
@@ -88,13 +88,13 @@ export default async function TemplateDetail(props) {
             {/* Header Info */}
             <div className="space-y-4">
               <Badge variant="secondary" className="bg-brand-light/50 text-brand border-brand/20">
-                {template.category}
+                {template.category || template.kategori || 'Template'}
               </Badge>
               <h1 className="text-4xl md:text-5xl font-serif text-text-main leading-tight">
                 {template.name}
               </h1>
               <p className="text-2xl font-serif text-brand">
-                Rp {template.price?.toLocaleString('id-ID')}
+                Rp {(template.price || template.harga || 0).toLocaleString('id-ID')}
               </p>
             </div>
 

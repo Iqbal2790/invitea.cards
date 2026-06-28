@@ -10,18 +10,19 @@ export default function TemplateCard({ template }) {
       <div className="relative aspect-[3/4] w-full overflow-hidden bg-bg-base">
         <Image
           src={template.thumbnail_url || '/template-dummy.png'}
-          alt={template.name}
+          alt={template.name || 'Template Image'}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute top-4 left-4">
-          <Badge variant="secondary">{template.category}</Badge>
+          <Badge variant="secondary">{template.category || template.kategori || 'Template'}</Badge>
         </div>
       </div>
       <CardContent className="p-6 flex-1 flex flex-col justify-between">
         <div>
           <h3 className="font-serif text-xl font-medium text-text-main mb-1">{template.name}</h3>
-          <p className="text-brand font-medium">Rp {template.price?.toLocaleString('id-ID')}</p>
+          <p className="text-brand font-medium">Rp {(template.price || template.harga || 0).toLocaleString('id-ID')}</p>
         </div>
         <div className="mt-6">
           <Link href={`/templates/${template.id}`}>

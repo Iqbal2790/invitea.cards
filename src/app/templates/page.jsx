@@ -28,7 +28,8 @@ export default async function TemplatesPage(props) {
 
   const filteredTemplates = allTemplates.filter((tpl) => {
     if (categoryFilter === "semua") return true;
-    return tpl.category.toLowerCase().includes(categoryFilter.toLowerCase());
+    const cat = tpl.category || tpl.kategori || "";
+    return cat.toLowerCase().includes(categoryFilter.toLowerCase());
   });
 
   return (
