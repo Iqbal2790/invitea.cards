@@ -98,7 +98,7 @@ export default async function CheckoutPage(props) {
             <Card className="overflow-hidden border-border-subtle shadow-sm">
               <div className="bg-white p-6">
                 <h3 className="font-serif font-medium text-lg text-text-main mb-6 border-b border-border-subtle pb-4">
-                  Pratinjau {isUcapan ? 'Ucapan' : 'Undangan'}
+                  Pratinjau Pesanan
                 </h3>
                 
                 <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
