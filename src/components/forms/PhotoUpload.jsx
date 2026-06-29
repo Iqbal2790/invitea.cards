@@ -1,36 +1,55 @@
 "use client";
 
 import { useState } from "react";
-import { UploadCloud, X } from "lucide-react";
+import { UploadCloud, X, Loader2 } from "lucide-react";
+import imageCompression from 'browser-image-compression';
 
 export default function PhotoUpload({ label, multiple = true, onChange }) {
   const [files, setFiles] = useState([]);
 
-  const handleFileChange = (e) => {
+  const [isCompressing, setIsCompressing] = useState(false);
+
+  const handleFileChange = async (e) => {
     if (e.target.files) {
       const selectedFiles = Array.from(e.target.files);
       
-      // Filter for valid files (JPG/PNG and max 5MB)
+      // Filter for valid files
       const validFiles = selectedFiles.filter(file => {
-        const isImage = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg";
-        const isUnder5MB = file.size <= 5 * 1024 * 1024;
-        
-        if (!isImage) alert(`${file.name} bukan format JPG/PNG.`);
-        if (!isUnder5MB) alert(`${file.name} ukurannya melebihi 5MB.`);
-        
-        return isImage && isUnder5MB;
+        const isImage = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg" || file.type === "image/webp";
+        if (!isImage) alert(`${file.name} bukan format gambar yang didukung.`);
+        return isImage;
       });
 
-      let newFiles = multiple ? [...files, ...validFiles] : validFiles;
-      
-      // Max 10 files
-      if (multiple && newFiles.length > 10) {
-        alert("Maksimal hanya diperbolehkan 10 foto.");
-        newFiles = newFiles.slice(0, 10);
+      if (validFiles.length === 0) return;
+
+      setIsCompressing(true);
+
+      try {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        };
+
+        const compressedPromises = validFiles.map(file => imageCompression(file, options));
+        const compressedFiles = await Promise.all(compressedPromises);
+
+        let newFiles = multiple ? [...files, ...compressedFiles] : compressedFiles;
+        
+        // Max 10 files
+        if (multiple && newFiles.length > 10) {
+          alert("Maksimal hanya diperbolehkan 10 foto.");
+          newFiles = newFiles.slice(0, 10);
+        }
+        
+        setFiles(newFiles);
+        if (onChange) onChange(newFiles);
+      } catch (error) {
+        console.error("Error compressing images:", error);
+        alert("Gagal mengompres gambar. Coba gunakan foto lain.");
+      } finally {
+        setIsCompressing(false);
       }
-      
-      setFiles(newFiles);
-      if (onChange) onChange(newFiles);
     }
   };
 
@@ -52,17 +71,22 @@ export default function PhotoUpload({ label, multiple = true, onChange }) {
           multiple={multiple}
           accept="image/*"
           onChange={handleFileChange}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          disabled={isCompressing}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
         />
         <div className="flex flex-col items-center justify-center space-y-3 pointer-events-none">
           <div className="p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-            <UploadCloud className="w-6 h-6" />
+            {isCompressing ? <Loader2 className="w-6 h-6 animate-spin" /> : <UploadCloud className="w-6 h-6" />}
           </div>
           <div className="text-sm text-gray-600 dark:text-gray-400">
-            <span className="font-semibold text-blue-600 dark:text-blue-400">Klik untuk upload</span> atau seret dan lepas foto di sini
+            {isCompressing ? (
+              <span className="font-semibold text-blue-600 dark:text-blue-400">Sedang mengompres gambar...</span>
+            ) : (
+              <><span className="font-semibold text-blue-600 dark:text-blue-400">Klik untuk upload</span> atau seret dan lepas foto di sini</>
+            )}
           </div>
           <div className="text-xs text-gray-500 dark:text-gray-500">
-            PNG, JPG, JPEG (Maks. 5MB)
+            Bebas ukuran, otomatis dicompress menjadi super ringan (Max. resolusi HD)
           </div>
         </div>
       </div>
