@@ -38,7 +38,7 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
 
 
   const handleMemoryChange = (id, field, value) => {
-    setMemories(memories.map(m => {
+    setMemories(prev => prev.map(m => {
       if (m.id === id) {
         return { ...m, [field]: value };
       }
