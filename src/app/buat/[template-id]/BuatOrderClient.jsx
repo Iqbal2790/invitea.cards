@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
@@ -17,6 +17,17 @@ const FORM_COMPONENTS = {
 export default function BuatOrderClient({ template }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isLoading]);
 
   const handleSubmit = async (formData) => {
     setIsLoading(true);
@@ -138,10 +149,10 @@ export default function BuatOrderClient({ template }) {
 
           <div className="p-6 md:p-10 relative">
             {isLoading && (
-              <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-2xl">
+              <div className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
                 <Loader2 className="w-12 h-12 animate-spin text-brand mb-4" />
-                <h3 className="text-lg font-semibold text-text-main">Memproses Data...</h3>
-                <p className="text-sm text-text-muted text-center max-w-xs mt-2">
+                <h3 className="text-xl font-serif font-semibold text-text-main">Memproses Data...</h3>
+                <p className="text-sm text-text-muted text-center max-w-sm mt-2">
                   Mohon tunggu sebentar, kami sedang menyimpan informasi dan mengunggah foto Anda.
                 </p>
               </div>
