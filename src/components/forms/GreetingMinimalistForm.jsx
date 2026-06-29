@@ -22,24 +22,20 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
     youtube_url: "",
   });
 
-  const [memories, setMemories] = useState([{ id: Date.now(), caption: "", file: null }]); // Wajib minimal 1 memori
+  const [memories, setMemories] = useState([
+    { id: 1, caption: "", file: null },
+    { id: 2, caption: "", file: null },
+    { id: 3, caption: "", file: null },
+    { id: 4, caption: "", file: null },
+    { id: 5, caption: "", file: null },
+  ]); // Wajib 5 memori
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const addMemory = () => {
-    if (memories.length >= 5) {
-      alert("Maksimal 5 memori foto diperbolehkan.");
-      return;
-    }
-    setMemories([...memories, { id: Date.now(), caption: "", file: null }]);
-  };
 
-  const removeMemory = (idToRemove) => {
-    setMemories(memories.filter(m => m.id !== idToRemove));
-  };
 
   const handleMemoryChange = (id, field, value) => {
     setMemories(memories.map(m => {
@@ -53,9 +49,9 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validasi Memori (minimal 1 foto wajib diunggah)
-    if (memories.length === 0 || !memories.some(m => m.file)) {
-      alert("Kamu wajib mengunggah minimal 1 foto memori.");
+    // Validasi Memori (kelima foto wajib diunggah)
+    if (!memories.every(m => m.file)) {
+      alert("Kamu wajib melengkapi kelima foto memori.");
       return;
     }
 
@@ -129,22 +125,14 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
 
       {/* Seksi 3: Memori Foto */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between border-b border-border-subtle pb-2">
+        <div className="border-b border-border-subtle pb-2">
           <h3 className="text-xl font-serif text-brand">Memori Spesial <span className="text-red-500">*</span></h3>
-          <Button type="button" variant="outline" size="sm" onClick={addMemory} disabled={memories.length >= 5} className="gap-2">
-            <Plus className="w-4 h-4" /> Tambah Foto
-          </Button>
         </div>
         
-        <p className="text-sm text-text-muted">Tambahkan hingga 5 foto beserta pesan singkat untuk setiap fotonya. (Minimal 1 wajib)</p>
+        <p className="text-sm text-text-muted">Masukkan 5 foto spesial beserta pesan singkat untuk setiap fotonya. Semua kolom wajib diisi.</p>
 
         {memories.map((mem, index) => (
           <div key={mem.id} className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-4 relative">
-            {memories.length > 1 && (
-              <button type="button" onClick={() => removeMemory(mem.id)} className="absolute top-4 right-4 text-red-500 hover:text-red-700">
-                <Trash2 className="w-5 h-5" />
-              </button>
-            )}
             <h4 className="font-medium text-sm text-gray-700">Memori ke-{index + 1}</h4>
             
             <PhotoUpload 
@@ -164,11 +152,6 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
             </div>
           </div>
         ))}
-        {memories.length === 0 && (
-          <div className="text-center p-8 border-2 border-dashed border-gray-200 rounded-xl text-text-muted">
-            Belum ada memori yang ditambahkan.
-          </div>
-        )}
       </div>
 
       {/* Seksi 4: Harapan & Penutup */}

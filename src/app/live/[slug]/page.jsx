@@ -25,16 +25,17 @@ export async function generateMetadata({ params }) {
   const supabase = createClient(supabaseUrl, supabaseKey);
   const { data: order } = await supabase
     .from('orders')
-    .select('*, templates(kategori, name)')
+    .select('*')
     .eq('slug', slug)
     .single();
 
   if (!order) return { title: 'Undangan | Invitea' };
 
-  const isUcapan = (order.templates?.kategori || order.templates?.category || "").toLowerCase().includes("ucapan");
+  // Infer template type based on data content
+  const isUcapan = !!order.data_content?.nama_penerima;
   
   if (isUcapan) {
-    const penerima = order.data_content?.nama_penerima || "Seseorang";
+    const penerima = order.data_content.nama_penerima;
     return {
       title: `Sebuah Pesan Untuk ${penerima} | Invitea`,
       description: 'Ada pesan spesial menanti untuk Anda.'

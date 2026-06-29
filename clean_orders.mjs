@@ -6,17 +6,25 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function cleanOrders() {
-  console.log("Menghapus data pesanan dari Supabase...");
-  // Menghapus semua pesanan (karena ini testing)
+  console.log("Menghapus data pesanan dari database...");
   const { data, error } = await supabase
     .from('orders')
     .delete()
-    .neq('id', 'dummy-id'); // Trick to delete all
+    .not('id', 'is', null);
     
   if (error) {
-    console.error("Gagal menghapus:", error);
+    console.error("Gagal menghapus database:", error);
   } else {
-    console.log("Berhasil menghapus seluruh data pesanan testing!");
+    console.log("Berhasil menghapus seluruh data pesanan dari database!");
+  }
+
+  console.log("Menghapus file gambar dari Storage...");
+  const { data: storageData, error: storageError } = await supabase.storage.emptyBucket('orders');
+  
+  if (storageError) {
+    console.error("Gagal menghapus bucket:", storageError);
+  } else {
+    console.log("Berhasil membersihkan seluruh gambar di Storage!");
   }
 }
 
