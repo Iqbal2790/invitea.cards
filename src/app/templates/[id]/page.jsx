@@ -10,13 +10,6 @@ import { DUMMY_TEMPLATES } from "@/lib/templates-data";
 
 // Fallback dummy data if Supabase is empty
 
-const FEATURES = [
-  { label: 'Galeri Foto Pasangan', icon: <ImageIcon size={20} className="text-brand" /> },
-  { label: 'Integrasi Google Maps', icon: <MapPin size={20} className="text-brand" /> },
-  { label: 'Penghitung Waktu Mundur (Countdown)', icon: <Clock size={20} className="text-brand" /> },
-  { label: 'Sistem RSVP & Buku Tamu', icon: <MessageSquareHeart size={20} className="text-brand" /> },
-  { label: 'Latar Belakang Musik Romantis', icon: <Music size={20} className="text-brand" /> },
-];
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -74,7 +67,7 @@ export default async function TemplateDetail(props) {
             <div className="relative aspect-[3/4] w-full bg-accent-sand/20">
               <Image
                 src={template.thumbnail_url || '/template-dummy.png'}
-                alt={template.name || 'Template Image'}
+                alt={template.nama || template.name || 'Template Image'}
                 fill
                 className="object-cover"
                 priority
@@ -91,7 +84,7 @@ export default async function TemplateDetail(props) {
                 {template.category || template.kategori || 'Template'}
               </Badge>
               <h1 className="text-4xl md:text-5xl font-serif text-text-main leading-tight">
-                {template.name}
+                {template.nama || template.name}
               </h1>
               <p className="text-2xl font-serif text-brand">
                 Rp {(template.price || template.harga || 0).toLocaleString('id-ID')}
@@ -109,14 +102,42 @@ export default async function TemplateDetail(props) {
             <div className="space-y-6">
               <h3 className="font-serif text-xl text-text-main font-medium">Yang Akan Anda Dapatkan:</h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {FEATURES.map((feat, idx) => (
-                  <li key={idx} className="flex items-center gap-3 bg-white p-3 rounded-xl border border-border-subtle/50 shadow-sm">
+                <li className="flex items-center gap-3 bg-white p-3 rounded-xl border border-border-subtle/50 shadow-sm">
+                  <div className="shrink-0 bg-brand-light/30 p-2 rounded-lg">
+                    <ImageIcon size={20} className="text-brand" />
+                  </div>
+                  <span className="text-sm font-medium text-text-main">Galeri Foto Eksklusif</span>
+                </li>
+                {template.fitur_maps && (
+                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl border border-border-subtle/50 shadow-sm">
                     <div className="shrink-0 bg-brand-light/30 p-2 rounded-lg">
-                      {feat.icon}
+                      <MapPin size={20} className="text-brand" />
                     </div>
-                    <span className="text-sm font-medium text-text-main">{feat.label}</span>
+                    <span className="text-sm font-medium text-text-main">Integrasi Google Maps</span>
                   </li>
-                ))}
+                )}
+                {template.fitur_countdown && (
+                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl border border-border-subtle/50 shadow-sm">
+                    <div className="shrink-0 bg-brand-light/30 p-2 rounded-lg">
+                      <Clock size={20} className="text-brand" />
+                    </div>
+                    <span className="text-sm font-medium text-text-main">Penghitung Waktu Mundur</span>
+                  </li>
+                )}
+                {template.fitur_rsvp && (
+                  <li className="flex items-center gap-3 bg-white p-3 rounded-xl border border-border-subtle/50 shadow-sm">
+                    <div className="shrink-0 bg-brand-light/30 p-2 rounded-lg">
+                      <MessageSquareHeart size={20} className="text-brand" />
+                    </div>
+                    <span className="text-sm font-medium text-text-main">Sistem RSVP & Buku Tamu</span>
+                  </li>
+                )}
+                <li className="flex items-center gap-3 bg-white p-3 rounded-xl border border-border-subtle/50 shadow-sm">
+                  <div className="shrink-0 bg-brand-light/30 p-2 rounded-lg">
+                    <Music size={20} className="text-brand" />
+                  </div>
+                  <span className="text-sm font-medium text-text-main">Latar Belakang Musik Romantis</span>
+                </li>
               </ul>
             </div>
 
