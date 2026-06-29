@@ -137,21 +137,21 @@ export async function POST(request) {
                await resend.emails.send({
                  from: `Invitea <${fromEmail}>`,
                  to: [orderData.email],
-                 subject: '🎉 Pembayaran Berhasil! Undangan Anda Sudah Aktif',
+                 subject: '🎉 Pembayaran Berhasil! Pesanan Anda Sudah Aktif',
                  html: `
                    <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
                      <h2 style="color: #4F46E5;">Terima kasih atas pesanan Anda!</h2>
-                     <p>Halo, pembayaran untuk undangan digital Anda telah berhasil kami terima.</p>
+                     <p>Halo, pembayaran untuk pesanan digital Anda telah berhasil kami terima.</p>
                      
                      <div style="background-color: #F3F4F6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                       <p style="margin: 0 0 10px 0;"><strong>Link Undangan Live Anda:</strong></p>
+                       <p style="margin: 0 0 10px 0;"><strong>Link Publik Pesanan Anda:</strong></p>
                        <a href="${liveLink}" style="color: #4F46E5; font-size: 16px;">${liveLink}</a>
                        
                        <p style="margin: 15px 0 10px 0;"><strong>Akses Dashboard Admin Anda:</strong></p>
-                       <a href="${magicLink}" style="display: inline-block; background-color: #4F46E5; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">Buka Dashboard / Edit Undangan</a>
+                       <a href="${magicLink}" style="display: inline-block; background-color: #4F46E5; color: white; padding: 10px 20px; text-decoration: none; border-radius: 6px;">Buka Dashboard / Edit Pesanan</a>
                      </div>
                      
-                     <p style="color: #6B7280; font-size: 14px;"><strong>PENTING:</strong> Simpan email ini baik-baik. Link dashboard di atas adalah kunci rahasia Anda untuk melihat dan mengubah isi undangan.</p>
+                     <p style="color: #6B7280; font-size: 14px;"><strong>PENTING:</strong> Simpan email ini baik-baik. Link dashboard di atas adalah kunci rahasia Anda untuk melihat dan mengubah isi pesanan.</p>
                    </div>
                  `
                });
