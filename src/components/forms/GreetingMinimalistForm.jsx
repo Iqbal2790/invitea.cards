@@ -21,7 +21,7 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
     youtube_url: "",
   });
 
-  const [memories, setMemories] = useState([]); // Array of { id, caption, file }
+  const [memories, setMemories] = useState([{ id: Date.now(), caption: "", file: null }]); // Wajib minimal 1 memori
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,8 +29,8 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
   };
 
   const addMemory = () => {
-    if (memories.length >= 3) {
-      alert("Maksimal 3 memori foto diperbolehkan.");
+    if (memories.length >= 5) {
+      alert("Maksimal 5 memori foto diperbolehkan.");
       return;
     }
     setMemories([...memories, { id: Date.now(), caption: "", file: null }]);
@@ -52,6 +52,12 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    // Validasi Memori (minimal 1 foto wajib diunggah)
+    if (memories.length === 0 || !memories.some(m => m.file)) {
+      alert("Kamu wajib mengunggah minimal 1 foto memori.");
+      return;
+    }
+
     // Gabungkan formData dengan memori
     const finalData = { ...formData };
     
@@ -95,8 +101,8 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
         <h3 className="text-xl font-serif text-brand border-b border-border-subtle pb-2">Pesan Utama</h3>
         
         <div className="space-y-2">
-          <Label htmlFor="pesan_pembuka">Teks Pembuka (Slide 1)</Label>
-          <Input id="pesan_pembuka" name="pesan_pembuka" value={formData.pesan_pembuka} onChange={handleInputChange} />
+          <Label htmlFor="pesan_pembuka">Teks Pembuka (Slide 1) <span className="text-red-500">*</span></Label>
+          <Input id="pesan_pembuka" name="pesan_pembuka" required value={formData.pesan_pembuka} onChange={handleInputChange} />
           <p className="text-xs text-text-muted">Teks yang muncul sebelum lilin ditiup.</p>
         </div>
 
@@ -117,19 +123,21 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
       {/* Seksi 3: Memori Foto */}
       <div className="space-y-6">
         <div className="flex items-center justify-between border-b border-border-subtle pb-2">
-          <h3 className="text-xl font-serif text-brand">Memori Spesial (Opsional)</h3>
-          <Button type="button" variant="outline" size="sm" onClick={addMemory} disabled={memories.length >= 3} className="gap-2">
+          <h3 className="text-xl font-serif text-brand">Memori Spesial <span className="text-red-500">*</span></h3>
+          <Button type="button" variant="outline" size="sm" onClick={addMemory} disabled={memories.length >= 5} className="gap-2">
             <Plus className="w-4 h-4" /> Tambah Foto
           </Button>
         </div>
         
-        <p className="text-sm text-text-muted">Tambahkan hingga 3 foto beserta pesan singkat untuk setiap fotonya.</p>
+        <p className="text-sm text-text-muted">Tambahkan hingga 5 foto beserta pesan singkat untuk setiap fotonya. (Minimal 1 wajib)</p>
 
         {memories.map((mem, index) => (
           <div key={mem.id} className="p-4 bg-gray-50 border border-gray-200 rounded-xl space-y-4 relative">
-            <button type="button" onClick={() => removeMemory(mem.id)} className="absolute top-4 right-4 text-red-500 hover:text-red-700">
-              <Trash2 className="w-5 h-5" />
-            </button>
+            {memories.length > 1 && (
+              <button type="button" onClick={() => removeMemory(mem.id)} className="absolute top-4 right-4 text-red-500 hover:text-red-700">
+                <Trash2 className="w-5 h-5" />
+              </button>
+            )}
             <h4 className="font-medium text-sm text-gray-700">Memori ke-{index + 1}</h4>
             
             <PhotoUpload 
@@ -139,8 +147,9 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
             />
             
             <div className="space-y-2 mt-4">
-              <Label>Pesan Singkat / Caption</Label>
+              <Label>Pesan Singkat / Caption <span className="text-red-500">*</span></Label>
               <Input 
+                required
                 value={mem.caption} 
                 onChange={(e) => handleMemoryChange(mem.id, "caption", e.target.value)} 
                 placeholder="Tulis momen indah di balik foto ini..." 
@@ -160,10 +169,11 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
         <h3 className="text-xl font-serif text-brand border-b border-border-subtle pb-2">Harapan & Penutup</h3>
         
         <div className="space-y-2">
-          <Label htmlFor="harapan">Harapan (Slide Wishes)</Label>
+          <Label htmlFor="harapan">Harapan (Slide Wishes) <span className="text-red-500">*</span></Label>
           <Textarea 
             id="harapan" 
             name="harapan" 
+            required
             rows={2} 
             value={formData.harapan} 
             onChange={handleInputChange} 
@@ -172,12 +182,12 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <Label htmlFor="umur">Angka Spesial (Misal: Umur 25)</Label>
-            <Input id="umur" name="umur" type="number" value={formData.umur} onChange={handleInputChange} placeholder="Biarkan kosong jika tidak perlu" />
+            <Label htmlFor="umur">Angka Spesial (Misal: Umur 25) <span className="text-red-500">*</span></Label>
+            <Input id="umur" name="umur" type="number" required value={formData.umur} onChange={handleInputChange} placeholder="Contoh: 25" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="pesan_penutup">Kalimat Penutup</Label>
-            <Input id="pesan_penutup" name="pesan_penutup" value={formData.pesan_penutup} onChange={handleInputChange} />
+            <Label htmlFor="pesan_penutup">Kalimat Penutup <span className="text-red-500">*</span></Label>
+            <Input id="pesan_penutup" name="pesan_penutup" required value={formData.pesan_penutup} onChange={handleInputChange} />
           </div>
         </div>
       </div>

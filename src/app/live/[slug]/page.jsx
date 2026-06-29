@@ -25,13 +25,13 @@ export async function generateMetadata({ params }) {
   const supabase = createClient(supabaseUrl, supabaseKey);
   const { data: order } = await supabase
     .from('orders')
-    .select('*, templates(category, name)')
+    .select('*, templates(kategori, name)')
     .eq('slug', slug)
     .single();
 
   if (!order) return { title: 'Undangan | Invitea' };
 
-  const isUcapan = order.templates?.category?.toLowerCase().includes("ucapan");
+  const isUcapan = (order.templates?.kategori || order.templates?.category || "").toLowerCase().includes("ucapan");
   
   if (isUcapan) {
     const penerima = order.data_content?.nama_penerima || "Seseorang";

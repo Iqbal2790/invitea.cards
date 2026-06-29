@@ -17,7 +17,7 @@ export default function GreetingMinimalistWrapper({ orderData }) {
   const pesanParts = (content.pesan_ucapan || "").split('\n').filter(p => p.trim() !== "");
   
   const momenArr = [];
-  for (let i = 1; i <= 3; i++) {
+  for (let i = 1; i <= 5; i++) {
     if (content[`foto_${i}`]) {
       momenArr.push({
         foto: content[`foto_${i}`],
