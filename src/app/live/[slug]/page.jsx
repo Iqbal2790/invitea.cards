@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
     .eq('slug', slug)
     .single();
 
-  if (!order) return { title: 'Not Found | Invitea' };
+  if (!order) return { title: 'Undangan | Invitea' };
 
   const isUcapan = order.templates?.category?.toLowerCase().includes("ucapan");
   

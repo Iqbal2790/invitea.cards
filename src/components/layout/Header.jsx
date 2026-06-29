@@ -11,7 +11,7 @@ export default function Header() {
   const pathname = usePathname();
 
   // Hide header on preview templates and final invitations
-  if (pathname.startsWith('/wedding') || pathname.startsWith('/greeting') || pathname.startsWith('/u')) {
+  if (pathname.startsWith('/wedding') || pathname.startsWith('/greeting') || pathname.startsWith('/u') || pathname.startsWith('/live')) {
     return null;
   }
 

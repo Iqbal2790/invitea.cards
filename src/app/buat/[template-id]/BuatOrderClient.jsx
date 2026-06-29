@@ -2,9 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import DynamicForm from "@/components/forms/DynamicForm";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+
+import WeddingClassicForm from "@/components/forms/WeddingClassicForm";
+import GreetingMinimalistForm from "@/components/forms/GreetingMinimalistForm";
+
+// Map Template ID to Specific Form Component
+const FORM_COMPONENTS = {
+  'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11': WeddingClassicForm, // Elegance Rose
+  'b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22': GreetingMinimalistForm // Midnight Magic
+};
 
 export default function BuatOrderClient({ template }) {
   const router = useRouter();
@@ -17,21 +25,33 @@ export default function BuatOrderClient({ template }) {
       // 1. Generate Order ID
       const order_id = crypto.randomUUID();
       
-      // 2. Pisahkan field "photo" dari data content lainnya
+      // 2. Smart File Upload: Cari semua File object dalam formData
       let foto_urls = [];
       const data_content = { ...formData };
       
-      // Cari field mana yang merupakan photo (array File)
-      // Note: Di form kita, photo upload mengirimkan array of File
-      const photoFields = template.fields_config.filter(f => f.type === "photo");
-      
-      for (const photoField of photoFields) {
-        const files = formData[photoField.name];
-        if (files && Array.isArray(files) && files.length > 0) {
-          // Hapus dari data_content agar tidak ikut masuk ke JSON
-          delete data_content[photoField.name];
+      for (const [key, value] of Object.entries(data_content)) {
+        if (value instanceof File) {
+          // Single file upload
+          const uploadData = new FormData();
+          uploadData.append("file", value);
+          uploadData.append("order_id", order_id);
           
-          for (const file of files) {
+          const uploadRes = await fetch("/api/upload", {
+            method: "POST",
+            body: uploadData,
+          });
+          
+          const uploadResult = await uploadRes.json();
+          if (!uploadRes.ok) throw new Error(uploadResult.error || "Gagal upload foto");
+          
+          // Simpan URL di data_content dan juga di foto_urls
+          data_content[key] = uploadResult.url;
+          foto_urls.push(uploadResult.url);
+
+        } else if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) {
+          // Multiple file upload
+          const urls = [];
+          for (const file of value) {
             const uploadData = new FormData();
             uploadData.append("file", file);
             uploadData.append("order_id", order_id);
@@ -44,8 +64,10 @@ export default function BuatOrderClient({ template }) {
             const uploadResult = await uploadRes.json();
             if (!uploadRes.ok) throw new Error(uploadResult.error || "Gagal upload foto");
             
+            urls.push(uploadResult.url);
             foto_urls.push(uploadResult.url);
           }
+          data_content[key] = urls;
         }
       }
 
@@ -80,6 +102,8 @@ export default function BuatOrderClient({ template }) {
     }
   };
 
+  const SelectedForm = FORM_COMPONENTS[template.id];
+
   return (
     <div className="min-h-screen bg-bg-base pt-24 pb-16">
       <div className="container mx-auto max-w-4xl px-4">
@@ -95,7 +119,7 @@ export default function BuatOrderClient({ template }) {
         </div>
 
         <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle overflow-hidden">
-          {/* Template Info Card (Top inside the form container) */}
+          {/* Template Info Card */}
           <div className="bg-brand-light/20 p-6 flex items-center gap-6 border-b border-border-subtle">
             <div className="w-16 h-16 relative rounded-xl overflow-hidden shrink-0 shadow-sm">
               <Image 
@@ -112,7 +136,7 @@ export default function BuatOrderClient({ template }) {
             </div>
           </div>
 
-          <div className="p-6 md:p-10">
+          <div className="p-6 md:p-10 relative">
             {isLoading && (
               <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-2xl">
                 <Loader2 className="w-12 h-12 animate-spin text-brand mb-4" />
@@ -123,11 +147,13 @@ export default function BuatOrderClient({ template }) {
               </div>
             )}
             
-            <DynamicForm 
-              fields={template.fields_config} 
-              onSubmit={handleSubmit} 
-              isLoading={isLoading} 
-            />
+            {SelectedForm ? (
+              <SelectedForm onSubmit={handleSubmit} isLoading={isLoading} />
+            ) : (
+              <div className="p-8 text-center text-text-muted bg-gray-50 rounded-xl border border-dashed border-border-subtle">
+                Form untuk template ini belum tersedia.
+              </div>
+            )}
           </div>
         </div>
 

@@ -12,29 +12,37 @@ import { ChevronRight } from "lucide-react";
 
 export default function GreetingMinimalistWrapper({ orderData }) {
   const content = orderData.data_content || {};
-  const fotos = orderData.foto_urls || [];
   
   // Pisahkan pesan ucapan menjadi paragraf jika memungkinkan
   const pesanParts = (content.pesan_ucapan || "").split('\n').filter(p => p.trim() !== "");
   
+  const momenArr = [];
+  for (let i = 1; i <= 3; i++) {
+    if (content[`foto_${i}`]) {
+      momenArr.push({
+        foto: content[`foto_${i}`],
+        caption: content[`caption_${i}`] || `Memori indah ${i}`
+      });
+    }
+  }
+
+  const hasMusic = Boolean(content.youtube_url && content.youtube_url.trim() !== "");
+
   const data = {
     pengirim: content.nama_pengirim || "Pengirim",
     penerima: content.nama_penerima || "Penerima",
-    umur: 25, // default
-    pesan_pembuka: content.momen ? `Sebuah momen untuk ${content.momen}` : "Ada hadiah kecil buat kamu…",
+    umur: content.umur || 25, 
+    pesan_pembuka: content.pesan_pembuka || "Ada hadiah kecil buat kamu…",
     instruksi: "Tapi sebelum dibuka, tiup lilinnya dulu 🎂",
     surat: {
       paragraf_1: pesanParts[0] || "Semoga hari ini dan seterusnya selalu dipenuhi dengan kebahagiaan.",
       paragraf_2: pesanParts[1] || "",
       paragraf_3: pesanParts[2] || ""
     },
-    momen: fotos.map((f, i) => ({
-      foto: f,
-      caption: `Memori indah ${i + 1}`
-    })),
-    harapan: "Semoga tahun ini kamu lebih bahagia, sehat, dan sukses selalu.",
-    penutup: "Dari hati yang paling dalam, selamat merayakan hari spesialmu.",
-    musik_url: content.youtube_url || "https://www.youtube.com/watch?v=2d_r8CEmrIc&list=PLU-xxn6VuPbq_CIx4OQvOZWN7ztHmRwSE&index=2"
+    momen: momenArr,
+    harapan: content.harapan || "Semoga tahun ini kamu lebih bahagia, sehat, dan sukses selalu.",
+    penutup: content.pesan_penutup || "Dari hati yang paling dalam, selamat merayakan hari spesialmu.",
+    musik_url: content.youtube_url || ""
   };
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -42,7 +50,7 @@ export default function GreetingMinimalistWrapper({ orderData }) {
   const audioRef = useRef(null);
 
   const handleStartBlowing = () => {
-    if (audioRef.current) {
+    if (hasMusic && audioRef.current) {
       audioRef.current.play();
     }
   };
@@ -120,7 +128,7 @@ export default function GreetingMinimalistWrapper({ orderData }) {
       <div className="w-full max-w-md h-full bg-gradient-to-b from-[#17153B] to-[#0A0914] relative shadow-2xl overflow-hidden flex flex-col">
         
         <ConfettiEffect fire={showConfetti} />
-        <AudioPlayer ref={audioRef} src={data.musik_url} isPlaying={currentSlide > 0} />
+        {hasMusic && <AudioPlayer ref={audioRef} src={data.musik_url} isPlaying={currentSlide > 0} />}
 
         <div className="flex-1 relative w-full h-full">
           <AnimatePresence mode="wait">

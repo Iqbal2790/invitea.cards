@@ -13,12 +13,13 @@ import AudioPlayer from "@/components/wedding/classic/AudioPlayer";
 
 export default function WeddingClassicWrapper({ orderData }) {
   const content = orderData.data_content || {};
-  const fotos = orderData.foto_urls || [];
   
   const formatDate = (dateString) => {
     if (!dateString) return "TBA";
     return new Date(dateString).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   };
+
+  const hasMusic = Boolean(content.youtube_url && content.youtube_url.trim() !== "");
 
   const data = {
     mempelai: {
@@ -28,7 +29,7 @@ export default function WeddingClassicWrapper({ orderData }) {
         nama_ayah: "Keluarga Bapak", 
         nama_ibu: "Keluarga Ibu", 
         ig_username: "", 
-        foto: fotos[0] || "/placeholder-wedding.jpg" 
+        foto: content.foto_pria || "/placeholder-wedding.jpg" 
       },
       wanita: { 
         nama_lengkap: content.nama_wanita || "Mempelai Wanita", 
@@ -36,7 +37,7 @@ export default function WeddingClassicWrapper({ orderData }) {
         nama_ayah: "Keluarga Bapak", 
         nama_ibu: "Keluarga Ibu", 
         ig_username: "", 
-        foto: fotos[1] || fotos[0] || "/placeholder-wedding.jpg" 
+        foto: content.foto_wanita || "/placeholder-wedding.jpg" 
       }
     },
     acara: {
@@ -61,8 +62,8 @@ export default function WeddingClassicWrapper({ orderData }) {
       teks: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang.",
       sumber: "QS. Ar-Rum: 21"
     },
-    galeri: fotos.slice(2).length > 0 ? fotos.slice(2) : (fotos.length > 0 ? fotos : []),
-    musik_url: content.youtube_url || "https://www.youtube.com/watch?v=2d_r8CEmrIc&list=PLU-xxn6VuPbq_CIx4OQvOZWN7ztHmRwSE&index=2",
+    galeri: Array.isArray(content.galeri) && content.galeri.length > 0 ? content.galeri : [],
+    musik_url: content.youtube_url || "",
     tema: {
       warna_utama: "#B76E79",
       warna_aksen: "#F4E1E1",
@@ -88,7 +89,7 @@ export default function WeddingClassicWrapper({ orderData }) {
 
   const handleUnseal = () => {
     setIsUnsealed(true);
-    if (audioRef.current) {
+    if (hasMusic && audioRef.current) {
       audioRef.current.play();
     }
   };
@@ -97,7 +98,7 @@ export default function WeddingClassicWrapper({ orderData }) {
     <div className="bg-[#E5E5E5] min-h-screen">
       <div className="w-full max-w-md mx-auto min-h-screen shadow-2xl relative overflow-x-hidden bg-[#fafafa]">
         
-        <AudioPlayer ref={audioRef} src={data.musik_url} isPlaying={isUnsealed} />
+        {hasMusic && <AudioPlayer ref={audioRef} src={data.musik_url} isPlaying={isUnsealed} />}
 
         <AnimatePresence>
           {!isUnsealed && (
