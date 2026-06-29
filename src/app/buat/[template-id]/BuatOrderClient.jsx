@@ -41,7 +41,7 @@ export default function BuatOrderClient({ template }) {
       const data_content = { ...formData };
       
       for (const [key, value] of Object.entries(data_content)) {
-        if (value instanceof File) {
+        if (value instanceof File || value instanceof Blob) {
           // Single file upload
           const uploadData = new FormData();
           uploadData.append("file", value);
@@ -59,7 +59,7 @@ export default function BuatOrderClient({ template }) {
           data_content[key] = uploadResult.url;
           foto_urls.push(uploadResult.url);
 
-        } else if (Array.isArray(value) && value.length > 0 && value[0] instanceof File) {
+        } else if (Array.isArray(value) && value.length > 0 && (value[0] instanceof File || value[0] instanceof Blob)) {
           // Multiple file upload
           const urls = [];
           for (const file of value) {
