@@ -8,6 +8,7 @@ import PhotoUpload from "./PhotoUpload";
 
 export default function WeddingClassicForm({ onSubmit, isLoading }) {
   const [formData, setFormData] = useState({
+    email: "",
     nama_pria: "",
     nama_wanita: "",
     acara1_nama: "Akad Nikah",
@@ -51,8 +52,14 @@ export default function WeddingClassicForm({ onSubmit, isLoading }) {
       
       {/* Mempelai */}
       <div className="space-y-6">
-        <h3 className="text-xl font-serif text-brand border-b border-border-subtle pb-2">Data Mempelai</h3>
+        <h3 className="text-xl font-serif text-brand border-b border-border-subtle pb-2">Informasi Pemesan & Mempelai</h3>
         
+        <div className="p-6 bg-brand-light/10 border border-brand-light/20 rounded-xl space-y-2">
+          <Label>Email Pemesan <span className="text-red-500">*</span></Label>
+          <Input name="email" type="email" required value={formData.email} onChange={handleInputChange} placeholder="Contoh: nama@gmail.com" className="bg-white" />
+          <p className="text-xs text-text-muted">Penting: Link pesanan akan dikirimkan ke email ini.</p>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8">
           {/* Pria */}
           <div className="p-6 bg-gray-50 border border-gray-200 rounded-xl space-y-4">

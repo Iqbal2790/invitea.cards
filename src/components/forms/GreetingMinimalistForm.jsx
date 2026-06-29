@@ -10,6 +10,7 @@ import { Plus, Trash2 } from "lucide-react";
 
 export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
   const [formData, setFormData] = useState({
+    email: "",
     nama_pengirim: "",
     nama_penerima: "",
     momen: "",
@@ -79,6 +80,12 @@ export default function GreetingMinimalistForm({ onSubmit, isLoading }) {
       <div className="space-y-6">
         <h3 className="text-xl font-serif text-brand border-b border-border-subtle pb-2">Informasi Dasar</h3>
         
+        <div className="space-y-2">
+          <Label htmlFor="email">Email Pemesan <span className="text-red-500">*</span></Label>
+          <Input id="email" name="email" type="email" required value={formData.email} onChange={handleInputChange} placeholder="Contoh: nama@gmail.com" />
+          <p className="text-xs text-text-muted">Penting: Link pesanan akan dikirimkan ke email ini.</p>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label htmlFor="nama_pengirim">Nama Pengirim <span className="text-red-500">*</span></Label>
