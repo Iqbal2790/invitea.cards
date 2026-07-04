@@ -1,11 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LayoutDashboard, Library, Settings, LogOut } from "lucide-react";
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+      router.push("/login");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   const menuItems = [
     {
@@ -57,7 +68,10 @@ export default function AdminLayout({ children }) {
         </div>
 
         <div className="p-4 border-t border-border-subtle">
-          <button className="flex items-center gap-3 px-4 py-3 w-full text-left rounded-xl transition-all font-medium text-sm text-red-500 hover:bg-red-50">
+          <button 
+            onClick={handleLogout}
+            className="flex items-center gap-3 px-4 py-3 w-full text-left rounded-xl transition-all font-medium text-sm text-red-500 hover:bg-red-50"
+          >
             <LogOut className="w-5 h-5" />
             Keluar
           </button>

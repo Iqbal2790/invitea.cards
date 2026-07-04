@@ -11,15 +11,33 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError("");
     
-    // Simulasi loading sebelum masuk ke dashboard
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Gagal login");
+      }
+
       router.push("/admin");
-    }, 1000);
+      router.refresh();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,6 +58,12 @@ export default function AdminLoginPage() {
           <h1 className="font-serif text-3xl font-bold tracking-widest text-brand mb-2">Invitea</h1>
           <p className="text-text-muted text-sm font-medium uppercase tracking-widest">Admin Portal</p>
         </div>
+
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 text-red-600 border border-red-100 rounded-2xl text-sm text-center font-medium">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">

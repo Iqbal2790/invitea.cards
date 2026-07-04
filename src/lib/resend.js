@@ -25,7 +25,7 @@ export async function sendOrderSuccessEmail({ email, templateName, magicToken, s
         <h2 style="margin-top: 0;">Halo!</h2>
         <p>Terima kasih telah mempercayakan momen spesial Anda bersama Invitea. Pesanan Anda untuk template <strong>${templateName}</strong> telah kami terima dan lunas.</p>
         
-        <p>Anda kini memiliki akses ke Ruang Kontrol Undangan Anda. Di sana Anda dapat mengelola tautan, melihat tamu yang akan hadir (RSVP), dan lain sebagainya.</p>
+        <p>Anda kini memiliki akses ke Ruang Kontrol Pesanan Anda. Di sana Anda dapat mengelola tautan, melihat tamu yang akan hadir (RSVP), dan lain sebagainya.</p>
         
         <div style="text-align: center; margin: 32px 0;">
           <a href="${loginUrl}" style="background-color: #B76E79; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block;">Masuk ke Ruang Kontrol</a>
@@ -34,7 +34,7 @@ export async function sendOrderSuccessEmail({ email, templateName, magicToken, s
         <hr style="border: none; border-top: 1px solid #EAEAEA; margin: 24px 0;" />
 
         <p style="font-size: 14px; color: #666;">
-          <strong>Tautan Live Undangan Anda:</strong><br />
+          <strong>Tautan Live Pesanan Anda:</strong><br />
           <a href="${liveUrl}" style="color: #B76E79;">${liveUrl}</a>
         </p>
         <p style="font-size: 14px; color: #666;">
@@ -53,7 +53,7 @@ export async function sendOrderSuccessEmail({ email, templateName, magicToken, s
     const data = await resend.emails.send({
       from: `Invitea <${fromEmail}>`,
       to: [email],
-      subject: "🎉 Pembayaran Berhasil! Akses Undangan Anda",
+      subject: "🎉 Pembayaran Berhasil! Akses Pesanan Anda",
       html: htmlContent,
     });
     return { success: true, data };
