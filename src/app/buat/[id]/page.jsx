@@ -4,16 +4,17 @@ import { useState, use } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { dummyTemplates } from "@/lib/dummy-data";
-import { ArrowLeft, ArrowRight, CheckCircle2, ChevronLeft } from "lucide-react";
+import { supabaseClient } from "@/lib/supabase";
+import { ArrowLeft, ArrowRight, CheckCircle2, ChevronLeft, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
   const resolvedParams = use(params);
   const { id } = resolvedParams;
+  const [template, setTemplate] = useState(null);
+  const [loading, setLoading] = useState(true);
   
-  const template = dummyTemplates.find((t) => t.id === id);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     groomName: "",
@@ -23,6 +24,33 @@ export default function BuilderPage({ params }) {
     location: "",
     message: ""
   });
+
+  useEffect(() => {
+    async function fetchTemplate() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("templates")
+          .select("*")
+          .eq("id", id)
+          .single();
+        
+        if (data) setTemplate(data);
+      } catch (err) {
+        console.error("Error fetching template:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTemplate();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-bg-base">
+        <Loader2 className="w-8 h-8 animate-spin text-brand" />
+      </div>
+    );
+  }
 
   if (!template) {
     return (
@@ -217,7 +245,7 @@ export default function BuilderPage({ params }) {
                   <div className="bg-bg-base rounded-2xl p-6 border border-border-subtle space-y-4">
                     <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
                       <span className="text-sm text-text-muted">Template</span>
-                      <span className="text-sm font-semibold text-text-main">{template.title}</span>
+                      <span className="text-sm font-semibold text-text-main">{template.nama}</span>
                     </div>
                     <div className="flex justify-between items-center pb-4 border-b border-border-subtle/50">
                       <span className="text-sm text-text-muted">Nama</span>
@@ -233,7 +261,7 @@ export default function BuilderPage({ params }) {
                     </div>
                     <div className="flex justify-between items-center pt-2">
                       <span className="text-base font-medium text-text-main">Total Harga</span>
-                      <span className="text-xl font-bold text-brand">Rp {template.price.toLocaleString("id-ID")}</span>
+                      <span className="text-xl font-bold text-brand">Rp {Number(template.harga).toLocaleString("id-ID")}</span>
                     </div>
                   </div>
 
@@ -263,14 +291,18 @@ export default function BuilderPage({ params }) {
         </div>
 
         <div className="relative z-10 w-full max-w-[320px] aspect-[9/16] rounded-[2.5rem] bg-white shadow-2xl overflow-hidden border-8 border-white">
-          <Image 
-            src={template.image} 
-            alt="Preview Template" 
-            fill 
-            className="object-cover"
-          />
+          {template.thumbnail_url ? (
+            <Image 
+              src={template.thumbnail_url} 
+              alt="Preview Template" 
+              fill 
+              className="object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-100 flex items-center justify-center text-text-muted">No Image</div>
+          )}
           <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-6 pt-20">
-            <h3 className="font-serif text-white text-2xl font-medium mb-1">{template.title}</h3>
+            <h3 className="font-serif text-white text-2xl font-medium mb-1">{template.nama}</h3>
             <p className="text-white/80 text-sm">Preview Statis</p>
           </div>
         </div>

@@ -9,24 +9,21 @@ export async function GET(request, { params }) {
   }
 
   try {
-    // 1. Fetch invitation data with related order and template info
-    const { data: invitation, error } = await supabaseAdmin
-      .from("invitations")
+    // 1. Fetch order data with related template info (replacing old invitations table)
+    const { data: orderData, error } = await supabaseAdmin
+      .from("orders")
       .select(`
         *,
-        orders(
-          status_payment,
-          templates(
-            nama,
-            fields_config
-          )
+        templates(
+          nama,
+          fields_config
         )
       `)
       .eq("magic_token", token)
       .single();
 
-    if (error || !invitation) {
-      console.error("Error fetching invitation:", error);
+    if (error || !orderData) {
+      console.error("Error fetching order by token:", error);
       return NextResponse.json({ error: "Undangan tidak ditemukan" }, { status: 404 });
     }
 
@@ -34,7 +31,7 @@ export async function GET(request, { params }) {
     const { data: rsvps, error: rsvpError } = await supabaseAdmin
       .from("rsvp_responses")
       .select("*")
-      .eq("invitation_id", invitation.id)
+      .eq("order_id", orderData.id)
       .order("created_at", { ascending: false });
 
     if (rsvpError) {
@@ -44,7 +41,11 @@ export async function GET(request, { params }) {
     return NextResponse.json({
       success: true,
       data: {
-        ...invitation,
+        ...orderData,
+        orders: {
+          status_payment: orderData.status_payment,
+          templates: orderData.templates
+        },
         rsvps: rsvps || []
       }
     });
@@ -71,7 +72,7 @@ export async function PATCH(request, { params }) {
     if (foto_urls !== undefined) updateData.foto_urls = foto_urls;
 
     const { data: updated, error } = await supabaseAdmin
-      .from("invitations")
+      .from("orders")
       .update(updateData)
       .eq("magic_token", token)
       .select()

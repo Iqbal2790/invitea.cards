@@ -27,32 +27,25 @@ CREATE TABLE public.templates (
     created_at timestamp with time zone DEFAULT now()
 );
 
--- 2. Tabel `orders`
+-- 2. Tabel `orders` (Gabungan dengan invitations lama)
 CREATE TABLE public.orders (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     email text NOT NULL,
     template_id uuid REFERENCES public.templates(id) ON DELETE RESTRICT,
     status_payment text DEFAULT 'pending', -- pending/paid/failed
     midtrans_id text,
-    created_at timestamp with time zone DEFAULT now()
-);
-
--- 3. Tabel `invitations`
-CREATE TABLE public.invitations (
-    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    order_id uuid REFERENCES public.orders(id) ON DELETE CASCADE,
-    slug text UNIQUE NOT NULL,
-    magic_token text UNIQUE NOT NULL,
-    data_content jsonb NOT NULL,
+    slug text UNIQUE,
+    magic_token text UNIQUE,
+    data_content jsonb DEFAULT '{}',
     foto_urls text[] DEFAULT '{}',
-    expired_at timestamp with time zone NOT NULL,
+    expired_at timestamp with time zone,
     created_at timestamp with time zone DEFAULT now()
 );
 
--- 4. Tabel `rsvp_responses`
+-- 3. Tabel `rsvp_responses`
 CREATE TABLE public.rsvp_responses (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    invitation_id uuid REFERENCES public.invitations(id) ON DELETE CASCADE,
+    order_id uuid REFERENCES public.orders(id) ON DELETE CASCADE,
     nama_tamu text NOT NULL,
     hadir boolean NOT NULL,
     created_at timestamp with time zone DEFAULT now()
@@ -73,7 +66,6 @@ CREATE TABLE public.admins (
 -- Enable RLS for all tables
 ALTER TABLE public.templates ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.invitations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.rsvp_responses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 
@@ -81,12 +73,13 @@ ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Templates are viewable by everyone" ON public.templates
     FOR SELECT USING (is_active = true);
 
--- 2. orders: Can only be fully managed via server (SERVICE_ROLE)
--- No public policy needed since API routes handle creation & reading
-
--- 3. invitations: Anyone can read using slug or magic_token 
-CREATE POLICY "Invitations are viewable by everyone" ON public.invitations
+-- 2. orders: Anyone can read their own order via slug or magic_token
+CREATE POLICY "Orders are viewable by everyone" ON public.orders
     FOR SELECT USING (true);
+CREATE POLICY "Public can insert orders" ON public.orders
+    FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public can update orders" ON public.orders
+    FOR UPDATE USING (true);
 
 -- 4. rsvp_responses: Anyone can insert their RSVP (API/Client), anyone can view
 CREATE POLICY "Anyone can insert RSVP" ON public.rsvp_responses

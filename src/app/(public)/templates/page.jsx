@@ -5,9 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter } from "lucide-react";
-
-import { dummyTemplates } from "@/lib/dummy-data";
+import { Filter, Loader2 } from "lucide-react";
 
 const subCategoriesMap = {
   undangan: ["Semua", "Modern", "Tradisional", "Minimalis", "Elegan"],
@@ -21,6 +19,9 @@ function GalleryContent() {
   const [mainCategory, setMainCategory] = useState("undangan");
   const [subCategory, setSubCategory] = useState("Semua");
   
+  const [allTemplates, setAllTemplates] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   // Sync URL param on mount
   useEffect(() => {
     if (queryKategori === "undangan" || queryKategori === "ucapan") {
@@ -29,14 +30,31 @@ function GalleryContent() {
     }
   }, [queryKategori]);
 
+  useEffect(() => {
+    async function fetchTemplates() {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/templates?category=${mainCategory}`);
+        const result = await res.json();
+        if (res.ok && result.data) {
+          setAllTemplates(result.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch templates:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTemplates();
+  }, [mainCategory]);
+
   const handleMainCategoryChange = (cat) => {
     setMainCategory(cat);
     setSubCategory("Semua"); // reset sub category when main changes
   };
 
-  const filteredTemplates = dummyTemplates.filter((t) => {
-    if (t.category !== mainCategory) return false;
-    if (subCategory !== "Semua" && t.subCategory !== subCategory) return false;
+  const filteredTemplates = allTemplates.filter((t) => {
+    if (subCategory !== "Semua" && t.fields_config?.subCategory !== subCategory) return false;
     return true;
   });
 
@@ -124,55 +142,65 @@ function GalleryContent() {
           </div>
 
           {/* Grid Layout */}
-          <AnimatePresence mode="wait">
-            <motion.div 
-              key={`${mainCategory}-${subCategory}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 pt-4"
-            >
-              {filteredTemplates.map((template) => (
-                <div
-                  key={template.id}
-                  className="rounded-3xl border border-border-subtle bg-white text-text-main shadow-[0_8px_30px_rgb(0,0,0,0.04)] group overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-                >
-                  <div className="relative aspect-[3/4] w-full overflow-hidden bg-brand-light/20 flex items-center justify-center">
-                    <Image
-                      src={template.image}
-                      alt={template.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    
-                    <div className="absolute top-4 left-4 z-10">
-                      <div className="inline-flex items-center rounded-xl border border-transparent bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[10px] uppercase tracking-wider font-semibold text-brand shadow-sm">
-                        {template.subCategory}
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-brand" />
+            </div>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={`${mainCategory}-${subCategory}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 pt-4"
+              >
+                {filteredTemplates.map((template) => (
+                  <div
+                    key={template.id}
+                    className="rounded-3xl border border-border-subtle bg-white text-text-main shadow-[0_8px_30px_rgb(0,0,0,0.04)] group overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                  >
+                    <div className="relative aspect-[3/4] w-full overflow-hidden bg-brand-light/20 flex items-center justify-center">
+                      {template.thumbnail_url ? (
+                        <Image
+                          src={template.thumbnail_url}
+                          alt={template.nama}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <span className="text-text-muted text-sm font-medium">No Thumbnail</span>
+                      )}
+                      
+                      <div className="absolute top-4 left-4 z-10">
+                        <div className="inline-flex items-center rounded-xl border border-transparent bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[10px] uppercase tracking-wider font-semibold text-brand shadow-sm">
+                          {template.fields_config?.subCategory || template.kategori}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-6 flex-1 flex flex-col justify-between bg-white z-10 relative">
+                      <div>
+                        <h3 className="font-serif text-xl font-medium text-text-main mb-1 truncate">{template.nama}</h3>
+                        <p className="text-brand font-medium">Rp {Number(template.harga).toLocaleString("id-ID")}</p>
+                      </div>
+                      <div className="mt-6">
+                        <Link href={`/templates/${template.id}`}>
+                          <button className="w-full inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all border border-border-subtle bg-transparent text-text-main hover:bg-brand hover:text-white hover:border-brand h-11 px-6 py-2">
+                            Lihat Detail
+                          </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
-                  <div className="p-6 flex-1 flex flex-col justify-between bg-white z-10 relative">
-                    <div>
-                      <h3 className="font-serif text-xl font-medium text-text-main mb-1 truncate">{template.title}</h3>
-                      <p className="text-brand font-medium">Rp {template.price.toLocaleString("id-ID")}</p>
-                    </div>
-                    <div className="mt-6">
-                      <Link href={`/templates/${template.id}`}>
-                        <button className="w-full inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all border border-border-subtle bg-transparent text-text-main hover:bg-brand hover:text-white hover:border-brand h-11 px-6 py-2">
-                          Lihat Detail
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          )}
 
           {/* Empty State Fallback */}
-          {filteredTemplates.length === 0 && (
+          {!loading && filteredTemplates.length === 0 && (
             <div className="py-20 text-center flex flex-col items-center">
               <Filter className="w-12 h-12 text-border-subtle mb-4" />
               <p className="text-text-muted text-lg">Belum ada desain untuk kategori ini.</p>

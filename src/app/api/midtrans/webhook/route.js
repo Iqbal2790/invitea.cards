@@ -57,14 +57,8 @@ export async function POST(request) {
     // 4. Jika Pembayaran BERHASIL (Lunas), Buat Undangan & Kirim Email!
     if (finalStatus === "paid") {
       
-      // Cek apakah undangan sudah pernah dibuat untuk order ini (Mencegah duplicate event webhook)
-      const { data: existingInv } = await supabaseAdmin
-        .from("invitations")
-        .select("id")
-        .eq("order_id", order_id)
-        .single();
-        
-      if (!existingInv) {
+      // Cek apakah order ini sudah memiliki magic_token (Mencegah duplicate event webhook)
+      if (!orderData.magic_token) {
         // Generate Token & Slug
         const magicToken = crypto.randomBytes(16).toString("hex");
         // Simple slug generator (contoh: udg-c3f9)
@@ -75,19 +69,18 @@ export async function POST(request) {
         const expiredDate = new Date();
         expiredDate.setFullYear(expiredDate.getFullYear() + 1);
 
-        // Insert ke tabel invitations
+        // Update ke tabel orders
         const { error: invError } = await supabaseAdmin
-          .from("invitations")
-          .insert({
-            order_id: order_id,
+          .from("orders")
+          .update({
             slug: slug,
             magic_token: magicToken,
-            data_content: {}, // Akan diisi user di dashboard nanti
             expired_at: expiredDate.toISOString()
-          });
+          })
+          .eq("id", order_id);
 
         if (invError) {
-          console.error("Gagal membuat undangan:", invError);
+          console.error("Gagal membuat undangan (update orders):", invError);
         } else {
           // Kirim Email via Resend
           await sendOrderSuccessEmail({

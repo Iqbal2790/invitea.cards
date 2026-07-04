@@ -1,18 +1,29 @@
 "use client";
 
-import { useState } from "react";
-import { Search, Filter, MoreHorizontal, CheckCircle2, Clock, XCircle } from "lucide-react";
-
-// Dummy Orders
-const initialOrders = [
-  { id: "INV-001", customer: "Amanda & Reza", template: "Elegance Rose", category: "Undangan", date: "24 Okt 2026", status: "Lunas", amount: 29000 },
-  { id: "INV-002", customer: "Budi Santoso", template: "Midnight Magic", category: "Ucapan", date: "24 Okt 2026", status: "Pending", amount: 29000 },
-  { id: "INV-003", customer: "Citra & Dimas", template: "Classic Javanese", category: "Undangan", date: "23 Okt 2026", status: "Selesai", amount: 35000 },
-  { id: "INV-004", customer: "Diana", template: "Happy Anniversary", category: "Ucapan", date: "22 Okt 2026", status: "Lunas", amount: 29000 },
-];
+import { useState, useEffect } from "react";
+import { Search, Filter, MoreHorizontal, CheckCircle2, Clock, XCircle, Loader2 } from "lucide-react";
 
 export default function AdminOrdersPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchOrders() {
+      try {
+        const res = await fetch('/api/admin/orders');
+        const json = await res.json();
+        if (json.data) {
+          setOrders(json.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchOrders();
+  }, []);
 
   const StatusBadge = ({ status }) => {
     switch (status) {
@@ -68,34 +79,56 @@ export default function AdminOrdersPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border-subtle">
-              {initialOrders.filter(o => o.customer.toLowerCase().includes(searchTerm.toLowerCase()) || o.id.toLowerCase().includes(searchTerm.toLowerCase())).map((order) => (
-                <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-text-main">{order.id}</td>
-                  <td className="px-6 py-4 text-text-main">{order.customer}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex flex-col">
-                      <span className="text-text-main font-medium">{order.template}</span>
-                      <span className="text-xs text-text-muted">{order.category}</span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-text-muted">{order.date}</td>
-                  <td className="px-6 py-4 font-medium">Rp {order.amount.toLocaleString("id-ID")}</td>
-                  <td className="px-6 py-4">
-                    <StatusBadge status={order.status} />
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <button className="p-2 hover:bg-gray-100 rounded-lg text-text-muted hover:text-text-main transition-colors">
-                      <MoreHorizontal className="w-5 h-5" />
-                    </button>
+              {isLoading ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-12 text-center text-text-muted">
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
+                    Memuat data pesanan...
                   </td>
                 </tr>
-              ))}
+              ) : orders.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-12 text-center text-text-muted">
+                    Belum ada pesanan masuk.
+                  </td>
+                </tr>
+              ) : (
+                orders
+                  .filter(o => 
+                    o.customer.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                    o.id.toLowerCase().includes(searchTerm.toLowerCase())
+                  )
+                  .map((order) => (
+                  <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
+                    <td className="px-6 py-4 font-medium text-text-main">
+                      <div className="w-24 truncate" title={order.id}>{order.id.split('-')[0]}...</div>
+                    </td>
+                    <td className="px-6 py-4 text-text-main">{order.customer}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col">
+                        <span className="text-text-main font-medium">{order.template}</span>
+                        <span className="text-xs text-text-muted capitalize">{order.category}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-text-muted">{order.date}</td>
+                    <td className="px-6 py-4 font-medium">Rp {order.amount.toLocaleString("id-ID")}</td>
+                    <td className="px-6 py-4">
+                      <StatusBadge status={order.status} />
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <button className="p-2 hover:bg-gray-100 rounded-lg text-text-muted hover:text-text-main transition-colors">
+                        <MoreHorizontal className="w-5 h-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
         
         <div className="p-4 border-t border-border-subtle text-center text-xs text-text-muted bg-gray-50/50">
-          Menampilkan {initialOrders.length} pesanan terbaru
+          Menampilkan {orders.length} pesanan terbaru
         </div>
       </div>
     </div>

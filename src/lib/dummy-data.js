@@ -18,7 +18,7 @@ export const dummyTemplates = [
     isFeatured: true
   },
   {
-    id: "b2c3d4e5-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
+    id: "b1111111-2222-3333-4444-555555555555",
     title: "Minimalist Gold",
     category: "undangan",
     subCategory: "Modern",
@@ -35,7 +35,7 @@ export const dummyTemplates = [
     isFeatured: true
   },
   {
-    id: "c3d4e5f6-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
+    id: "c2222222-3333-4444-5555-666666666666",
     title: "Rustic Green",
     category: "undangan",
     subCategory: "Elegan",
@@ -52,7 +52,7 @@ export const dummyTemplates = [
     isFeatured: false
   },
   {
-    id: "d4e5f6g7-8h9i-0j1k-2l3m-4n5o6p7q8r9s",
+    id: "d3333333-4444-5555-6666-777777777777",
     title: "Happy Anniversary",
     category: "ucapan",
     subCategory: "Pasangan",
@@ -67,7 +67,7 @@ export const dummyTemplates = [
     isFeatured: true
   },
   {
-    id: "e5f6g7h8-9i0j-1k2l-3m4n-5o6p7q8r9s0t",
+    id: "e4444444-5555-6666-7777-888888888888",
     title: "Selamat Ulang Tahun",
     category: "ucapan",
     subCategory: "Teman",
