@@ -1,172 +1,60 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
-import Link from "next/link";
-import { Loader2, CheckCircle2, XCircle } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Loader2, ShieldCheck } from "lucide-react";
 
-export default function PaymentStatusPage(props) {
-  // Gunakan React.use() untuk mendapatkan param di client component modern Next 15
-  const params = use(props.params);
-  const orderId = params["order-id"];
-
-  const [status, setStatus] = useState("loading"); // loading, success, failed, timeout
-  const [errorMsg, setErrorMsg] = useState("");
-  const [slug, setSlug] = useState("");
+export default function StatusPage() {
+  const router = useRouter();
+  const [progress, setProgress] = useState("Menghubungi server bank...");
 
   useEffect(() => {
-    if (!orderId) return;
+    // Simulasi proses verifikasi pembayaran (untuk dummy/testing)
+    const steps = [
+      { text: "Mengecek status transaksi Midtrans...", time: 1000 },
+      { text: "Memverifikasi data pesanan...", time: 2000 },
+      { text: "Menyiapkan tautan sakti (Magic Link)...", time: 3000 }
+    ];
 
-    let pollInterval;
-    const MAX_TIMEOUT = 5 * 60 * 1000; // 5 menit
-    const startTime = Date.now();
+    steps.forEach(step => {
+      setTimeout(() => setProgress(step.text), step.time);
+    });
 
-    const checkStatus = async () => {
-      try {
-        const res = await fetch(`/api/orders/${orderId}`);
-        const data = await res.json();
+    // Setelah 4 detik, arahkan ke halaman sukses (atau gagal jika logic backend sudah ada)
+    const timer = setTimeout(() => {
+      router.push("/success");
+    }, 4500);
 
-        if (res.ok) {
-          const paymentStatus = data.status;
-          
-          if (paymentStatus === "success" || paymentStatus === "settlement") {
-            setStatus("success");
-            if (data.slug) setSlug(data.slug);
-            clearInterval(pollInterval);
-          } else if (paymentStatus === "failed" || paymentStatus === "cancel" || paymentStatus === "expire" || paymentStatus === "deny") {
-            setStatus("failed");
-            setErrorMsg("Pembayaran gagal, ditolak, atau telah kedaluwarsa.");
-            clearInterval(pollInterval);
-          }
-          // Jika pending, biarkan loading lanjut
-        } else {
-          // Jika order tidak ditemukan atau error
-          console.error(data.error);
-        }
-      } catch (err) {
-        console.error("Error fetching status:", err);
-      }
-
-      // Check timeout
-      if (Date.now() - startTime > MAX_TIMEOUT) {
-        setStatus("timeout");
-        clearInterval(pollInterval);
-      }
-    };
-
-    // Langsung cek saat komponen dimuat
-    checkStatus();
-
-    // Set polling tiap 3 detik
-    pollInterval = setInterval(checkStatus, 3000);
-
-    return () => clearInterval(pollInterval);
-  }, [orderId]);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   return (
-    <div className="min-h-screen bg-bg-base flex flex-col items-center justify-center p-4 pt-24 pb-16">
-      <div className="bg-white rounded-3xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] max-w-md w-full text-center border border-border-subtle">
+    <div className="min-h-screen bg-bg-base font-sans flex flex-col items-center justify-center p-4">
+      <div className="w-full max-w-md text-center space-y-6">
         
-        {status === "loading" && (
-          <div className="flex flex-col items-center space-y-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-brand/20 blur-xl rounded-full"></div>
-              <Loader2 className="w-20 h-20 text-brand animate-spin relative" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-serif text-text-main mb-2">Memverifikasi Pembayaran...</h2>
-              <p className="text-text-muted text-sm leading-relaxed">
-                Harap jangan tutup halaman ini. Kami sedang menunggu konfirmasi pembayaran dari sistem bank Anda.
-              </p>
-            </div>
+        {/* Animated Security/Loading Icon */}
+        <div className="relative inline-flex items-center justify-center">
+          <div className="absolute inset-0 bg-brand-light/50 rounded-full animate-ping opacity-75"></div>
+          <div className="relative bg-white p-5 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-border-subtle z-10">
+            <Loader2 className="w-12 h-12 text-brand animate-spin" />
+            <ShieldCheck className="w-5 h-5 text-green-500 absolute bottom-3 right-3 bg-white rounded-full" />
           </div>
-        )}
+        </div>
 
-        {status === "success" && (
-          <div className="flex flex-col items-center space-y-6">
-            <div className="relative animate-in zoom-in duration-500">
-              <div className="absolute inset-0 bg-green-500/20 blur-xl rounded-full"></div>
-              <CheckCircle2 className="w-20 h-20 text-green-500 relative" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-serif text-text-main mb-2">Pembayaran Berhasil!</h2>
-              <p className="text-text-muted text-sm leading-relaxed">
-                Undangan eksklusif Anda telah lunas dan masa tenggang telah dinonaktifkan.
-              </p>
-            </div>
-            
-            {/* Link Live Undangan */}
-            <div className="pt-4 w-full">
-              <p className="text-xs text-text-muted mb-3 uppercase tracking-wider font-semibold">Tautan Pesanan Anda</p>
-              
-              <div className="flex items-center gap-2 mb-6 bg-gray-50 border border-gray-200 p-3 rounded-xl overflow-hidden">
-                <input 
-                  type="text" 
-                  readOnly 
-                  value={slug ? `https://invitea.cards/live/${slug}` : `https://invitea.cards/live/${orderId}`}
-                  className="flex-1 bg-transparent text-sm text-gray-700 outline-none w-full truncate"
-                />
-                <Button 
-                  size="sm" 
-                  variant="outline" 
-                  className="shrink-0"
-                  onClick={() => {
-                    navigator.clipboard.writeText(slug ? `https://invitea.cards/live/${slug}` : `https://invitea.cards/live/${orderId}`);
-                    alert("Tautan berhasil disalin!");
-                  }}
-                >
-                  Salin
-                </Button>
-              </div>
+        <div>
+          <h1 className="font-serif text-2xl font-bold text-text-main mb-2">
+            Memverifikasi Pembayaran
+          </h1>
+          <p className="text-text-muted text-sm font-medium animate-pulse">
+            {progress}
+          </p>
+        </div>
 
-              <div className="flex flex-col gap-3">
-                <Link href={slug ? `/live/${slug}` : `/live/${orderId}`} className="block">
-                  <Button className="w-full h-12 text-base rounded-xl shadow-md hover:-translate-y-1 transition-transform bg-brand hover:bg-brand-dark">
-                    Buka Pesanan
-                  </Button>
-                </Link>
-                <Link href="/" className="block">
-                  <Button variant="outline" className="w-full h-12 text-base rounded-xl text-text-muted hover:text-text-main">
-                    Kembali ke Beranda
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {(status === "failed" || status === "timeout") && (
-          <div className="flex flex-col items-center space-y-6">
-            <div className="relative animate-in zoom-in duration-500">
-              <div className="absolute inset-0 bg-red-500/20 blur-xl rounded-full"></div>
-              <XCircle className="w-20 h-20 text-red-500 relative" />
-            </div>
-            <div>
-              <h2 className="text-2xl font-serif text-text-main mb-2">
-                {status === "timeout" ? "Waktu Tunggu Habis" : "Pembayaran Gagal"}
-              </h2>
-              <p className="text-text-muted text-sm leading-relaxed">
-                {status === "timeout" 
-                  ? "Kami belum menerima konfirmasi pembayaran Anda dalam waktu 5 menit terakhir."
-                  : (errorMsg || "Terjadi kesalahan atau pembayaran Anda ditolak oleh bank.")
-                }
-              </p>
-            </div>
-            
-            <div className="pt-4 w-full space-y-3">
-              <Link href={`/checkout/${orderId}`} className="block">
-                <Button className="w-full h-12 text-base rounded-xl shadow-md hover:-translate-y-1 transition-transform">
-                  Coba Bayar Lagi
-                </Button>
-              </Link>
-              <Link href="/" className="block">
-                <Button variant="outline" className="w-full h-12 text-base rounded-xl text-text-muted hover:text-text-main">
-                  Kembali ke Beranda
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
+        <div className="pt-8">
+          <p className="text-xs text-text-muted">
+            Mohon jangan tutup atau menyegarkan (refresh) halaman ini.
+          </p>
+        </div>
 
       </div>
     </div>

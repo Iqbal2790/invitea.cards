@@ -1,257 +1,188 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { useParams } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import Image from "next/image";
+import { use, useState } from "react";
+import Link from "next/link";
 import { 
+  CheckCircle2, 
   Copy, 
   ExternalLink, 
-  Download, 
-  Calendar, 
+  MessageSquare, 
   Clock, 
-  MessageCircle, 
-  Mail,
-  CheckCircle2,
-  AlertCircle
+  Users, 
+  Check, 
+  X, 
+  CalendarDays
 } from "lucide-react";
-import QRCode from "react-qr-code";
-import { motion } from "framer-motion";
 
-export default function MagicLinkPage() {
-  const params = useParams();
-  const magicToken = params["magic-token"];
+export default function OrderDashboardPage({ params }) {
+  const resolvedParams = use(params);
+  const { "magic-token": magicToken } = resolvedParams;
 
-  const [orderData, setOrderData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    async function fetchOrder() {
-      if (!magicToken) return;
-      
-      const { data, error } = await supabase
-        .from("orders")
-        .select("*, templates(*)")
-        .eq("magic_token", magicToken)
-        .single();
+  // --- DUMMY DATA ---
+  // Nantinya data ini akan diambil dari Supabase berdasarkan magicToken
+  const orderData = {
+    status_payment: "paid", // 'pending' | 'paid' | 'failed'
+    expired_at: "2026-12-31T23:59:00",
+    slug: "romeo-and-juliet-2026",
+    template_name: "Classic Wedding",
+  };
 
-      if (error || !data) {
-        setError("Tautan tidak valid atau pesanan tidak ditemukan.");
-      } else {
-        setOrderData(data);
-      }
-      setLoading(false);
-    }
+  const rsvpData = [
+    { id: 1, name: "Iqbal & Pasangan", isAttending: true, message: "Selamat menempuh hidup baru! Semoga selalu bahagia dan langgeng selamanya.", time: "2 jam yang lalu" },
+    { id: 2, name: "Budi Santoso", isAttending: false, message: "Maaf ya nggak bisa hadir, kebetulan lagi di luar kota. Doa terbaik buat kalian berdua!", time: "5 jam yang lalu" },
+    { id: 3, name: "Siti Aminah", isAttending: true, message: "Wahhh akhirnya! Nggak sabar buat dateng ke acaranya.", time: "1 hari yang lalu" },
+  ];
 
-    fetchOrder();
-  }, [magicToken]);
+  const totalHadir = rsvpData.filter(r => r.isAttending).length;
+  const totalTidakHadir = rsvpData.filter(r => !r.isAttending).length;
 
-  const liveUrl = orderData?.slug 
-    ? (typeof window !== "undefined" ? `${window.location.origin}/live/${orderData.slug}` : "")
-    : "";
+  const liveLink = `https://invitea.cards/u/${orderData.slug}`;
 
+  // --- HANDLERS ---
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(liveUrl);
+      await navigator.clipboard.writeText(liveLink);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("Failed to copy", err);
+      console.error("Failed to copy!", err);
     }
   };
 
-  const handleDownloadQR = () => {
-    const svg = document.getElementById("qr-code-svg");
-    if (!svg) return;
-    
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    const img = new window.Image();
-    
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
-      
-      const pngFile = canvas.toDataURL("image/png");
-      const downloadLink = document.createElement("a");
-      downloadLink.download = `QR-Code-Invitea-${orderData?.slug}.png`;
-      downloadLink.href = `${pngFile}`;
-      downloadLink.click();
-    };
-    
-    img.src = "data:image/svg+xml;base64," + btoa(svgData);
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-bg-base flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-brand border-t-transparent rounded-full animate-spin"></div>
-      </div>
-    );
-  }
-
-  if (error || !orderData) {
-    return (
-      <div className="min-h-screen bg-bg-base flex flex-col items-center justify-center p-4">
-        <div className="bg-white p-8 rounded-3xl shadow-sm text-center max-w-md w-full border border-border-subtle">
-          <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4 opacity-80" />
-          <h1 className="font-serif text-2xl text-text-main mb-2">Tautan Tidak Valid</h1>
-          <p className="text-text-muted">Maaf, tautan ajaib yang Anda buka tidak valid atau mungkin sudah kedaluwarsa.</p>
-        </div>
-      </div>
-    );
-  }
-
-  const isExpired = new Date() > new Date(orderData.expired_at);
-  const formattedExpired = orderData.expired_at ? new Date(orderData.expired_at).toLocaleDateString('id-ID', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-  }) : "Tidak diketahui";
-
   return (
-    <div className="min-h-screen bg-bg-base py-12 px-4 selection:bg-brand selection:text-white">
-      <div className="max-w-4xl mx-auto space-y-8">
-        
-        {/* Header Dashboard */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white p-8 rounded-3xl shadow-sm border border-border-subtle"
-        >
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h1 className="font-serif text-3xl text-text-main mb-2">Dasbor Pesanan Anda</h1>
-              <p className="text-text-muted text-sm">
-                Kelola undangan Anda dengan mudah. Tautan halaman ini bersifat rahasia.
-              </p>
-            </div>
-            <div className={`px-4 py-2 rounded-full text-sm font-medium ${isExpired ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'} flex items-center gap-2 border ${isExpired ? 'border-red-100' : 'border-green-100'}`}>
-              {isExpired ? <AlertCircle className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
-              {isExpired ? 'Masa Aktif Habis' : 'Sedang Aktif'}
-            </div>
+    <div className="min-h-screen bg-bg-base font-sans pb-20">
+      
+      {/* 1. HEADER */}
+      <header className="bg-white border-b border-border-subtle sticky top-0 z-40">
+        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="font-serif text-xl font-bold text-text-main">Manajemen Undangan</h1>
+            <p className="text-xs text-text-muted mt-0.5 font-medium tracking-wide">
+              TOKEN: <span className="text-text-main font-mono">{magicToken.substring(0, 8)}***</span>
+            </p>
           </div>
-        </motion.div>
-
-        <div className="grid md:grid-cols-5 gap-8">
-          {/* Main Info */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 }}
-            className="md:col-span-3 bg-white p-8 rounded-3xl shadow-sm border border-border-subtle space-y-8"
-          >
-            <div>
-              <p className="text-sm text-text-muted mb-2 uppercase tracking-wider font-semibold">Template Terpilih</p>
-              <h2 className="font-serif text-3xl text-brand">{orderData.templates?.nama || "Template"}</h2>
-            </div>
-
-            {/* Masa Aktif */}
-            <div className="bg-brand/5 border border-brand/10 p-6 rounded-2xl flex items-start gap-4">
-              <Calendar className="w-6 h-6 text-brand mt-1 shrink-0" />
-              <div>
-                <h3 className="font-medium text-text-main text-lg">Masa Aktif Undangan</h3>
-                <p className="text-sm text-text-muted mt-2 leading-relaxed">Undangan digital Anda dapat diakses secara online oleh tamu hingga batas waktu berikut:</p>
-                <p className="text-brand font-semibold mt-2 text-lg">{formattedExpired}</p>
-              </div>
-            </div>
-
-            {/* Tautan Undangan */}
-            <div>
-              <h3 className="font-medium text-text-main mb-3">Tautan Undangan (Bagikan ke Tamu)</h3>
-              <div className="flex bg-bg-base rounded-xl border border-border-subtle overflow-hidden focus-within:border-brand transition-colors">
-                <input 
-                  type="text" 
-                  readOnly 
-                  value={liveUrl}
-                  className="flex-1 bg-transparent px-4 py-3 text-text-main text-sm outline-none w-full"
-                />
-                <button 
-                  onClick={handleCopy}
-                  className="px-6 py-3 bg-brand text-white hover:bg-brand-dark transition flex items-center gap-2 font-medium text-sm shrink-0"
-                >
-                  {copied ? <CheckCircle2 className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                  {copied ? 'Tersalin' : 'Salin'}
-                </button>
-              </div>
-            </div>
-
-            <a 
-              href={liveUrl} 
-              target="_blank" 
-              rel="noreferrer"
-              className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-text-main text-white hover:bg-text-main/90 transition font-medium shadow-sm hover:shadow-md"
-            >
-              Buka Pratinjau Undangan <ExternalLink className="w-4 h-4" />
-            </a>
-          </motion.div>
-
-          {/* Sidebar - QR & Help */}
-          <div className="md:col-span-2 space-y-8 flex flex-col">
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white p-8 rounded-3xl shadow-sm border border-border-subtle text-center flex flex-col items-center flex-1"
-            >
-              <h3 className="font-serif text-xl text-text-main mb-2">QR Code Undangan</h3>
-              <p className="text-sm text-text-muted mb-6">Tamu dapat memindai kode ini dari HP mereka.</p>
-              
-              {/* QR Code Container */}
-              <div className="bg-white p-4 rounded-xl border border-border-subtle inline-block mb-4 shadow-sm">
-                {liveUrl ? (
-                  <QRCode
-                    id="qr-code-svg"
-                    value={liveUrl}
-                    size={200}
-                    bgColor="#ffffff"
-                    fgColor="#1c211b"
-                    level="Q"
-                  />
-                ) : (
-                  <div className="w-[200px] h-[200px] flex items-center justify-center bg-bg-base rounded-lg border border-border-subtle">
-                    <span className="text-text-muted text-sm">Menyiapkan QR...</span>
-                  </div>
-                )}
-              </div>
-
-              <button 
-                onClick={handleDownloadQR}
-                className="w-full mt-auto flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-brand text-brand hover:bg-brand hover:text-white transition font-medium"
-              >
-                <Download className="w-4 h-4" /> Unduh Gambar QR
-              </button>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-gradient-to-br from-brand to-brand-dark p-8 rounded-3xl shadow-lg text-white"
-            >
-              <h3 className="font-serif text-xl mb-2">Butuh Bantuan?</h3>
-              <p className="text-white/80 text-sm mb-6 leading-relaxed">
-                Ada kesalahan penulisan gelar atau lokasi? Hubungi tim desain kami.
-              </p>
-              
-              <div className="space-y-3">
-                <a href="#" className="flex items-center gap-3 bg-white/10 hover:bg-white/20 transition p-3 rounded-xl backdrop-blur-sm">
-                  <MessageCircle className="w-5 h-5 shrink-0" />
-                  <span className="font-medium text-sm">Hubungi via WhatsApp</span>
-                </a>
-                <a href="#" className="flex items-center gap-3 bg-white/10 hover:bg-white/20 transition p-3 rounded-xl backdrop-blur-sm">
-                  <Mail className="w-5 h-5 shrink-0" />
-                  <span className="font-medium text-sm">Email Bantuan</span>
-                </a>
-              </div>
-            </motion.div>
+          <div className="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center border border-brand/20">
+            <span className="font-serif font-bold text-brand text-xs">IV</span>
           </div>
         </div>
-      </div>
+      </header>
+
+      <main className="max-w-3xl mx-auto px-4 py-8 space-y-8">
+        
+        {/* 2. STATUS & INFO KARTU */}
+        <section className="bg-white rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle flex flex-col md:flex-row justify-between gap-6">
+          <div className="space-y-1">
+            <p className="text-xs text-text-muted font-medium uppercase tracking-wider">Template Aktif</p>
+            <h2 className="text-lg font-semibold text-text-main">{orderData.template_name}</h2>
+            
+            <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border-subtle/50">
+              <CalendarDays className="w-4 h-4 text-text-muted" />
+              <span className="text-sm text-text-muted">
+                Berlaku s/d: <strong className="text-text-main font-medium">31 Des 2026</strong>
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col md:items-end justify-center gap-2">
+            <p className="text-xs text-text-muted font-medium uppercase tracking-wider">Status Pembayaran</p>
+            {orderData.status_payment === "paid" ? (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 border border-green-200 text-green-700 text-sm font-medium">
+                <CheckCircle2 className="w-4 h-4" /> Lunas
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-50 border border-yellow-200 text-yellow-700 text-sm font-medium">
+                <Clock className="w-4 h-4" /> Menunggu Pembayaran
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* 3. TAUTAN UNDANGAN */}
+        <section>
+          <h3 className="font-serif text-lg font-semibold text-text-main mb-3">Sebar Undangan Anda</h3>
+          <div className="bg-white rounded-3xl p-2 pl-4 md:pl-6 shadow-sm border border-border-subtle flex flex-col md:flex-row md:items-center gap-3">
+            <div className="flex-1 overflow-hidden">
+              <p className="text-sm text-text-main font-medium truncate pt-2 md:pt-0 pb-1 md:pb-0">
+                {liveLink}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 mt-1 md:mt-0">
+              <button 
+                onClick={handleCopy}
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-bg-base border border-border-subtle text-text-main text-sm font-medium hover:bg-gray-100 transition-colors"
+              >
+                {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
+                {copied ? "Tersalin!" : "Salin"}
+              </button>
+              
+              <Link
+                href={`/u/${orderData.slug}`}
+                target="_blank"
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-brand text-white text-sm font-medium hover:bg-brand/90 hover:shadow-md hover:-translate-y-0.5 transition-all"
+              >
+                <ExternalLink className="w-4 h-4" /> Buka
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* 4. DAFTAR RSVP & BUKU TAMU */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-serif text-lg font-semibold text-text-main">Buku Tamu & RSVP</h3>
+            <div className="flex items-center gap-1 text-sm text-text-muted bg-white px-3 py-1 rounded-full border border-border-subtle shadow-sm">
+              <Users className="w-4 h-4" /> {rsvpData.length} Total
+            </div>
+          </div>
+
+          {/* Statistik Mini */}
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="bg-green-50/50 border border-green-100 rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+              <p className="text-3xl font-bold text-green-600 mb-1">{totalHadir}</p>
+              <p className="text-xs font-medium text-green-800 uppercase tracking-wide">Akan Hadir</p>
+            </div>
+            <div className="bg-red-50/50 border border-red-100 rounded-2xl p-4 flex flex-col items-center justify-center text-center">
+              <p className="text-3xl font-bold text-red-500 mb-1">{totalTidakHadir}</p>
+              <p className="text-xs font-medium text-red-800 uppercase tracking-wide">Tidak Hadir</p>
+            </div>
+          </div>
+
+          {/* Grid Kartu Tamu (Nyaman untuk Mobile) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {rsvpData.map((guest) => (
+              <div key={guest.id} className="bg-white p-5 rounded-2xl border border-border-subtle shadow-sm flex flex-col h-full">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h4 className="font-medium text-text-main">{guest.name}</h4>
+                    <p className="text-xs text-text-muted mt-0.5">{guest.time}</p>
+                  </div>
+                  {guest.isAttending ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                      <Check className="w-3 h-3" /> Hadir
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-100 text-red-600 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                      <X className="w-3 h-3" /> Tidak
+                    </span>
+                  )}
+                </div>
+                
+                {/* Pesan Tamu */}
+                <div className="flex-1 bg-bg-base/50 p-3 rounded-xl border border-border-subtle/50 relative mt-2">
+                  <MessageSquare className="w-4 h-4 text-text-muted/30 absolute top-3 right-3" />
+                  <p className="text-sm text-text-muted italic pr-6 leading-relaxed">
+                    "{guest.message}"
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </section>
+
+      </main>
     </div>
   );
 }

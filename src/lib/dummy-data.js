@@ -1,107 +1,84 @@
-export const DUMMY_WEDDING_DATA = {
-  mempelai: {
-    pria: {
-      nama_lengkap: "Reza Pratama, S.T.",
-      nama_panggilan: "Reza",
-      nama_ayah: "Bpk. Budi Santoso",
-      nama_ibu: "Ibu Siti Aminah",
-      ig_username: "@rezapratama",
-      foto: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=600&auto=format&fit=crop"
-    },
-    wanita: {
-      nama_lengkap: "Amanda Wijaya, S.E.",
-      nama_panggilan: "Amanda",
-      nama_ayah: "Bpk. Hendra Wijaya",
-      nama_ibu: "Ibu Diana Susanti",
-      ig_username: "@amandawjya",
-      foto: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop"
-    }
+export const dummyTemplates = [
+  {
+    id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+    title: "Elegance Rose",
+    category: "undangan",
+    subCategory: "Tradisional",
+    price: 29000,
+    image: "/template-dummy.png",
+    description: "Desain elegan yang dirancang khusus untuk mewakili indahnya momen bahagia Anda. Template ini sangat mudah disesuaikan dengan informasi Anda.",
+    features: [
+      { id: "f1", icon: "image", label: "Galeri Foto Eksklusif" },
+      { id: "f2", icon: "map-pin", label: "Integrasi Google Maps" },
+      { id: "f3", icon: "clock", label: "Penghitung Waktu Mundur" },
+      { id: "f4", icon: "message-square-heart", label: "Sistem RSVP & Buku Tamu" },
+      { id: "f5", icon: "music", label: "Latar Belakang Musik Romantis" }
+    ],
+    previewUrl: "/wedding/classic",
+    isFeatured: true
   },
-  acara: {
-    akad: {
-      nama: "Akad Nikah",
-      hari_tanggal: "Sabtu, 28 September 2026",
-      waktu: "08:00 - 10:00 WIB",
-      lokasi_nama: "Masjid Agung Al-Akbar",
-      lokasi_alamat: "Jl. Masjid Agung Timur No.1, Surabaya",
-      google_maps_url: "https://maps.app.goo.gl/example1"
-    },
-    resepsi: {
-      nama: "Resepsi Pernikahan",
-      hari_tanggal: "Sabtu, 28 September 2026",
-      waktu: "11:00 - 14:00 WIB",
-      lokasi_nama: "Grand Ballroom Hotel JW Marriott",
-      lokasi_alamat: "Jl. Embong Malang No.85-89, Surabaya",
-      google_maps_url: "https://maps.app.goo.gl/example2"
-    }
+  {
+    id: "b2c3d4e5-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
+    title: "Minimalist Gold",
+    category: "undangan",
+    subCategory: "Modern",
+    price: 29000,
+    image: "/template-dummy.png",
+    description: "Desain minimalis dengan sentuhan warna emas yang mewah. Sempurna untuk pasangan yang menginginkan tampilan bersih namun tetap elegan.",
+    features: [
+      { id: "f1", icon: "image", label: "Galeri Foto Eksklusif" },
+      { id: "f2", icon: "map-pin", label: "Integrasi Google Maps" },
+      { id: "f3", icon: "clock", label: "Penghitung Waktu Mundur" },
+      { id: "f4", icon: "message-square-heart", label: "Sistem RSVP & Buku Tamu" }
+    ],
+    previewUrl: "/wedding/classic",
+    isFeatured: true
   },
-  kutipan: {
-    teks: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang.",
-    sumber: "QS. Ar-Rum: 21"
+  {
+    id: "c3d4e5f6-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
+    title: "Rustic Green",
+    category: "undangan",
+    subCategory: "Elegan",
+    price: 29000,
+    image: "/template-dummy.png",
+    description: "Nuansa alam yang kental dengan daun-daun hijau tropis. Cocok untuk pernikahan bertema outdoor atau gaya hidup yang ramah alam.",
+    features: [
+      { id: "f1", icon: "image", label: "Galeri Foto Eksklusif" },
+      { id: "f2", icon: "map-pin", label: "Integrasi Google Maps" },
+      { id: "f4", icon: "message-square-heart", label: "Sistem RSVP & Buku Tamu" },
+      { id: "f5", icon: "music", label: "Latar Belakang Musik Romantis" }
+    ],
+    previewUrl: "/wedding/classic",
+    isFeatured: false
   },
-  galeri: [
-    "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop"
-  ],
-  musik_url: "https://www.youtube.com/watch?v=2d_r8CEmrIc&list=PLU-xxn6VuPbq_CIx4OQvOZWN7ztHmRwSE&index=2",
-  tema: {
-    warna_utama: "#B76E79", // Rose Gold
-    warna_aksen: "#F4E1E1", // Soft Blush Pink
-    warna_background: "#FAFAFA", // Warm White
-    font_heading: "Cormorant Garamond",
-    font_body: "Montserrat"
+  {
+    id: "d4e5f6g7-8h9i-0j1k-2l3m-4n5o6p7q8r9s",
+    title: "Happy Anniversary",
+    category: "ucapan",
+    subCategory: "Pasangan",
+    price: 15000,
+    image: "/template-dummy.png",
+    description: "Kartu ucapan digital spesial untuk merayakan hari jadi Anda dan pasangan tercinta.",
+    features: [
+      { id: "f1", icon: "image", label: "Frame Foto Pasangan" },
+      { id: "f5", icon: "music", label: "Latar Belakang Musik Romantis" }
+    ],
+    previewUrl: "/wedding/classic",
+    isFeatured: true
+  },
+  {
+    id: "e5f6g7h8-9i0j-1k2l-3m4n-5o6p7q8r9s0t",
+    title: "Selamat Ulang Tahun",
+    category: "ucapan",
+    subCategory: "Teman",
+    price: 15000,
+    image: "/template-dummy.png",
+    description: "Sampaikan doa dan harapan terbaikmu di hari spesial sahabat tersayang.",
+    features: [
+      { id: "f1", icon: "image", label: "Foto Ucapan" },
+      { id: "f4", icon: "message-square-heart", label: "Kotak Pesan Personal" }
+    ],
+    previewUrl: "/wedding/classic",
+    isFeatured: false
   }
-};
-
-export const DUMMY_GREETING_DATA = {
-  pengirim: "Keluarga Besar Bpk. H. Susanto",
-  penerima: "Bpk. & Ibu Handoyo",
-  judul: "Selamat Hari Raya Idul Fitri 1447 H",
-  pesan: "Taqabbalallahu minna wa minkum. Mohon maaf lahir dan batin. Semoga Allah menerima amal ibadah kita dan mempertemukan kita kembali dengan Ramadhan tahun depan.",
-  foto: "https://images.unsplash.com/photo-1590076214815-bdf702672a95?q=80&w=800&auto=format&fit=crop",
-  tema: {
-    warna_utama: "#1B4332", // Deep Green
-    warna_aksen: "#D4AF37", // Gold
-    warna_background: "#F8F9FA", // Light Grey
-  }
-};
-
-export const DUMMY_BIRTHDAY_DATA = {
-  pengirim: "Seseorang yang peduli",
-  penerima: "Tita",
-  umur: 24,
-  pesan_pembuka: "Ada hadiah kecil buat kamu…",
-  instruksi: "Tapi sebelum dibuka, tiup lilinnya dulu 🎂",
-  surat: {
-    paragraf_1: "Hari ini mungkin cuma satu tanggal di kalender, tapi buat orang-orang yang sayang sama kamu, hari ini tetap punya arti.",
-    paragraf_2: "Semoga tahun ini kamu lebih sering tertawa, lebih jarang merasa sendirian, dan lebih banyak bertemu hal-hal baik yang selama ini kamu tunggu.",
-    paragraf_3: "Terima kasih sudah bertahan dan tetap menjadi dirimu sendiri."
-  },
-  momen: [
-    {
-      foto: "https://images.unsplash.com/photo-1517260739337-6799d239ce83?q=80&w=600&auto=format&fit=crop",
-      caption: "Cara kamu ketawa kadang random, tapi justru itu yang bikin kamu gampang diingat."
-    },
-    {
-      foto: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=600&auto=format&fit=crop",
-      caption: "Karena kamu sudah melewati banyak hal, bahkan di hari-hari yang orang lain nggak lihat."
-    },
-    {
-      foto: "https://images.unsplash.com/photo-1516962080544-eac695c93791?q=80&w=600&auto=format&fit=crop",
-      caption: "Semoga memori kecil seperti ini bakal terus bertambah di tahun-tahun berikutnya."
-    },
-    {
-      foto: "https://images.unsplash.com/photo-1464347744102-d1e422893bd2?q=80&w=600&auto=format&fit=crop",
-      caption: "Kita mungkin nggak selalu ngobrol tiap hari, tapi kamu selalu ada pas dibutuhkan."
-    },
-    {
-      foto: "https://images.unsplash.com/photo-1473186505569-9c61870c11f9?q=80&w=600&auto=format&fit=crop",
-      caption: "Ini buat semua momen seru yang udah kita lewatin bareng-bareng."
-    }
-  ],
-  harapan: "Semoga tahun ini kamu lebih tenang, lebih percaya diri, dan lebih sering merasa cukup.",
-  penutup: "Semoga harapan yang kamu pilih tadi benar-benar menemukan jalannya tahun ini.",
-  musik_url: "https://www.youtube.com/watch?v=2d_r8CEmrIc&list=PLU-xxn6VuPbq_CIx4OQvOZWN7ztHmRwSE&index=2" // Sama dengan sebelumnya
-};
+];

@@ -1,0 +1,23 @@
+---
+id: framer-motion-grid-glitch
+trigger: "when animating filtering of CSS Grids using Framer Motion"
+confidence: 0.9
+domain: "frontend-patterns"
+source: "session-observation"
+scope: project
+---
+
+# Avoid layout scale animations in CSS Grid
+
+## Action
+When building filterable galleries or lists inside a `CSS Grid` using Framer Motion, DO NOT use `layout` on individual grid children combined with `scale` transitions and `AnimatePresence`. 
+
+This causes a known bug where entering elements "gather in the center" of the grid before snapping to their correct positions because the layout engine miscalculates the scaled bounding box inside grid cells.
+
+Instead, use the **Whole-Grid Transition** pattern:
+Wrap the entire grid container in `<AnimatePresence mode="wait">` and apply fade in/out (`opacity`, `y`) to the container whenever the filter state changes. Do not apply `layout` to the individual children.
+
+## Evidence
+- Observed cards gathering in the center and jumping during `initial` scale animation on the Template Gallery CSS Grid.
+- User explicitly corrected this behavior.
+- Refactoring to whole-grid `mode="wait"` transition completely solved the glitch.

@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# OS & IDE Files
+.vscode/
+.idea/
+Thumbs.db
+*.swp
+.DS_Store

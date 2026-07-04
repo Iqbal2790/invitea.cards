@@ -1,62 +1,75 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
+import { snap } from "@/lib/midtrans";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
-
-export async function POST(req) {
+export async function POST(request) {
   try {
-    const body = await req.json();
-    const { email, template_id, data_content, foto_urls, order_id } = body;
+    const { email, template_id } = await request.json();
 
-    // 1. Validasi data yang masuk
-    if (!email || !template_id || !data_content) {
-      return NextResponse.json(
-        { success: false, error: 'Email, template_id, dan data_content wajib diisi' },
-        { status: 400 }
-      );
+    if (!email || !template_id) {
+      return NextResponse.json({ error: "Email dan Template ID wajib diisi" }, { status: 400 });
     }
 
-    // 2. Simpan order baru ke tabel orders dengan status pending
-    const insertPayload = {
-      email,
-      template_id,
-      status_payment: 'pending',
-      data_content,
-      foto_urls: foto_urls || []
-    };
-
-    if (order_id) {
-      insertPayload.id = order_id;
-    }
-
-    const { data: order, error } = await supabase
-      .from('orders')
-      .insert([insertPayload])
-      .select('id')
+    // 1. Cek ketersediaan dan harga template di database
+    const { data: template, error: templateError } = await supabaseAdmin
+      .from("templates")
+      .select("id, nama, harga")
+      .eq("id", template_id)
       .single();
 
-    if (error) {
-      console.error('Supabase Error:', error);
+    if (templateError || !template) {
+      console.error("Template tidak ditemukan:", templateError);
       return NextResponse.json(
-        { success: false, error: 'Gagal membuat order' },
-        { status: 500 }
+        { error: "Template tidak ditemukan di database. Pastikan ID valid atau Database sudah diisi (seed)." }, 
+        { status: 404 }
       );
     }
 
-    // 3. Balas dengan order_id
+    // 2. Buat rekam jejak pesanan (Order) di Supabase
+    const { data: order, error: orderError } = await supabaseAdmin
+      .from("orders")
+      .insert({
+        email: email,
+        template_id: template.id,
+        status_payment: "pending"
+      })
+      .select("id")
+      .single();
+
+    if (orderError) {
+      console.error("Supabase Order Insert Error:", orderError);
+      return NextResponse.json({ error: "Gagal menyimpan data pesanan" }, { status: 500 });
+    }
+
+    const orderId = order.id;
+
+    // 3. Meminta Snap Token ke Midtrans
+    const parameter = {
+      transaction_details: {
+        order_id: orderId, // Menggunakan UUID dari Supabase sebagai Order ID Midtrans
+        gross_amount: template.harga
+      },
+      customer_details: {
+        email: email
+      },
+      item_details: [{
+        id: template.id,
+        price: template.harga,
+        quantity: 1,
+        name: template.nama.substring(0, 50)
+      }]
+    };
+
+    const snapTransaction = await snap.createTransaction(parameter);
+
+    // Kembalikan token ke Frontend agar bisa memanggil window.snap.pay()
     return NextResponse.json({
-      success: true,
-      order_id: order.id,
-      message: 'Order berhasil dibuat'
+      order_id: orderId,
+      snap_token: snapTransaction.token
     });
+
   } catch (error) {
-    console.error('API Orders Error:', error);
-    return NextResponse.json(
-      { success: false, error: 'Terjadi kesalahan pada server' },
-      { status: 500 }
-    );
+    console.error("API Orders Error:", error);
+    return NextResponse.json({ error: "Terjadi kesalahan internal server" }, { status: 500 });
   }
 }
