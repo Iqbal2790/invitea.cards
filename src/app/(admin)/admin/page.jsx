@@ -1,12 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Filter, MoreHorizontal, CheckCircle2, Clock, XCircle, Loader2 } from "lucide-react";
+import { Search, Filter, MoreHorizontal, CheckCircle2, Clock, XCircle, Loader2, Trash2, Wallet, ShoppingBag, AlertCircle, ChevronDown } from "lucide-react";
 
 export default function AdminOrdersPage() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [availableMonths, setAvailableMonths] = useState([]);
 
   useEffect(() => {
     async function fetchOrders() {
@@ -15,6 +19,22 @@ export default function AdminOrdersPage() {
         const json = await res.json();
         if (json.data) {
           setOrders(json.data);
+          
+          // Generate unique months
+          const months = [...new Set(json.data.map(o => {
+            if (!o.raw_date) return null;
+            const date = new Date(o.raw_date);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+          }).filter(Boolean))].sort().reverse();
+          
+          setAvailableMonths(months);
+          if (months.length > 0) {
+            setSelectedMonth(months[0]);
+          } else {
+            const now = new Date();
+            setSelectedMonth(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`);
+            setAvailableMonths([`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`]);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch orders:", error);
@@ -24,6 +44,44 @@ export default function AdminOrdersPage() {
     }
     fetchOrders();
   }, []);
+
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const handleUpdateStatus = async (id, newStatus) => {
+    setActiveDropdown(null);
+    try {
+      // Optimistic update
+      setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus === 'paid' ? 'Lunas' : newStatus === 'pending' ? 'Pending' : 'Batal' } : o));
+      
+      const res = await fetch(`/api/admin/orders/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status_payment: newStatus })
+      });
+      
+      if (!res.ok) throw new Error("Gagal update status");
+    } catch (err) {
+      alert(err.message);
+      // Fallback reload
+      window.location.reload();
+    }
+  };
+
+  const handleDelete = async (id) => {
+    setActiveDropdown(null);
+    if (!window.confirm("Yakin ingin menghapus pesanan ini secara permanen?")) return;
+    
+    try {
+      const res = await fetch(`/api/admin/orders/${id}`, {
+        method: "DELETE"
+      });
+      
+      if (!res.ok) throw new Error("Gagal menghapus pesanan");
+      setOrders(orders.filter(o => o.id !== id));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
 
   const StatusBadge = ({ status }) => {
     switch (status) {
@@ -38,11 +96,84 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const currentMonthOrders = orders.filter(o => {
+    if (!o.raw_date || !selectedMonth) return false;
+    const date = new Date(o.raw_date);
+    const monthStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    return monthStr === selectedMonth;
+  });
+
+  const totalEarnings = currentMonthOrders
+    .filter(o => o.status === 'Lunas')
+    .reduce((sum, o) => sum + (o.amount || 0), 0);
+    
+  const totalOrders = currentMonthOrders.length;
+  
+  const totalPending = currentMonthOrders
+    .filter(o => o.status === 'Pending').length;
+
+  const formatMonthName = (YYYYMM) => {
+    if (!YYYYMM) return "";
+    const [year, month] = YYYYMM.split('-');
+    const date = new Date(year, parseInt(month) - 1, 1);
+    return date.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+  };
+
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="font-serif text-3xl font-semibold text-text-main">Pesanan Masuk</h1>
-        <p className="text-text-muted mt-1">Kelola pesanan undangan dan kartu ucapan kustomer Anda.</p>
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div>
+          <h1 className="font-serif text-3xl font-semibold text-text-main">Pesanan Masuk</h1>
+          <p className="text-text-muted mt-1">Kelola pesanan undangan dan kartu ucapan kustomer Anda.</p>
+        </div>
+        
+        {availableMonths.length > 0 && (
+          <div className="relative">
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              className="appearance-none bg-white border border-border-subtle rounded-xl pl-4 pr-10 py-2 text-sm font-medium focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand shadow-sm cursor-pointer"
+            >
+              {availableMonths.map(m => (
+                <option key={m} value={m}>{formatMonthName(m)}</option>
+              ))}
+            </select>
+            <ChevronDown className="w-4 h-4 text-text-muted absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
+        )}
+      </div>
+
+      {/* Analytics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white border border-border-subtle p-6 rounded-2xl shadow-sm flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center shrink-0">
+            <Wallet className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-text-muted text-sm font-medium mb-1">Pendapatan Lunas</p>
+            <h3 className="text-2xl font-semibold text-text-main">Rp {totalEarnings.toLocaleString('id-ID')}</h3>
+          </div>
+        </div>
+        
+        <div className="bg-white border border-border-subtle p-6 rounded-2xl shadow-sm flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+            <ShoppingBag className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-text-muted text-sm font-medium mb-1">Total Pesanan</p>
+            <h3 className="text-2xl font-semibold text-text-main">{totalOrders}</h3>
+          </div>
+        </div>
+        
+        <div className="bg-white border border-border-subtle p-6 rounded-2xl shadow-sm flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center shrink-0">
+            <AlertCircle className="w-6 h-6" />
+          </div>
+          <div>
+            <p className="text-text-muted text-sm font-medium mb-1">Menunggu Pembayaran</p>
+            <h3 className="text-2xl font-semibold text-text-main">{totalPending}</h3>
+          </div>
+        </div>
       </div>
 
       <div className="bg-white border border-border-subtle rounded-2xl shadow-sm overflow-hidden flex flex-col">
@@ -58,10 +189,35 @@ export default function AdminOrdersPage() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-border-subtle rounded-xl text-sm font-medium hover:bg-gray-50 transition-all w-full sm:w-auto">
-            <Filter className="w-4 h-4" />
-            Filter
-          </button>
+          <div className="relative w-full sm:w-auto">
+            <button 
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-border-subtle rounded-xl text-sm font-medium hover:bg-gray-50 transition-all w-full sm:w-auto"
+            >
+              <Filter className="w-4 h-4" />
+              {statusFilter === "All" ? "Filter Status" : `Status: ${statusFilter}`}
+            </button>
+
+            {isFilterOpen && (
+              <>
+                <div className="fixed inset-0 z-10" onClick={() => setIsFilterOpen(false)} />
+                <div className="absolute right-0 mt-2 w-48 bg-white border border-border-subtle rounded-xl shadow-lg z-20 py-1 flex flex-col">
+                  {['All', 'Lunas', 'Pending', 'Batal'].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => {
+                        setStatusFilter(s);
+                        setIsFilterOpen(false);
+                      }}
+                      className={`px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition-colors ${statusFilter === s ? 'text-brand font-medium' : 'text-text-main'}`}
+                    >
+                      {s === 'All' ? 'Semua Status' : s}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Table */}
@@ -95,8 +251,9 @@ export default function AdminOrdersPage() {
               ) : (
                 orders
                   .filter(o => 
-                    o.customer.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                    o.id.toLowerCase().includes(searchTerm.toLowerCase())
+                    (o.customer.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                     o.id.toLowerCase().includes(searchTerm.toLowerCase())) &&
+                    (statusFilter === "All" || o.status === statusFilter)
                   )
                   .map((order) => (
                   <tr key={order.id} className="hover:bg-gray-50/50 transition-colors">
@@ -115,10 +272,48 @@ export default function AdminOrdersPage() {
                     <td className="px-6 py-4">
                       <StatusBadge status={order.status} />
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="p-2 hover:bg-gray-100 rounded-lg text-text-muted hover:text-text-main transition-colors">
+                    <td className="px-6 py-4 text-right relative">
+                      <button 
+                        onClick={() => setActiveDropdown(activeDropdown === order.id ? null : order.id)}
+                        className="p-2 hover:bg-gray-100 rounded-lg text-text-muted hover:text-text-main transition-colors focus:outline-none"
+                      >
                         <MoreHorizontal className="w-5 h-5" />
                       </button>
+                      
+                      {activeDropdown === order.id && (
+                        <>
+                          <div 
+                            className="fixed inset-0 z-10" 
+                            onClick={() => setActiveDropdown(null)} 
+                          />
+                          <div className="absolute right-6 top-10 w-48 bg-white border border-border-subtle rounded-xl shadow-lg z-20 overflow-hidden flex flex-col py-1">
+                            <button 
+                              onClick={() => handleUpdateStatus(order.id, 'paid')}
+                              className="px-4 py-2.5 text-left text-sm hover:bg-gray-50 text-text-main transition-colors"
+                            >
+                              Tandai Lunas
+                            </button>
+                            <button 
+                              onClick={() => handleUpdateStatus(order.id, 'pending')}
+                              className="px-4 py-2.5 text-left text-sm hover:bg-gray-50 text-text-main transition-colors"
+                            >
+                              Tandai Pending
+                            </button>
+                            <button 
+                              onClick={() => handleUpdateStatus(order.id, 'cancelled')}
+                              className="px-4 py-2.5 text-left text-sm hover:bg-gray-50 text-text-main transition-colors border-b border-border-subtle/50"
+                            >
+                              Batalkan Pesanan
+                            </button>
+                            <button 
+                              onClick={() => handleDelete(order.id)}
+                              className="px-4 py-2.5 text-left text-sm hover:bg-red-50 text-red-600 transition-colors flex items-center gap-2"
+                            >
+                              <Trash2 className="w-4 h-4" /> Hapus
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </td>
                   </tr>
                 ))

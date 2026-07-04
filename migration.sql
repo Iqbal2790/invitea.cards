@@ -2,6 +2,9 @@
 DROP TABLE IF EXISTS public.rsvp_responses CASCADE;
 DROP TABLE IF EXISTS public.invitations CASCADE;
 DROP TABLE IF EXISTS public.orders CASCADE;
+DROP TABLE IF EXISTS public.templates CASCADE;
+DROP TABLE IF EXISTS public.testimonials CASCADE;
+DROP TABLE IF EXISTS public.admins CASCADE;
 
 -- Buat ulang tabel orders yang sudah digabung
 CREATE TABLE public.orders (
@@ -29,9 +32,22 @@ CREATE TABLE public.rsvp_responses (
     created_at timestamp with time zone DEFAULT now()
 );
 
+CREATE TABLE public.testimonials (
+    id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+    nama text NOT NULL,
+    pesan text NOT NULL,
+    is_active boolean DEFAULT true,
+    created_at timestamp with time zone DEFAULT now()
+);
+
 -- Aktifkan RLS
 ALTER TABLE public.orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.rsvp_responses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Testimonials are viewable by everyone" 
+ON public.testimonials FOR SELECT TO public 
+USING (is_active = true);
 
 -- Tambahkan policy untuk orders
 CREATE POLICY "Public can insert orders" 

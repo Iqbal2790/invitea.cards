@@ -8,6 +8,7 @@ import { ArrowRight, Sparkles, PenLine, CreditCard, Send, Quote, Star, LayoutTem
 
 export default function LandingPage() {
   const [featuredTemplates, setFeaturedTemplates] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,13 +27,27 @@ export default function LandingPage() {
         setLoading(false);
       }
     }
+
+    async function fetchTestimonials() {
+      try {
+        const res = await fetch("/api/testimonials");
+        const result = await res.json();
+        if (res.ok && result.data) {
+          setTestimonials(result.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch testimonials:", err);
+      }
+    }
+    
     fetchTemplates();
+    fetchTestimonials();
   }, []);
 
   return (
     <div className="flex flex-col items-center w-full">
       {/* Hero Section */}
-      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center overflow-hidden px-4 bg-[url('/hero-bg.png')] bg-cover bg-center bg-no-repeat">
+      <section className="relative w-full min-h-[90vh] flex flex-col items-center justify-center overflow-hidden px-4 py-24 md:py-0 bg-[url('/hero-bg.png')] bg-cover bg-center bg-no-repeat">
         <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] -z-10" />
         
         {/* Subtle decorative circles */}
@@ -43,7 +58,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-4xl mx-auto flex flex-col items-center z-10"
+          className="text-center max-w-4xl mx-auto flex flex-col items-center z-10 mt-16 md:mt-0"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-light/50 border border-brand/20 text-brand text-xs font-semibold tracking-widest uppercase mb-6 shadow-sm">
             <Sparkles className="w-3 h-3" />
@@ -210,44 +225,28 @@ export default function LandingPage() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div whileHover={{ y: -5 }} className="rounded-3xl border border-border-subtle bg-bg-base/50 p-8 space-y-6 shadow-sm">
-              <Quote className="text-brand/20 w-12 h-12" />
-              <p className="text-text-main leading-relaxed italic">
-                &quot;Desainnya sangat cantik dan mudah digunakan. Banyak tamu undangan kami yang memuji betapa elegannya undangan digital kami!&quot;
-              </p>
-              <div className="pt-4 border-t border-border-subtle">
-                <p className="font-serif font-medium text-lg text-text-main">Amanda &amp; Reza</p>
-                <div className="flex text-yellow-400 mt-1">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-                </div>
+            {testimonials.length > 0 ? (
+              testimonials.map((testi) => (
+                <motion.div key={testi.id} whileHover={{ y: -5 }} className="rounded-3xl border border-border-subtle bg-bg-base/50 p-8 space-y-6 shadow-sm flex flex-col justify-between">
+                  <div>
+                    <Quote className="text-brand/20 w-12 h-12 mb-6" />
+                    <p className="text-text-main leading-relaxed italic">
+                      &quot;{testi.pesan}&quot;
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-border-subtle mt-6">
+                    <p className="font-serif font-medium text-lg text-text-main">{testi.nama}</p>
+                    <div className="flex text-yellow-400 mt-1">
+                      {[...Array(testi.rating || 5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-12 text-text-muted">
+                Belum ada testimoni.
               </div>
-            </motion.div>
-            
-            <motion.div whileHover={{ y: -5 }} className="rounded-3xl border border-border-subtle bg-bg-base/50 p-8 space-y-6 shadow-sm">
-              <Quote className="text-brand/20 w-12 h-12" />
-              <p className="text-text-main leading-relaxed italic">
-                &quot;Proses pembuatannya benar-benar instan. Saya bisa langsung menyebarkan undangan ke grup keluarga tanpa harus menunggu lama.&quot;
-              </p>
-              <div className="pt-4 border-t border-border-subtle">
-                <p className="font-serif font-medium text-lg text-text-main">Sarah Wijaya</p>
-                <div className="flex text-yellow-400 mt-1">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div whileHover={{ y: -5 }} className="rounded-3xl border border-border-subtle bg-bg-base/50 p-8 space-y-6 shadow-sm">
-              <Quote className="text-brand/20 w-12 h-12" />
-              <p className="text-text-main leading-relaxed italic">
-                &quot;Sangat membantu untuk merekap RSVP dari tamu. Tampilannya manis dan harganya sangat terjangkau untuk kualitas sebagus ini.&quot;
-              </p>
-              <div className="pt-4 border-t border-border-subtle">
-                <p className="font-serif font-medium text-lg text-text-main">Dinda &amp; Bima</p>
-                <div className="flex text-yellow-400 mt-1">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-                </div>
-              </div>
-            </motion.div>
+            )}
           </div>
         </div>
       </section>

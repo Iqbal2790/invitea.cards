@@ -65,7 +65,8 @@ export async function GET(request) {
         status: o.status_payment === 'paid' || o.status_payment === 'success' ? 'Lunas' : 
                 o.status_payment === 'pending' ? 'Pending' : 'Batal',
         amount: o.templates?.harga || 0,
-        magic_token: o.magic_token || null
+        magic_token: o.magic_token || null,
+        raw_date: o.created_at
       };
     });
 

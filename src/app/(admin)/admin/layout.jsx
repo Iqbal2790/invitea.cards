@@ -25,8 +25,8 @@ export default function AdminLayout({ children }) {
       icon: LayoutDashboard,
     },
     {
-      name: "Kelola Template",
-      href: "/admin/templates",
+      name: "Kelola Landing Page",
+      href: "/admin/landing-page",
       icon: Library,
     },
     {
