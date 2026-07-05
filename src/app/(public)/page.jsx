@@ -78,7 +78,7 @@ export default async function LandingPage() {
                 )}
                 <div className="absolute left-[24px] bottom-[22px] text-cream-text z-10">
                   <div className="text-[12.5px] font-semibold tracking-[0.04em] opacity-85 uppercase">
-                    {primaryTemplate.fields_config?.subCategory || primaryTemplate.kategori}
+                    {primaryTemplate.kategori}
                   </div>
                   <div className="font-serif italic text-[1.9rem] mt-[4px]">
                     {primaryTemplate.nama}
@@ -93,9 +93,9 @@ export default async function LandingPage() {
             )}
 
             {/* Secondary Stack (Short) */}
-            <div className="flex flex-col gap-[clamp(20px,3vw,32px)]">
+            <div className="flex flex-col gap-[clamp(20px,3vw,32px)] h-full">
               {secondaryTemplates.map((template) => (
-                <Link key={template.id} href={`/templates/${template.id}`} className="relative rounded-[6px] overflow-hidden bg-berry-deep group block h-[264px]">
+                <Link key={template.id} href={`/templates/${template.id}`} className="relative rounded-[6px] overflow-hidden bg-berry-deep group block flex-1 min-h-[264px]">
                   {template.thumbnail_url ? (
                     <Image 
                       src={template.thumbnail_url}
@@ -108,7 +108,7 @@ export default async function LandingPage() {
                   )}
                   <div className="absolute left-[24px] bottom-[22px] text-cream-text z-10">
                     <div className="text-[12.5px] font-semibold tracking-[0.04em] opacity-85 uppercase">
-                      {template.fields_config?.subCategory || template.kategori}
+                      {template.kategori}
                     </div>
                     <div className="font-serif italic text-[1.9rem] mt-[4px]">
                       {template.nama}
@@ -116,6 +116,13 @@ export default async function LandingPage() {
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
                 </Link>
+              ))}
+
+              {/* Pad with empty placeholders if less than 2 secondary templates exist */}
+              {Array.from({ length: Math.max(0, 2 - secondaryTemplates.length) }).map((_, i) => (
+                <div key={`empty-${i}`} className="rounded-[6px] bg-berry-deep/10 flex-1 min-h-[264px] flex items-center justify-center text-ink-soft">
+                  Belum ada template
+                </div>
               ))}
             </div>
           </div>
