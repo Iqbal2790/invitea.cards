@@ -102,10 +102,10 @@ export default function OrderDashboardPage({ params }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-base">
-        <div className="flex flex-col items-center gap-2">
-          <Loader2 className="w-8 h-8 animate-spin text-brand" />
-          <p className="text-text-muted font-medium">Memuat dashboard...</p>
+      <div className="min-h-screen flex items-center justify-center bg-bg transition-colors duration-400">
+        <div className="flex flex-col items-center gap-[12px]">
+          <Loader2 className="w-[32px] h-[32px] animate-spin text-berry dark:text-pink" />
+          <p className="text-ink-soft font-medium text-[15px]">Memuat dashboard...</p>
         </div>
       </div>
     );
@@ -113,11 +113,11 @@ export default function OrderDashboardPage({ params }) {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-base p-4">
-        <div className="bg-red-50 border border-red-200 text-red-700 p-6 rounded-2xl max-w-md text-center shadow-sm">
-          <h2 className="font-bold text-lg mb-2">Terjadi Kesalahan</h2>
-          <p className="mb-4 text-sm">{error}</p>
-          <Link href="/" className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-full font-medium inline-block transition-colors">
+      <div className="min-h-screen flex items-center justify-center bg-bg p-[24px]">
+        <div className="bg-red-50/50 border border-red-200 text-red-700 p-[32px] rounded-[6px] max-w-[480px] text-center shadow-sm">
+          <h2 className="font-serif italic text-[24px] font-semibold mb-[8px]">Terjadi Kesalahan</h2>
+          <p className="mb-[24px] text-[15px]">{error}</p>
+          <Link href="/" className="px-[24px] py-[12px] bg-red-600 hover:bg-red-700 text-white rounded-full font-medium inline-block transition-colors shadow-sm">
             Kembali ke Beranda
           </Link>
         </div>
@@ -142,47 +142,47 @@ export default function OrderDashboardPage({ params }) {
   });
 
   return (
-    <div className="min-h-screen bg-bg-base font-sans pb-20">
+    <div className="min-h-screen bg-bg transition-colors duration-400 font-sans pb-[80px]">
       
       {/* 1. HEADER */}
-      <header className="bg-white border-b border-border-subtle sticky top-0 z-40">
-        <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="bg-header-bg backdrop-blur-[10px] border-b border-header-border sticky top-0 z-40 transition-colors duration-400">
+        <div className="max-w-[800px] mx-auto px-[clamp(20px,5vw,32px)] py-[16px] flex items-center justify-between">
           <div>
-            <h1 className="font-serif text-xl font-bold text-text-main">Manajemen Undangan</h1>
-            <p className="text-xs text-text-muted mt-0.5 font-medium tracking-wide">
-              TOKEN: <span className="text-text-main font-mono">{magicToken.substring(0, 8)}***</span>
+            <h1 className="font-serif italic text-[24px] font-semibold text-ink leading-tight">Manajemen Undangan</h1>
+            <p className="text-[12px] text-ink-soft mt-[2px] font-medium tracking-wide uppercase">
+              TOKEN: <span className="text-ink font-mono font-semibold">{magicToken.substring(0, 8)}***</span>
             </p>
           </div>
-          <div className="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center border border-brand/20 shadow-sm">
-            <span className="font-serif font-bold text-brand text-xs">IV</span>
+          <div className="w-[36px] h-[36px] rounded-full bg-bg-alt flex items-center justify-center border border-hairline shadow-sm">
+            <span className="font-serif italic font-bold text-berry dark:text-pink text-[14px]">IV</span>
           </div>
         </div>
       </header>
 
-      <main className="max-w-3xl mx-auto px-4 py-8 space-y-8">
+      <main className="max-w-[800px] mx-auto px-[clamp(20px,5vw,32px)] py-[clamp(32px,5vw,64px)] space-y-[40px]">
         
         {/* 2. STATUS & INFO KARTU */}
-        <section className="bg-white rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle flex flex-col md:flex-row justify-between gap-6 transition-all hover:shadow-md">
-          <div className="space-y-1">
-            <p className="text-xs text-text-muted font-medium uppercase tracking-wider">Template Aktif</p>
-            <h2 className="text-lg font-semibold text-text-main">{templateName}</h2>
+        <section className="bg-bg-alt rounded-[6px] p-[clamp(24px,4vw,32px)] shadow-sm border border-hairline flex flex-col md:flex-row justify-between gap-[24px] transition-all">
+          <div className="space-y-[4px]">
+            <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em]">Template Aktif</p>
+            <h2 className="text-[20px] font-serif italic text-ink font-medium">{templateName}</h2>
             
-            <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border-subtle/50">
-              <CalendarDays className="w-4 h-4 text-text-muted" />
-              <span className="text-sm text-text-muted">
-                Berlaku s/d: <strong className="text-text-main font-medium">{expiredDate}</strong>
+            <div className="flex items-center gap-[8px] mt-[16px] pt-[16px] border-t border-hairline/50">
+              <CalendarDays className="w-4 h-4 text-ink-soft" />
+              <span className="text-[13.5px] text-ink-soft">
+                Berlaku s/d: <strong className="text-ink font-medium">{expiredDate}</strong>
               </span>
             </div>
           </div>
 
-          <div className="flex flex-col md:items-end justify-center gap-2">
-            <p className="text-xs text-text-muted font-medium uppercase tracking-wider">Status Pembayaran</p>
+          <div className="flex flex-col md:items-end justify-center gap-[8px]">
+            <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em]">Status Pembayaran</p>
             {orderData.status_payment === "paid" || orderData.status_payment === "settlement" ? (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 border border-green-200 text-green-700 text-sm font-medium">
+              <div className="inline-flex items-center gap-[6px] px-[14px] py-[6px] rounded-full bg-green-50/80 border border-green-200/50 text-green-700 text-[13px] font-semibold">
                 <CheckCircle2 className="w-4 h-4" /> Lunas
               </div>
             ) : (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-50 border border-yellow-200 text-yellow-700 text-sm font-medium">
+              <div className="inline-flex items-center gap-[6px] px-[14px] py-[6px] rounded-full bg-orange-50/80 border border-orange-200/50 text-orange-700 text-[13px] font-semibold">
                 <Clock className="w-4 h-4" /> {orderData.status_payment === "pending" ? "Menunggu Pembayaran" : "Dibatalkan / Gagal"}
               </div>
             )}
@@ -191,17 +191,17 @@ export default function OrderDashboardPage({ params }) {
 
         {/* 3. TAUTAN UNDANGAN */}
         <section>
-          <h3 className="font-serif text-lg font-semibold text-text-main mb-3">Sebar Undangan Anda</h3>
-          <div className="bg-white rounded-3xl p-2 pl-4 md:pl-6 shadow-sm border border-border-subtle flex flex-col md:flex-row md:items-center gap-3 hover:shadow-md transition-all">
+          <h3 className="font-serif italic text-[24px] font-semibold text-ink mb-[16px]">Sebar Undangan Anda</h3>
+          <div className="bg-bg-alt rounded-[6px] p-[8px] pl-[16px] md:pl-[24px] shadow-sm border border-hairline flex flex-col md:flex-row md:items-center gap-[12px] transition-all">
             <div className="flex-1 overflow-hidden">
-              <p className="text-sm text-text-main font-medium truncate pt-2 md:pt-0 pb-1 md:pb-0">
+              <p className="text-[15px] text-ink font-medium truncate pt-[8px] md:pt-0 pb-[4px] md:pb-0">
                 {liveLink}
               </p>
             </div>
-            <div className="flex items-center gap-2 mt-1 md:mt-0">
+            <div className="flex items-center gap-[8px] mt-[4px] md:mt-0">
               <button 
                 onClick={handleCopy}
-                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-bg-base border border-border-subtle text-text-main text-sm font-medium hover:bg-gray-100 transition-colors"
+                className="flex-1 md:flex-none flex items-center justify-center gap-[8px] px-[20px] py-[10px] rounded-full bg-transparent border-[1.5px] border-hairline text-ink text-[14px] font-medium hover:border-berry dark:hover:border-pink hover:text-berry dark:hover:text-pink transition-colors"
               >
                 {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
                 {copied ? "Tersalin!" : "Salin"}
@@ -210,7 +210,7 @@ export default function OrderDashboardPage({ params }) {
               <Link
                 href={`/u/${data.slug}`}
                 target="_blank"
-                className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand text-white text-sm font-medium hover:bg-brand/90 hover:shadow-md hover:-translate-y-0.5 transition-all"
+                className="flex-1 md:flex-none flex items-center justify-center gap-[8px] px-[24px] py-[10px] rounded-full bg-pink-btn-bg text-cream-text text-[14px] font-semibold shadow-[var(--shadow-pink)] hover:-translate-y-[2px] transition-all"
               >
                 <ExternalLink className="w-4 h-4" /> Buka
               </Link>
@@ -220,27 +220,27 @@ export default function OrderDashboardPage({ params }) {
 
         {/* NEW: 4. EDITOR UNDANGAN */}
         <section>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-serif text-lg font-semibold text-text-main">Konten Undangan</h3>
+          <div className="flex items-center justify-between mb-[16px]">
+            <h3 className="font-serif italic text-[24px] font-semibold text-ink">Konten Undangan</h3>
             {!isEditing && (
               <button 
                 onClick={() => setIsEditing(true)}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-brand/10 text-brand text-sm font-medium hover:bg-brand/20 transition-colors"
+                className="flex items-center gap-[8px] px-[16px] py-[8px] rounded-full bg-bg-alt border border-hairline text-ink text-[13px] font-semibold hover:border-berry hover:text-berry dark:hover:border-pink dark:hover:text-pink transition-colors"
               >
-                <Edit className="w-4 h-4" /> Edit Data
+                <Edit className="w-[14px] h-[14px]" /> Edit Data
               </button>
             )}
           </div>
 
-          <div className="bg-white rounded-[2rem] p-6 md:p-8 shadow-sm border border-border-subtle transition-all">
+          <div className="bg-bg-alt rounded-[6px] p-[clamp(24px,4vw,40px)] shadow-sm border border-hairline transition-all">
             {isEditing ? (
-              <form onSubmit={handleSave} className="space-y-5 animate-in fade-in zoom-in-95 duration-200">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <form onSubmit={handleSave} className="space-y-[24px] animate-in fade-in zoom-in-95 duration-200">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
                   <div>
-                    <label className="block text-sm font-medium text-text-main mb-1.5">Nama Pria</label>
+                    <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Nama Pria</label>
                     <input 
                       type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-border-subtle focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all bg-bg-base"
+                      className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
                       value={editForm.nama_pria}
                       onChange={e => setEditForm({...editForm, nama_pria: e.target.value})}
                       placeholder="Contoh: Romeo"
@@ -248,10 +248,10 @@ export default function OrderDashboardPage({ params }) {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-main mb-1.5">Nama Wanita</label>
+                    <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Nama Wanita</label>
                     <input 
                       type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-border-subtle focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all bg-bg-base"
+                      className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
                       value={editForm.nama_wanita}
                       onChange={e => setEditForm({...editForm, nama_wanita: e.target.value})}
                       placeholder="Contoh: Juliet"
@@ -259,10 +259,10 @@ export default function OrderDashboardPage({ params }) {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-main mb-1.5">Tanggal Acara</label>
+                    <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Tanggal Acara</label>
                     <input 
                       type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-border-subtle focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all bg-bg-base"
+                      className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
                       value={editForm.tanggal_acara}
                       onChange={e => setEditForm({...editForm, tanggal_acara: e.target.value})}
                       placeholder="Contoh: 14 Februari 2027"
@@ -270,10 +270,10 @@ export default function OrderDashboardPage({ params }) {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-text-main mb-1.5">Lokasi Acara</label>
+                    <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Lokasi Acara</label>
                     <input 
                       type="text"
-                      className="w-full px-4 py-3 rounded-xl border border-border-subtle focus:border-brand focus:ring-1 focus:ring-brand outline-none transition-all bg-bg-base"
+                      className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
                       value={editForm.lokasi_acara}
                       onChange={e => setEditForm({...editForm, lokasi_acara: e.target.value})}
                       placeholder="Contoh: Gedung Pernikahan..."
@@ -282,7 +282,7 @@ export default function OrderDashboardPage({ params }) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 pt-5 border-t border-border-subtle mt-6 justify-end">
+                <div className="flex items-center gap-[12px] pt-[24px] border-t border-hairline mt-[32px] justify-end">
                   <button 
                     type="button"
                     onClick={() => {
@@ -295,14 +295,14 @@ export default function OrderDashboardPage({ params }) {
                         lokasi_acara: content.lokasi_acara || ""
                       });
                     }}
-                    className="px-6 py-2.5 rounded-full border border-border-subtle text-text-main text-sm font-medium hover:bg-gray-50 transition-colors"
+                    className="px-[24px] py-[12px] rounded-full border-[1.5px] border-hairline text-ink text-[14px] font-medium hover:border-berry dark:hover:border-pink hover:text-berry dark:hover:text-pink transition-colors"
                   >
                     Batal
                   </button>
                   <button 
                     type="submit"
                     disabled={isSaving}
-                    className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-brand text-white text-sm font-medium hover:bg-brand/90 hover:shadow-md transition-all disabled:opacity-70 disabled:hover:shadow-none"
+                    className="flex items-center gap-[8px] px-[24px] py-[12px] rounded-full bg-pink-btn-bg text-cream-text text-[14px] font-semibold shadow-[var(--shadow-pink)] hover:-translate-y-[2px] transition-all disabled:opacity-70 disabled:hover:shadow-none disabled:hover:translate-y-0"
                   >
                     {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                     Simpan Perubahan
@@ -310,20 +310,20 @@ export default function OrderDashboardPage({ params }) {
                 </div>
               </form>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[24px] gap-x-[24px]">
                 <div>
-                  <p className="text-xs text-text-muted font-medium uppercase tracking-wide mb-1">Nama Pasangan</p>
-                  <p className="text-text-main font-medium text-lg">
+                  <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Nama Pasangan</p>
+                  <p className="text-ink font-medium text-[16.5px]">
                     {data.data_content?.nama_pria || "-"} &amp; {data.data_content?.nama_wanita || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-text-muted font-medium uppercase tracking-wide mb-1">Tanggal Acara</p>
-                  <p className="text-text-main font-medium text-lg">{data.data_content?.tanggal_acara || "-"}</p>
+                  <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Tanggal Acara</p>
+                  <p className="text-ink font-medium text-[16.5px]">{data.data_content?.tanggal_acara || "-"}</p>
                 </div>
-                <div className="sm:col-span-2 pt-2 sm:pt-0">
-                  <p className="text-xs text-text-muted font-medium uppercase tracking-wide mb-1">Lokasi Acara</p>
-                  <p className="text-text-main font-medium">{data.data_content?.lokasi_acara || "-"}</p>
+                <div className="sm:col-span-2 pt-[8px] sm:pt-0">
+                  <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Lokasi Acara</p>
+                  <p className="text-ink font-medium text-[16.5px]">{data.data_content?.lokasi_acara || "-"}</p>
                 </div>
               </div>
             )}
@@ -332,54 +332,54 @@ export default function OrderDashboardPage({ params }) {
 
         {/* 5. DAFTAR RSVP & BUKU TAMU */}
         <section>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-serif text-lg font-semibold text-text-main">Buku Tamu & RSVP</h3>
-            <div className="flex items-center gap-1.5 text-sm text-text-muted bg-white px-4 py-1.5 rounded-full border border-border-subtle shadow-sm font-medium">
+          <div className="flex items-center justify-between mb-[16px]">
+            <h3 className="font-serif italic text-[24px] font-semibold text-ink">Buku Tamu & RSVP</h3>
+            <div className="flex items-center gap-[6px] text-[13px] text-ink-soft bg-bg-alt px-[14px] py-[6px] rounded-full border border-hairline shadow-sm font-semibold">
               <Users className="w-4 h-4" /> {rsvpData.length} Total
             </div>
           </div>
 
           {/* Statistik Mini */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="bg-green-50/50 border border-green-100 rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-sm">
-              <p className="text-4xl font-bold text-green-600 mb-1">{totalHadir}</p>
-              <p className="text-xs font-semibold text-green-800 uppercase tracking-wider">Akan Hadir</p>
+          <div className="grid grid-cols-2 gap-[16px] mb-[24px]">
+            <div className="bg-bg-alt border border-hairline rounded-[6px] p-[20px] flex flex-col items-center justify-center text-center shadow-sm">
+              <p className="text-[32px] font-sans font-bold text-green-600 dark:text-green-500 mb-[4px] leading-none">{totalHadir}</p>
+              <p className="text-[11.5px] font-bold text-ink-soft uppercase tracking-[0.06em]">Akan Hadir</p>
             </div>
-            <div className="bg-red-50/50 border border-red-100 rounded-2xl p-5 flex flex-col items-center justify-center text-center shadow-sm">
-              <p className="text-4xl font-bold text-red-500 mb-1">{totalTidakHadir}</p>
-              <p className="text-xs font-semibold text-red-800 uppercase tracking-wider">Tidak Hadir</p>
+            <div className="bg-bg-alt border border-hairline rounded-[6px] p-[20px] flex flex-col items-center justify-center text-center shadow-sm">
+              <p className="text-[32px] font-sans font-bold text-red-500/80 mb-[4px] leading-none">{totalTidakHadir}</p>
+              <p className="text-[11.5px] font-bold text-ink-soft uppercase tracking-[0.06em]">Tidak Hadir</p>
             </div>
           </div>
 
           {/* Grid Kartu Tamu */}
           {rsvpData.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px]">
               {rsvpData.map((guest) => (
-                <div key={guest.id} className="bg-white p-5 rounded-2xl border border-border-subtle shadow-sm hover:shadow-md transition-shadow flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-3">
+                <div key={guest.id} className="bg-bg-alt p-[20px] rounded-[6px] border border-hairline shadow-sm hover:border-hairline/80 transition-colors flex flex-col h-full">
+                  <div className="flex items-start justify-between mb-[16px]">
                     <div>
-                      <h4 className="font-semibold text-text-main">{guest.nama_tamu}</h4>
-                      <p className="text-xs text-text-muted mt-0.5">
+                      <h4 className="font-semibold text-ink text-[15px]">{guest.nama_tamu}</h4>
+                      <p className="text-[12px] text-ink-soft mt-[2px]">
                         {new Date(guest.created_at).toLocaleDateString('id-ID', {
                           day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                         })}
                       </p>
                     </div>
                     {guest.hadir ? (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 text-green-700 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                      <span className="inline-flex items-center gap-[4px] px-[8px] py-[4px] bg-green-50/80 text-green-700 border border-green-200/50 rounded-[4px] text-[10px] font-bold uppercase tracking-wider">
                         <Check className="w-3 h-3" /> Hadir
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-red-100 text-red-600 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                      <span className="inline-flex items-center gap-[4px] px-[8px] py-[4px] bg-red-50/80 text-red-600 border border-red-200/50 rounded-[4px] text-[10px] font-bold uppercase tracking-wider">
                         <X className="w-3 h-3" /> Tidak
                       </span>
                     )}
                   </div>
                   
                   {/* Pesan Tamu (if any) */}
-                  <div className="flex-1 bg-bg-base/70 p-4 rounded-xl border border-border-subtle/50 relative mt-2">
-                    <MessageSquare className="w-4 h-4 text-text-muted/30 absolute top-4 right-4" />
-                    <p className="text-sm text-text-main italic pr-6 leading-relaxed">
+                  <div className="flex-1 bg-bg p-[16px] rounded-[4px] border border-hairline/50 relative mt-[8px]">
+                    <MessageSquare className="w-4 h-4 text-ink-soft/40 absolute top-4 right-4" />
+                    <p className="text-[14px] text-ink italic pr-[24px] leading-relaxed">
                       "{guest.pesan || "Tidak meninggalkan pesan khusus."}"
                     </p>
                   </div>
@@ -387,12 +387,12 @@ export default function OrderDashboardPage({ params }) {
               ))}
             </div>
           ) : (
-            <div className="bg-white border-2 border-dashed border-border-subtle rounded-[2rem] p-12 text-center flex flex-col items-center justify-center">
-              <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                <Users className="w-8 h-8 text-text-muted" />
+            <div className="bg-bg-alt border-2 border-dashed border-hairline rounded-[6px] p-[clamp(32px,5vw,48px)] text-center flex flex-col items-center justify-center">
+              <div className="w-[64px] h-[64px] bg-bg rounded-full flex items-center justify-center mb-[16px] shadow-sm">
+                <Users className="w-[28px] h-[28px] text-ink-soft" />
               </div>
-              <p className="text-text-main font-semibold text-lg mb-1">Belum Ada Tamu</p>
-              <p className="text-sm text-text-muted max-w-sm">Tamu yang mengisi form RSVP dari undangan digital Anda akan otomatis muncul di sini.</p>
+              <p className="text-ink font-serif italic text-[24px] font-semibold mb-[4px]">Belum Ada Tamu</p>
+              <p className="text-[14.5px] text-ink-soft max-w-[300px]">Tamu yang mengisi form RSVP dari undangan digital Anda akan otomatis muncul di sini.</p>
             </div>
           )}
 

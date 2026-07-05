@@ -22,21 +22,21 @@ export default function PreviewPage({ params }) {
     <div className="min-h-screen bg-stone-900 flex flex-col font-sans">
       
       {/* Floating Preview Bar (Desktop/Tablet mostly) */}
-      <div className="bg-white border-b border-stone-200 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
+      <div className="bg-header-bg backdrop-blur-[10px] border-b border-header-border px-4 py-3 flex items-center justify-between sticky top-0 z-50 transition-colors duration-400">
         <Link 
           href={`/templates/${id}`}
-          className="inline-flex items-center text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors"
+          className="inline-flex items-center text-[14.5px] font-medium text-ink-soft hover:text-ink transition-colors group"
         >
-          <ChevronLeft className="w-4 h-4 mr-1" /> Kembali
+          <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" /> Kembali
         </Link>
         
-        <div className="hidden md:flex items-center gap-2 text-sm font-medium text-stone-400">
+        <div className="hidden md:flex items-center gap-2 text-[14px] font-medium text-ink-soft">
           <Smartphone className="w-4 h-4" /> Mode Pratinjau (Mobile View)
         </div>
 
         <Link 
           href={`/buat/${id}`}
-          className="bg-brand text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-brand/90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5"
+          className="inline-flex items-center justify-center px-[24px] py-[10px] rounded-full font-sans font-semibold text-[14px] tracking-[0.01em] bg-pink-btn-bg text-cream-text shadow-[var(--shadow-pink)] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px] hover:shadow-[0_16px_34px_-12px_var(--shadow-pink)]"
         >
           Gunakan Template Ini
         </Link>

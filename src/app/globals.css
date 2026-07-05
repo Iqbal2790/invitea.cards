@@ -1,25 +1,98 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand: #B76E79;
-  --color-brand-light: #F4E1E1;
-  --color-bg-base: #FAFAFA;
-  --color-text-main: #333333;
-  --color-text-muted: #888888;
-  --color-border-subtle: #EAEAEA;
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-berry: var(--berry);
+  --color-berry-deep: var(--berry-deep);
+  --color-pink: var(--pink);
+  --color-pink-btn-bg: var(--pink-btn-bg);
+  --color-pink-btn-text: var(--pink-btn-text);
+  --color-pink-soft: var(--pink-soft);
+  --color-pink-line: var(--pink-line);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-cream-text: var(--cream-text);
+  --color-header-bg: var(--header-bg);
+  --color-header-border: var(--header-border);
+  --color-hairline: var(--hairline);
+  --color-photo-frame: var(--photo-frame);
+  
+  --shadow-pink: 0 10px 30px -12px var(--shadow-pink);
+  --shadow-photo: 0 40px 70px -30px var(--shadow-photo);
 
   --font-serif: var(--font-cormorant);
-  --font-sans: var(--font-montserrat);
+  --font-sans: var(--font-manrope);
+}
+
+@layer base {
+  :root {
+    --bg: oklch(96% 0.02 75);
+    --bg-alt: oklch(91% 0.035 25);
+    --berry: oklch(38% 0.14 15);
+    --berry-deep: oklch(28% 0.11 15);
+    --pink: oklch(72% 0.09 16);
+    --pink-btn-bg: oklch(58% 0.13 15);
+    --pink-btn-text: oklch(28% 0.06 15);
+    --pink-soft: oklch(91% 0.03 20);
+    --pink-line: oklch(84% 0.05 18);
+    --ink: oklch(23% 0.03 40);
+    --ink-soft: oklch(40% 0.03 35);
+    --cream-text: oklch(94% 0.02 70);
+    --header-bg: oklch(96% 0.02 75 / 0.82);
+    --header-border: oklch(85% 0.03 25 / 0.6);
+    --hairline: oklch(70% 0.04 20 / 0.5);
+    --shadow-pink: oklch(72% 0.09 16 / 0.35);
+    --shadow-photo: oklch(28% 0.11 15 / 0.35);
+    --photo-frame: oklch(91% 0.03 20);
+    color-scheme: light;
+  }
+
+  .dark {
+    --bg: oklch(21% 0.025 30);
+    --bg-alt: oklch(25% 0.03 24);
+    --berry: oklch(32% 0.10 16);
+    --berry-deep: oklch(15% 0.04 20);
+    --pink: oklch(74% 0.10 18);
+    --pink-btn-bg: oklch(55% 0.12 17);
+    --pink-btn-text: oklch(18% 0.04 20);
+    --pink-soft: oklch(32% 0.045 20);
+    --pink-line: oklch(52% 0.07 18);
+    --ink: oklch(92% 0.02 70);
+    --ink-soft: oklch(75% 0.025 60);
+    --cream-text: oklch(95% 0.015 70);
+    --header-bg: oklch(21% 0.025 30 / 0.82);
+    --header-border: oklch(40% 0.03 25 / 0.5);
+    --hairline: oklch(45% 0.03 20 / 0.5);
+    --shadow-pink: oklch(74% 0.10 18 / 0.25);
+    --shadow-photo: oklch(5% 0.01 20 / 0.55);
+    --photo-frame: oklch(30% 0.04 20);
+    color-scheme: dark;
+  }
 }
 
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
   body {
-    @apply bg-bg-base text-text-main font-sans antialiased;
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif;
+  
+  h1, h2, h3, .display {
+    font-weight: 500;
+    line-height: 1.08;
+    margin: 0;
+  }
+  
+  em {
+    font-style: italic;
+    color: var(--color-pink-btn-text);
+  }
+  
+  .dark em {
+    color: var(--color-pink);
   }
 }
 
