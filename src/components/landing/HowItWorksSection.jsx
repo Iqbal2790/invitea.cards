@@ -1,58 +1,93 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PenLine, CreditCard, Send, LayoutTemplate } from "lucide-react";
 
 export default function HowItWorksSection() {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } }
+  };
+
   return (
-    <section id="cara-kerja" className="w-full py-24 bg-bg-base border-t border-border-subtle">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="font-serif text-3xl md:text-5xl font-semibold text-text-main">Sesederhana Itu</h2>
-          <p className="text-text-muted text-lg max-w-xl mx-auto">Tidak perlu keahlian teknis. Hanya dengan 4 langkah mudah, undangan cantik Anda siap dibagikan.</p>
-        </div>
+    <section id="cara-kerja" className="py-[clamp(64px,9vw,120px)] w-full">
+      <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)]">
+        
+        <motion.div 
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={item}
+          className="max-w-[640px] mb-[clamp(40px,6vw,68px)]"
+        >
+          <h2 className="font-serif font-medium text-[clamp(2rem,4vw,2.9rem)] leading-[1.08] text-ink">
+            Sesederhana Itu
+          </h2>
+          <p className="mt-[16px] text-ink-soft text-[16px]">
+            Tidak perlu keahlian teknis. Hanya dengan 4 langkah mudah, undangan cantik Anda siap dibagikan.
+          </p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle flex flex-col items-start">
-            <div className="w-14 h-14 bg-brand-light/50 rounded-2xl flex items-center justify-center text-brand mb-6">
-              <LayoutTemplate className="w-6 h-6" />
+        <motion.div 
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={container}
+          className="flex flex-col"
+        >
+          {/* Step 01 */}
+          <motion.div variants={item} className="grid grid-cols-[80px_1fr] md:grid-cols-[110px_1fr] gap-[clamp(16px,4vw,48px)] py-[34px] border-t border-hairline items-start group">
+            <span className="font-serif italic text-[3rem] md:text-[3.4rem] text-pink-line leading-[1] mt-[-4px]">01</span>
+            <div>
+              <h3 className="font-serif font-medium text-[1.4rem] md:text-[1.5rem] mb-[8px] text-ink">Pilih Desain</h3>
+              <p className="text-ink-soft max-w-[52ch] text-[15px] md:text-[15.5px]">
+                Temukan variasi desain menawan yang paling cocok dengan nuansa acaramu.
+              </p>
             </div>
-            <h3 className="font-serif text-xl font-medium text-text-main mb-3">1. Pilih Desain</h3>
-            <p className="text-text-muted text-sm leading-relaxed">
-              Temukan variasi desain menawan yang paling cocok dengan nuansa acaramu.
-            </p>
           </motion.div>
 
-          <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle flex flex-col items-start">
-            <div className="w-14 h-14 bg-brand-light/50 rounded-2xl flex items-center justify-center text-brand mb-6">
-              <PenLine className="w-6 h-6" />
+          {/* Step 02 */}
+          <motion.div variants={item} className="grid grid-cols-[80px_1fr] md:grid-cols-[110px_1fr] gap-[clamp(16px,4vw,48px)] py-[34px] border-t border-hairline items-start group">
+            <span className="font-serif italic text-[3rem] md:text-[3.4rem] text-pink-line leading-[1] mt-[-4px]">02</span>
+            <div>
+              <h3 className="font-serif font-medium text-[1.4rem] md:text-[1.5rem] mb-[8px] text-ink">Isi Detail Acara</h3>
+              <p className="text-ink-soft max-w-[52ch] text-[15px] md:text-[15.5px]">
+                Masukkan informasi mempelai, waktu, lokasi peta, dan pesan singkat Anda.
+              </p>
             </div>
-            <h3 className="font-serif text-xl font-medium text-text-main mb-3">2. Isi Detail Acara</h3>
-            <p className="text-text-muted text-sm leading-relaxed">
-              Masukkan informasi mempelai, waktu, lokasi peta, dan pesan singkat Anda.
-            </p>
           </motion.div>
 
-          <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle flex flex-col items-start">
-            <div className="w-14 h-14 bg-brand-light/50 rounded-2xl flex items-center justify-center text-brand mb-6">
-              <CreditCard className="w-6 h-6" />
+          {/* Step 03 */}
+          <motion.div variants={item} className="grid grid-cols-[80px_1fr] md:grid-cols-[110px_1fr] gap-[clamp(16px,4vw,48px)] py-[34px] border-t border-hairline items-start group">
+            <span className="font-serif italic text-[3rem] md:text-[3.4rem] text-pink-line leading-[1] mt-[-4px]">03</span>
+            <div>
+              <h3 className="font-serif font-medium text-[1.4rem] md:text-[1.5rem] mb-[8px] text-ink">Aktivasi</h3>
+              <p className="text-ink-soft max-w-[52ch] text-[15px] md:text-[15.5px]">
+                Selesaikan pembayaran ringan dengan mudah untuk mengaktifkan tautan undanganmu.
+              </p>
             </div>
-            <h3 className="font-serif text-xl font-medium text-text-main mb-3">3. Aktivasi</h3>
-            <p className="text-text-muted text-sm leading-relaxed">
-              Selesaikan pembayaran ringan dengan mudah untuk mengaktifkan tautan undanganmu.
-            </p>
           </motion.div>
 
-          <motion.div whileHover={{ y: -5 }} className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle flex flex-col items-start">
-            <div className="w-14 h-14 bg-brand-light/50 rounded-2xl flex items-center justify-center text-brand mb-6">
-              <Send className="w-6 h-6" />
+          {/* Step 04 */}
+          <motion.div variants={item} className="grid grid-cols-[80px_1fr] md:grid-cols-[110px_1fr] gap-[clamp(16px,4vw,48px)] py-[34px] border-t border-b border-hairline items-start group">
+            <span className="font-serif italic text-[3rem] md:text-[3.4rem] text-pink-line leading-[1] mt-[-4px]">04</span>
+            <div>
+              <h3 className="font-serif font-medium text-[1.4rem] md:text-[1.5rem] mb-[8px] text-ink">Bagikan</h3>
+              <p className="text-ink-soft max-w-[52ch] text-[15px] md:text-[15.5px]">
+                Tautan eksklusif siap dibagikan ke seluruh orang terkasih melalui WhatsApp atau media sosial.
+              </p>
             </div>
-            <h3 className="font-serif text-xl font-medium text-text-main mb-3">4. Bagikan</h3>
-            <p className="text-text-muted text-sm leading-relaxed">
-              Tautan eksklusif siap dibagikan ke seluruh orang terkasih melalui WhatsApp atau media sosial.
-            </p>
           </motion.div>
-        </div>
+
+        </motion.div>
+
       </div>
     </section>
   );
