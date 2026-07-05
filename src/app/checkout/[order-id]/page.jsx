@@ -74,64 +74,64 @@ export default function CheckoutPage({ params }) {
   };
 
   return (
-    <div className="min-h-screen bg-bg-base font-sans pb-20">
+    <div className="min-h-screen bg-bg transition-colors duration-400 font-sans pb-[clamp(60px,8vw,100px)]">
       <Script 
         src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
         strategy="lazyOnload"
       />
-      {/* Simple Header */}
-      <header className="bg-white border-b border-border-subtle py-4 px-6 sticky top-0 z-20">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href={`/buat/${template.id}`} className="inline-flex items-center text-sm font-medium text-text-muted hover:text-brand transition-colors">
-            <ChevronLeft className="w-4 h-4 mr-1" /> Batal
+      {/* Elegant Header */}
+      <header className="bg-header-bg backdrop-blur-[10px] border-b border-header-border py-[16px] px-[24px] sticky top-0 z-20 transition-colors duration-400">
+        <div className="max-w-[1000px] mx-auto flex items-center justify-between">
+          <Link href={`/buat/${template.id}`} className="inline-flex items-center text-[14.5px] font-medium text-ink-soft hover:text-ink transition-colors group">
+            <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" /> Batal
           </Link>
-          <span className="font-serif text-2xl font-bold text-brand">Invitea.</span>
-          <div className="flex items-center gap-1.5 text-xs font-medium text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-200">
-            <ShieldCheck className="w-3.5 h-3.5" /> Pembayaran Aman
+          <span className="font-serif text-[28px] font-bold text-ink italic leading-none">Invitea.</span>
+          <div className="flex items-center gap-[6px] text-[12px] font-semibold tracking-wide text-green-700 bg-green-50/80 px-[14px] py-[6px] rounded-[4px] border border-green-200/50 uppercase">
+            <ShieldCheck className="w-4 h-4" /> Pembayaran Aman
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-4 mt-8 lg:mt-12">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+      <main className="max-w-[1000px] mx-auto px-[clamp(20px,5vw,32px)] mt-[clamp(32px,5vw,64px)]">
+        <div className="flex flex-col lg:flex-row gap-[clamp(32px,5vw,64px)]">
           
           {/* Left Column - Order Summary */}
-          <div className="w-full lg:w-[55%] space-y-6">
+          <div className="w-full lg:w-[55%] space-y-[32px]">
             <div>
-              <h1 className="font-serif text-3xl font-semibold text-text-main mb-2">Selesaikan Pesanan Anda</h1>
-              <p className="text-text-muted">Periksa kembali ringkasan pesanan Anda sebelum melakukan pembayaran.</p>
+              <h1 className="font-serif italic text-[2.8rem] font-semibold text-ink mb-[8px] leading-tight">Selesaikan Pesanan Anda</h1>
+              <p className="text-ink-soft text-[15px]">Periksa kembali ringkasan pesanan Anda sebelum melakukan pembayaran.</p>
             </div>
 
-            <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-border-subtle shadow-sm space-y-6">
+            <div className="bg-bg-alt rounded-[6px] p-[clamp(24px,4vw,40px)] border border-hairline shadow-sm space-y-[32px]">
               
-              <div className="flex gap-4 md:gap-6 pb-6 border-b border-border-subtle/50">
-                <div className="relative w-24 h-32 md:w-32 md:h-44 rounded-2xl overflow-hidden bg-brand-light/30 shrink-0 shadow-sm border border-border-subtle/50">
+              <div className="flex gap-[24px] pb-[32px] border-b border-hairline/50">
+                <div className="relative w-[90px] h-[120px] md:w-[120px] md:h-[160px] rounded-[4px_24px_4px_4px] overflow-hidden bg-photo-frame shrink-0 shadow-[var(--shadow-photo)] border-[3px] border-photo-frame">
                   <Image src={template.image} alt={template.title} fill className="object-cover" />
                 </div>
-                <div className="flex flex-col justify-between py-1">
+                <div className="flex flex-col justify-between py-[4px]">
                   <div>
-                    <div className="inline-flex items-center rounded-lg border px-2.5 py-0.5 text-[10px] uppercase tracking-wider font-semibold bg-brand-light/50 text-brand border-brand/20 mb-2">
+                    <div className="inline-flex items-center rounded-[4px] border border-hairline/50 px-[10px] py-[4px] text-[10px] uppercase tracking-[0.06em] font-bold bg-bg-alt text-berry dark:bg-pink/10 dark:text-pink mb-[12px]">
                       {template.category === 'undangan' ? 'Undangan Pernikahan' : 'Kartu Ucapan'}
                     </div>
-                    <h2 className="font-serif text-xl md:text-2xl font-medium text-text-main leading-tight">{template.title}</h2>
+                    <h2 className="font-serif italic text-[22px] md:text-[26px] font-medium text-ink leading-tight">{template.title}</h2>
                   </div>
                   <div>
-                    <p className="text-brand font-semibold text-lg md:text-xl">Rp {template.price.toLocaleString("id-ID")}</p>
+                    <p className="font-sans font-semibold text-[20px] md:text-[24px] text-berry dark:text-pink">Rp {template.price.toLocaleString("id-ID")}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="font-medium text-text-main text-sm">Informasi Acara (Dummy)</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-bg-base p-4 rounded-2xl border border-border-subtle/50">
-                    <span className="block text-xs text-text-muted mb-1">Mempelai</span>
-                    <span className="font-medium text-text-main text-sm">Romeo & Juliet</span>
+              <div className="space-y-[16px]">
+                <h3 className="font-semibold text-ink text-[15px]">Informasi Acara (Dummy)</h3>
+                <div className="grid grid-cols-2 gap-[16px]">
+                  <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
+                    <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Mempelai</span>
+                    <span className="font-medium text-ink text-[14.5px]">Romeo & Juliet</span>
                   </div>
-                  <div className="bg-bg-base p-4 rounded-2xl border border-border-subtle/50">
-                    <span className="block text-xs text-text-muted mb-1">Tanggal</span>
-                    <span className="font-medium text-text-main text-sm">24 Desember 2026</span>
+                  <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
+                    <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Tanggal</span>
+                    <span className="font-medium text-ink text-[14.5px]">24 Desember 2026</span>
                   </div>
                 </div>
               </div>
@@ -141,53 +141,52 @@ export default function CheckoutPage({ params }) {
 
           {/* Right Column - Payment Form */}
           <div className="w-full lg:w-[45%]">
-            <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-border-subtle shadow-[0_8px_30px_rgb(0,0,0,0.04)] sticky top-24">
+            <div className="bg-bg-alt rounded-[6px] p-[clamp(24px,4vw,40px)] border border-hairline shadow-sm lg:sticky lg:top-32">
               
-              <div className="flex items-center gap-3 p-4 bg-orange-50 border border-orange-200 text-orange-700 rounded-2xl mb-8">
-                <div className="bg-orange-100 p-2 rounded-full">
-                  <Clock className="w-5 h-5 text-orange-600" />
+              <div className="flex items-center gap-[16px] p-[16px] bg-orange-50/80 border border-orange-200/60 text-orange-800 rounded-[6px] mb-[32px]">
+                <div className="bg-orange-100/80 p-[10px] rounded-full text-orange-600">
+                  <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-orange-800/80 mb-0.5">Selesaikan pembayaran dalam</p>
-                  <p className="text-lg font-bold">24:00:00</p>
+                  <p className="text-[12.5px] font-medium text-orange-800/70 mb-[2px]">Selesaikan pembayaran dalam</p>
+                  <p className="text-[18px] font-bold tracking-tight text-orange-900">24:00:00</p>
                 </div>
               </div>
 
-              <form onSubmit={handlePayment} className="space-y-6">
+              <form onSubmit={handlePayment} className="space-y-[32px]">
                 <div>
-                  <h3 className="font-serif text-xl font-medium text-text-main mb-4">Informasi Pembeli</h3>
+                  <h3 className="font-serif italic text-[24px] font-medium text-ink mb-[16px]">Informasi Pembeli</h3>
                   
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-text-main">Alamat Email</label>
+                  <div className="space-y-[12px]">
+                    <label className="text-[14px] font-semibold text-ink">Alamat Email</label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
+                      <Mail className="absolute left-[16px] top-1/2 -translate-y-1/2 w-[20px] h-[20px] text-ink-soft" />
                       <input 
                         type="email" 
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="nama@email.com"
-                        className="w-full pl-11 pr-4 py-3.5 bg-bg-base border border-border-subtle rounded-2xl focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all text-sm"
+                        className="w-full pl-[46px] pr-[16px] py-[16px] bg-bg border border-hairline rounded-[6px] focus:outline-none focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink transition-all text-[15px] text-ink placeholder:text-ink-soft/50"
                       />
                     </div>
-                    <p className="text-xs text-text-muted ml-1">Kwitansi dan akses undangan akan dikirim ke email ini.</p>
+                    <p className="text-[12.5px] text-ink-soft ml-[2px]">Kwitansi dan akses undangan akan dikirim ke email ini.</p>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-border-subtle/50">
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="text-base font-medium text-text-main">Total Tagihan</span>
-                    <span className="text-2xl font-bold text-brand">Rp {template.price.toLocaleString("id-ID")}</span>
+                <div className="pt-[24px] border-t border-hairline/50">
+                  <div className="flex items-center justify-between mb-[24px]">
+                    <span className="text-[16px] font-medium text-ink">Total Tagihan</span>
+                    <span className="text-[26px] font-bold text-berry dark:text-pink">Rp {template.price.toLocaleString("id-ID")}</span>
                   </div>
                   
-                  {/* USING NEW PILL-SHAPED BUTTON STYLE AS INSTRUCTED IN AGENTS.MD */}
                   <button 
                     type="submit" 
                     disabled={!email || isSubmitting}
-                    className="w-full group flex items-center justify-center gap-2 bg-brand text-white py-4 rounded-full text-base font-medium hover:bg-brand/90 transition-all duration-300 shadow-md shadow-brand/20 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-md"
+                    className="w-full group flex items-center justify-center gap-[10px] bg-pink-btn-bg text-cream-text py-[18px] rounded-full font-sans font-semibold text-[16px] tracking-[0.01em] shadow-[var(--shadow-pink)] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px] hover:shadow-[0_16px_34px_-12px_var(--shadow-pink)] disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:shadow-none"
                   >
                     {isSubmitting ? 'Memproses...' : 'Bayar Sekarang'}
-                    {!isSubmitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                    {!isSubmitting && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
                   </button>
                 </div>
               </form>

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-05T03:30:00Z",
+  "title": "Design System: Invitea",
+  "extensions": {
+    "colorMeta": {
+      "primary": { "role": "primary", "displayName": "Pink Button", "canonical": "oklch(58% 0.13 15)" },
+      "secondary": { "role": "secondary", "displayName": "Berry", "canonical": "oklch(38% 0.14 15)" },
+      "neutral-bg": { "role": "neutral", "displayName": "Background", "canonical": "oklch(96% 0.02 75)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Cormorant Garamond)" },
+      "body": { "displayName": "Body (Manrope)" }
+    },
+    "shadows": [
+      { "name": "shadow-pink", "value": "0 10px 30px -12px var(--shadow-pink)" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Tombol utama bergaya kapsul dengan shadow lembut.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">BUAT SEKARANG</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 999px; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0.01em; cursor: pointer; border: 1.5px solid transparent; transition: transform 0.35s, box-shadow 0.35s, background 0.4s, color 0.4s; } .ds-btn-primary { background: oklch(58% 0.13 15); color: oklch(94% 0.02 70); box-shadow: 0 10px 30px -12px oklch(72% 0.09 16 / 0.35); } .ds-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 34px -12px oklch(72% 0.09 16 / 0.35); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Tombol sekunder transparan dengan border berry tipis.",
+      "html": "<button class=\"ds-btn ds-btn-ghost\">KARTU UCAPAN</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 999px; font-family: 'Manrope', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0.01em; cursor: pointer; border: 1.5px solid transparent; transition: transform 0.35s, box-shadow 0.35s, background 0.4s, color 0.4s; } .ds-btn-ghost { background: transparent; color: oklch(38% 0.14 15); border-color: oklch(38% 0.14 15); } .ds-btn-ghost:hover { background: oklch(38% 0.14 15); color: oklch(94% 0.02 70); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Elegan, Tenang, dan Feminin",
+    "overview": "Sistem desain ini difokuskan pada penyampaian kesan elegan yang instan dan menawan. Tampilan harus rapi, responsif di semua perangkat, dan memancarkan ketenangan. Estetika ini kini merangkul kelembutan melalui sudut-sudut membulat (kapsul) pada tombol interaktif, yang memberikan kesan friendly dan modern.",
+    "keyCharacteristics": [
+      "Dukungan light/dark mode yang harmonis secara asli (native).",
+      "Responsivitas mutlak di semua tingkat ukuran (layar ponsel hingga monitor besar).",
+      "Teks terbaca jelas dengan kontras yang kuat."
+    ],
+    "rules": [
+      {
+        "name": "The Contrast Rule",
+        "body": "Setiap paduan teks harus memiliki kontras tinggi untuk memastikan aksesibilitas tetap terjaga.",
+        "section": "colors"
+      },
+      {
+        "name": "The No All-Caps Paragraph Rule",
+        "body": "Paragraf tubuh (body text) tidak boleh diketik menggunakan huruf kapital semua.",
+        "section": "typography"
+      },
+      {
+        "name": "The Responsive Elevation Rule",
+        "body": "Shadow tidak boleh terpotong (clipped) pada layar mobile, dan setiap penempatan lapisan/tumpukan (Z-Index) harus aman untuk responsivitas layar kecil.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do gunakan sudut membulat/kapsul (rounded-full) secara konsisten pada setiap button atau pil penanda label.",
+      "Do berikan bayangan lembut pada tombol utama (pink) dan foto-foto hero untuk memberi kesan elegan terangkat.",
+      "Do selalu utamakan tampilan yang responsive di mode mobile.",
+      "Do terapkan dukungan adaptasi Dark Mode untuk semua token."
+    ],
+    "donts": [
+      "Don't gunakan desain dengan sudut tajam kaku pada elemen interaktif seperti tombol.",
+      "Don't atur gaya tipografi menjadi kapital semua (all-caps) pada teks konten/paragraf.",
+      "Don't membuat elemen yang lebarnya konstan (fixed-width) sehingga merusak layout mobile. Gunakan clamp() atau unit relatif (vw, %)."
+    ]
+  }
+}

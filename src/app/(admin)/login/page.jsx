@@ -41,57 +41,57 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-bg-base flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen w-full bg-bg transition-colors duration-400 flex flex-col items-center justify-center p-[24px] relative overflow-hidden">
       {/* Background Ornaments */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-32 -right-32 w-96 h-96 bg-brand-light/40 rounded-full blur-3xl opacity-50" />
-        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-brand/10 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -top-32 -right-32 w-96 h-96 bg-pink-soft/60 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-berry/5 rounded-full blur-3xl opacity-50" />
       </div>
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border-subtle p-8 md:p-10 relative z-10"
+        className="w-full max-w-[440px] bg-bg-alt rounded-[6px] shadow-sm border border-hairline p-[clamp(32px,5vw,48px)] relative z-10"
       >
-        <div className="text-center mb-10">
-          <h1 className="font-serif text-3xl font-bold tracking-widest text-brand mb-2">Invitea</h1>
-          <p className="text-text-muted text-sm font-medium uppercase tracking-widest">Admin Portal</p>
+        <div className="text-center mb-[40px]">
+          <h1 className="font-serif italic text-[36px] font-semibold text-ink mb-[4px]">Invitea.</h1>
+          <p className="text-ink-soft text-[11.5px] font-bold uppercase tracking-[0.1em]">Admin Portal</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 text-red-600 border border-red-100 rounded-2xl text-sm text-center font-medium">
+          <div className="mb-[24px] p-[16px] bg-red-50/80 text-red-600 border border-red-200/50 rounded-[6px] text-[13.5px] text-center font-medium">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-text-main ml-1">Email</label>
+        <form onSubmit={handleLogin} className="space-y-[24px]">
+          <div className="space-y-[8px]">
+            <label className="text-[13px] font-semibold text-ink ml-[2px]">Email</label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
+              <Mail className="absolute left-[16px] top-1/2 -translate-y-1/2 w-5 h-5 text-ink-soft" />
               <input
                 type="email"
                 required
                 placeholder="admin@invitea.cards"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-bg-base border border-border-subtle rounded-2xl focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all text-sm"
+                className="w-full pl-[48px] pr-[16px] py-[14px] bg-bg border border-hairline rounded-[6px] focus:outline-none focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink transition-all text-[14.5px] text-ink placeholder:text-ink-soft/60"
               />
             </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-text-main ml-1">Kata Sandi</label>
+          <div className="space-y-[8px]">
+            <label className="text-[13px] font-semibold text-ink ml-[2px]">Kata Sandi</label>
             <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted" />
+              <Lock className="absolute left-[16px] top-1/2 -translate-y-1/2 w-5 h-5 text-ink-soft" />
               <input
                 type="password"
                 required
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-bg-base border border-border-subtle rounded-2xl focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all text-sm"
+                className="w-full pl-[48px] pr-[16px] py-[14px] bg-bg border border-hairline rounded-[6px] focus:outline-none focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink transition-all text-[14.5px] text-ink placeholder:text-ink-soft/60"
               />
             </div>
           </div>
@@ -99,11 +99,11 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full group flex items-center justify-center gap-2 bg-brand text-white py-3.5 rounded-2xl font-medium hover:bg-brand/90 transition-all shadow-md shadow-brand/20 disabled:opacity-70 mt-2"
+            className="w-full group flex items-center justify-center gap-[8px] bg-pink-btn-bg text-cream-text py-[16px] rounded-full font-semibold text-[15px] hover:shadow-[0_16px_34px_-12px_var(--shadow-pink)] hover:-translate-y-[2px] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[var(--shadow-pink)] disabled:opacity-70 disabled:hover:shadow-none mt-[8px]"
           >
             {isLoading ? (
-              <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              <span className="flex items-center gap-[8px]">
+                <span className="w-4 h-4 border-[2.5px] border-white/20 border-t-white rounded-full animate-spin" />
                 Memproses...
               </span>
             ) : (
@@ -115,8 +115,8 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 text-center">
-          <p className="text-xs text-text-muted">
+        <div className="mt-[32px] text-center">
+          <p className="text-[12px] text-ink-soft">
             Halaman ini khusus untuk administrator Invitea.
           </p>
         </div>

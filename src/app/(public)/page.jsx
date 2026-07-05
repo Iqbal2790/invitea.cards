@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { supabaseAdmin } from "@/lib/supabase";
 
 import HeroSection from "@/components/landing/HeroSection";
@@ -41,72 +40,92 @@ export default async function LandingPage() {
     console.error("Failed to fetch testimonials:", err);
   }
 
+  const primaryTemplate = featuredTemplates[0];
+  const secondaryTemplates = featuredTemplates.slice(1, 3);
+
   return (
-    <div className="flex flex-col items-center w-full">
+    <main className="flex flex-col w-full">
       <HeroSection />
 
       <HowItWorksSection />
 
-      {/* Featured Templates */}
-      <section className="w-full py-24 bg-white relative overflow-hidden border-t border-border-subtle">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-brand/5 rounded-full blur-3xl -z-10" />
-        <div className="container mx-auto px-4 max-w-6xl space-y-12">
-          <div className="text-center space-y-4">
-            <h2 className="font-serif text-3xl md:text-5xl font-semibold text-text-main">Desain Spesial untuk Anda</h2>
-            <p className="text-text-muted text-lg max-w-xl mx-auto">
+      {/* Featured Templates (Showcase) */}
+      <section className="py-[clamp(64px,9vw,120px)] w-full bg-bg-alt transition-colors duration-400">
+        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)]">
+          <div className="max-w-[640px] mb-[clamp(40px,6vw,68px)]">
+            <h2 className="font-serif font-medium text-[clamp(2rem,4vw,2.9rem)] leading-[1.08] text-ink">
+              Desain Spesial untuk Anda
+            </h2>
+            <p className="mt-[16px] text-ink-soft text-[16px]">
               Eksplorasi ragam pilihan desain eksklusif yang siap disesuaikan dengan cerita manis Anda.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 pt-4">
-            {featuredTemplates.map((template) => (
-              <div
-                key={template.id}
-                className="rounded-3xl border border-border-subtle bg-white text-text-main shadow-[0_8px_30px_rgb(0,0,0,0.04)] group overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="relative aspect-[3/4] w-full overflow-hidden bg-brand-light/20 flex items-center justify-center">
+          <div className="grid grid-cols-1 md:grid-cols-[1.3fr_1fr] gap-[clamp(20px,3vw,32px)]">
+            
+            {/* Primary (Tall) */}
+            {primaryTemplate ? (
+              <Link href={`/templates/${primaryTemplate.id}`} className="relative rounded-[6px] overflow-hidden bg-berry-deep group block">
+                {primaryTemplate.thumbnail_url ? (
+                  <Image 
+                    src={primaryTemplate.thumbnail_url}
+                    alt={primaryTemplate.nama}
+                    fill
+                    className="w-full h-[560px] object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+                  />
+                ) : (
+                  <div className="w-full h-[560px] flex items-center justify-center text-cream-text/50">No Thumbnail</div>
+                )}
+                <div className="absolute left-[24px] bottom-[22px] text-cream-text z-10">
+                  <div className="text-[12.5px] font-semibold tracking-[0.04em] opacity-85 uppercase">
+                    {primaryTemplate.fields_config?.subCategory || primaryTemplate.kategori}
+                  </div>
+                  <div className="font-serif italic text-[1.9rem] mt-[4px]">
+                    {primaryTemplate.nama}
+                  </div>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+              </Link>
+            ) : (
+              <div className="rounded-[6px] bg-berry-deep/10 h-[560px] flex items-center justify-center text-ink-soft">
+                Belum ada template
+              </div>
+            )}
+
+            {/* Secondary Stack (Short) */}
+            <div className="flex flex-col gap-[clamp(20px,3vw,32px)]">
+              {secondaryTemplates.map((template) => (
+                <Link key={template.id} href={`/templates/${template.id}`} className="relative rounded-[6px] overflow-hidden bg-berry-deep group block h-[264px]">
                   {template.thumbnail_url ? (
-                    <Image
+                    <Image 
                       src={template.thumbnail_url}
                       alt={template.nama}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
                     />
                   ) : (
-                    <span className="text-text-muted text-sm font-medium">No Thumbnail</span>
+                    <div className="w-full h-full flex items-center justify-center text-cream-text/50">No Thumbnail</div>
                   )}
-                  <div className="absolute top-4 left-4 z-10">
-                    <div className="inline-flex items-center rounded-xl border border-transparent bg-white/90 backdrop-blur-sm px-3 py-1.5 text-[10px] uppercase tracking-wider font-semibold text-brand shadow-sm">
+                  <div className="absolute left-[24px] bottom-[22px] text-cream-text z-10">
+                    <div className="text-[12.5px] font-semibold tracking-[0.04em] opacity-85 uppercase">
                       {template.fields_config?.subCategory || template.kategori}
                     </div>
+                    <div className="font-serif italic text-[1.9rem] mt-[4px]">
+                      {template.nama}
+                    </div>
                   </div>
-                </div>
-                <div className="p-6 flex-1 flex flex-col justify-between bg-white z-10 relative">
-                  <div>
-                    <h3 className="font-serif text-xl font-medium text-text-main mb-1 truncate">{template.nama}</h3>
-                    <p className="text-brand font-medium">Rp {Number(template.harga).toLocaleString("id-ID")}</p>
-                  </div>
-                  <div className="mt-6">
-                    <Link 
-                      href={`/templates/${template.id}`}
-                      className="w-full inline-flex items-center justify-center rounded-xl text-sm font-medium transition-all border border-border-subtle bg-transparent text-text-main hover:bg-brand hover:text-white hover:border-brand h-11 px-6 py-2"
-                    >
-                      Lihat Detail
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80" />
+                </Link>
+              ))}
+            </div>
           </div>
-          
-          <div className="flex justify-center pt-8">
+
+          <div className="mt-[40px] text-center">
             <Link 
-              href="/templates"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-white text-text-main border border-border-subtle rounded-full hover:border-brand hover:text-brand transition-all duration-300 text-sm font-medium shadow-sm"
+              href="/templates" 
+              className="inline-flex items-center gap-[10px] px-[30px] py-[15px] rounded-full font-sans font-semibold text-[15px] tracking-[0.01em] bg-transparent text-berry dark:text-ink border-[1.5px] border-berry dark:border-ink-soft transition-all duration-350 hover:bg-berry hover:text-cream-text dark:hover:bg-pink dark:hover:text-pink-btn-text dark:hover:border-pink"
             >
               Lihat Semua Desain
-              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -115,25 +134,32 @@ export default async function LandingPage() {
       <TestimonialsSection testimonials={testimonials} />
 
       {/* CTA Bottom */}
-      <section className="w-full px-4 py-24 bg-brand text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10" />
-        <div className="container mx-auto max-w-3xl relative z-10 space-y-8">
-          <h2 className="text-3xl md:text-5xl font-serif text-white font-semibold leading-tight">
-            Mulai Rangkai Undangan Impian Anda Hari Ini
-          </h2>
-          <p className="text-brand-light text-base md:text-lg max-w-xl mx-auto">
-            Jadikan momen perayaan Anda lebih bermakna dengan desain yang merepresentasikan cinta Anda berdua.
-          </p>
-          <div className="pt-4">
-            <Link 
-              href="/templates"
-              className="inline-flex items-center justify-center font-medium tracking-wide shadow-xl shadow-black/10 transition-all h-14 rounded-full px-10 text-base bg-white text-brand hover:bg-brand-light hover:scale-105 duration-300"
-            >
-              Mulai Buat Sekarang
-            </Link>
+      <section className="py-[clamp(64px,9vw,120px)] w-full">
+        <div className="max-w-[1180px] mx-auto px-[clamp(20px,5vw,64px)]">
+          <div className="bg-berry text-cream-text rounded-[14px] p-[clamp(48px,7vw,84px)_clamp(28px,6vw,80px)] relative overflow-hidden grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-[32px] items-center transition-colors duration-400">
+            <svg className="absolute -right-[30px] -bottom-[40px] w-[260px] opacity-20 z-0" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M75 140C75 140 20 120 20 75C20 45 45 30 65 40C80 47 80 65 68 70C58 74 48 65 55 55" stroke="oklch(94% 0.02 70)" strokeWidth="1.4" strokeLinecap="round"/>
+              <circle cx="75" cy="30" r="9" stroke="oklch(94% 0.02 70)" strokeWidth="1.4"/>
+            </svg>
+            <div className="relative z-10 text-left">
+              <h2 className="text-cream-text font-serif font-medium text-[clamp(2.1rem,4.4vw,3.2rem)] max-w-[14ch] leading-[1.08]">
+                Mulai Rangkai Undangan Impian Anda Hari Ini
+              </h2>
+              <p className="mt-[14px] text-[oklch(94%_0.02_70/0.8)] max-w-[42ch] text-[16px]">
+                Jadikan momen perayaan Anda lebih bermakna dengan desain yang merepresentasikan cinta Anda berdua.
+              </p>
+            </div>
+            <div className="relative z-10 flex md:justify-end">
+              <Link 
+                href="/templates"
+                className="inline-flex items-center gap-[10px] px-[30px] py-[15px] rounded-full font-sans font-semibold text-[15px] tracking-[0.01em] bg-cream-text text-berry-deep transition-all duration-350 hover:-translate-y-[2px]"
+              >
+                Mulai Buat Sekarang
+              </Link>
+            </div>
           </div>
         </div>
       </section>
-    </div>
+    </main>
   );
 }

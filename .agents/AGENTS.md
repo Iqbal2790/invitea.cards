@@ -115,8 +115,8 @@ WAJIB update Registry Template di PRD.md setiap kali template baru selesai
 - Animasi: selalu gunakan `transform` dan `opacity` — jangan animate layout properties
 - Ease curve: `cubic-bezier(0.16, 1, 0.3, 1)` untuk semua transisi utama
 - Selalu wrap animasi dalam `@media (prefers-reduced-motion: no-preference)`
-- **Gaya Tombol Baru (Pill-shaped)**: Semua tombol harus mengikuti desain baru yang berbentuk kapsul (`rounded-full`), memiliki transisi animasi ketika disentuh (`transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg`), dan menggunakan spesifikasi bayangan khusus (contoh tombol primary: `bg-brand text-white shadow-md shadow-brand/20`). Hindari penggunaan desain lama (`rounded-xl` dengan `focus-visible` default).
-
+- **Gaya Tombol (Pill-shaped / Kapsul)**: Tombol menggunakan `rounded-full` (kapsul) dan dilarang menggunakan sudut tajam kaku. Tombol memiliki efek hover transform/shadow yang halus.
+- **Strictly Responsive (Mobile-First)**: Semua komponen UI harus responsif secara mutlak. Tidak boleh ada lebar elemen statis (fixed-width) yang merusak layout pada layar kecil/mobile.
 ### Aksesibilitas
 - Semua komponen interaktif memenuhi standar `frontend-a11y`
 - Tombol harus punya label yang jelas
