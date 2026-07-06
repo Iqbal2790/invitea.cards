@@ -26,16 +26,13 @@ export default function TemplateDetailPage({ params }) {
   useEffect(() => {
     async function fetchTemplate() {
       try {
-        const { data, error } = await supabaseClient
-          .from("templates")
-          .select("*")
-          .eq("id", id)
-          .single();
+        const res = await fetch(`/api/templates?id=${id}`);
+        const result = await res.json();
 
-        if (error || !data) {
+        if (!res.ok || !result.data) {
           setError(true);
         } else {
-          setTemplate(data);
+          setTemplate(result.data);
         }
       } catch (err) {
         console.error("Failed to fetch template:", err);

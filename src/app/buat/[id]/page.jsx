@@ -17,6 +17,7 @@ export default function BuilderPage({ params }) {
   const { id } = resolvedParams;
   const [template, setTemplate] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   // Lifted state for WeddingForm
   const [weddingFormData, setWeddingFormData] = useState({
@@ -45,22 +46,24 @@ export default function BuilderPage({ params }) {
   });
 
   useEffect(() => {
-    async function fetchTemplate() {
+    async function init() {
       try {
-        const { data, error } = await supabaseClient
-          .from("templates")
-          .select("*")
-          .eq("id", id)
-          .single();
-        
-        if (data) setTemplate(data);
+        const res = await fetch(`/api/templates?id=${id}`);
+        const result = await res.json();
+
+        if (!res.ok || !result.data) {
+          setError(true);
+        } else {
+          setTemplate(result.data);
+        }
       } catch (err) {
-        console.error("Error fetching template:", err);
+        console.error("Failed to load template data", err);
+        setError(true);
       } finally {
         setLoading(false);
       }
     }
-    fetchTemplate();
+    init();
   }, [id]);
 
   if (loading) {
