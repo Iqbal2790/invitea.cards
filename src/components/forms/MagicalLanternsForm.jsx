@@ -165,10 +165,9 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
             </motion.form>
           )}
 
-          {/* STEP 3: Lampion Harapan */}
-          {step === 3 && (
+
             <motion.form 
-              key="step3"
+              key="step4"
               initial={{ opacity: 0, x: 18 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -18 }}
