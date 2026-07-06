@@ -4,7 +4,7 @@ import { snap } from "@/lib/midtrans";
 
 export async function POST(request) {
   try {
-    const { email, template_id } = await request.json();
+    const { email, template_id, data_content } = await request.json();
 
     if (!email || !template_id) {
       return NextResponse.json({ error: "Email dan Template ID wajib diisi" }, { status: 400 });
@@ -31,7 +31,8 @@ export async function POST(request) {
       .insert({
         email: email,
         template_id: template.id,
-        status_payment: "pending"
+        status_payment: "pending",
+        data_content: data_content || {}
       })
       .select("id")
       .single();

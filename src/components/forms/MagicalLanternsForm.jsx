@@ -20,8 +20,11 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
   };
 
   const handleSubmit = () => {
-    // Navigate to checkout
-    router.push("/checkout/dummy-order-123");
+    sessionStorage.setItem("checkoutData", JSON.stringify({
+      template: template,
+      formData: formData
+    }));
+    router.push("/checkout/custom");
   };
 
   // Wishes handlers
