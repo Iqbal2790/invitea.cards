@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 
-const MAX_PHOTOS = 3;
 const ALLOWED_SLOTS = [0, 1, 2];
 
 export async function POST(request) {
@@ -19,7 +18,7 @@ export async function POST(request) {
     const slot = parseInt(slotRaw, 10);
     if (isNaN(slot) || !ALLOWED_SLOTS.includes(slot)) {
       return NextResponse.json(
-        { error: `Slot foto tidak valid. Hanya slot 0–${MAX_PHOTOS - 1} yang diizinkan.` },
+        { error: `Slot foto tidak valid. Hanya slot 0–${ALLOWED_SLOTS.length - 1} yang diizinkan.` },
         { status: 400 }
       );
     }
@@ -30,36 +29,24 @@ export async function POST(request) {
       return NextResponse.json({ error: "Session ID tidak valid" }, { status: 400 });
     }
 
-    // Check how many files already exist in this session folder
-    const { data: existingFiles, error: listError } = await supabaseAdmin
-      .storage
-      .from("orders")
-      .list(safeSessionId);
-
-    if (!listError && existingFiles && existingFiles.length >= MAX_PHOTOS) {
-      return NextResponse.json(
-        { error: `Maksimal ${MAX_PHOTOS} foto yang diizinkan per sesi.` },
-        { status: 400 }
-      );
-    }
-
     // Convert to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create unique safe filename: {slot}-{timestamp}.{ext}
+    // Use fixed slot-based filename so upsert truly overwrites the same slot
+    // e.g. slot0.jpg, slot1.jpg, slot2.jpg — no timestamp, so upsert works correctly
     const originalName = file.name || "photo.jpg";
     const fileExt = originalName.split(".").pop().toLowerCase();
-    const fileName = `slot${slot}-${Date.now()}.${fileExt}`;
+    const fileName = `slot${slot}.${fileExt}`;
     const filePath = `${safeSessionId}/${fileName}`;
 
-    // Upload to 'orders' bucket
+    // Upload to 'orders' bucket — upsert: true overwrites the same slot file
     const { error: uploadError } = await supabaseAdmin
       .storage
       .from("orders")
       .upload(filePath, buffer, {
         contentType: file.type,
-        upsert: true // overwrite same slot if re-uploaded
+        upsert: true
       });
 
     if (uploadError) {

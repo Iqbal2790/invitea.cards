@@ -78,9 +78,12 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
         // Artificial delay for UX so the user can see the loading state
         await new Promise(resolve => setTimeout(resolve, 1500));
 
-        const newPhotos = [...formData.photos];
-        newPhotos[index] = { file: null, previewUrl: data.url }; // Set previewUrl to public URL
-        setFormData(prev => ({ ...prev, photos: newPhotos }));
+        // Use functional update to avoid stale closure bug when multiple uploads happen
+        setFormData(prev => {
+          const newPhotos = [...prev.photos];
+          newPhotos[index] = { file: null, previewUrl: data.url };
+          return { ...prev, photos: newPhotos };
+        });
 
       } catch (error) {
         alert(error.message);
