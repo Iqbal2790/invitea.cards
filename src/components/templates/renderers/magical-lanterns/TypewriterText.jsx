@@ -2,39 +2,42 @@
 import { useState, useEffect, useRef } from "react";
 
 export default function TypewriterText({ text, speed = 80, className = "" }) {
-  const [displayedText, setDisplayedText] = useState("");
+  const [, setTick] = useState(0);
   const indexRef = useRef(0);
   const textCharsRef = useRef(Array.from(text || ""));
 
-  // Update refs and handle deletion when text changes
   useEffect(() => {
     const newChars = Array.from(text || "");
-    textCharsRef.current = newChars;
+    const oldChars = textCharsRef.current;
     
-    // If text was deleted, immediately truncate the displayed text
-    if (indexRef.current > newChars.length) {
-      indexRef.current = newChars.length;
-      setDisplayedText(newChars.slice(0, indexRef.current).join(""));
-    } else {
-      // If text changed completely (not just appended), we might want to reset.
-      // But for live preview, appending or replacing a char is common.
-      // We will correct the displayed text if it mismatches up to the current index.
-      const currentDisplayed = newChars.slice(0, indexRef.current).join("");
-      setDisplayedText(currentDisplayed);
+    // Find common prefix length between the old text and new text
+    let commonLen = 0;
+    while (
+      commonLen < oldChars.length && 
+      commonLen < newChars.length && 
+      oldChars[commonLen] === newChars[commonLen]
+    ) {
+      commonLen++;
     }
+    
+    // Reset index to the divergence point (or keep it if it's smaller)
+    indexRef.current = Math.min(indexRef.current, commonLen);
+    textCharsRef.current = newChars;
+    setTick(t => t + 1); // Force re-render
   }, [text]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const chars = textCharsRef.current;
-      if (indexRef.current < chars.length) {
-        setDisplayedText(chars.slice(0, indexRef.current + 1).join(""));
+      if (indexRef.current < textCharsRef.current.length) {
         indexRef.current++;
+        setTick(t => t + 1);
       }
     }, speed);
     
     return () => clearInterval(timer);
   }, [speed]);
+
+  const displayedText = textCharsRef.current.slice(0, indexRef.current).join("");
 
   return (
     <div className={className}>
