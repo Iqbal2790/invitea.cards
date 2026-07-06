@@ -5,16 +5,17 @@ import gsap from "gsap";
 export default function ConstellationGallery({ photos = [], onComplete }) {
   const containerRef = useRef(null);
   
-  // Use provided photos, fallback to placeholders if empty
-  const defaultPhotos = [
-    "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=400&h=400", 
-    "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=400&h=400", 
-    "https://images.unsplash.com/photo-1530103862676-de8892b12a15?auto=format&fit=crop&q=80&w=400&h=400", 
-  ];
+  // Extract URL whether it's a string or an object with previewUrl/url
+  const getPhotoUrl = (p) => {
+    if (!p) return null;
+    if (typeof p === "string") return p;
+    return p.previewUrl || p.url || null;
+  };
+
   const displayPhotos = [
-    photos[0] || defaultPhotos[0],
-    photos[1] || defaultPhotos[1],
-    photos[2] || defaultPhotos[2],
+    getPhotoUrl(photos[0]),
+    getPhotoUrl(photos[1]),
+    getPhotoUrl(photos[2]),
   ];
 
   useEffect(() => {
@@ -85,22 +86,34 @@ export default function ConstellationGallery({ photos = [], onComplete }) {
 
       {/* Node 1 */}
       <div className="absolute top-[30%] left-[20%] -translate-x-1/2 -translate-y-1/2 constellation-photo opacity-0 scale-50">
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-          <img src={displayPhotos[0]} alt="Memory 1" className="w-full h-full object-cover" />
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)] bg-white/10 flex items-center justify-center">
+          {displayPhotos[0] ? (
+            <img src={displayPhotos[0]} alt="Foto 1" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-white/60 font-serif text-sm md:text-base">Foto 1</span>
+          )}
         </div>
       </div>
 
       {/* Node 2 */}
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 constellation-photo opacity-0 scale-50">
-        <div className="w-28 h-28 md:w-40 md:h-40 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-          <img src={displayPhotos[1]} alt="Memory 2" className="w-full h-full object-cover" />
+        <div className="w-28 h-28 md:w-40 md:h-40 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)] bg-white/10 flex items-center justify-center">
+          {displayPhotos[1] ? (
+            <img src={displayPhotos[1]} alt="Foto 2" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-white/60 font-serif text-sm md:text-base">Foto 2</span>
+          )}
         </div>
       </div>
 
       {/* Node 3 */}
       <div className="absolute top-[70%] left-[80%] -translate-x-1/2 -translate-y-1/2 constellation-photo opacity-0 scale-50">
-        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-          <img src={displayPhotos[2]} alt="Memory 3" className="w-full h-full object-cover" />
+        <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)] bg-white/10 flex items-center justify-center">
+          {displayPhotos[2] ? (
+            <img src={displayPhotos[2]} alt="Foto 3" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-white/60 font-serif text-sm md:text-base">Foto 3</span>
+          )}
         </div>
       </div>
 
