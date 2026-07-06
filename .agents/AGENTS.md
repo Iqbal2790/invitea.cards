@@ -274,3 +274,7 @@ Ini berlaku di semua sesi tanpa pengecualian:
 
 ## 9. Aturan Eksekusi Khusus
 - **SEBELUM PUSH KE GITHUB**: Selalu audit dan update `.gitignore` untuk mengecualikan hal-hal yang tidak perlu (kecualikan semua file sampah sistem, log, atau environment, jangan hanya yang bersifat private seperti `.env`).
+
+## 10. Instincts / Pembelajaran Terakhir
+- **Data Mapping Live Preview**: Saat menghubungkan form data (misal `lanternsFormData`) dengan *Template Renderer* di `buat/[id]/page.jsx`, pastikan *key* di dalam objek mapped data (misal `mappedLanternsData`) SAMA PERSIS dengan *key* yang dipanggil/dibutuhkan oleh template (misal `receiverName`, `greetingText`). Jangan meniru *key* dari template sebelumnya jika *schema* yang diminta berbeda, agar *Live Preview* bereaksi (berubah) sesuai dengan teks yang diketik.
+- **Fetching Template (RLS Bypassing)**: Jangan mengambil data template tunggal dengan `supabaseClient` langsung dari *Client Component* (`/buat/[id]/page.jsx` atau `/templates/[id]/page.jsx`) karena RLS (Row Level Security) akan memblokir *anonymous read*. Selalu gunakan/buat API Route khusus di sisi Server (misal `/api/templates?id=...`) yang menggunakan `supabaseAdmin` (Service Role Key) untuk melewati limitasi RLS tersebut.
