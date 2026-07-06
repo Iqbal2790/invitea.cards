@@ -129,17 +129,17 @@ export default function CheckoutPage({ params }) {
               
               <div className="flex gap-[24px] pb-[32px] border-b border-hairline/50">
                 <div className="relative w-[90px] h-[120px] md:w-[120px] md:h-[160px] rounded-[4px_24px_4px_4px] overflow-hidden bg-photo-frame shrink-0 shadow-[var(--shadow-photo)] border-[3px] border-photo-frame">
-                  <Image src={template.image} alt={template.title} fill className="object-cover" />
+                  <Image src={template.thumbnail || template.image || '/placeholder.jpg'} alt={template.nama || template.title} fill className="object-cover" />
                 </div>
                 <div className="flex flex-col justify-between py-[4px]">
                   <div>
                     <div className="inline-flex items-center rounded-[4px] border border-hairline/50 px-[10px] py-[4px] text-[10px] uppercase tracking-[0.06em] font-bold bg-bg-alt text-berry dark:bg-pink/10 dark:text-pink mb-[12px]">
-                      {template.category === 'undangan' ? 'Undangan Pernikahan' : 'Kartu Ucapan'}
+                      {(template.kategori || template.category) === 'undangan' ? 'Undangan Pernikahan' : 'Kartu Ucapan'}
                     </div>
-                    <h2 className="font-serif italic text-[22px] md:text-[26px] font-medium text-ink leading-tight">{template.title}</h2>
+                    <h2 className="font-serif italic text-[22px] md:text-[26px] font-medium text-ink leading-tight">{template.nama || template.title}</h2>
                   </div>
                   <div>
-                    <p className="font-sans font-semibold text-[20px] md:text-[24px] text-berry dark:text-pink">Rp {template.price.toLocaleString("id-ID")}</p>
+                    <p className="font-sans font-semibold text-[20px] md:text-[24px] text-berry dark:text-pink">Rp {Number(template.harga || template.price || 0).toLocaleString("id-ID")}</p>
                   </div>
                 </div>
               </div>
@@ -147,7 +147,7 @@ export default function CheckoutPage({ params }) {
               <div className="space-y-[16px]">
                 <h3 className="font-semibold text-ink text-[15px]">Detail Pesanan</h3>
                 <div className="grid grid-cols-2 gap-[16px]">
-                  {template.category === 'undangan' ? (
+                  {(template.kategori || template.category) === 'undangan' ? (
                     <>
                       <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
                         <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Mempelai</span>
@@ -214,7 +214,7 @@ export default function CheckoutPage({ params }) {
                 <div className="pt-[24px] border-t border-hairline/50">
                   <div className="flex items-center justify-between mb-[24px]">
                     <span className="text-[16px] font-medium text-ink">Total Tagihan</span>
-                    <span className="text-[26px] font-bold text-berry dark:text-pink">Rp {template.price.toLocaleString("id-ID")}</span>
+                    <span className="text-[26px] font-bold text-berry dark:text-pink">Rp {Number(template.harga || template.price || 0).toLocaleString("id-ID")}</span>
                   </div>
                   
                   <button 
