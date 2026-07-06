@@ -14,8 +14,8 @@ const faqs = [
     answer: "Tidak ada batasan sama sekali. Anda bebas menyebarkan tautan undangan digital Anda ke sebanyak mungkin keluarga, kerabat, dan teman tanpa dikenakan biaya tambahan."
   },
   {
-    question: "Apakah saya bisa mengubah detail acara atau salah ketik setelah membayar?",
-    answer: "Mohon maaf, saat ini sistem kami tidak menyediakan opsi revisi setelah pembayaran berhasil dilakukan. Oleh karena itu, kami sangat menyarankan Anda untuk mengecek kembali semua detail acara (nama, waktu, lokasi, dsb) sebelum mengaktifkan undangan."
+    question: "Apakah saya bisa mengubah detail atau teks karena salah ketik setelah membayar?",
+    answer: "Tentu saja! Anda bisa melakukan revisi penuh untuk semua detail teks (seperti nama, tanggal, lokasi, hingga isi ucapan) secara mandiri melalui Dashboard Pelanggan Anda kapan saja. Namun, harap dicatat bahwa untuk saat ini foto yang telah diunggah belum dapat diubah."
   },
   {
     question: "Metode pembayaran apa saja yang bisa digunakan?",
