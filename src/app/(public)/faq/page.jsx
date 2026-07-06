@@ -27,6 +27,22 @@ const faqs = [
   }
 ];
 
+// Stagger animation container
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+};
+
 export default function FaqPage() {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -35,56 +51,76 @@ export default function FaqPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-bg-base">
-      <section className="relative px-4 py-24 md:py-32 overflow-hidden border-b border-border-subtle bg-white">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-light/20 rounded-full blur-3xl -z-10" />
-        <div className="container mx-auto max-w-3xl text-center space-y-6">
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-text-main font-semibold">
-            Pertanyaan yang Sering Diajukan
-          </h1>
-          <p className="text-lg text-text-muted leading-relaxed">
+    <div className="flex flex-col min-h-screen bg-bg transition-colors duration-400">
+      {/* Header Section */}
+      <section className="relative px-[clamp(20px,5vw,64px)] py-[clamp(56px,8vw,108px)] overflow-hidden border-b border-hairline bg-bg-alt">
+        <div className="max-w-[800px] mx-auto text-center space-y-6">
+          <motion.h1 
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="font-serif text-[clamp(2.6rem,5vw,4rem)] font-medium leading-[1.08] text-ink"
+          >
+            Pertanyaan <em className="italic text-pink-btn-text dark:text-pink">Umum</em>
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+            className="text-[18px] text-ink-soft leading-[1.6] max-w-[55ch] mx-auto"
+          >
             Temukan jawaban atas pertanyaan umum terkait pembuatan undangan dan kartu ucapan digital di Invitea.
-          </p>
+          </motion.p>
         </div>
       </section>
 
-      <section className="flex-1 px-4 py-16 md:py-24">
-        <div className="container mx-auto max-w-3xl space-y-4">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div 
-                key={index} 
-                className="bg-white border border-border-subtle rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-              >
-                <button
-                  onClick={() => toggleOpen(index)}
-                  className="flex items-center justify-between w-full p-6 text-left focus:outline-none"
+      {/* FAQ Accordion Section */}
+      <section className="flex-1 px-[clamp(20px,5vw,64px)] py-[clamp(40px,6vw,80px)]">
+        <div className="max-w-[800px] mx-auto">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col"
+          >
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <motion.div 
+                  key={index} 
+                  variants={itemVariants}
+                  className="border-b border-hairline last:border-b-0"
                 >
-                  <span className="font-serif text-lg md:text-xl font-medium text-text-main">
-                    {faq.question}
-                  </span>
-                  <div className={`flex-shrink-0 ml-4 p-2 rounded-full transition-colors ${isOpen ? 'bg-brand-light/50 text-brand' : 'bg-transparent text-text-muted'}`}>
-                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"}`} />
-                  </div>
-                </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <div className="px-6 pb-6 text-text-muted leading-relaxed">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+                  <button
+                    onClick={() => toggleOpen(index)}
+                    className="flex items-center justify-between w-full py-6 md:py-8 text-left focus:outline-none group"
+                  >
+                    <span className={`font-serif text-xl md:text-2xl font-medium transition-colors duration-300 ${isOpen ? 'text-berry dark:text-pink' : 'text-ink group-hover:text-berry dark:group-hover:text-pink'}`}>
+                      {faq.question}
+                    </span>
+                    <div className="flex-shrink-0 ml-4">
+                      <ChevronDown className={`w-6 h-6 transition-all duration-400 ease-out ${isOpen ? "rotate-180 text-berry dark:text-pink" : "rotate-0 text-ink-soft group-hover:text-berry dark:group-hover:text-pink"}`} />
+                    </div>
+                  </button>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pb-8 md:pb-10 pt-2 text-[16px] md:text-[17px] text-ink-soft leading-relaxed max-w-[70ch]">
+                          {faq.answer}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </motion.div>
         </div>
       </section>
     </div>
