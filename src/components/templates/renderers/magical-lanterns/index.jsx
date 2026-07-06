@@ -21,11 +21,7 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
   // - senderName
   const receiver = data?.receiverName || data?.bride || data?.groom || "Special Someone";
   const greeting = data?.greetingText || `Happy Birthday, ${receiver}! Wishing you all the love and happiness in the world.`;
-  const photos = data?.photos || [
-    "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=400&h=400", 
-    "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&q=80&w=400&h=400", 
-    "https://images.unsplash.com/photo-1530103862676-de8892b12a15?auto=format&fit=crop&q=80&w=400&h=400"
-  ];
+  const photos = data?.photos || [null, null, null];
   const wishes = data?.wishes || [
     { text: "Dari Alex yang selalu menyayangimu." },
     { text: "Wishing you health and happiness." },
