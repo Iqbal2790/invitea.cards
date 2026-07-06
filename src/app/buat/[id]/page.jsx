@@ -31,19 +31,15 @@ export default function BuilderPage({ params }) {
 
   // Lifted state for MagicalLanternsForm
   const [lanternsFormData, setLanternsFormData] = useState({
-    senderName: "",
     receiverName: "",
     greetingText: "",
     photos: [null, null, null],
-    wishes: [
-      { message: "" },
-      { message: "" },
-      { message: "" },
-      { message: "" },
-      { message: "" }
-    ],
+    wishes: [{ message: "" }],
     finalQuote: "",
-    finalGreeting: ""
+    finalGreeting: "",
+    closingRemark: "",
+    senderName: "",
+    email: ""
   });
 
   useEffect(() => {
@@ -104,14 +100,13 @@ export default function BuilderPage({ params }) {
     id: "live-preview",
     receiverName: lanternsFormData.receiverName || "Penerima",
     greetingText: lanternsFormData.greetingText || "Ketik pesan pembuka di form...",
-    photos: lanternsFormData.photos.filter(p => p !== null).length > 0 
-      ? lanternsFormData.photos.filter(p => p !== null) 
-      : undefined,
+    photos: lanternsFormData.photos,
     wishes: lanternsFormData.wishes.some(w => w.message) 
       ? lanternsFormData.wishes.filter(w => w.message).map(w => ({ text: w.message }))
       : undefined,
     finalQuote: lanternsFormData.finalQuote || `"To the world you may be one person,\nbut to one person you are the world."`,
     finalGreeting: lanternsFormData.finalGreeting || "Ketik pesan penutup di form...",
+    closingRemark: lanternsFormData.closingRemark || "With lots of love,",
     senderName: lanternsFormData.senderName || "Pengirim"
   };
 

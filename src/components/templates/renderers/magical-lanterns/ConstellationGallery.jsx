@@ -90,7 +90,7 @@ export default function ConstellationGallery({ photos = [], onComplete }) {
           {displayPhotos[0] ? (
             <img src={displayPhotos[0]} alt="Foto 1" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-white/60 font-serif text-sm md:text-base">Foto 1</span>
+            <span className="text-white/60 font-serif text-sm md:text-base text-center">Foto 1</span>
           )}
         </div>
       </div>
@@ -101,7 +101,7 @@ export default function ConstellationGallery({ photos = [], onComplete }) {
           {displayPhotos[1] ? (
             <img src={displayPhotos[1]} alt="Foto 2" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-white/60 font-serif text-sm md:text-base">Foto 2</span>
+            <span className="text-white/60 font-serif text-sm md:text-base text-center">Foto 2</span>
           )}
         </div>
       </div>
@@ -112,7 +112,7 @@ export default function ConstellationGallery({ photos = [], onComplete }) {
           {displayPhotos[2] ? (
             <img src={displayPhotos[2]} alt="Foto 3" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-white/60 font-serif text-sm md:text-base">Foto 3</span>
+            <span className="text-white/60 font-serif text-sm md:text-base text-center">Foto 3</span>
           )}
         </div>
       </div>
