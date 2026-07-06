@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, CheckCircle2, Plus, Trash2, Upload, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function MagicalLanternsForm({ template, formData, setFormData, handleChange }) {
+export default function MagicalLanternsForm({ template, formData, setFormData, handleChange, sessionId }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [uploadingIndices, setUploadingIndices] = useState({});
@@ -61,6 +61,8 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
 
         const uploadData = new FormData();
         uploadData.append("file", file);
+        uploadData.append("sessionId", sessionId || "uploads");
+        uploadData.append("slot", String(index)); // slot 0, 1, or 2
 
         const response = await fetch("/api/upload", {
           method: "POST",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, use, useEffect } from "react";
+import { useState, use, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +18,11 @@ export default function BuilderPage({ params }) {
   const [template, setTemplate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  // Generate a unique session ID for this form visit (used as the photo folder in storage)
+  const sessionId = useRef(
+    typeof crypto !== "undefined" ? crypto.randomUUID() : Date.now().toString()
+  ).current;
 
   // Lifted state for WeddingForm
   const [weddingFormData, setWeddingFormData] = useState({
@@ -140,7 +145,8 @@ export default function BuilderPage({ params }) {
               template={template} 
               formData={lanternsFormData} 
               setFormData={setLanternsFormData} 
-              handleChange={handleLanternsChange} 
+              handleChange={handleLanternsChange}
+              sessionId={sessionId}
             />
           ) : (
             <WeddingForm 
