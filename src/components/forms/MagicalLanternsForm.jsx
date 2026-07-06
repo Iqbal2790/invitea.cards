@@ -315,6 +315,18 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
               
               <div className="space-y-[24px]">
                 <div className="space-y-[8px]">
+                  <label className="text-[14px] font-semibold text-ink">Kutipan Utama</label>
+                  <textarea 
+                    name="finalQuote"
+                    required
+                    rows={3}
+                    placeholder="Contoh: To the world you may be one person, but to one person you are the world."
+                    value={formData.finalQuote}
+                    onChange={handleChange}
+                    className="w-full px-[20px] py-[16px] bg-bg border border-hairline rounded-[6px] focus:outline-none focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink transition-all text-[15px] text-ink placeholder:text-ink-soft/50 resize-none"
+                  />
+                </div>
+                <div className="space-y-[8px]">
                   <label className="text-[14px] font-semibold text-ink">Pesan Penutup</label>
                   <textarea 
                     name="finalGreeting"
