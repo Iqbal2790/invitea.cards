@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, CheckCircle2, Plus, Trash2, Upload } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Plus, Trash2, Upload, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function MagicalLanternsForm({ template, formData, setFormData, handleChange }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [uploadingIndices, setUploadingIndices] = useState({});
   const totalSteps = 6;
 
   const handleNext = (e) => {
@@ -51,14 +52,39 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
     }
   };
 
-  // Photo handlers (simulation only for now)
-  const handlePhotoUpload = (index, e) => {
+  // Photo handlers
+  const handlePhotoUpload = async (index, e) => {
     const file = e.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file);
-      const newPhotos = [...formData.photos];
-      newPhotos[index] = { file, previewUrl: url };
-      setFormData(prev => ({ ...prev, photos: newPhotos }));
+      try {
+        setUploadingIndices(prev => ({ ...prev, [index]: true }));
+
+        const uploadData = new FormData();
+        uploadData.append("file", file);
+
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: uploadData,
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "Gagal upload foto");
+        }
+
+        // Artificial delay for UX so the user can see the loading state
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        const newPhotos = [...formData.photos];
+        newPhotos[index] = { file: null, previewUrl: data.url }; // Set previewUrl to public URL
+        setFormData(prev => ({ ...prev, photos: newPhotos }));
+
+      } catch (error) {
+        alert(error.message);
+      } finally {
+        setUploadingIndices(prev => ({ ...prev, [index]: false }));
+      }
     }
   };
 
@@ -213,12 +239,21 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
                         </button>
                       </div>
                     ) : (
-                      <label className="flex flex-col items-center justify-center w-full h-[120px] border-2 border-dashed border-hairline rounded-[6px] cursor-pointer hover:border-berry dark:hover:border-pink transition-colors bg-bg-alt">
+                      <label className={`flex flex-col items-center justify-center w-full h-[120px] border-2 border-dashed border-hairline rounded-[6px] transition-colors bg-bg-alt ${uploadingIndices[index] ? 'cursor-not-allowed opacity-70' : 'cursor-pointer hover:border-berry dark:hover:border-pink'}`}>
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                          <Upload className="w-6 h-6 text-ink-soft mb-2" />
-                          <p className="text-sm text-ink-soft">Klik untuk upload foto</p>
+                          {uploadingIndices[index] ? (
+                            <>
+                              <Loader2 className="w-6 h-6 text-berry dark:text-pink mb-2 animate-spin" />
+                              <p className="text-sm text-ink-soft">Mengunggah...</p>
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-6 h-6 text-ink-soft mb-2" />
+                              <p className="text-sm text-ink-soft">Klik untuk upload foto</p>
+                            </>
+                          )}
                         </div>
-                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handlePhotoUpload(index, e)} />
+                        <input type="file" accept="image/*" className="hidden" disabled={uploadingIndices[index]} onChange={(e) => handlePhotoUpload(index, e)} />
                       </label>
                     )}
                   </div>
@@ -339,6 +374,18 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
                     value={formData.finalGreeting}
                     onChange={handleChange}
                     className="w-full px-[20px] py-[16px] bg-bg border border-hairline rounded-[6px] focus:outline-none focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink transition-all text-[15px] text-ink placeholder:text-ink-soft/50 resize-none"
+                  />
+                </div>
+                <div className="space-y-[8px]">
+                  <label className="text-[14px] font-semibold text-ink">Salam Penutup</label>
+                  <input 
+                    type="text" 
+                    name="closingRemark"
+                    required
+                    placeholder="Contoh: With lots of love,"
+                    value={formData.closingRemark || ""}
+                    onChange={handleChange}
+                    className="w-full px-[20px] py-[16px] bg-bg border border-hairline rounded-[6px] focus:outline-none focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink transition-all text-[15px] text-ink placeholder:text-ink-soft/50"
                   />
                 </div>
               </div>
