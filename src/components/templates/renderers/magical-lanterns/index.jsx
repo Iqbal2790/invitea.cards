@@ -29,6 +29,7 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
     { text: "Happy birthday to someone special." },
     { text: "Let's celebrate this wonderful day!" },
   ];
+  const finalQuote = data?.finalQuote || `"To the world you may be one person,\nbut to one person you are the world."`;
   const finalGreeting = data?.finalGreeting || "Once again, Happy Birthday! Enjoy your special day.";
   const senderName = data?.senderName || "Alex";
 
@@ -103,8 +104,8 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
 
         {stage === 4 && (
           <div className="flex flex-col items-center justify-center h-full w-full px-4 text-center absolute inset-0 z-10 animate-[fade-in-up_1s_ease-out_forwards]">
-            <h2 className="text-2xl md:text-4xl font-serif text-white/90 drop-shadow-md mb-6 leading-relaxed max-w-2xl">
-              "To the world you may be one person,<br/>but to one person you are the world."
+            <h2 className="text-2xl md:text-4xl font-serif text-white/90 drop-shadow-md mb-6 leading-relaxed max-w-2xl whitespace-pre-line">
+              {finalQuote}
             </h2>
             <TypewriterText 
               text={finalGreeting} 

@@ -42,6 +42,7 @@ export default function BuilderPage({ params }) {
       { message: "" },
       { message: "" }
     ],
+    finalQuote: "",
     finalGreeting: ""
   });
 
@@ -109,6 +110,7 @@ export default function BuilderPage({ params }) {
     wishes: lanternsFormData.wishes.some(w => w.message) 
       ? lanternsFormData.wishes.filter(w => w.message).map(w => ({ text: w.message }))
       : undefined,
+    finalQuote: lanternsFormData.finalQuote || `"To the world you may be one person,\nbut to one person you are the world."`,
     finalGreeting: lanternsFormData.finalGreeting || "Ketik pesan penutup di form...",
     senderName: lanternsFormData.senderName || "Pengirim"
   };
