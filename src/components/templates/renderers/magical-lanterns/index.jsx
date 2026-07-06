@@ -113,7 +113,7 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
               className="text-2xl md:text-3xl font-serif text-pink-300 drop-shadow-[0_0_15px_rgba(255,105,180,0.8)] mb-8 max-w-xl" 
             />
             <div className="opacity-0 animate-[fade-in-up_1s_ease-out_5s_forwards]">
-              <p className="text-lg font-serif text-white/70 italic">With lots of love,</p>
+              <p className="text-lg font-serif text-white/70 italic">{data?.closingRemark || "With lots of love,"}</p>
               <p className="text-3xl font-serif text-pink-400 mt-2">{senderName}</p>
             </div>
           </div>
