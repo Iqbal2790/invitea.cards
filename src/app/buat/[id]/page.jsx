@@ -101,13 +101,14 @@ export default function BuilderPage({ params }) {
   // Map MagicalLanterns form data to the shape expected by the template
   const mappedLanternsData = {
     id: "live-preview",
-    nama_pengantin: lanternsFormData.receiverName || "Penerima",
-    tanggal: new Date().toISOString(), // dummy date
-    lokasi: "",
-    pesan: lanternsFormData.greetingText || "Ketik pesan pembuka di form...",
+    receiverName: lanternsFormData.receiverName || "Penerima",
+    greetingText: lanternsFormData.greetingText || "Ketik pesan pembuka di form...",
+    photos: lanternsFormData.photos.filter(p => p !== null).length > 0 
+      ? lanternsFormData.photos.filter(p => p !== null) 
+      : undefined,
     wishes: lanternsFormData.wishes.some(w => w.message) 
-      ? lanternsFormData.wishes.filter(w => w.message)
-      : [{ message: "Pesan harapan..." }],
+      ? lanternsFormData.wishes.filter(w => w.message).map(w => ({ text: w.message }))
+      : undefined,
     finalGreeting: lanternsFormData.finalGreeting || "Ketik pesan penutup di form...",
     senderName: lanternsFormData.senderName || "Pengirim"
   };
