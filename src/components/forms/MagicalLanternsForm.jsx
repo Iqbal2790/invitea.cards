@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function MagicalLanternsForm({ template, formData, setFormData, handleChange }) {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -51,7 +51,22 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
     }
   };
 
+  // Photo handlers (simulation only for now)
+  const handlePhotoUpload = (index, e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      const newPhotos = [...formData.photos];
+      newPhotos[index] = { file, previewUrl: url };
+      setFormData(prev => ({ ...prev, photos: newPhotos }));
+    }
+  };
 
+  const removePhoto = (index) => {
+    const newPhotos = [...formData.photos];
+    newPhotos[index] = null;
+    setFormData(prev => ({ ...prev, photos: newPhotos }));
+  };
 
   return (
     <>
@@ -165,7 +180,65 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
             </motion.form>
           )}
 
+          {/* STEP 3: Upload Foto */}
+          {step === 3 && (
+            <motion.form 
+              key="step3"
+              initial={{ opacity: 0, x: 18 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -18 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              onSubmit={handleNext}
+              className="space-y-[32px]"
+            >
+              <div>
+                <h2 className="font-serif italic text-[2.4rem] text-ink mb-[8px] leading-tight">Galeri Foto</h2>
+                <p className="text-ink-soft text-[15px] mb-[16px]">Upload 3 foto terbaik Anda yang akan ditampilkan sebagai rasi bintang.</p>
+              </div>
+              
+              <div className="space-y-[16px]">
+                {[0, 1, 2].map((index) => (
+                  <div key={index} className="space-y-[8px]">
+                    <label className="text-[14px] font-semibold text-ink">Foto {index + 1}</label>
+                    
+                    {formData.photos[index] ? (
+                      <div className="relative w-full h-[120px] rounded-[6px] overflow-hidden border border-hairline">
+                        <img src={formData.photos[index].previewUrl} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+                        <button 
+                          type="button"
+                          onClick={() => removePhoto(index)}
+                          className="absolute top-2 right-2 bg-black/50 text-white p-2 rounded-full hover:bg-red-500 transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <label className="flex flex-col items-center justify-center w-full h-[120px] border-2 border-dashed border-hairline rounded-[6px] cursor-pointer hover:border-berry dark:hover:border-pink transition-colors bg-bg-alt">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                          <Upload className="w-6 h-6 text-ink-soft mb-2" />
+                          <p className="text-sm text-ink-soft">Klik untuk upload foto</p>
+                        </div>
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => handlePhotoUpload(index, e)} />
+                      </label>
+                    )}
+                  </div>
+                ))}
+              </div>
 
+              <div className="pt-[16px] flex gap-[16px]">
+                <button type="button" onClick={handlePrev} className="px-[24px] py-[16px] bg-transparent border-[1.5px] border-hairline text-ink rounded-full font-medium hover:border-berry dark:hover:border-pink transition-all duration-300 flex items-center justify-center">
+                  <ArrowLeft className="w-5 h-5" />
+                </button>
+                <button type="submit" className="flex-1 group flex items-center justify-center gap-[10px] bg-pink-btn-bg text-cream-text py-[16px] rounded-full font-sans font-semibold text-[15px] tracking-[0.01em] shadow-[var(--shadow-pink)] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px] hover:shadow-[0_16px_34px_-12px_var(--shadow-pink)]">
+                  Selanjutnya
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </motion.form>
+          )}
+
+          {/* STEP 4: Lampion Harapan */}
+          {step === 4 && (
             <motion.form 
               key="step4"
               initial={{ opacity: 0, x: 18 }}
@@ -227,10 +300,10 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
             </motion.form>
           )}
 
-          {/* STEP 4: Ucapan Penutup */}
-          {step === 4 && (
+          {/* STEP 5: Ucapan Penutup */}
+          {step === 5 && (
             <motion.form 
-              key="step4"
+              key="step5"
               initial={{ opacity: 0, x: 18 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -18 }}
@@ -282,8 +355,8 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
             </motion.form>
           )}
 
-          {/* STEP 5: Tinjauan */}
-          {step === 5 && (
+          {/* STEP 6: Tinjauan */}
+          {step === 6 && (
             <motion.div 
               key="step6"
               initial={{ opacity: 0, x: 18 }}
