@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,6 +15,8 @@ const subCategoriesMap = {
 function GalleryContent() {
   const searchParams = useSearchParams();
   const queryKategori = searchParams.get("kategori");
+  const router = useRouter();
+  const pathname = usePathname();
 
   // Initialize state directly from URL param if available
   const [mainCategory, setMainCategory] = useState(
@@ -52,8 +54,10 @@ function GalleryContent() {
   }, [mainCategory]);
 
   const handleMainCategoryChange = (cat) => {
-    setMainCategory(cat);
-    setSubCategory("Semua"); // reset sub category when main changes
+    // Modify URL parameter instead of local state directly
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("kategori", cat);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const filteredTemplates = allTemplates.filter((t) => {
