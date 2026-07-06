@@ -115,7 +115,7 @@ export default function TemplateDetailPage({ params }) {
             
             <div className="space-y-[16px]">
               <div className="inline-flex items-center px-[10px] py-[6px] bg-bg-alt text-[10.5px] font-bold tracking-[0.06em] text-berry uppercase dark:bg-pink/10 dark:text-pink border border-hairline/50 rounded-[4px]">
-                {template.fields_config?.subCategory || categoryLabel}
+                {categoryLabel}
               </div>
               <h1 className="text-[clamp(2.6rem,5vw,3.6rem)] font-serif italic text-ink leading-[1.08]">
                 {template.nama}
