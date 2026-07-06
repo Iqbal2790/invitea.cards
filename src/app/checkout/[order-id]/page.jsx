@@ -13,15 +13,35 @@ export default function CheckoutPage({ params }) {
   const { "order-id": orderId } = resolvedParams;
   const router = useRouter();
   
-  // Dummy order data since we don't have a backend yet
-  const template = dummyTemplates.find(t => t.id === "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11") || dummyTemplates[0];
-  
+  const [template, setTemplate] = useState(null);
+  const [formData, setFormData] = useState(null);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if we are handling a custom order via sessionStorage
+    if (orderId === "custom") {
+      const stored = sessionStorage.getItem("checkoutData");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          setTemplate(parsed.template);
+          setFormData(parsed.formData);
+        } catch (e) {
+          console.error("Failed to parse checkoutData");
+        }
+      }
+    } else {
+      // Dummy fallback
+      setTemplate(dummyTemplates.find(t => t.id === "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11") || dummyTemplates[0]);
+    }
+    setLoading(false);
+  }, [orderId]);
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !template) return;
     
     setIsSubmitting(true);
     
@@ -32,7 +52,8 @@ export default function CheckoutPage({ params }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email,
-          template_id: template.id // menggunakan UUID template
+          template_id: template.id,
+          data_content: formData // Send the customized data!
         })
       });
       
@@ -47,11 +68,9 @@ export default function CheckoutPage({ params }) {
       if (window.snap) {
         window.snap.pay(data.snap_token, {
           onSuccess: function(result) {
-            // Berhasil bayar, pindah ke halaman status
             router.push(`/status/${data.order_id}`);
           },
           onPending: function(result) {
-            // Pending bayar, pindah ke halaman status
             router.push(`/status/${data.order_id}`);
           },
           onError: function(result) {
@@ -59,7 +78,6 @@ export default function CheckoutPage({ params }) {
             setIsSubmitting(false);
           },
           onClose: function() {
-            // Jika user menutup popup tanpa bayar
             setIsSubmitting(false);
           }
         });
@@ -72,6 +90,10 @@ export default function CheckoutPage({ params }) {
       setIsSubmitting(false);
     }
   };
+
+  if (loading || !template) {
+    return <div className="min-h-screen bg-bg flex items-center justify-center">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-bg transition-colors duration-400 font-sans pb-[clamp(60px,8vw,100px)]">
@@ -123,16 +145,31 @@ export default function CheckoutPage({ params }) {
               </div>
 
               <div className="space-y-[16px]">
-                <h3 className="font-semibold text-ink text-[15px]">Informasi Acara (Dummy)</h3>
+                <h3 className="font-semibold text-ink text-[15px]">Detail Pesanan</h3>
                 <div className="grid grid-cols-2 gap-[16px]">
-                  <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
-                    <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Mempelai</span>
-                    <span className="font-medium text-ink text-[14.5px]">Romeo & Juliet</span>
-                  </div>
-                  <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
-                    <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Tanggal</span>
-                    <span className="font-medium text-ink text-[14.5px]">24 Desember 2026</span>
-                  </div>
+                  {template.category === 'undangan' ? (
+                    <>
+                      <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
+                        <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Mempelai</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.groomName || 'Romeo'} & {formData?.brideName || 'Juliet'}</span>
+                      </div>
+                      <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
+                        <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Tanggal</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.date || '24 Desember 2026'}</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
+                        <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Pengirim</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.senderName || 'Romeo'}</span>
+                      </div>
+                      <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
+                        <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Penerima</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.receiverName || 'Juliet'}</span>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 

@@ -19,8 +19,11 @@ export default function WeddingForm({ template, formData, setFormData, handleCha
   };
 
   const handleSubmit = () => {
-    // Navigate to checkout
-    router.push("/checkout/dummy-order-123");
+    sessionStorage.setItem("checkoutData", JSON.stringify({
+      template: template,
+      formData: formData
+    }));
+    router.push("/checkout/custom");
   };
 
   return (
