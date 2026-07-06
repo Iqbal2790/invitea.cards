@@ -4,6 +4,7 @@ import { use } from "react";
 import Link from "next/link";
 import { ChevronLeft, Smartphone } from "lucide-react";
 import ClassicTemplate from "@/components/templates/renderers/classic";
+import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -15,8 +16,20 @@ export default function PreviewPage({ params }) {
     bride: "Juliet",
     eventDate: "2026-12-24T08:00",
     locationName: "Gedung Pernikahan Klasik",
-    locationAddress: "Jl. Sudirman No. 1, Jakarta Pusat"
+    locationAddress: "Jl. Sudirman No. 1, Jakarta Pusat",
+    lanternsCount: 30,
+    wishLanternsCount: 15,
+    wishes: [
+      { message: "Selamat Ulang Tahun! Semoga panjang umur dan sehat selalu." },
+      { message: "Happy Birthday! Wishing you all the best." },
+      { message: "Semoga semua impianmu terkabul di tahun ini!" }
+    ],
+    gallery: [
+      { src: "/template-dummy.png" }
+    ]
   };
+
+  const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
 
   return (
     <div className="min-h-screen bg-stone-900 flex flex-col font-sans">
@@ -45,7 +58,11 @@ export default function PreviewPage({ params }) {
       {/* Template Container (Simulating Mobile Screen on Desktop) */}
       <div className="flex-1 w-full flex justify-center bg-stone-900 py-0 md:py-8 overflow-y-auto">
         <div className="w-full md:w-[414px] md:h-[896px] bg-white md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden overflow-y-auto relative custom-scrollbar">
-          <ClassicTemplate data={previewData} isPreview={true} />
+          {isMagicalLanterns ? (
+            <MagicalLanternsTemplate data={previewData} isPreview={true} />
+          ) : (
+            <ClassicTemplate data={previewData} isPreview={true} />
+          )}
         </div>
       </div>
       

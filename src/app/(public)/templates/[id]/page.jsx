@@ -1,11 +1,11 @@
 "use client";
 
-import { use } from "react";
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Image as ImageIcon, MapPin, Clock, MessageSquareHeart, Music, Eye, ArrowLeft } from "lucide-react";
-import { dummyTemplates } from "@/lib/dummy-data";
+import { Image as ImageIcon, MapPin, Clock, MessageSquareHeart, Music, Eye, ArrowLeft, Loader2 } from "lucide-react";
+import { supabaseClient } from "@/lib/supabase";
 
 const iconMap = {
   "image": ImageIcon,
@@ -19,13 +19,61 @@ export default function TemplateDetailPage({ params }) {
   const resolvedParams = use(params);
   const { id } = resolvedParams;
   
-  const template = dummyTemplates.find((t) => t.id === id);
+  const [template, setTemplate] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  if (!template) {
+  useEffect(() => {
+    async function fetchTemplate() {
+      try {
+        const res = await fetch(`/api/templates?id=${id}`);
+        const result = await res.json();
+
+        if (!res.ok || !result.data) {
+          setError(true);
+        } else {
+          setTemplate(result.data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch template:", err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTemplate();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-bg transition-colors duration-400 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-berry dark:text-pink" />
+      </div>
+    );
+  }
+
+  if (error || !template) {
     notFound();
   }
 
-  const categoryLabel = template.category === "undangan" ? "Undangan Pernikahan" : "Kartu Ucapan";
+  const categoryLabel = template.kategori === "undangan" ? "Undangan Pernikahan" : "Kartu Ucapan";
+
+  // Dynamic fallback for description since Supabase might not have it
+  const description = template.kategori === "ucapan" 
+    ? "Desain kartu ucapan interaktif untuk menyampaikan pesan hangat Anda."
+    : "Desain undangan pernikahan digital yang elegan dan mudah dibagikan.";
+
+  // Dynamic fallback for features based on fields_config or default
+  const defaultFeatures = template.kategori === "ucapan" ? [
+    { id: 1, label: "Pesan & Harapan", icon: "message-square-heart" },
+    { id: 2, label: "Galeri Foto", icon: "image" },
+    { id: 3, label: "Background Music", icon: "music" }
+  ] : [
+    { id: 1, label: "Galeri Foto & Video", icon: "image" },
+    { id: 2, label: "Navigasi Lokasi (Maps)", icon: "map-pin" },
+    { id: 3, label: "Hitung Mundur", icon: "clock" },
+    { id: 4, label: "Buku Tamu / RSVP", icon: "message-square-heart" },
+  ];
 
   return (
     <div className="min-h-screen bg-bg transition-colors duration-400 pt-[clamp(32px,6vw,56px)] pb-[clamp(72px,10vw,132px)]">
@@ -44,14 +92,21 @@ export default function TemplateDetailPage({ params }) {
           {/* Left Column - Image */}
           <div className="w-full lg:w-1/2 lg:sticky lg:top-32 relative">
             <div className="relative w-full aspect-[3/4] rounded-[4px_60px_4px_4px] overflow-hidden shadow-[var(--shadow-photo)] border-[6px] border-photo-frame bg-photo-frame">
-              <Image 
-                src={template.image} 
-                alt={template.title} 
-                fill 
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-              />
+              {template.thumbnail_url ? (
+                <Image 
+                  src={template.thumbnail_url} 
+                  alt={template.nama} 
+                  fill 
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center text-ink-soft/50 font-sans text-sm bg-bg">
+                  <ImageIcon className="w-12 h-12 mb-2 opacity-30" />
+                  No Thumbnail
+                </div>
+              )}
             </div>
           </div>
           
@@ -60,18 +115,18 @@ export default function TemplateDetailPage({ params }) {
             
             <div className="space-y-[16px]">
               <div className="inline-flex items-center px-[10px] py-[6px] bg-bg-alt text-[10.5px] font-bold tracking-[0.06em] text-berry uppercase dark:bg-pink/10 dark:text-pink border border-hairline/50 rounded-[4px]">
-                {categoryLabel}
+                {template.fields_config?.subCategory || categoryLabel}
               </div>
               <h1 className="text-[clamp(2.6rem,5vw,3.6rem)] font-serif italic text-ink leading-[1.08]">
-                {template.title}
+                {template.nama}
               </h1>
               <p className="text-[1.8rem] font-sans font-semibold text-berry dark:text-pink">
-                Rp {template.price.toLocaleString("id-ID")}
+                Rp {Number(template.harga).toLocaleString("id-ID")}
               </p>
             </div>
             
             <div className="text-ink-soft leading-[1.6] text-[16.5px] max-w-[50ch]">
-              <p>{template.description}</p>
+              <p>{description}</p>
             </div>
             
             <hr className="border-hairline" />
@@ -79,8 +134,8 @@ export default function TemplateDetailPage({ params }) {
             <div className="space-y-[24px]">
               <h3 className="font-serif text-[1.6rem] text-ink font-medium">Yang Akan Anda Dapatkan:</h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
-                {template.features && template.features.map((feature) => {
-                  const Icon = iconMap[feature.icon] || ImageIcon; // Fallback to Image icon
+                {defaultFeatures.map((feature) => {
+                  const Icon = iconMap[feature.icon] || ImageIcon;
                   return (
                     <li key={feature.id} className="flex items-center gap-[14px] bg-bg-alt p-[16px] rounded-[6px] border border-hairline shadow-sm">
                       <div className="shrink-0 text-berry dark:text-pink">

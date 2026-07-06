@@ -16,19 +16,22 @@ function GalleryContent() {
   const searchParams = useSearchParams();
   const queryKategori = searchParams.get("kategori");
 
-  const [mainCategory, setMainCategory] = useState("undangan");
+  // Initialize state directly from URL param if available
+  const [mainCategory, setMainCategory] = useState(
+    queryKategori === "undangan" || queryKategori === "ucapan" ? queryKategori : "undangan"
+  );
   const [subCategory, setSubCategory] = useState("Semua");
   
   const [allTemplates, setAllTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Sync URL param on mount
+  // Sync URL param if it changes later
   useEffect(() => {
-    if (queryKategori === "undangan" || queryKategori === "ucapan") {
+    if ((queryKategori === "undangan" || queryKategori === "ucapan") && queryKategori !== mainCategory) {
       setMainCategory(queryKategori);
       setSubCategory("Semua");
     }
-  }, [queryKategori]);
+  }, [queryKategori, mainCategory]);
 
   useEffect(() => {
     async function fetchTemplates() {
