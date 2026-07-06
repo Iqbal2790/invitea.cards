@@ -6,12 +6,12 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
   {
-    question: "Berapa lama proses pembuatan undangan digital?",
-    answer: "Prosesnya sepenuhnya instan! Setelah Anda memilih desain, mengisi detail acara, dan menyelesaikan pembayaran, tautan undangan Anda akan langsung aktif dan siap dibagikan detik itu juga."
+    question: "Berapa lama proses pembuatan kartu digital?",
+    answer: "Prosesnya sepenuhnya instan! Setelah Anda memilih desain, mengisi detail, dan menyelesaikan pembayaran, tautan kartu Anda akan langsung aktif dan siap dibagikan detik itu juga."
   },
   {
-    question: "Apakah ada batasan jumlah tamu yang bisa menerima undangan?",
-    answer: "Tidak ada batasan sama sekali. Anda bebas menyebarkan tautan undangan digital Anda ke sebanyak mungkin keluarga, kerabat, dan teman tanpa dikenakan biaya tambahan."
+    question: "Apakah ada batasan jumlah orang yang bisa menerima kartu ini?",
+    answer: "Tidak ada batasan sama sekali. Anda bebas menyebarkan tautan kartu digital Anda ke sebanyak mungkin keluarga, kerabat, dan teman tanpa dikenakan biaya tambahan."
   },
   {
     question: "Apakah saya bisa mengubah detail atau teks karena salah ketik setelah membayar?",
@@ -22,8 +22,8 @@ const faqs = [
     answer: "Kami menerima berbagai metode pembayaran demi kenyamanan Anda, termasuk QRIS, Transfer Bank (Virtual Account BCA, Mandiri, BNI, BRI), serta e-Wallet (GoPay, OVO, ShopeePay, Dana)."
   },
   {
-    question: "Bagaimana cara menyebarkan undangan kepada tamu?",
-    answer: "Setelah undangan Anda aktif, sistem kami akan menyediakan tautan eksklusif (link). Anda cukup menyalin tautan tersebut dan membagikannya secara personal atau di grup chat WhatsApp, LINE, dan media sosial."
+    question: "Bagaimana cara menyebarkan kartu kepada penerima?",
+    answer: "Setelah kartu Anda aktif, sistem kami akan menyediakan tautan eksklusif (link). Anda cukup menyalin tautan tersebut dan membagikannya secara personal atau di grup chat WhatsApp, LINE, dan media sosial."
   }
 ];
 
