@@ -87,21 +87,33 @@ export default function ConstellationGallery({ photos = [], onComplete }) {
       {/* Node 1 */}
       <div className="absolute top-[30%] left-[20%] -translate-x-1/2 -translate-y-1/2 constellation-photo opacity-0 scale-50">
         <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)] bg-white/10 flex items-center justify-center">
-          <span className="text-white/60 font-serif text-sm md:text-base">Foto 1</span>
+          {displayPhotos[0] ? (
+            <img src={displayPhotos[0]} alt="Foto 1" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-white/60 font-serif text-sm md:text-base">Foto 1</span>
+          )}
         </div>
       </div>
 
       {/* Node 2 */}
       <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 constellation-photo opacity-0 scale-50">
         <div className="w-28 h-28 md:w-40 md:h-40 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)] bg-white/10 flex items-center justify-center">
-          <span className="text-white/60 font-serif text-sm md:text-base">Foto 2</span>
+          {displayPhotos[1] ? (
+            <img src={displayPhotos[1]} alt="Foto 2" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-white/60 font-serif text-sm md:text-base">Foto 2</span>
+          )}
         </div>
       </div>
 
       {/* Node 3 */}
       <div className="absolute top-[70%] left-[80%] -translate-x-1/2 -translate-y-1/2 constellation-photo opacity-0 scale-50">
         <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white/40 overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.4)] bg-white/10 flex items-center justify-center">
-          <span className="text-white/60 font-serif text-sm md:text-base">Foto 3</span>
+          {displayPhotos[2] ? (
+            <img src={displayPhotos[2]} alt="Foto 3" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-white/60 font-serif text-sm md:text-base">Foto 3</span>
+          )}
         </div>
       </div>
 
