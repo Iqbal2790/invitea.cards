@@ -14,13 +14,28 @@ export async function POST(request) {
       return NextResponse.json({ error: "Tidak ada file yang diunggah" }, { status: 400 });
     }
 
-    // Validate slot index (must be 0, 1, or 2)
-    const slot = parseInt(slotRaw, 10);
-    if (isNaN(slot) || !ALLOWED_SLOTS.includes(slot)) {
-      return NextResponse.json(
-        { error: `Slot foto tidak valid. Hanya slot 0–${ALLOWED_SLOTS.length - 1} yang diizinkan.` },
-        { status: 400 }
-      );
+    let fileName = "";
+    
+    // Validate slot 
+    const slotNum = parseInt(slotRaw, 10);
+    if (!isNaN(slotNum)) {
+      if (slotNum < 0 || slotNum > 20) {
+        return NextResponse.json(
+          { error: `Slot foto tidak valid. Hanya slot 0–20 yang diizinkan.` },
+          { status: 400 }
+        );
+      }
+      fileName = `slot${slotNum}`;
+    } else {
+      // It's a string identifier like foto_pria, foto_wanita, foto_cover
+      const allowedStringSlots = ["foto_pria", "foto_wanita", "foto_cover", "foto_hero", "pria", "wanita", "cover"];
+      if (!allowedStringSlots.includes(slotRaw)) {
+        return NextResponse.json(
+          { error: `Slot foto tidak valid.` },
+          { status: 400 }
+        );
+      }
+      fileName = slotRaw;
     }
 
     // Sanitize sessionId to prevent path traversal
@@ -37,8 +52,8 @@ export async function POST(request) {
     // e.g. slot0.jpg, slot1.jpg, slot2.jpg — no timestamp, so upsert works correctly
     const originalName = file.name || "photo.jpg";
     const fileExt = originalName.split(".").pop().toLowerCase();
-    const fileName = `slot${slot}.${fileExt}`;
-    const filePath = `${safeSessionId}/${fileName}`;
+    const finalFileName = `${fileName}.${fileExt}`;
+    const filePath = `${safeSessionId}/${finalFileName}`;
 
     // Upload to 'orders' bucket — upsert: true overwrites the same slot file
     const { error: uploadError } = await supabaseAdmin

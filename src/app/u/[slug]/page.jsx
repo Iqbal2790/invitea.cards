@@ -3,6 +3,7 @@
 import { use, useEffect, useState } from "react";
 import ClassicTemplate from "@/components/templates/renderers/classic";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
+import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import { Loader2 } from "lucide-react";
 
 export default function LiveInvitationPage({ params }) {
@@ -50,9 +51,15 @@ export default function LiveInvitationPage({ params }) {
 
   const { data_content, templates, id } = data;
   const isMagicalLanterns = templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
+  const isIvoryLine = templates?.id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
 
   let templateData = { id: id };
   if (isMagicalLanterns) {
+    templateData = {
+      ...templateData,
+      ...data_content
+    };
+  } else if (isIvoryLine) {
     templateData = {
       ...templateData,
       ...data_content
@@ -74,7 +81,9 @@ export default function LiveInvitationPage({ params }) {
 
   return (
     <div className="min-h-screen bg-stone-900">
-      {isMagicalLanterns ? (
+      {isIvoryLine ? (
+        <IvoryLineTemplate data={templateData} isPreview={false} />
+      ) : isMagicalLanterns ? (
         <MagicalLanternsTemplate data={templateData} isPreview={false} />
       ) : (
         <ClassicTemplate data={templateData} isPreview={false} />
