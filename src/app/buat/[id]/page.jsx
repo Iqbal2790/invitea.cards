@@ -10,6 +10,8 @@ import WeddingForm from "@/components/forms/WeddingForm";
 import MagicalLanternsForm from "@/components/forms/MagicalLanternsForm";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 import ClassicTemplate from "@/components/templates/renderers/classic";
+import IvoryLineForm from "@/components/forms/IvoryLineForm";
+import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -46,6 +48,9 @@ export default function BuilderPage({ params }) {
     senderName: "",
     email: ""
   });
+
+  // Lifted state for IvoryLineForm
+  const [ivoryLineFormData, setIvoryLineFormData] = useState({});
 
   useEffect(() => {
     async function init() {
@@ -87,7 +92,8 @@ export default function BuilderPage({ params }) {
     );
   }
 
-  const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
+  const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || template?.nama === "Magical Lanterns";
+  const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad" || template?.nama === "Ivory Line";
 
   // Handlers for generic changes
   const handleLanternsChange = (e) => {
@@ -98,6 +104,11 @@ export default function BuilderPage({ params }) {
   const handleWeddingChange = (e) => {
     const { name, value } = e.target;
     setWeddingFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleIvoryLineChange = (e) => {
+    const { name, value } = e.target;
+    setIvoryLineFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // Map MagicalLanterns form data to the shape expected by the template
@@ -125,11 +136,44 @@ export default function BuilderPage({ params }) {
     pesan: weddingFormData.message || "Pesan undangan..."
   };
 
+  const mappedIvoryLineData = {
+    ...ivoryLineFormData,
+    nama_panggilan_pria: ivoryLineFormData.nama_panggilan_pria || "Romeo",
+    nama_panggilan_wanita: ivoryLineFormData.nama_panggilan_wanita || "Juliet",
+    nama_lengkap_pria: ivoryLineFormData.nama_lengkap_pria || "Romeo Montague",
+    nama_lengkap_wanita: ivoryLineFormData.nama_lengkap_wanita || "Juliet Capulet",
+    acara1_nama: ivoryLineFormData.acara1_nama || "Akad Nikah",
+    acara1_tanggal: ivoryLineFormData.acara1_tanggal || "2026-12-24",
+    acara1_jam: ivoryLineFormData.acara1_jam || "08:00",
+    acara1_lokasi: ivoryLineFormData.acara1_lokasi || "Masjid Raya Jakarta",
+    foto_urls: ivoryLineFormData.foto_urls && ivoryLineFormData.foto_urls.length > 0 
+      ? ivoryLineFormData.foto_urls 
+      : [
+          "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
+          "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
+          "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=800",
+          "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&q=80&w=800",
+          "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=800",
+          "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800"
+        ],
+    foto_cover: ivoryLineFormData.foto_cover || "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
+    foto_pria: ivoryLineFormData.foto_pria || "https://images.unsplash.com/photo-1550005809-91ad75fb315f?auto=format&fit=crop&q=80&w=400",
+    foto_wanita: ivoryLineFormData.foto_wanita || "https://images.unsplash.com/photo-1596450514735-a131b3e811ce?auto=format&fit=crop&q=80&w=400",
+    bank_accounts: ivoryLineFormData.bank_accounts && ivoryLineFormData.bank_accounts.length > 0 
+      ? ivoryLineFormData.bank_accounts 
+      : [{ bank: "BCA", nomor: "1234567890", nama: "Romeo Montague" }],
+    youtube_url: ivoryLineFormData.youtube_url || "",
+    wishes: [
+      { message: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.", name: "Budi & Keluarga" },
+      { message: "Happy Wedding Romeo & Juliet! Wishing you a lifetime of love and happiness.", name: "Siska" }
+    ]
+  };
+
   return (
-    <div className="flex min-h-screen bg-bg transition-colors duration-400 font-sans overflow-hidden">
+    <div className="flex h-[100dvh] w-full bg-bg transition-colors duration-400 font-sans overflow-hidden">
       
       {/* Left Column - Form Area */}
-      <div className="w-full lg:w-1/2 flex flex-col h-screen overflow-y-auto relative bg-bg-alt shadow-[0_8px_30px_rgb(0,0,0,0.04)] z-10 border-r border-hairline">
+      <div className="w-full lg:w-1/2 flex flex-col h-full overflow-y-auto overscroll-contain relative bg-bg-alt shadow-[0_8px_30px_rgb(0,0,0,0.04)] z-10 border-r border-hairline">
         
         {/* Back Button Overlay */}
         <div className="absolute top-[24px] left-[24px] z-50">
@@ -138,9 +182,16 @@ export default function BuilderPage({ params }) {
           </Link>
         </div>
 
-        {/* Form Content */}
         <div className="flex-1 p-[clamp(24px,5vw,48px)] flex flex-col justify-center relative">
-          {isMagicalLanterns ? (
+          {isIvoryLine ? (
+            <IvoryLineForm 
+              template={template} 
+              formData={ivoryLineFormData} 
+              setFormData={setIvoryLineFormData} 
+              handleChange={handleIvoryLineChange}
+              sessionId={sessionId}
+            />
+          ) : isMagicalLanterns ? (
             <MagicalLanternsForm 
               template={template} 
               formData={lanternsFormData} 
@@ -160,11 +211,13 @@ export default function BuilderPage({ params }) {
       </div>
 
       {/* Right Column - Preview Area (Hidden on Mobile) */}
-      <div className="hidden lg:flex w-1/2 relative bg-black overflow-hidden border-l border-hairline">
+      <div className="hidden lg:flex w-1/2 relative bg-black overflow-hidden border-l border-hairline h-full">
         
         {/* Render actual template in full width/height */}
-        <div className="w-full h-full relative overflow-hidden mx-auto max-w-[480px]">
-          {isMagicalLanterns ? (
+        <div className="w-full h-full relative overflow-y-auto overscroll-contain mx-auto max-w-[480px]">
+          {isIvoryLine ? (
+            <IvoryLineTemplate data={mappedIvoryLineData} isPreview={true} isBuilder={true} />
+          ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (
             <ClassicTemplate data={mappedWeddingData} isPreview={true} />

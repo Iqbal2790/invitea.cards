@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronLeft, Smartphone } from "lucide-react";
 import ClassicTemplate from "@/components/templates/renderers/classic";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
+import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -20,16 +21,46 @@ export default function PreviewPage({ params }) {
     lanternsCount: 30,
     wishLanternsCount: 15,
     wishes: [
-      { message: "Selamat Ulang Tahun! Semoga panjang umur dan sehat selalu." },
-      { message: "Happy Birthday! Wishing you all the best." },
-      { message: "Semoga semua impianmu terkabul di tahun ini!" }
+      { message: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.", name: "Budi & Keluarga" },
+      { message: "Happy Wedding Romeo & Juliet! Wishing you a lifetime of love and happiness.", name: "Siska" },
+      { message: "Lancar sampai hari H ya! Gak nyangka akhirnya nikah juga kalian.", name: "Rendi" }
     ],
     gallery: [
       { src: "/template-dummy.png" }
-    ]
+    ],
+    // Ivory Line specific
+    nama_panggilan_pria: "Romeo",
+    nama_panggilan_wanita: "Juliet",
+    nama_lengkap_pria: "Romeo Montague",
+    nama_lengkap_wanita: "Juliet Capulet",
+    acara1_nama: "Akad Nikah",
+    acara1_tanggal: "2026-12-24",
+    acara1_jam: "08:00",
+    acara1_lokasi: "Masjid Raya Jakarta",
+    foto_urls: [
+      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800"
+    ],
+    foto_cover: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
+    foto_pria: "https://images.unsplash.com/photo-1550005809-91ad75fb315f?auto=format&fit=crop&q=80&w=400",
+    foto_wanita: "https://images.unsplash.com/photo-1596450514735-a131b3e811ce?auto=format&fit=crop&q=80&w=400",
+    bank_accounts: [{ bank: "BCA", nomor: "1234567890", nama: "Romeo Montague" }],
+    youtube_url: "",
+    cerita_cinta: "Pertemuan kami berawal dari sebuah kebetulan sederhana di musim hujan lima tahun yang lalu. Dari perbincangan singkat tentang buku favorit, berlanjut menjadi diskusi panjang, hingga akhirnya kami menyadari bahwa kami saling melengkapi. Setelah melewati berbagai musim kehidupan bersama, hari ini kami memutuskan untuk mengikat janji suci dan memulai babak baru dalam cerita cinta kami.",
+    acara1_maps_url: "https://maps.google.com/?q=Jakarta",
+    acara2_nama: "Resepsi",
+    acara2_tanggal: "2026-12-24",
+    acara2_jam: "11:00",
+    acara2_lokasi: "Gedung Serbaguna, Jakarta",
+    acara2_maps_url: "https://maps.google.com/?q=Jakarta"
   };
 
   const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
+  const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
 
   return (
     <div className="min-h-screen bg-stone-900 flex flex-col font-sans">
@@ -58,7 +89,9 @@ export default function PreviewPage({ params }) {
       {/* Template Container (Simulating Mobile Screen on Desktop) */}
       <div className="flex-1 w-full flex justify-center bg-stone-900 py-0 md:py-8 overflow-y-auto">
         <div className="w-full md:w-[414px] md:h-[896px] bg-white md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden overflow-y-auto relative custom-scrollbar">
-          {isMagicalLanterns ? (
+          {isIvoryLine ? (
+            <IvoryLineTemplate data={previewData} isPreview={true} />
+          ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={previewData} isPreview={true} />
           ) : (
             <ClassicTemplate data={previewData} isPreview={true} />
