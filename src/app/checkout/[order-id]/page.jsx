@@ -98,7 +98,11 @@ export default function CheckoutPage({ params }) {
   return (
     <div className="min-h-screen bg-bg transition-colors duration-400 font-sans pb-[clamp(60px,8vw,100px)]">
       <Script 
-        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        src={
+          (process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("Mid-client-") && !(process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("SB-")
+            ? "https://app.midtrans.com/snap/snap.js"
+            : "https://app.sandbox.midtrans.com/snap/snap.js"
+        }
         data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
         strategy="lazyOnload"
       />
