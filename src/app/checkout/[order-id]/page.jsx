@@ -213,7 +213,7 @@ export default function CheckoutPage({ params }) {
                 </div>
                 <div>
                   <p className="text-[12.5px] font-medium text-orange-800/70 mb-[2px]">Selesaikan pembayaran dalam</p>
-                  <p className="text-[18px] font-bold tracking-tight text-orange-900">24:00:00</p>
+                  <p className="text-[18px] font-bold tracking-tight text-orange-900">05:00</p>
                 </div>
               </div>
 
