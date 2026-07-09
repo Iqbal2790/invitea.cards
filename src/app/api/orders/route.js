@@ -44,6 +44,8 @@ export async function POST(request) {
 
     const orderId = order.id;
 
+    const origin = new URL(request.url).origin;
+    
     // 3. Meminta Snap Token ke Midtrans
     const parameter = {
       transaction_details: {
@@ -62,6 +64,11 @@ export async function POST(request) {
       expiry: {
         duration: 5,
         unit: "minute"
+      },
+      callbacks: {
+        finish: `${origin}/status/${orderId}`,
+        error: `${origin}/status/${orderId}`,
+        pending: `${origin}/status/${orderId}`
       }
     };
 

@@ -14,7 +14,7 @@ export async function GET(request, { params }) {
     // Check order in Supabase
     const { data: order, error } = await supabaseAdmin
       .from("orders")
-      .select("id, status, midtrans_id")
+      .select("id, status_payment, midtrans_id")
       .eq("id", orderId)
       .single();
 
@@ -22,7 +22,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    let currentStatus = order.status;
+    let currentStatus = order.status_payment;
 
     // If still pending, optionally check midtrans directly for the most up-to-date status
     if (currentStatus === "pending") {
@@ -51,7 +51,7 @@ export async function GET(request, { params }) {
             // Update Supabase
             await supabaseAdmin
               .from("orders")
-              .update({ status: newStatus })
+              .update({ status_payment: newStatus })
               .eq("id", orderId);
             
             currentStatus = newStatus;
