@@ -18,6 +18,8 @@ export default function CheckoutPage({ params }) {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [pendingSnapToken, setPendingSnapToken] = useState(null);
+  const [pendingOrderId, setPendingOrderId] = useState(null);
 
   useEffect(() => {
     // Check if we are handling a custom order via sessionStorage
@@ -46,32 +48,43 @@ export default function CheckoutPage({ params }) {
     setIsSubmitting(true);
     
     try {
-      // 1. Memanggil API Orders kita
-      const response = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          template_id: template.id,
-          data_content: formData // Send the customized data!
-        })
-      });
-      
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.error || "Terjadi kesalahan saat memproses pesanan");
+      let snapToken = pendingSnapToken;
+      let dbOrderId = pendingOrderId;
+
+      if (!snapToken) {
+        // 1. Memanggil API Orders kita
+        const response = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            template_id: template.id,
+            data_content: formData // Send the customized data!
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || "Terjadi kesalahan saat memproses pesanan");
+        }
+        
+        snapToken = data.snap_token;
+        dbOrderId = data.order_id;
+        
+        setPendingSnapToken(snapToken);
+        setPendingOrderId(dbOrderId);
       }
       
       // 2. Memunculkan Popup Midtrans Snap
       // snap.js dari script tag akan menyediakan window.snap
       if (window.snap) {
-        window.snap.pay(data.snap_token, {
+        window.snap.pay(snapToken, {
           onSuccess: function(result) {
-            router.push(`/status/${data.order_id}`);
+            router.push(`/status/${dbOrderId}`);
           },
           onPending: function(result) {
-            router.push(`/status/${data.order_id}`);
+            router.push(`/status/${dbOrderId}`);
           },
           onError: function(result) {
             alert("Pembayaran gagal. Silakan coba lagi.");
