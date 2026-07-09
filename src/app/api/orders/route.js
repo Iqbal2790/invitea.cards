@@ -59,8 +59,8 @@ export async function POST(request) {
         quantity: 1,
         name: template.nama.substring(0, 50)
       }],
-      custom_expiry: {
-        expiry_duration: 5,
+      expiry: {
+        duration: 5,
         unit: "minute"
       }
     };
