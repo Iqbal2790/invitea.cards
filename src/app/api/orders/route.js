@@ -58,7 +58,11 @@ export async function POST(request) {
         price: template.harga,
         quantity: 1,
         name: template.nama.substring(0, 50)
-      }]
+      }],
+      custom_expiry: {
+        expiry_duration: 24,
+        unit: "hour"
+      }
     };
 
     const snapTransaction = await snap.createTransaction(parameter);
