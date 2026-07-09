@@ -2,8 +2,9 @@
 
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, ShieldCheck, XCircle } from "lucide-react";
+import { Loader2, ShieldCheck, XCircle, CreditCard } from "lucide-react";
 import Link from "next/link";
+import Script from "next/script";
 
 export default function StatusPage({ params }) {
   const resolvedParams = use(params);
@@ -12,8 +13,13 @@ export default function StatusPage({ params }) {
   
   const [progress, setProgress] = useState("Mengecek status transaksi Midtrans...");
   const [status, setStatus] = useState("pending");
+  const [snapToken, setSnapToken] = useState(null);
 
   useEffect(() => {
+    // Load snap token from session storage if available
+    const token = sessionStorage.getItem("pendingSnapToken");
+    if (token) setSnapToken(token);
+    
     if (!orderId) return;
     
     let isPolling = true;
@@ -25,6 +31,9 @@ export default function StatusPage({ params }) {
         
         if (data.status) {
           if (data.status === "settlement" || data.status === "capture") {
+            // Remove token when success
+            sessionStorage.removeItem("pendingSnapToken");
+            sessionStorage.removeItem("pendingOrderId");
             router.push("/success");
             isPolling = false;
           } else if (data.status === "cancel" || data.status === "expire" || data.status === "deny") {
@@ -49,6 +58,27 @@ export default function StatusPage({ params }) {
     };
   }, [orderId, router]);
 
+  const handleReopenPayment = () => {
+    if (window.snap && snapToken) {
+      window.snap.pay(snapToken, {
+        onSuccess: function(result) {
+          // It will poll and redirect automatically
+        },
+        onPending: function(result) {
+          // Do nothing, just let it keep polling
+        },
+        onError: function(result) {
+          alert("Pembayaran gagal. Silakan coba lagi.");
+        },
+        onClose: function() {
+          // Do nothing
+        }
+      });
+    } else {
+      alert("Sistem pembayaran belum siap. Silakan muat ulang halaman.");
+    }
+  };
+
   if (status === "failed") {
     return (
       <div className="min-h-screen bg-bg transition-colors duration-400 font-sans flex flex-col items-center justify-center p-[24px]">
@@ -71,7 +101,7 @@ export default function StatusPage({ params }) {
               href={`/checkout/custom`}
               className="inline-flex w-full justify-center items-center h-[54px] rounded-[6px] font-sans font-semibold text-[15px] text-bg-alt bg-ink hover:bg-ink/90 transition-colors"
             >
-              Coba Bayar Lagi
+              Kembali ke Checkout
             </Link>
           </div>
         </div>
@@ -81,6 +111,15 @@ export default function StatusPage({ params }) {
 
   return (
     <div className="min-h-screen bg-bg transition-colors duration-400 font-sans flex flex-col items-center justify-center p-[24px]">
+      <Script 
+        src={
+          (process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("Mid-client-") && !(process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("SB-")
+            ? "https://app.midtrans.com/snap/snap.js"
+            : "https://app.sandbox.midtrans.com/snap/snap.js"
+        }
+        data-client-key={process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+        strategy="lazyOnload"
+      />
       <div className="w-full max-w-[480px] bg-bg-alt p-[clamp(32px,5vw,64px)] rounded-[6px] border border-hairline shadow-sm text-center space-y-[32px]">
         
         {/* Animated Security/Loading Icon */}
@@ -100,6 +139,18 @@ export default function StatusPage({ params }) {
             {progress}
           </p>
         </div>
+
+        {snapToken && (
+          <div className="pt-[24px]">
+            <button 
+              onClick={handleReopenPayment}
+              className="inline-flex w-full justify-center items-center h-[54px] rounded-[6px] font-sans font-semibold text-[15px] text-bg-alt bg-berry hover:bg-berry/90 transition-colors gap-2"
+            >
+              <CreditCard className="w-5 h-5" />
+              Buka Instruksi Pembayaran
+            </button>
+          </div>
+        )}
 
         <div className="pt-[16px] border-t border-hairline/50">
           <p className="text-[12px] text-ink-soft">

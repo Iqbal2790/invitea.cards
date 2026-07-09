@@ -34,6 +34,14 @@ export default function CheckoutPage({ params }) {
           console.error("Failed to parse checkoutData");
         }
       }
+      
+      // Restore pending token if exists so user can retry without creating duplicate
+      const storedToken = sessionStorage.getItem("pendingSnapToken");
+      const storedOrderId = sessionStorage.getItem("pendingOrderId");
+      if (storedToken && storedOrderId) {
+        setPendingSnapToken(storedToken);
+        setPendingOrderId(storedOrderId);
+      }
     } else {
       // Dummy fallback
       setTemplate(dummyTemplates.find(t => t.id === "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11") || dummyTemplates[0]);
@@ -74,6 +82,8 @@ export default function CheckoutPage({ params }) {
         
         setPendingSnapToken(snapToken);
         setPendingOrderId(dbOrderId);
+        sessionStorage.setItem("pendingSnapToken", snapToken);
+        sessionStorage.setItem("pendingOrderId", dbOrderId);
       }
       
       // 2. Memunculkan Popup Midtrans Snap
