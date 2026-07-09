@@ -99,7 +99,7 @@ export default function StatusPage({ params }) {
           <div className="pt-[16px] border-t border-hairline/50">
             <Link 
               href={`/checkout/custom`}
-              className="inline-flex w-full justify-center items-center h-[54px] rounded-[6px] font-sans font-semibold text-[15px] text-bg-alt bg-ink hover:bg-ink/90 transition-colors"
+              className="w-full group flex items-center justify-center gap-[10px] bg-ink text-bg-alt py-[18px] rounded-full font-sans font-semibold text-[16px] tracking-[0.01em] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px] hover:shadow-[0_16px_34px_-12px_rgba(0,0,0,0.15)]"
             >
               Kembali ke Checkout
             </Link>
@@ -144,9 +144,9 @@ export default function StatusPage({ params }) {
           <div className="pt-[24px]">
             <button 
               onClick={handleReopenPayment}
-              className="inline-flex w-full justify-center items-center h-[54px] rounded-[6px] font-sans font-semibold text-[15px] text-bg-alt bg-berry hover:bg-berry/90 transition-colors gap-2"
+              className="w-full group flex items-center justify-center gap-[10px] bg-pink-btn-bg text-cream-text py-[18px] rounded-full font-sans font-semibold text-[16px] tracking-[0.01em] shadow-[var(--shadow-pink)] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px] hover:shadow-[0_16px_34px_-12px_var(--shadow-pink)]"
             >
-              <CreditCard className="w-5 h-5" />
+              <CreditCard className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
               Buka Instruksi Pembayaran
             </button>
           </div>
