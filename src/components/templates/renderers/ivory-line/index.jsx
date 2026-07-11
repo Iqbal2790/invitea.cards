@@ -58,15 +58,37 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
   const getYouTubeId = (url) => {
     if (!url) return null;
     try {
-      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-      const match = url.match(regExp);
-      return (match && match[2].length === 11) ? match[2] : null;
+      const urlObj = new URL(url);
+      if (urlObj.hostname.includes('youtube.com')) {
+        return urlObj.searchParams.get('v');
+      } else if (urlObj.hostname.includes('youtu.be')) {
+        return urlObj.pathname.slice(1);
+      }
     } catch (e) {
       return null;
     }
+    return null;
   };
 
   const youtubeId = getYouTubeId(youtube_url);
+
+  const handleRSVP = (e) => {
+    e.preventDefault();
+    if (isPreview) {
+      alert("Mode Preview: Fitur RSVP dinonaktifkan.");
+    } else {
+      alert("Terima kasih atas konfirmasi Anda!");
+    }
+  };
+
+  const handleWishes = (e) => {
+    e.preventDefault();
+    if (isPreview) {
+      alert("Mode Preview: Fitur Kirim Ucapan dinonaktifkan.");
+    } else {
+      alert("Terima kasih atas ucapan Anda!");
+    }
+  };
 
   // Setup countdown
   const [timeLeft, setTimeLeft] = useState({ d: '00', h: '00', m: '00', s: '00' });
@@ -346,7 +368,7 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                   {/* RSVP Form */}
                   <div className="border border-[#FAF6EF]/20 p-[32px] max-w-md mx-auto text-left">
                     <h3 className="ivory-font-sans text-[14px] uppercase tracking-[0.1em] font-medium mb-[24px] text-center border-b border-[#FAF6EF]/20 pb-[16px]">Konfirmasi Kehadiran</h3>
-                    <form onSubmit={(e) => e.preventDefault()} className="space-y-[16px]">
+                    <form onSubmit={handleRSVP} className="space-y-[16px]">
                       <div>
                         <input type="text" placeholder="Nama Anda" className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors" />
                       </div>
@@ -361,8 +383,8 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                         <input type="number" placeholder="Jumlah Tamu (Maks. 2)" min="1" max="2" className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors" />
                       </div>
                       <div className="pt-[16px]">
-                        <button type={isPreview ? "button" : "submit"} className="w-full bg-[#FAF6EF] text-[#10192B] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#F3EDE1]">
-                          {isPreview ? "Kirim RSVP (Preview)" : "Kirim RSVP"}
+                        <button type="submit" className="w-full bg-[#FAF6EF] text-[#10192B] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#F3EDE1]">
+                          Kirim RSVP
                         </button>
                       </div>
                     </form>
@@ -380,7 +402,7 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                   {/* Wishes Form */}
                   <div className="max-w-xl mx-auto mb-[64px] bg-white p-[32px] border border-[#D8D0C0]">
                     <h3 className="ivory-font-sans text-[14px] uppercase tracking-[0.1em] font-medium mb-[24px] border-b border-[#D8D0C0] pb-[16px]">Kirim Ucapan & Doa</h3>
-                    <form onSubmit={(e) => e.preventDefault()} className="space-y-[16px]">
+                    <form onSubmit={handleWishes} className="space-y-[16px]">
                       <div>
                         <input type="text" placeholder="Nama Anda" className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors" />
                       </div>
@@ -388,8 +410,8 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                         <textarea rows="3" placeholder="Tulis ucapan atau doa untuk mempelai..." className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors resize-none"></textarea>
                       </div>
                       <div className="pt-[16px]">
-                        <button type={isPreview ? "button" : "submit"} className="w-full bg-[#161512] text-[#FAF6EF] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#2A2926]">
-                          {isPreview ? "Kirim (Preview)" : "Kirim Ucapan"}
+                        <button type="submit" className="w-full bg-[#161512] text-[#FAF6EF] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#2A2926]">
+                          Kirim Ucapan
                         </button>
                       </div>
                     </form>
