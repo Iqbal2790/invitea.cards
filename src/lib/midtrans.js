@@ -1,8 +1,8 @@
 import midtransClient from "midtrans-client";
 
-// Auto-detect production mode based on server key prefix
+// Auto-detect production mode based on NODE_ENV instead of key prefix
 const serverKey = process.env.MIDTRANS_SERVER_KEY || "";
-const isProduction = serverKey.startsWith("Mid-server-") && !serverKey.startsWith("SB-");
+const isProduction = process.env.NODE_ENV === "production";
 
 // Konfigurasi Snap Client (Untuk generate Token Snap)
 export const snap = new midtransClient.Snap({
