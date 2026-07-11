@@ -80,19 +80,20 @@ export async function GET(request, { params }) {
         // Midtrans transaction might not exist yet if they haven't chosen a payment method,
         // so we ignore 404 errors from coreApi and just return pending.
         console.log("Midtrans status check skipped or not found:", midtransError.message);
-        
-        // If order is older than 6 minutes, the Snap token has expired (5 min expiry). 
-        // Manually fail it.
-        if (order.created_at) {
-          const createdAt = new Date(order.created_at);
-          const now = new Date();
-          if ((now - createdAt) > 6 * 60 * 1000) {
-            currentStatus = "failed";
-            await supabaseAdmin
-              .from("orders")
-              .update({ status_payment: "failed" })
-              .eq("id", orderId);
-          }
+      }
+
+      // If still pending after Midtrans check (or if Midtrans 404'd), enforce our own 6-minute timeout.
+      // Since our Snap tokens and transactions expire in 5 minutes, if it's still pending after 6 minutes,
+      // it's effectively expired. This handles Midtrans delays in updating status to 'expire'.
+      if (currentStatus === "pending" && order.created_at) {
+        const createdAt = new Date(order.created_at);
+        const now = new Date();
+        if ((now - createdAt) > 6 * 60 * 1000) {
+          currentStatus = "failed";
+          await supabaseAdmin
+            .from("orders")
+            .update({ status_payment: "failed" })
+            .eq("id", orderId);
         }
       }
     }
