@@ -184,7 +184,10 @@ export default function IvoryLineForm({ template, formData, setFormData, handleC
                   <input type="text" name="nama_panggilan_wanita" required value={formData.nama_panggilan_wanita || ''} onChange={handleChange} className={inputClass} />
                 </div>
                 <div className="space-y-[8px]">
-                  <label className={labelClass}>Foto Mempelai Pria</label>
+                  <label className={labelClass}>
+                    Foto Mempelai Pria
+                    <span className="text-[12px] text-ink-soft block mt-1 font-normal">(Direkomendasikan ukuran foto 1:1)</span>
+                  </label>
                   {formData.foto_pria ? (
                     <div className="relative w-full h-[120px] rounded-[6px] overflow-hidden border border-hairline">
                       <img src={formData.foto_pria} alt="Pria" className="w-full h-full object-cover" />
@@ -220,7 +223,10 @@ export default function IvoryLineForm({ template, formData, setFormData, handleC
                   <input type="text" name="nama_lengkap_pria" required value={formData.nama_lengkap_pria || ''} onChange={handleChange} className={inputClass} />
                 </div>
                 <div className="space-y-[8px]">
-                  <label className={labelClass}>Foto Mempelai Wanita</label>
+                  <label className={labelClass}>
+                    Foto Mempelai Wanita
+                    <span className="text-[12px] text-ink-soft block mt-1 font-normal">(Direkomendasikan ukuran foto 1:1)</span>
+                  </label>
                   {formData.foto_wanita ? (
                     <div className="relative w-full h-[120px] rounded-[6px] overflow-hidden border border-hairline">
                       <img src={formData.foto_wanita} alt="Wanita" className="w-full h-full object-cover" />
