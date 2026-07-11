@@ -15,7 +15,7 @@ export async function POST(request) {
     // 2. Cek ketersediaan dan harga template di database
     const { data: template, error: templateError } = await supabaseAdmin
       .from("templates")
-      .select("id, nama, harga")
+      .select("id, nama, harga, kategori")
       .eq("id", template_id)
       .single();
 
@@ -27,16 +27,56 @@ export async function POST(request) {
       );
     }
 
-    // 2. Buat rekam jejak pesanan (Order) di Supabase
+    // 2.5 Generate custom slug
+    let slugBase = "undangan";
+    if (template.kategori === "undangan") {
+      const namaPria = data_content?.nama_panggilan_pria || "pasangan";
+      const namaWanita = data_content?.nama_panggilan_wanita || "bahagia";
+      slugBase = `${namaPria}-dan-${namaWanita}`;
+    } else if (template.kategori === "ucapan") {
+      slugBase = `untuk-${data_content?.receiverName || "penerima"}`;
+    }
+
+    let newSlug = slugBase
+      .normalize("NFD")                        // decompose accented chars
+      .replace(/[\u0300-\u036f]/g, "")         // strip accent marks
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    
+    // Check uniqueness
+    let finalSlug = newSlug;
+    let isUnique = false;
+    let counter = 0;
+    
+    while (!isUnique && counter < 10) {
+      const { data: existing } = await supabaseAdmin
+        .from("orders")
+        .select("id")
+        .eq("slug", finalSlug)
+        .maybeSingle();
+        
+      if (!existing) {
+        isUnique = true;
+      } else {
+        const randomStr = Math.random().toString(36).substring(2, 6);
+        finalSlug = `${newSlug}-${randomStr}`;
+        counter++;
+      }
+    }
+
+    // 3. Buat rekam jejak pesanan (Order) di Supabase
     const { data: order, error: orderError } = await supabaseAdmin
       .from("orders")
       .insert({
         email: email,
         template_id: template.id,
         status_payment: "pending",
-        data_content: data_content || {}
+        data_content: data_content || {},
+        slug: finalSlug
       })
-      .select("id")
+      .select("id, slug")
       .single();
 
     if (orderError) {

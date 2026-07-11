@@ -57,8 +57,11 @@ export async function GET(request, { params }) {
             // Generate magic token if paid and doesn't have one
             if (newStatus === "paid" && !currentMagicToken) {
               currentMagicToken = crypto.randomBytes(16).toString("hex");
-              const randomSuffix = crypto.randomBytes(2).toString("hex");
-              currentSlug = `udg-${order.id.split("-")[0]}-${randomSuffix}`;
+              
+              if (!currentSlug) {
+                const randomSuffix = crypto.randomBytes(2).toString("hex");
+                currentSlug = `udg-${order.id.split("-")[0]}-${randomSuffix}`;
+              }
               
               const expiredDate = new Date();
               expiredDate.setFullYear(expiredDate.getFullYear() + 1);

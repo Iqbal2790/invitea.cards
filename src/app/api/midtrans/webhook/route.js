@@ -59,11 +59,15 @@ export async function POST(request) {
       
       // Cek apakah order ini sudah memiliki magic_token (Mencegah duplicate event webhook)
       if (!orderData.magic_token) {
-        // Generate Token & Slug
+        // Generate Token
         const magicToken = crypto.randomBytes(16).toString("hex");
-        // Simple slug generator (contoh: udg-c3f9)
-        const randomSuffix = crypto.randomBytes(2).toString("hex");
-        const slug = `udg-${order_id.split("-")[0]}-${randomSuffix}`;
+        
+        // Gunakan slug yang sudah dibuat saat checkout (berdasarkan nama), atau buat fallback
+        let finalSlug = orderData.slug;
+        if (!finalSlug) {
+          const randomSuffix = crypto.randomBytes(2).toString("hex");
+          finalSlug = `udg-${order_id.split("-")[0]}-${randomSuffix}`;
+        }
         
         // Masa aktif 1 tahun dari sekarang
         const expiredDate = new Date();
@@ -73,7 +77,7 @@ export async function POST(request) {
         const { error: invError } = await supabaseAdmin
           .from("orders")
           .update({
-            slug: slug,
+            slug: finalSlug,
             magic_token: magicToken,
             expired_at: expiredDate.toISOString()
           })
@@ -87,7 +91,7 @@ export async function POST(request) {
             email: orderData.email,
             templateName: orderData.templates?.nama || "Template Premium",
             magicToken: magicToken,
-            slug: slug
+            slug: finalSlug
           });
         }
       }
