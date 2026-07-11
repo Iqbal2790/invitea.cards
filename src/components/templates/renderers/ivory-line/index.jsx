@@ -75,10 +75,8 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
   const youtubeId = getYouTubeId(youtube_url);
 
   // Form States
-  const [rsvpForm, setRsvpForm] = useState({ nama_tamu: "", status_kehadiran: "", jumlah_tamu: "" });
-  const [wishesForm, setWishesForm] = useState({ nama_tamu: "", pesan: "" });
+  const [rsvpForm, setRsvpForm] = useState({ nama_tamu: "", status_kehadiran: "", jumlah_tamu: "", pesan: "" });
   const [isSubmittingRsvp, setIsSubmittingRsvp] = useState(false);
-  const [isSubmittingWish, setIsSubmittingWish] = useState(false);
   const [liveWishes, setLiveWishes] = useState(rsvps.filter(r => r.pesan) || wishes || []);
 
   const handleRSVP = async (e) => {
@@ -101,12 +99,17 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
           order_id,
           nama_tamu: rsvpForm.nama_tamu,
           status_kehadiran: rsvpForm.status_kehadiran,
-          jumlah_tamu: rsvpForm.jumlah_tamu
+          jumlah_tamu: rsvpForm.jumlah_tamu,
+          pesan: rsvpForm.pesan
         })
       });
       if (res.ok) {
-        alert("Terima kasih atas konfirmasi Anda!");
-        setRsvpForm({ nama_tamu: "", status_kehadiran: "", jumlah_tamu: "" });
+        const { data: newWish } = await res.json();
+        alert("Terima kasih atas konfirmasi dan ucapan Anda!");
+        if (newWish && newWish.pesan) {
+          setLiveWishes([newWish, ...liveWishes]);
+        }
+        setRsvpForm({ nama_tamu: "", status_kehadiran: "", jumlah_tamu: "", pesan: "" });
       } else {
         alert("Gagal mengirim konfirmasi. Silakan coba lagi.");
       }
@@ -114,46 +117,6 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
       alert("Gagal mengirim konfirmasi.");
     } finally {
       setIsSubmittingRsvp(false);
-    }
-  };
-
-  const handleWishes = async (e) => {
-    e.preventDefault();
-    if (isPreview) {
-      alert("Mode Preview: Fitur Kirim Ucapan dinonaktifkan.");
-      return;
-    }
-    if (!wishesForm.nama_tamu || !wishesForm.pesan) {
-      alert("Mohon isi Nama dan Ucapan Anda");
-      return;
-    }
-
-    setIsSubmittingWish(true);
-    try {
-      const res = await fetch('/api/rsvp', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          order_id,
-          nama_tamu: wishesForm.nama_tamu,
-          status_kehadiran: "Hanya Ucapan",
-          pesan: wishesForm.pesan
-        })
-      });
-      if (res.ok) {
-        const { data: newWish } = await res.json();
-        alert("Terima kasih atas ucapan Anda!");
-        setWishesForm({ nama_tamu: "", pesan: "" });
-        if (newWish) {
-          setLiveWishes([newWish, ...liveWishes]);
-        }
-      } else {
-        alert("Gagal mengirim ucapan. Silakan coba lagi.");
-      }
-    } catch (error) {
-      alert("Gagal mengirim ucapan.");
-    } finally {
-      setIsSubmittingWish(false);
     }
   };
 
@@ -449,9 +412,12 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                       <div>
                         <input type="number" placeholder="Jumlah Tamu (Maks. 2)" min="1" max="2" value={rsvpForm.jumlah_tamu} onChange={(e) => setRsvpForm({...rsvpForm, jumlah_tamu: e.target.value})} className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors" />
                       </div>
+                      <div>
+                        <textarea rows="3" placeholder="Tulis ucapan atau doa untuk mempelai... (Opsional)" value={rsvpForm.pesan} onChange={(e) => setRsvpForm({...rsvpForm, pesan: e.target.value})} className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors resize-none"></textarea>
+                      </div>
                       <div className="pt-[16px]">
                         <button type="submit" disabled={isSubmittingRsvp} className="w-full bg-[#FAF6EF] text-[#10192B] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#F3EDE1] disabled:opacity-50">
-                          {isSubmittingRsvp ? "Mengirim..." : "Kirim RSVP"}
+                          {isSubmittingRsvp ? "Mengirim..." : "Kirim RSVP & Ucapan"}
                         </button>
                       </div>
                     </form>
@@ -466,25 +432,7 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                 <div className="max-w-4xl mx-auto">
                   <h2 className="ivory-font-serif text-[32px] text-center mb-[48px]">Wishes</h2>
                   
-                  {/* Wishes Form */}
-                  <div className="max-w-xl mx-auto mb-[64px] bg-white p-[32px] border border-[#D8D0C0]">
-                    <h3 className="ivory-font-sans text-[14px] uppercase tracking-[0.1em] font-medium mb-[24px] border-b border-[#D8D0C0] pb-[16px]">Kirim Ucapan & Doa</h3>
-                    <form onSubmit={handleWishes} className="space-y-[16px]">
-                      <div>
-                        <input type="text" placeholder="Nama Anda" value={wishesForm.nama_tamu} onChange={(e) => setWishesForm({...wishesForm, nama_tamu: e.target.value})} className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors" />
-                      </div>
-                      <div>
-                        <textarea rows="3" placeholder="Tulis ucapan atau doa untuk mempelai..." value={wishesForm.pesan} onChange={(e) => setWishesForm({...wishesForm, pesan: e.target.value})} className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors resize-none"></textarea>
-                      </div>
-                      <div className="pt-[16px]">
-                        <button type="submit" disabled={isSubmittingWish} className="w-full bg-[#161512] text-[#FAF6EF] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#2A2926] disabled:opacity-50">
-                          {isSubmittingWish ? "Mengirim..." : "Kirim Ucapan"}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-
-                  {liveWishes && liveWishes.length > 0 && (
+                  {liveWishes && liveWishes.length > 0 ? (
                     <div className="grid md:grid-cols-2 gap-[24px]">
                       {liveWishes.map((wish, i) => (
                         <motion.div 
@@ -505,6 +453,8 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                         </motion.div>
                       ))}
                     </div>
+                  ) : (
+                    <p className="text-center text-[#6B6558] ivory-font-sans">Belum ada ucapan. Jadilah yang pertama memberikan ucapan!</p>
                   )}
                 </div>
               </section>
