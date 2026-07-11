@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { supabaseClient } from "@/lib/supabase";
+import { dummyWeddingPhotos } from "@/lib/dummy-data";
 import { ChevronLeft, Loader2 } from "lucide-react";
 import WeddingForm from "@/components/forms/WeddingForm";
 import MagicalLanternsForm from "@/components/forms/MagicalLanternsForm";
@@ -148,17 +149,10 @@ export default function BuilderPage({ params }) {
     acara1_lokasi: ivoryLineFormData.acara1_lokasi || "Masjid Raya Jakarta",
     foto_urls: ivoryLineFormData.foto_urls && ivoryLineFormData.foto_urls.length > 0 
       ? ivoryLineFormData.foto_urls 
-      : [
-          "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
-          "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
-          "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=800",
-          "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&q=80&w=800",
-          "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=800",
-          "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800"
-        ],
-    foto_cover: ivoryLineFormData.foto_cover || "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
-    foto_pria: ivoryLineFormData.foto_pria || "https://images.unsplash.com/photo-1550005809-91ad75fb315f?auto=format&fit=crop&q=80&w=400",
-    foto_wanita: ivoryLineFormData.foto_wanita || "https://images.unsplash.com/photo-1596450514735-a131b3e811ce?auto=format&fit=crop&q=80&w=400",
+      : dummyWeddingPhotos.foto_urls,
+    foto_cover: ivoryLineFormData.foto_cover || dummyWeddingPhotos.foto_cover,
+    foto_pria: ivoryLineFormData.foto_pria || dummyWeddingPhotos.foto_pria,
+    foto_wanita: ivoryLineFormData.foto_wanita || dummyWeddingPhotos.foto_wanita,
     bank_accounts: ivoryLineFormData.bank_accounts && ivoryLineFormData.bank_accounts.length > 0 
       ? ivoryLineFormData.bank_accounts 
       : [{ bank: "BCA", nomor: "1234567890", nama: "Romeo Montague" }],

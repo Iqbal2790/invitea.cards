@@ -3,6 +3,7 @@
 import { use } from "react";
 import Link from "next/link";
 import { ChevronLeft, Smartphone } from "lucide-react";
+import { dummyWeddingPhotos } from "@/lib/dummy-data";
 import ClassicTemplate from "@/components/templates/renderers/classic";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
@@ -37,17 +38,10 @@ export default function PreviewPage({ params }) {
     acara1_tanggal: "2026-12-24",
     acara1_jam: "08:00",
     acara1_lokasi: "Masjid Raya Jakarta",
-    foto_urls: [
-      "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800"
-    ],
-    foto_cover: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80&w=800",
-    foto_pria: "https://images.unsplash.com/photo-1550005809-91ad75fb315f?auto=format&fit=crop&q=80&w=400",
-    foto_wanita: "https://images.unsplash.com/photo-1596450514735-a131b3e811ce?auto=format&fit=crop&q=80&w=400",
+    foto_urls: dummyWeddingPhotos.foto_urls,
+    foto_cover: dummyWeddingPhotos.foto_cover,
+    foto_pria: dummyWeddingPhotos.foto_pria,
+    foto_wanita: dummyWeddingPhotos.foto_wanita,
     bank_accounts: [{ bank: "BCA", nomor: "1234567890", nama: "Romeo Montague" }],
     youtube_url: "",
     cerita_cinta: "Pertemuan kami berawal dari sebuah kebetulan sederhana di musim hujan lima tahun yang lalu. Dari perbincangan singkat tentang buku favorit, berlanjut menjadi diskusi panjang, hingga akhirnya kami menyadari bahwa kami saling melengkapi. Setelah melewati berbagai musim kehidupan bersama, hari ini kami memutuskan untuk mengikat janji suci dan memulai babak baru dalam cerita cinta kami.",
