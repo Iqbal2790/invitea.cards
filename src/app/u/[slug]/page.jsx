@@ -49,11 +49,11 @@ export default function LiveInvitationPage({ params }) {
     );
   }
 
-  const { data_content, templates, id } = data;
+  const { data_content, templates, id, rsvps } = data;
   const isMagicalLanterns = templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
   const isIvoryLine = templates?.id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
 
-  let templateData = { id: id };
+  let templateData = { id: id, rsvps: rsvps || [] };
   if (isMagicalLanterns) {
     templateData = {
       ...templateData,

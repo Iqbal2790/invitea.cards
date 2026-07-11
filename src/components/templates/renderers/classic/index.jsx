@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, CalendarHeart, Clock, Mail } from "lucide-react";
 import Image from "next/image";
@@ -20,12 +21,44 @@ export default function ClassicTemplate({ data, isPreview = false }) {
   const year = dateObj.getFullYear();
   const time = dateObj.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' });
 
-  const handleRSVP = (e) => {
+  const order_id = data?.id;
+  const [rsvpForm, setRsvpForm] = useState({ nama_tamu: "", status_kehadiran: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleRSVP = async (e) => {
     e.preventDefault();
     if (isPreview) {
       alert("Mode Preview: Fitur RSVP dinonaktifkan.");
-    } else {
-      alert("Terima kasih atas konfirmasi Anda!");
+      return;
+    }
+
+    if (!rsvpForm.nama_tamu || !rsvpForm.status_kehadiran) {
+      alert("Mohon isi Nama Tamu dan Kehadiran");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order_id,
+          nama_tamu: rsvpForm.nama_tamu,
+          status_kehadiran: rsvpForm.status_kehadiran
+        })
+      });
+      
+      if (res.ok) {
+        alert("Terima kasih atas konfirmasi Anda!");
+        setRsvpForm({ nama_tamu: "", status_kehadiran: "" });
+      } else {
+        alert("Gagal mengirim konfirmasi. Silakan coba lagi.");
+      }
+    } catch (error) {
+      alert("Terjadi kesalahan sistem.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -123,6 +156,8 @@ export default function ClassicTemplate({ data, isPreview = false }) {
               <input 
                 type="text" 
                 required
+                value={rsvpForm.nama_tamu}
+                onChange={(e) => setRsvpForm({...rsvpForm, nama_tamu: e.target.value})}
                 placeholder="Masukkan nama Anda"
                 className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-stone-400 text-sm"
               />
@@ -132,6 +167,8 @@ export default function ClassicTemplate({ data, isPreview = false }) {
               <label className="block text-xs font-medium text-stone-600 mb-1">Kehadiran</label>
               <select 
                 required
+                value={rsvpForm.status_kehadiran}
+                onChange={(e) => setRsvpForm({...rsvpForm, status_kehadiran: e.target.value})}
                 className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-stone-400 text-sm"
               >
                 <option value="">Pilih status kehadiran</option>
@@ -142,9 +179,10 @@ export default function ClassicTemplate({ data, isPreview = false }) {
 
             <button 
               type="submit" 
-              className="w-full bg-stone-800 text-white py-3.5 rounded-full text-sm font-medium hover:bg-stone-700 transition-colors mt-2"
+              disabled={isSubmitting}
+              className="w-full bg-stone-800 text-white py-3.5 rounded-full text-sm font-medium hover:bg-stone-700 transition-colors mt-2 disabled:opacity-50"
             >
-              Kirim Konfirmasi
+              {isSubmitting ? "Mengirim..." : "Kirim Konfirmasi"}
             </button>
           </form>
         </motion.div>

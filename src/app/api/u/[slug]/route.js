@@ -28,9 +28,23 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Undangan tidak ditemukan" }, { status: 404 });
     }
 
+    // Fetch RSVPs
+    const { data: rsvps, error: rsvpError } = await supabaseAdmin
+      .from("rsvp_responses")
+      .select("*")
+      .eq("order_id", orderData.id)
+      .order("created_at", { ascending: false });
+
+    if (rsvpError) {
+      console.error("Error fetching rsvps:", rsvpError);
+    }
+
     return NextResponse.json({
       success: true,
-      data: orderData
+      data: {
+        ...orderData,
+        rsvps: rsvps || []
+      }
     });
 
   } catch (error) {
