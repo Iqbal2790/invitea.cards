@@ -135,6 +135,7 @@ export default function OrderDashboardPage({ params }) {
   const rsvpData = data.rsvps || [];
   const templateName = orderData.templates?.nama || "Template Undangan";
   const isUcapan = orderData.templates?.fields_config?.subCategory === "Romantis" || orderData.templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
+  const dashboardTitle = isUcapan ? "Manajemen Kartu Ucapan" : "Manajemen Undangan";
   const contentTitle = isUcapan ? "Konten Kartu Ucapan" : "Konten Undangan";
   
   const dynamicFields = Object.values(orderData.templates?.fields_config || {})
