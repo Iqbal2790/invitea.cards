@@ -53,21 +53,11 @@ export default function OrderDashboardPage({ params }) {
         
         setData(result.data);
         
-        // Initialize form with existing data
+        // Initialize form with all existing data
         const content = result.data.data_content || {};
-        setEditForm({
-          nama_pria: content.nama_pria || "",
-          nama_wanita: content.nama_wanita || "",
-          tanggal_acara: content.tanggal_acara || "",
-          lokasi_acara: content.lokasi_acara || "",
-          senderName: content.senderName || "",
-          receiverName: content.receiverName || "",
-          greetingText: content.greetingText || "",
-          wishes: content.wishes || [],
-          finalQuote: content.finalQuote || "",
-          finalGreeting: content.finalGreeting || "",
-          closingRemark: content.closingRemark || ""
-        });
+        
+        // Deep copy the content to avoid reference issues
+        setEditForm(JSON.parse(JSON.stringify(content)));
       } catch (err) {
         setError(err.message);
       } finally {
@@ -145,9 +135,10 @@ export default function OrderDashboardPage({ params }) {
   const rsvpData = data.rsvps || [];
   const templateName = orderData.templates?.nama || "Template Undangan";
   const isUcapan = orderData.templates?.fields_config?.subCategory === "Romantis" || orderData.templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
-  const dashboardTitle = isUcapan ? "Manajemen Kartu Ucapan" : "Manajemen Undangan";
   const contentTitle = isUcapan ? "Konten Kartu Ucapan" : "Konten Undangan";
   
+  const dynamicFields = Object.values(orderData.templates?.fields_config || {})
+    .filter(f => f && typeof f === 'object' && f.name && f.type !== 'photo' && f.type !== 'bank');
   const totalHadir = rsvpData.filter(r => r.hadir).length;
   const totalTidakHadir = rsvpData.filter(r => !r.hadir).length;
 
@@ -371,50 +362,28 @@ export default function OrderDashboardPage({ params }) {
                     </>
                   ) : (
                     <>
-                      <div>
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Nama Pria</label>
-                        <input 
-                          type="text"
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                          value={editForm.nama_pria}
-                          onChange={e => setEditForm({...editForm, nama_pria: e.target.value})}
-                          placeholder="Contoh: Romeo"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Nama Wanita</label>
-                        <input 
-                          type="text"
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                          value={editForm.nama_wanita}
-                          onChange={e => setEditForm({...editForm, nama_wanita: e.target.value})}
-                          placeholder="Contoh: Juliet"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Tanggal Acara</label>
-                        <input 
-                          type="text"
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                          value={editForm.tanggal_acara}
-                          onChange={e => setEditForm({...editForm, tanggal_acara: e.target.value})}
-                          placeholder="Contoh: 14 Februari 2027"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Lokasi Acara</label>
-                        <input 
-                          type="text"
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                          value={editForm.lokasi_acara}
-                          onChange={e => setEditForm({...editForm, lokasi_acara: e.target.value})}
-                          placeholder="Contoh: Gedung Pernikahan..."
-                          required
-                        />
-                      </div>
+                      {dynamicFields.map(field => (
+                        <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'md:col-span-2' : ''}>
+                          <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">{field.label}</label>
+                          {field.type === 'textarea' ? (
+                            <textarea
+                              rows={3}
+                              className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
+                              value={editForm[field.name] || ''}
+                              onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
+                              required={field.required}
+                            />
+                          ) : (
+                            <input
+                              type={field.type === 'date' ? 'date' : field.type === 'time' ? 'time' : field.type === 'url' ? 'url' : 'text'}
+                              className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
+                              value={editForm[field.name] || ''}
+                              onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
+                              required={field.required}
+                            />
+                          )}
+                        </div>
+                      ))}
                     </>
                   )}
                 </div>
@@ -425,19 +394,7 @@ export default function OrderDashboardPage({ params }) {
                     onClick={() => {
                       setIsEditing(false);
                       const content = data.data_content || {};
-                      setEditForm({
-                        nama_pria: content.nama_pria || "",
-                        nama_wanita: content.nama_wanita || "",
-                        tanggal_acara: content.tanggal_acara || "",
-                        lokasi_acara: content.lokasi_acara || "",
-                        senderName: content.senderName || "",
-                        receiverName: content.receiverName || "",
-                        greetingText: content.greetingText || "",
-                        wishes: content.wishes || [],
-                        finalQuote: content.finalQuote || "",
-                        finalGreeting: content.finalGreeting || "",
-                        closingRemark: content.closingRemark || ""
-                      });
+                      setEditForm(JSON.parse(JSON.stringify(content)));
                     }}
                     className="px-[24px] py-[12px] rounded-full border-[1.5px] border-hairline text-ink text-[14px] font-medium hover:border-berry dark:hover:border-pink hover:text-berry dark:hover:text-pink transition-colors"
                   >
@@ -481,20 +438,14 @@ export default function OrderDashboardPage({ params }) {
                   </>
                 ) : (
                   <>
-                    <div>
-                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Nama Pasangan</p>
-                      <p className="text-ink font-medium text-[16.5px]">
-                        {data.data_content?.nama_pria || "-"} &amp; {data.data_content?.nama_wanita || "-"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Tanggal Acara</p>
-                      <p className="text-ink font-medium text-[16.5px]">{data.data_content?.tanggal_acara || "-"}</p>
-                    </div>
-                    <div className="sm:col-span-2 pt-[8px] sm:pt-0">
-                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Lokasi Acara</p>
-                      <p className="text-ink font-medium text-[16.5px]">{data.data_content?.lokasi_acara || "-"}</p>
-                    </div>
+                    {dynamicFields.map(field => (
+                      <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'sm:col-span-2' : ''}>
+                        <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">{field.label}</p>
+                        <p className="text-ink font-medium text-[16.5px] whitespace-pre-wrap">
+                          {data.data_content?.[field.name] || "-"}
+                        </p>
+                      </div>
+                    ))}
                   </>
                 )}
               </div>
