@@ -34,7 +34,9 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
     bank_accounts = [],
     youtube_url = "",
     ucapan_penutup = "",
-    wishes = []
+    wishes = [],
+    rsvps = [],
+    id: order_id
   } = data || {};
 
   const heroPhoto = foto_cover || (foto_urls.length > 0 ? foto_urls[0] : "https://placehold.co/800x1200/F3EDE1/161512?text=Hero+Photo");
@@ -72,21 +74,86 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
 
   const youtubeId = getYouTubeId(youtube_url);
 
-  const handleRSVP = (e) => {
+  // Form States
+  const [rsvpForm, setRsvpForm] = useState({ nama_tamu: "", status_kehadiran: "", jumlah_tamu: "" });
+  const [wishesForm, setWishesForm] = useState({ nama_tamu: "", pesan: "" });
+  const [isSubmittingRsvp, setIsSubmittingRsvp] = useState(false);
+  const [isSubmittingWish, setIsSubmittingWish] = useState(false);
+  const [liveWishes, setLiveWishes] = useState(rsvps.filter(r => r.pesan) || wishes || []);
+
+  const handleRSVP = async (e) => {
     e.preventDefault();
     if (isPreview) {
       alert("Mode Preview: Fitur RSVP dinonaktifkan.");
-    } else {
-      alert("Terima kasih atas konfirmasi Anda!");
+      return;
+    }
+    if (!rsvpForm.nama_tamu || !rsvpForm.status_kehadiran) {
+      alert("Mohon isi Nama dan Kehadiran");
+      return;
+    }
+
+    setIsSubmittingRsvp(true);
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order_id,
+          nama_tamu: rsvpForm.nama_tamu,
+          status_kehadiran: rsvpForm.status_kehadiran,
+          jumlah_tamu: rsvpForm.jumlah_tamu
+        })
+      });
+      if (res.ok) {
+        alert("Terima kasih atas konfirmasi Anda!");
+        setRsvpForm({ nama_tamu: "", status_kehadiran: "", jumlah_tamu: "" });
+      } else {
+        alert("Gagal mengirim konfirmasi. Silakan coba lagi.");
+      }
+    } catch (error) {
+      alert("Gagal mengirim konfirmasi.");
+    } finally {
+      setIsSubmittingRsvp(false);
     }
   };
 
-  const handleWishes = (e) => {
+  const handleWishes = async (e) => {
     e.preventDefault();
     if (isPreview) {
       alert("Mode Preview: Fitur Kirim Ucapan dinonaktifkan.");
-    } else {
-      alert("Terima kasih atas ucapan Anda!");
+      return;
+    }
+    if (!wishesForm.nama_tamu || !wishesForm.pesan) {
+      alert("Mohon isi Nama dan Ucapan Anda");
+      return;
+    }
+
+    setIsSubmittingWish(true);
+    try {
+      const res = await fetch('/api/rsvp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          order_id,
+          nama_tamu: wishesForm.nama_tamu,
+          status_kehadiran: "Hanya Ucapan",
+          pesan: wishesForm.pesan
+        })
+      });
+      if (res.ok) {
+        const { data: newWish } = await res.json();
+        alert("Terima kasih atas ucapan Anda!");
+        setWishesForm({ nama_tamu: "", pesan: "" });
+        if (newWish) {
+          setLiveWishes([newWish, ...liveWishes]);
+        }
+      } else {
+        alert("Gagal mengirim ucapan. Silakan coba lagi.");
+      }
+    } catch (error) {
+      alert("Gagal mengirim ucapan.");
+    } finally {
+      setIsSubmittingWish(false);
     }
   };
 
@@ -370,21 +437,21 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                     <h3 className="ivory-font-sans text-[14px] uppercase tracking-[0.1em] font-medium mb-[24px] text-center border-b border-[#FAF6EF]/20 pb-[16px]">Konfirmasi Kehadiran</h3>
                     <form onSubmit={handleRSVP} className="space-y-[16px]">
                       <div>
-                        <input type="text" placeholder="Nama Anda" className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors" />
+                        <input type="text" placeholder="Nama Anda" value={rsvpForm.nama_tamu} onChange={(e) => setRsvpForm({...rsvpForm, nama_tamu: e.target.value})} className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors" />
                       </div>
                       <div>
-                        <select className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] transition-colors appearance-none cursor-pointer">
+                        <select value={rsvpForm.status_kehadiran} onChange={(e) => setRsvpForm({...rsvpForm, status_kehadiran: e.target.value})} className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] transition-colors appearance-none cursor-pointer">
                           <option value="" className="bg-[#10192B]">Apakah Anda akan hadir?</option>
                           <option value="hadir" className="bg-[#10192B]">Ya, saya akan hadir</option>
                           <option value="tidak_hadir" className="bg-[#10192B]">Maaf, saya tidak bisa hadir</option>
                         </select>
                       </div>
                       <div>
-                        <input type="number" placeholder="Jumlah Tamu (Maks. 2)" min="1" max="2" className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors" />
+                        <input type="number" placeholder="Jumlah Tamu (Maks. 2)" min="1" max="2" value={rsvpForm.jumlah_tamu} onChange={(e) => setRsvpForm({...rsvpForm, jumlah_tamu: e.target.value})} className="w-full bg-transparent border-b border-[#FAF6EF]/30 focus:border-[#FAF6EF] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#FAF6EF] placeholder:text-[#FAF6EF]/50 transition-colors" />
                       </div>
                       <div className="pt-[16px]">
-                        <button type="submit" className="w-full bg-[#FAF6EF] text-[#10192B] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#F3EDE1]">
-                          Kirim RSVP
+                        <button type="submit" disabled={isSubmittingRsvp} className="w-full bg-[#FAF6EF] text-[#10192B] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#F3EDE1] disabled:opacity-50">
+                          {isSubmittingRsvp ? "Mengirim..." : "Kirim RSVP"}
                         </button>
                       </div>
                     </form>
@@ -404,32 +471,37 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
                     <h3 className="ivory-font-sans text-[14px] uppercase tracking-[0.1em] font-medium mb-[24px] border-b border-[#D8D0C0] pb-[16px]">Kirim Ucapan & Doa</h3>
                     <form onSubmit={handleWishes} className="space-y-[16px]">
                       <div>
-                        <input type="text" placeholder="Nama Anda" className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors" />
+                        <input type="text" placeholder="Nama Anda" value={wishesForm.nama_tamu} onChange={(e) => setWishesForm({...wishesForm, nama_tamu: e.target.value})} className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors" />
                       </div>
                       <div>
-                        <textarea rows="3" placeholder="Tulis ucapan atau doa untuk mempelai..." className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors resize-none"></textarea>
+                        <textarea rows="3" placeholder="Tulis ucapan atau doa untuk mempelai..." value={wishesForm.pesan} onChange={(e) => setWishesForm({...wishesForm, pesan: e.target.value})} className="w-full bg-transparent border-b border-[#D8D0C0] focus:border-[#161512] focus:outline-none rounded-none px-0 py-[12px] text-[15px] text-[#161512] placeholder:text-[#6B6558]/50 transition-colors resize-none"></textarea>
                       </div>
                       <div className="pt-[16px]">
-                        <button type="submit" className="w-full bg-[#161512] text-[#FAF6EF] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#2A2926]">
-                          Kirim Ucapan
+                        <button type="submit" disabled={isSubmittingWish} className="w-full bg-[#161512] text-[#FAF6EF] py-[16px] font-sans font-medium text-[14px] uppercase tracking-[0.05em] transition-all duration-300 hover:bg-[#2A2926] disabled:opacity-50">
+                          {isSubmittingWish ? "Mengirim..." : "Kirim Ucapan"}
                         </button>
                       </div>
                     </form>
                   </div>
 
-                  {wishes.length > 0 && (
+                  {liveWishes && liveWishes.length > 0 && (
                     <div className="grid md:grid-cols-2 gap-[24px]">
-                      {wishes.map((wish, i) => (
+                      {liveWishes.map((wish, i) => (
                         <motion.div 
-                          key={i}
+                          key={wish.id || i}
                           initial={{ opacity: 0, y: 20 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.5, delay: i * 0.1 }}
                           className="bg-white p-[24px] border border-[#D8D0C0] relative"
                         >
-                          <p className="ivory-font-sans text-[15px] italic text-[#6B6558] mb-[16px]">"{wish.message}"</p>
-                          <p className="ivory-font-sans text-[12px] uppercase tracking-[0.1em] text-[#161512] font-medium">- {wish.name || "Guest"}</p>
+                          <p className="ivory-font-sans text-[15px] italic text-[#6B6558] mb-[16px]">"{wish.pesan || wish.message}"</p>
+                          <p className="ivory-font-sans text-[12px] uppercase tracking-[0.1em] text-[#161512] font-medium">
+                            - {wish.nama_tamu || wish.name || wish.nama || "Tamu"} 
+                            <span className="ml-2 font-normal text-gray-400 normal-case tracking-normal">
+                              {wish.created_at ? new Date(wish.created_at).toLocaleDateString('id-ID') : ''}
+                            </span>
+                          </p>
                         </motion.div>
                       ))}
                     </div>
