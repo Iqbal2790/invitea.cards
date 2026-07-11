@@ -113,7 +113,7 @@ export default function StatusPage({ params }) {
     <div className="min-h-screen bg-bg transition-colors duration-400 font-sans flex flex-col items-center justify-center p-[24px]">
       <Script 
         src={
-          (process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("Mid-client-") && !(process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("SB-")
+          process.env.NEXT_PUBLIC_MIDTRANS_IS_PRODUCTION === "true" || (process.env.NEXT_PUBLIC_MIDTRANS_IS_PRODUCTION === undefined && process.env.NODE_ENV === "production")
             ? "https://app.midtrans.com/snap/snap.js"
             : "https://app.sandbox.midtrans.com/snap/snap.js"
         }
