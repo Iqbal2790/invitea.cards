@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Filter, Loader2 } from "lucide-react";
 
 const subCategoriesMap = {
-  undangan: ["Semua"],
+  undangan: ["Semua", "Minimalist"],
   ucapan: ["Semua", "Romantis"]
 };
 
