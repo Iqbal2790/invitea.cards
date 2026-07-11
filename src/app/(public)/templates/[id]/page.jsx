@@ -64,16 +64,26 @@ export default function TemplateDetailPage({ params }) {
     : "Desain undangan pernikahan digital yang elegan dan mudah dibagikan.";
 
   // Dynamic fallback for features based on fields_config or default
-  const defaultFeatures = template.kategori === "ucapan" ? [
-    { id: 1, label: "Pesan & Harapan", icon: "message-square-heart" },
-    { id: 2, label: "Galeri Foto", icon: "image" },
-    { id: 3, label: "Background Music", icon: "music" }
-  ] : [
-    { id: 1, label: "Galeri Foto & Video", icon: "image" },
-    { id: 2, label: "Navigasi Lokasi (Maps)", icon: "map-pin" },
-    { id: 3, label: "Hitung Mundur", icon: "clock" },
-    { id: 4, label: "Buku Tamu / RSVP", icon: "message-square-heart" },
-  ];
+  let defaultFeatures = [];
+  
+  if (template.kategori === "ucapan") {
+    defaultFeatures = [
+      { id: 1, label: "Pesan & Harapan", icon: "message-square-heart" },
+      { id: 2, label: "Galeri Foto", icon: "image" },
+      { id: 3, label: "Background Music", icon: "music" }
+    ];
+    // Khusus Cosmic Hearts, hilangkan Background Music
+    if (template.nama?.toLowerCase().includes("cosmic")) {
+      defaultFeatures = defaultFeatures.filter(f => f.label !== "Background Music");
+    }
+  } else {
+    defaultFeatures = [
+      { id: 1, label: "Galeri Foto & Video", icon: "image" },
+      { id: 2, label: "Navigasi Lokasi (Maps)", icon: "map-pin" },
+      { id: 3, label: "Hitung Mundur", icon: "clock" },
+      { id: 4, label: "Buku Tamu / RSVP", icon: "message-square-heart" },
+    ];
+  }
 
   return (
     <div className="min-h-screen bg-bg transition-colors duration-400 pt-[clamp(32px,6vw,56px)] pb-[clamp(72px,10vw,132px)]">
