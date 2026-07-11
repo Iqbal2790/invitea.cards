@@ -122,7 +122,7 @@ export default function CheckoutPage({ params }) {
     <div className="min-h-screen bg-bg transition-colors duration-400 font-sans pb-[clamp(60px,8vw,100px)]">
       <Script 
         src={
-          process.env.NODE_ENV === "production"
+          process.env.NEXT_PUBLIC_MIDTRANS_IS_PRODUCTION === "true" || (process.env.NEXT_PUBLIC_MIDTRANS_IS_PRODUCTION === undefined && process.env.NODE_ENV === "production")
             ? "https://app.midtrans.com/snap/snap.js"
             : "https://app.sandbox.midtrans.com/snap/snap.js"
         }
