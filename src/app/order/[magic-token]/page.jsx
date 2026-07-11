@@ -140,8 +140,8 @@ export default function OrderDashboardPage({ params }) {
   
   const dynamicFields = Object.values(orderData.templates?.fields_config || {})
     .filter(f => f && typeof f === 'object' && f.name && f.type !== 'photo' && f.type !== 'bank');
-  const totalHadir = rsvpData.filter(r => r.hadir).length;
-  const totalTidakHadir = rsvpData.filter(r => !r.hadir).length;
+  const totalHadir = rsvpData.filter(r => r.status_kehadiran === 'hadir').length;
+  const totalTidakHadir = rsvpData.filter(r => r.status_kehadiran === 'tidak_hadir' || r.status_kehadiran === 'tidak').length;
 
   const liveLink = `https://invitea.cards/u/${data.slug}`;
 
@@ -490,13 +490,17 @@ export default function OrderDashboardPage({ params }) {
                           })}
                         </p>
                       </div>
-                      {guest.hadir ? (
+                      {guest.status_kehadiran === 'hadir' ? (
                         <span className="inline-flex items-center gap-[4px] px-[8px] py-[4px] bg-green-50/80 text-green-700 border border-green-200/50 rounded-[4px] text-[10px] font-bold uppercase tracking-wider">
                           <Check className="w-3 h-3" /> Hadir
                         </span>
-                      ) : (
+                      ) : (guest.status_kehadiran === 'tidak_hadir' || guest.status_kehadiran === 'tidak') ? (
                         <span className="inline-flex items-center gap-[4px] px-[8px] py-[4px] bg-red-50/80 text-red-600 border border-red-200/50 rounded-[4px] text-[10px] font-bold uppercase tracking-wider">
                           <X className="w-3 h-3" /> Tidak
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-[4px] px-[8px] py-[4px] bg-gray-50/80 text-gray-600 border border-gray-200/50 rounded-[4px] text-[10px] font-bold uppercase tracking-wider">
+                          <Mail className="w-3 h-3" /> {guest.status_kehadiran}
                         </span>
                       )}
                     </div>
@@ -508,6 +512,11 @@ export default function OrderDashboardPage({ params }) {
                         "{guest.pesan || "Tidak meninggalkan pesan khusus."}"
                       </p>
                     </div>
+                    {guest.jumlah_tamu > 0 && guest.status_kehadiran === 'hadir' && (
+                      <div className="mt-[16px] text-[12.5px] text-ink-soft font-medium flex items-center gap-[6px]">
+                        <Users className="w-3.5 h-3.5" /> Membawa {guest.jumlah_tamu} orang
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
