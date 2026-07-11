@@ -14,7 +14,8 @@ import {
   CalendarDays,
   Edit,
   Save,
-  Loader2
+  Loader2,
+  Mail
 } from "lucide-react";
 
 export default function OrderDashboardPage({ params }) {
