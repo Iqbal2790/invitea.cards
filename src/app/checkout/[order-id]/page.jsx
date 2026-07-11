@@ -36,12 +36,12 @@ export default function CheckoutPage({ params }) {
       }
       
       // Restore pending token if exists so user can retry without creating duplicate
-      const storedToken = sessionStorage.getItem("pendingSnapToken");
-      const storedOrderId = sessionStorage.getItem("pendingOrderId");
-      if (storedToken && storedOrderId) {
-        setPendingSnapToken(storedToken);
-        setPendingOrderId(storedOrderId);
-      }
+      // const storedToken = sessionStorage.getItem("pendingSnapToken");
+      // const storedOrderId = sessionStorage.getItem("pendingOrderId");
+      // if (storedToken && storedOrderId) {
+      //   setPendingSnapToken(storedToken);
+      //   setPendingOrderId(storedOrderId);
+      // }
     } else {
       // Dummy fallback
       setTemplate(dummyTemplates.find(t => t.id === "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11") || dummyTemplates[0]);
@@ -122,7 +122,7 @@ export default function CheckoutPage({ params }) {
     <div className="min-h-screen bg-bg transition-colors duration-400 font-sans pb-[clamp(60px,8vw,100px)]">
       <Script 
         src={
-          (process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("Mid-client-") && !(process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY || "").startsWith("SB-")
+          process.env.NODE_ENV === "production"
             ? "https://app.midtrans.com/snap/snap.js"
             : "https://app.sandbox.midtrans.com/snap/snap.js"
         }
@@ -178,11 +178,11 @@ export default function CheckoutPage({ params }) {
                     <>
                       <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
                         <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Mempelai</span>
-                        <span className="font-medium text-ink text-[14.5px]">{formData?.groomName || 'Romeo'} & {formData?.brideName || 'Juliet'}</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.groomName || formData?.nama_panggilan_pria || 'Romeo'} & {formData?.brideName || formData?.nama_panggilan_wanita || 'Juliet'}</span>
                       </div>
                       <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
                         <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Tanggal</span>
-                        <span className="font-medium text-ink text-[14.5px]">{formData?.date || '24 Desember 2026'}</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.date || formData?.acara1_tanggal || '24 Desember 2026'}</span>
                       </div>
                     </>
                   ) : (

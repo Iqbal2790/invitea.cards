@@ -30,13 +30,13 @@ export default function StatusPage({ params }) {
         const data = await response.json();
         
         if (data.status) {
-          if (data.status === "settlement" || data.status === "capture") {
+          if (data.status === "paid" || data.status === "settlement" || data.status === "capture") {
             // Remove token when success
             sessionStorage.removeItem("pendingSnapToken");
             sessionStorage.removeItem("pendingOrderId");
-            router.push("/success");
+            router.push(`/success?order_id=${orderId}`);
             isPolling = false;
-          } else if (data.status === "cancel" || data.status === "expire" || data.status === "deny") {
+          } else if (data.status === "failed" || data.status === "cancel" || data.status === "expire" || data.status === "deny") {
             setStatus("failed");
             setProgress("Pembayaran dibatalkan atau gagal.");
             isPolling = false;

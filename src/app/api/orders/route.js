@@ -10,7 +10,9 @@ export async function POST(request) {
       return NextResponse.json({ error: "Email dan Template ID wajib diisi" }, { status: 400 });
     }
 
-    // 1. Cek ketersediaan dan harga template di database
+
+
+    // 2. Cek ketersediaan dan harga template di database
     const { data: template, error: templateError } = await supabaseAdmin
       .from("templates")
       .select("id, nama, harga")
@@ -50,25 +52,20 @@ export async function POST(request) {
     const parameter = {
       transaction_details: {
         order_id: orderId, // Menggunakan UUID dari Supabase sebagai Order ID Midtrans
-        gross_amount: template.harga
+        gross_amount: Math.round(Number(template.harga))
       },
       customer_details: {
         email: email
       },
       item_details: [{
         id: template.id,
-        price: template.harga,
+        price: Math.round(Number(template.harga)),
         quantity: 1,
-        name: template.nama.substring(0, 50)
+        name: (template.nama || "Template Invitea").substring(0, 50)
       }],
       expiry: {
         duration: 5,
         unit: "minute"
-      },
-      callbacks: {
-        finish: `${origin}/status/${orderId}`,
-        error: `${origin}/status/${orderId}`,
-        pending: `${origin}/status/${orderId}`
       }
     };
 
@@ -82,6 +79,10 @@ export async function POST(request) {
 
   } catch (error) {
     console.error("API Orders Error:", error);
-    return NextResponse.json({ error: "Terjadi kesalahan internal server" }, { status: 500 });
+    return NextResponse.json({ 
+      error: "Terjadi kesalahan internal server", 
+      details: error.message,
+      apiResponse: error.ApiResponse || null
+    }, { status: 500 });
   }
 }
