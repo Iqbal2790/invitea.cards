@@ -65,16 +65,17 @@ export default async function LandingPage() {
             
             {/* Primary (Tall) */}
             {primaryTemplate ? (
-              <Link href={`/templates/${primaryTemplate.id}`} className="relative rounded-[6px] overflow-hidden bg-berry-deep group block">
+              <Link href={`/templates/${primaryTemplate.id}`} className="relative rounded-[6px] overflow-hidden bg-berry-deep group block" style={{ height: "560px" }}>
                 {primaryTemplate.thumbnail_url ? (
                   <Image 
                     src={primaryTemplate.thumbnail_url}
                     alt={primaryTemplate.nama}
                     fill
-                    className="w-full h-[560px] object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+                    className="object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+                    sizes="(max-width: 768px) 100vw, 60vw"
                   />
                 ) : (
-                  <div className="w-full h-[560px] flex items-center justify-center text-cream-text/50">No Thumbnail</div>
+                  <div className="w-full h-full flex items-center justify-center text-cream-text/50">No Thumbnail</div>
                 )}
                 <div className="absolute left-[24px] bottom-[22px] text-cream-text z-10">
                   <div className="text-[12.5px] font-semibold tracking-[0.04em] opacity-85 uppercase">
@@ -101,7 +102,8 @@ export default async function LandingPage() {
                       src={template.thumbnail_url}
                       alt={template.nama}
                       fill
-                      className="w-full h-full object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+                      className="object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+                      sizes="(max-width: 768px) 100vw, 40vw"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-cream-text/50">No Thumbnail</div>
