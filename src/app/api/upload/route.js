@@ -28,7 +28,7 @@ export async function POST(request) {
       fileName = `slot${slotNum}`;
     } else {
       // It's a string identifier like foto_pria, foto_wanita, foto_cover
-      const allowedStringSlots = ["foto_pria", "foto_wanita", "foto_cover", "foto_hero", "pria", "wanita", "cover"];
+      const allowedStringSlots = ["foto_pria", "foto_wanita", "foto_cover", "foto_hero", "pria", "wanita", "cover", "photo1", "photo2", "photo3", "filmPhoto1", "filmPhoto2", "filmPhoto3", "filmPhoto4", "filmPhoto5"];
       if (!allowedStringSlots.includes(slotRaw)) {
         return NextResponse.json(
           { error: `Slot foto tidak valid.` },

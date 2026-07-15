@@ -251,6 +251,201 @@ Ini berlaku di semua sesi tanpa pengecualian:
 - ❌ Menyatakan "Selesai" sebelum verifikasi tidak ada error
 - ❌ Menggunakan server key di client-side code
 - ❌ Menghapus file tanpa penggantinya yang sudah ditest
+DILARANG menggunakan dynamic form — setiap template punya form.jsx sendiri.
+```
+
+Alur yang benar saat menambah template baru:
+```
+1. Baca PRD.md → Section "Menambah Template Baru"
+2. Baca form.md template → identifikasi semua key yang dibutuhkan
+3. Baca design.md template → ikuti style untuk form
+4. Buat form.jsx berdasarkan form.md (bukan asumsi)
+5. Tampilkan ke user untuk review sebelum disimpan
+```
+
+### Keamanan API
+```
+DILARANG menggunakan NEXT_PUBLIC_ prefix untuk SERVER_KEY Midtrans
+DILARANG menggunakan NEXT_PUBLIC_ prefix untuk SERVICE_ROLE_KEY Supabase
+DILARANG memproteksi /api/midtrans/webhook dengan auth apapun
+WAJIB verifikasi signature Midtrans sebelum proses webhook
+WAJIB gunakan supabaseAdmin (SERVICE_ROLE_KEY) untuk semua operasi sensitif
+```
+
+### Database
+```
+DILARANG mengubah struktur tabel tanpa konfirmasi user
+DILARANG menghapus data apapun di production
+WAJIB tampilkan SQL ke user sebelum menjalankan query destructive
+WAJIB set is_active: false untuk template baru sampai test selesai
+```
+
+### Visual & UI
+```
+DILARANG mengubah styling, warna, atau font yang sudah ada
+DILARANG mengganti className yang sudah ada kecuali diminta eksplisit
+WAJIB pertahankan semua tampilan visual yang sudah berjalan
+```
+
+### File & Struktur
+```
+DILARANG menghapus file apapun sebelum ada penggantinya yang sudah ditest
+DILARANG mengubah src/lib/supabase.js, resend.js, midtrans.js tanpa instruksi eksplisit
+WAJIB update Registry Template di PRD.md setiap kali template baru selesai
+```
+
+---
+
+## 3. Standar Frontend & UI (Next.js / React)
+
+### Pola React & Next.js
+- Selalu gunakan **App Router** — bukan Pages Router
+- Server Components untuk fetch data, Client Components untuk interaktivitas
+- Gunakan `'use client'` hanya jika diperlukan (state, event handler, browser API)
+- Terapkan panduan `react-patterns` dan `nextjs-turbopack` dari ECC
+
+### Desain & Animasi
+- Project ini mengutamakan estetika emosional dan cinematic
+- Setiap modifikasi UI merujuk pada `make-interfaces-feel-better` dan `motion-ui`
+- Animasi: selalu gunakan `transform` dan `opacity` — jangan animate layout properties
+- Ease curve: `cubic-bezier(0.16, 1, 0.3, 1)` untuk semua transisi utama
+- Selalu wrap animasi dalam `@media (prefers-reduced-motion: no-preference)`
+- **Gaya Tombol (Pill-shaped / Kapsul)**: Tombol menggunakan `rounded-full` (kapsul) dan dilarang menggunakan sudut tajam kaku. Tombol memiliki efek hover transform/shadow yang halus.
+- **Strictly Responsive (Mobile-First)**: Semua komponen UI harus responsif secara mutlak. Tidak boleh ada lebar elemen statis (fixed-width) yang merusak layout pada layar kecil/mobile.
+### Aksesibilitas
+- Semua komponen interaktif memenuhi standar `frontend-a11y`
+- Tombol harus punya label yang jelas
+- Kontras warna minimal 4.5:1 untuk teks body
+
+---
+
+## 4. Keamanan & Kualitas Kode
+
+### Code Quality
+- Format kode rapi, tidak ada variabel yang tidak terpakai
+- Terapkan `plankton-code-quality` pada setiap file yang diubah
+- Tidak ada `console.log` yang tertinggal di production code
+- Import diurutkan: built-in → third-party → internal
+
+### Security Check
+Wajib dijalankan jika kode menyentuh:
+- Autentikasi admin
+- API eksternal (Midtrans, Supabase, Resend)
+- Input dari user (form, URL params)
+- Upload file
+
+Gunakan `security-review` dari ECC untuk mengecek kerentanan.
+
+### Environment Variables
+```
+NEXT_PUBLIC_*              → boleh di browser
+tanpa NEXT_PUBLIC_         → server only, tidak boleh di client code
+```
+
+---
+
+## 5. Agen yang Tersedia (ECC)
+
+Gunakan agen ini untuk mendelegasikan tugas:
+
+| Situasi | Agen yang dipakai |
+|---|---|
+| Merencanakan fitur baru | `planner` |
+| Review kode yang baru ditulis | `code-reviewer` |
+| Ada error build yang tidak bisa dipecahkan | `build-error-resolver` |
+| Review keamanan API/auth | `security-reviewer` |
+| Review perubahan database | `database-reviewer` |
+| Membersihkan kode mati | `refactor-cleaner` |
+
+---
+
+## 6. Pembelajaran Berkelanjutan (Continuous Learning)
+
+Terapkan pola `continuous-learning-v2`:
+
+- Jika user bilang "ingat", "ingat ini", "tolong ingat ini", terapkan skill `continuous-learning-v2` untuk menyimpannya sebagai instinct.
+- Jika user melakukan koreksi terhadap gaya kode → catat sebagai standar untuk komponen berikutnya
+- Jika user menolak pendekatan tertentu → jangan ulangi pendekatan itu di sesi berikutnya
+- Jika ada pola baru yang disetujui user → simpan sebagai instinct dengan `/instinct-import`
+
+**Contoh koreksi yang harus dicatat:**
+- "Jangan pakai dynamic form" → instinct: selalu buat form.jsx per template
+- "Pertahankan visual yang ada" → instinct: jangan ubah className tanpa instruksi
+- "Konfirmasi dulu sebelum coding" → instinct: selalu audit dan jelaskan sebelum mulai
+
+---
+
+## 7. Prompt yang Benar untuk Memulai Sesi
+
+### Sesi Restrukturisasi / Build
+
+```
+Baca PRD.md dan AGENTS.md dulu.
+
+Kita sedang restrukturisasi project Invitea.
+Yang sudah selesai: [list fase yang done]
+Hari ini: [nama fase/tugas]
+
+Mulai dengan audit kondisi kode yang ada,
+jelaskan apa yang perlu diubah,
+tunggu konfirmasiku sebelum mulai coding.
+```
+
+### Sesi Tambah Template Baru
+
+```
+Baca PRD.md (Section 7 dan 10) dan AGENTS.md dulu.
+
+Kita akan tambah template baru:
+- Nama: [nama template]
+- Slug: [slug]
+- Kategori: [undangan/ucapan]
+
+File sudah ada di:
+src/components/templates/renderers/[slug]/
+  - index.jsx
+  - design.md
+  - form.md
+
+Mulai dari Langkah 6: buat form.jsx berdasarkan form.md.
+Tampilkan kodenya dulu sebelum disimpan.
+```
+
+### Sesi Perbaikan Bug
+
+```
+Baca PRD.md dan AGENTS.md dulu.
+
+Ada bug di: [nama file / halaman / fitur]
+Gejalanya: [deskripsi bug]
+
+Audit dulu penyebabnya, jelaskan ke aku,
+baru mulai perbaiki setelah aku konfirmasi.
+```
+
+### Sesi Lanjutan
+
+```
+Baca PRD.md dan AGENTS.md dulu.
+
+Kita lanjut dari sesi sebelumnya.
+Terakhir selesai: [apa yang sudah selesai]
+Sekarang lanjut ke: [tugas berikutnya]
+```
+
+---
+
+## 8. Yang Tidak Boleh Dilakukan (Larangan Keras)
+
+Ini berlaku di semua sesi tanpa pengecualian:
+
+- ❌ Mulai coding sebelum membaca PRD.md
+- ❌ Membuat form.jsx tanpa membaca form.md
+- ❌ Mengubah visual/UI tanpa instruksi eksplisit dari user
+- ❌ Mengerjakan lebih dari satu tugas tanpa konfirmasi
+- ❌ Menyatakan "Selesai" sebelum verifikasi tidak ada error
+- ❌ Menggunakan server key di client-side code
+- ❌ Menghapus file tanpa penggantinya yang sudah ditest
 - ❌ Mengubah file di `src/lib/` tanpa instruksi eksplisit
 - ❌ Install library baru tanpa konfirmasi user
 - ❌ Set `is_active: true` sebelum template selesai ditest
@@ -272,13 +467,22 @@ Ini berlaku di semua sesi tanpa pengecualian:
 
 ---
 
-## 9. Aturan Eksekusi Khusus
+## 10. Aturan Eksekusi Khusus
 - **SEBELUM PUSH KE GITHUB**: Selalu audit dan update `.gitignore` untuk mengecualikan hal-hal yang tidak perlu (kecualikan semua file sampah sistem, log, atau environment, jangan hanya yang bersifat private seperti `.env`).
+- **DILARANG AUTO-PUSH**: JANGAN pernah menjalankan `git push` secara otomatis setelah membuat perubahan. Semua perubahan dibiarkan di local terlebih dahulu. Push ke GitHub HANYA jika user secara eksplisit meminta (misalnya: "push", "push ke github", "push sekarang").
 
-## 10. Instincts / Pembelajaran Terakhir
+## 11. Instincts / Pembelajaran Terakhir
 - **Data Mapping Live Preview**: Saat menghubungkan form data (misal `lanternsFormData`) dengan *Template Renderer* di `buat/[id]/page.jsx`, pastikan *key* di dalam objek mapped data (misal `mappedLanternsData`) SAMA PERSIS dengan *key* yang dipanggil/dibutuhkan oleh template (misal `receiverName`, `greetingText`). Jangan meniru *key* dari template sebelumnya jika *schema* yang diminta berbeda, agar *Live Preview* bereaksi (berubah) sesuai dengan teks yang diketik.
 - **Fetching Template (RLS Bypassing)**: Jangan mengambil data template tunggal dengan `supabaseClient` langsung dari *Client Component* (`/buat/[id]/page.jsx` atau `/templates/[id]/page.jsx`) karena RLS (Row Level Security) akan memblokir *anonymous read*. Selalu gunakan/buat API Route khusus di sisi Server (misal `/api/templates?id=...`) yang menggunakan `supabaseAdmin` (Service Role Key) untuk melewati limitasi RLS tersebut.
 - **Placeholder vs Upload Logic**: Jangan menghapus komponen upload file asli dari form form.jsx hanya untuk menambah placeholder statis di preview. Placeholder hanya boleh dirender secara kondisional di komponen preview jika user belum mengunggah gambar.
 - **Mapping Array Data di Live Preview**: Saat mengirim data array (seperti foto) dari form ke komponen preview, JANGAN menggunakan `.filter()` untuk membuang elemen `null` jika template renderer bergantung pada slot spesifik (indeks). Kirim array secara utuh agar slot foto (misalnya Node 1, Node 2, Node 3) tidak bergeser urutannya jika user hanya mengisi foto di tengah.
 - **Standar UI Upload Foto**: Semua form upload foto (termasuk foto profil/mempelai maupun galeri) HARUS menggunakan komponen kotak yang sama: `w-full h-[120px] rounded-[6px] border-2 border-dashed bg-bg-alt` tanpa membedakan bentuk menjadi lingkaran. Tombol hapus (*trash*) harus ditempatkan statis di pojok kanan atas (`absolute top-2 right-2`), bukan menggunakan efek transparan di tengah saat di-hover.
 - **Penggabungan Form RSVP dan Ucapan**: Selalu gabung form RSVP dan form Ucapan & Doa menjadi SATU formulir (satu kali submit) di semua template undangan. Jangan pisahkan kedua form ini untuk mencegah terjadinya duplikasi (*double input*) data di database ketika tamu mengisi form dua kali secara terpisah.
+- [Memory Lane Form - Implementation Note]: Memory Lane form requires an explicit step specifically for Film Strip photos (up to 5) separate from Polaroid photos.
+
+## Template Builder - Form Layout Standards
+When building new template form components in `src/components/forms/`, ALWAYS use this unified layout structure to prevent visual misalignment across templates:
+1. **Header Navigation (Progress Bar)**: Use an `absolute top-0 left-0` wrapper with `bg-header-bg backdrop-blur-[10px]` containing `TOTAL_STEPS` pill indicators.
+2. **Form Container**: Wrap the main form content (`<AnimatePresence>`) inside a centered container with `max-w-[440px] w-full mx-auto mt-24 mb-12`.
+3. **Buttons**: Next buttons should span `flex-1`, and Previous buttons should be icon-only circles or pills to the left.
+4. **Spacing**: Group inputs inside `space-y-[24px]` blocks, and individual label/input pairs inside `space-y-[8px]`.

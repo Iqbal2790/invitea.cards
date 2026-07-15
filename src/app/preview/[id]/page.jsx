@@ -4,9 +4,9 @@ import { use } from "react";
 import Link from "next/link";
 import { ChevronLeft, Smartphone } from "lucide-react";
 import { dummyWeddingPhotos } from "@/lib/dummy-data";
-import ClassicTemplate from "@/components/templates/renderers/classic";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
+import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -50,11 +50,34 @@ export default function PreviewPage({ params }) {
     acara2_tanggal: "2026-12-24",
     acara2_jam: "11:00",
     acara2_lokasi: "Gedung Serbaguna, Jakarta",
-    acara2_maps_url: "https://maps.google.com/?q=Jakarta"
+    acara2_maps_url: "https://maps.google.com/?q=Jakarta",
+    // Memory Lane specific
+    receiverName: "Jane Doe",
+    senderName: "John Doe",
+    recipientAge: "25",
+    photo1: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800",
+    photo2: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=800",
+    photo3: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800",
+    caption1: "Momen bahagia kita bersama.",
+    caption2: "Hari yang tak akan pernah terlupakan.",
+    caption3: "Terima kasih untuk segalanya.",
+    mainMessage: "Selamat ulang tahun! Semoga hari ini seindah senyummu dan tahun ini penuh dengan kejutan manis. Terima kasih sudah menjadi bagian penting dalam hidupku.",
+    reasons: [
+      "Senyum manismu",
+      "Kebaikan hatimu",
+      "Tawamu yang menular",
+      "Caramu mendengarkan",
+      "Semangatmu",
+      "Kehangatanmu",
+      "Kamu yang apa adanya"
+    ],
+    songUrl: "https://youtu.be/P3wSn5K9quo?si=Z5S7zzSCeletoPhI",
+    musicQuote: "Lagu ini selalu mengingatkanku padamu."
   };
 
   const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
+  const isMemoryLane = id === "45f4eb4d-ddab-410d-9104-401e2147f24e";
 
   return (
     <div className="min-h-screen bg-stone-900 flex flex-col font-sans">
@@ -85,10 +108,12 @@ export default function PreviewPage({ params }) {
         <div className="w-full md:w-[414px] md:h-[896px] bg-white md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden overflow-y-auto relative custom-scrollbar">
           {isIvoryLine ? (
             <IvoryLineTemplate data={previewData} isPreview={true} />
+          ) : isMemoryLane ? (
+            <MemoryLaneTemplate data={previewData} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={previewData} isPreview={true} />
           ) : (
-            <ClassicTemplate data={previewData} isPreview={true} />
+            <div className="flex items-center justify-center h-full bg-stone-900 text-white">Template tidak ditemukan</div>
           )}
         </div>
       </div>
