@@ -7,12 +7,12 @@ import Link from "next/link";
 import { supabaseClient } from "@/lib/supabase";
 import { dummyWeddingPhotos } from "@/lib/dummy-data";
 import { ChevronLeft, Loader2 } from "lucide-react";
-import WeddingForm from "@/components/forms/WeddingForm";
 import MagicalLanternsForm from "@/components/forms/MagicalLanternsForm";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
-import ClassicTemplate from "@/components/templates/renderers/classic";
 import IvoryLineForm from "@/components/forms/IvoryLineForm";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
+import MemoryLaneForm from "@/components/forms/MemoryLaneForm";
+import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -26,16 +26,6 @@ export default function BuilderPage({ params }) {
   const sessionId = useRef(
     typeof crypto !== "undefined" ? crypto.randomUUID() : Date.now().toString()
   ).current;
-
-  // Lifted state for WeddingForm
-  const [weddingFormData, setWeddingFormData] = useState({
-    groomName: "",
-    brideName: "",
-    date: "",
-    time: "",
-    location: "",
-    message: ""
-  });
 
   // Lifted state for MagicalLanternsForm
   const [lanternsFormData, setLanternsFormData] = useState({
@@ -52,6 +42,33 @@ export default function BuilderPage({ params }) {
 
   // Lifted state for IvoryLineForm
   const [ivoryLineFormData, setIvoryLineFormData] = useState({});
+
+  // Lifted state for MemoryLaneForm
+  const [memoryLaneFormData, setMemoryLaneFormData] = useState({
+    receiverName: "",
+    senderName: "",
+    recipientAge: "",
+    photo1: null,
+    photo2: null,
+    photo3: null,
+    caption1: "",
+    caption2: "",
+    caption3: "",
+    filmPhoto1: null,
+    filmPhoto2: null,
+    filmPhoto3: null,
+    filmPhoto4: null,
+    filmPhoto5: null,
+    filmCaption1: "",
+    filmCaption2: "",
+    filmCaption3: "",
+    filmCaption4: "",
+    filmCaption5: "",
+    mainMessage: "",
+    reasons: ["", "", "", "", "", "", ""],
+    songUrl: "",
+    musicQuote: "",
+  });
 
   useEffect(() => {
     async function init() {
@@ -95,6 +112,7 @@ export default function BuilderPage({ params }) {
 
   const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || template?.nama === "Magical Lanterns";
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad" || template?.nama === "Ivory Line";
+  const isMemoryLane = template?.nama === "Memory Lane";
 
   // Handlers for generic changes
   const handleLanternsChange = (e) => {
@@ -102,14 +120,14 @@ export default function BuilderPage({ params }) {
     setLanternsFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleWeddingChange = (e) => {
-    const { name, value } = e.target;
-    setWeddingFormData(prev => ({ ...prev, [name]: value }));
-  };
-
   const handleIvoryLineChange = (e) => {
     const { name, value } = e.target;
     setIvoryLineFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleMemoryLaneChange = (e) => {
+    const { name, value } = e.target;
+    setMemoryLaneFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // Map MagicalLanterns form data to the shape expected by the template
@@ -125,16 +143,6 @@ export default function BuilderPage({ params }) {
     finalGreeting: lanternsFormData.finalGreeting || "Ketik pesan penutup di form...",
     closingRemark: lanternsFormData.closingRemark || "With lots of love,",
     senderName: lanternsFormData.senderName || "Pengirim"
-  };
-
-  // Map Wedding form data to the shape expected by the classic template
-  const mappedWeddingData = {
-    id: "live-preview",
-    nama_pengantin: `${weddingFormData.groomName || "Romeo"} & ${weddingFormData.brideName || "Juliet"}`,
-    tanggal: weddingFormData.date || new Date().toISOString(),
-    waktu: weddingFormData.time || "09:00",
-    lokasi: weddingFormData.location || "Lokasi Acara",
-    pesan: weddingFormData.message || "Pesan undangan..."
   };
 
   const mappedIvoryLineData = {
@@ -185,6 +193,14 @@ export default function BuilderPage({ params }) {
               handleChange={handleIvoryLineChange}
               sessionId={sessionId}
             />
+          ) : isMemoryLane ? (
+            <MemoryLaneForm
+              template={template}
+              formData={memoryLaneFormData}
+              setFormData={setMemoryLaneFormData}
+              handleChange={handleMemoryLaneChange}
+              sessionId={sessionId}
+            />
           ) : isMagicalLanterns ? (
             <MagicalLanternsForm 
               template={template} 
@@ -194,12 +210,9 @@ export default function BuilderPage({ params }) {
               sessionId={sessionId}
             />
           ) : (
-            <WeddingForm 
-              template={template} 
-              formData={weddingFormData} 
-              setFormData={setWeddingFormData} 
-              handleChange={handleWeddingChange} 
-            />
+            <div className="flex items-center justify-center h-full text-ink-soft">
+              Form tidak ditemukan untuk template ini.
+            </div>
           )}
         </div>
       </div>
@@ -211,10 +224,14 @@ export default function BuilderPage({ params }) {
         <div className="w-full h-full relative overflow-y-auto overscroll-contain mx-auto max-w-[480px]">
           {isIvoryLine ? (
             <IvoryLineTemplate data={mappedIvoryLineData} isPreview={true} isBuilder={true} />
+          ) : isMemoryLane ? (
+            <MemoryLaneTemplate data={memoryLaneFormData} isPreview={true} isBuilder={true} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (
-            <ClassicTemplate data={mappedWeddingData} isPreview={true} />
+            <div className="flex items-center justify-center h-full text-cream-text">
+              Template tidak ditemukan
+            </div>
           )}
         </div>
         

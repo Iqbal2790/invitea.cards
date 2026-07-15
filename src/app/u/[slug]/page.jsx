@@ -1,9 +1,9 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import ClassicTemplate from "@/components/templates/renderers/classic";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
+import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import { Loader2 } from "lucide-react";
 
 export default function LiveInvitationPage({ params }) {
@@ -52,6 +52,7 @@ export default function LiveInvitationPage({ params }) {
   const { data_content, templates, id, rsvps } = data;
   const isMagicalLanterns = templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
   const isIvoryLine = templates?.id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
+  const isMemoryLane = templates?.id === "45f4eb4d-ddab-410d-9104-401e2147f24e" || templates?.nama === "Memory Lane";
 
   let templateData = { id: id, rsvps: rsvps || [] };
   if (isMagicalLanterns) {
@@ -64,29 +65,31 @@ export default function LiveInvitationPage({ params }) {
       ...templateData,
       ...data_content
     };
-  } else {
-    // Map WeddingForm data_content to ClassicTemplate expected data
-    let eventDate = data_content?.date || "2026-12-24";
-    let eventTime = data_content?.time || "08:00";
-    
+  } else if (isMemoryLane) {
     templateData = {
       ...templateData,
-      groom: data_content?.groomName || "Romeo",
-      bride: data_content?.brideName || "Juliet",
-      eventDate: `${eventDate}T${eventTime}`,
-      locationName: "Lokasi Acara",
-      locationAddress: data_content?.location || "Alamat Acara",
+      ...data_content
+    };
+  } else {
+    // Fallback if no matching template
+    templateData = {
+      ...templateData,
+      ...data_content
     };
   }
 
   return (
-    <div className="min-h-screen bg-stone-900">
+    <div className="relative w-full h-[100dvh] overflow-hidden bg-stone-900">
       {isIvoryLine ? (
         <IvoryLineTemplate data={templateData} isPreview={false} />
+      ) : isMemoryLane ? (
+        <MemoryLaneTemplate data={templateData} />
       ) : isMagicalLanterns ? (
         <MagicalLanternsTemplate data={templateData} isPreview={false} />
       ) : (
-        <ClassicTemplate data={templateData} isPreview={false} />
+        <div className="flex items-center justify-center min-h-screen text-white">
+          Template tidak ditemukan
+        </div>
       )}
     </div>
   );
