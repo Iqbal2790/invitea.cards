@@ -260,7 +260,8 @@ Alur yang benar saat menambah template baru:
 2. Baca form.md template → identifikasi semua key yang dibutuhkan
 3. Baca design.md template → ikuti style untuk form
 4. Buat form.jsx berdasarkan form.md (bukan asumsi)
-5. Tampilkan ke user untuk review sebelum disimpan
+5. Pastikan API Checkout (api/orders/route.js) mengenali field nama mempelai yang ada di form (misal `mempelai_pria_nama`) agar Custom Slug (/u/nama-dan-nama) ter-generate dengan benar dan tidak fallback ke "undangan-xxx".
+6. Tampilkan ke user untuk review sebelum disimpan
 ```
 
 ### Keamanan API
