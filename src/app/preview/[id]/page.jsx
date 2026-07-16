@@ -7,6 +7,7 @@ import { dummyWeddingPhotos } from "@/lib/dummy-data";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
+import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -61,6 +62,28 @@ export default function PreviewPage({ params }) {
     caption1: "Momen bahagia kita bersama.",
     caption2: "Hari yang tak akan pernah terlupakan.",
     caption3: "Terima kasih untuk segalanya.",
+    finalGreeting: "Semoga kenangan ini selalu membawa senyum di wajahmu.",
+    closingRemark: "With lots of love,",
+    
+    // Folio Bloom specific
+    mempelai_pria_nama: "Romeo",
+    mempelai_pria_ortu: "Putra dari Bapak Montague & Ibu Montague",
+    mempelai_wanita_nama: "Juliet",
+    mempelai_wanita_ortu: "Putri dari Bapak Capulet & Ibu Capulet",
+    acara_akad_nama: "Akad Nikah",
+    acara_akad_tanggal: "2026-12-24",
+    acara_akad_jam: "08:00",
+    acara_akad_lokasi_nama: "Masjid Raya Jakarta",
+    acara_akad_lokasi_alamat: "Jl. Sudirman No. 1, Jakarta Pusat",
+    acara_akad_lokasi_url: "https://maps.google.com/?q=Jakarta",
+    acara_resepsi_nama: "Resepsi",
+    acara_resepsi_tanggal: "2026-12-24",
+    acara_resepsi_jam: "11:00",
+    acara_resepsi_lokasi_nama: "Gedung Serbaguna Jakarta",
+    acara_resepsi_lokasi_alamat: "Jl. Sudirman No. 2, Jakarta Pusat",
+    acara_resepsi_lokasi_url: "https://maps.google.com/?q=Jakarta",
+    music_youtube_url: "https://www.youtube.com/watch?v=rtOvBOTyX00",
+
     mainMessage: "Selamat ulang tahun! Semoga hari ini seindah senyummu dan tahun ini penuh dengan kejutan manis. Terima kasih sudah menjadi bagian penting dalam hidupku.",
     reasons: [
       "Senyum manismu",
@@ -78,6 +101,11 @@ export default function PreviewPage({ params }) {
   const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
   const isMemoryLane = id === "45f4eb4d-ddab-410d-9104-401e2147f24e";
+  // We'll set an ID for Folio Bloom when registered. For now, check if Folio Bloom ID matches (we'll generate one in the registration script).
+  const isFolioBloom = id === "folio-bloom-id" || true; // We'll rely on the actual ID later, but the router will pass the ID. We can check by ID.
+  // Wait, let's just make it a placeholder ID for now or match by ID.
+  // Actually, we'll assign `50e18d6a-5c21-4f18-a6d1-123456789abc` in the register script. Let's use that.
+  const isFolioBloomActual = id === "50e18d6a-5c21-4f18-a6d1-123456789abc";
 
   return (
     <div className="min-h-screen bg-stone-900 flex flex-col font-sans">
@@ -110,6 +138,8 @@ export default function PreviewPage({ params }) {
             <IvoryLineTemplate data={previewData} isPreview={true} />
           ) : isMemoryLane ? (
             <MemoryLaneTemplate data={previewData} />
+          ) : isFolioBloomActual ? (
+            <FolioBloomTemplate data={previewData} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={previewData} isPreview={true} />
           ) : (

@@ -4,6 +4,7 @@ import { use, useEffect, useState } from "react";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
+import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import { Loader2 } from "lucide-react";
 
 export default function LiveInvitationPage({ params }) {
@@ -53,6 +54,7 @@ export default function LiveInvitationPage({ params }) {
   const isMagicalLanterns = templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
   const isIvoryLine = templates?.id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
   const isMemoryLane = templates?.id === "45f4eb4d-ddab-410d-9104-401e2147f24e" || templates?.nama === "Memory Lane";
+  const isFolioBloom = templates?.id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || templates?.nama === "Folio Bloom";
 
   let templateData = { id: id, rsvps: rsvps || [] };
   if (isMagicalLanterns) {
@@ -66,6 +68,11 @@ export default function LiveInvitationPage({ params }) {
       ...data_content
     };
   } else if (isMemoryLane) {
+    templateData = {
+      ...templateData,
+      ...data_content
+    };
+  } else if (isFolioBloom) {
     templateData = {
       ...templateData,
       ...data_content
@@ -84,6 +91,8 @@ export default function LiveInvitationPage({ params }) {
         <IvoryLineTemplate data={templateData} isPreview={false} />
       ) : isMemoryLane ? (
         <MemoryLaneTemplate data={templateData} />
+      ) : isFolioBloom ? (
+        <FolioBloomTemplate data={templateData} />
       ) : isMagicalLanterns ? (
         <MagicalLanternsTemplate data={templateData} isPreview={false} />
       ) : (

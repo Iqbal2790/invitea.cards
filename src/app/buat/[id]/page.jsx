@@ -13,6 +13,8 @@ import IvoryLineForm from "@/components/forms/IvoryLineForm";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneForm from "@/components/forms/MemoryLaneForm";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
+import FolioBloomForm from "@/components/forms/FolioBloomForm";
+import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -70,6 +72,28 @@ export default function BuilderPage({ params }) {
     musicQuote: "",
   });
 
+  const [folioBloomFormData, setFolioBloomFormData] = useState({
+    mempelai_pria_nama: "",
+    mempelai_pria_ortu: "",
+    mempelai_wanita_nama: "",
+    mempelai_wanita_ortu: "",
+    acara_akad_nama: "",
+    acara_akad_tanggal: "",
+    acara_akad_jam: "",
+    acara_akad_lokasi_nama: "",
+    acara_akad_lokasi_alamat: "",
+    acara_akad_lokasi_url: "",
+    acara_resepsi_nama: "",
+    acara_resepsi_tanggal: "",
+    acara_resepsi_jam: "",
+    acara_resepsi_lokasi_nama: "",
+    acara_resepsi_lokasi_alamat: "",
+    acara_resepsi_lokasi_url: "",
+    foto_urls: [],
+    music_youtube_url: "",
+    music_quote: "",
+  });
+
   useEffect(() => {
     async function init() {
       try {
@@ -113,6 +137,7 @@ export default function BuilderPage({ params }) {
   const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || template?.nama === "Magical Lanterns";
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad" || template?.nama === "Ivory Line";
   const isMemoryLane = template?.nama === "Memory Lane";
+  const isFolioBloom = id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || template?.nama === "Folio Bloom";
 
   // Handlers for generic changes
   const handleLanternsChange = (e) => {
@@ -128,6 +153,11 @@ export default function BuilderPage({ params }) {
   const handleMemoryLaneChange = (e) => {
     const { name, value } = e.target;
     setMemoryLaneFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFolioBloomChange = (e) => {
+    const { name, value } = e.target;
+    setFolioBloomFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // Map MagicalLanterns form data to the shape expected by the template
@@ -201,6 +231,14 @@ export default function BuilderPage({ params }) {
               handleChange={handleMemoryLaneChange}
               sessionId={sessionId}
             />
+          ) : isFolioBloom ? (
+            <FolioBloomForm
+              template={template}
+              formData={folioBloomFormData}
+              setFormData={setFolioBloomFormData}
+              handleChange={handleFolioBloomChange}
+              sessionId={sessionId}
+            />
           ) : isMagicalLanterns ? (
             <MagicalLanternsForm 
               template={template} 
@@ -226,6 +264,8 @@ export default function BuilderPage({ params }) {
             <IvoryLineTemplate data={mappedIvoryLineData} isPreview={true} isBuilder={true} />
           ) : isMemoryLane ? (
             <MemoryLaneTemplate data={memoryLaneFormData} isPreview={true} isBuilder={true} />
+          ) : isFolioBloom ? (
+            <FolioBloomTemplate data={folioBloomFormData} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (

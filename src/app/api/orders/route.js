@@ -30,8 +30,8 @@ export async function POST(request) {
     // 2.5 Generate custom slug
     let slugBase = "undangan";
     if (template.kategori === "undangan") {
-      const namaPria = data_content?.nama_panggilan_pria || "pasangan";
-      const namaWanita = data_content?.nama_panggilan_wanita || "bahagia";
+      const namaPria = data_content?.nama_panggilan_pria || data_content?.mempelai_pria_nama || "pasangan";
+      const namaWanita = data_content?.nama_panggilan_wanita || data_content?.mempelai_wanita_nama || "bahagia";
       slugBase = `${namaPria}-dan-${namaWanita}`;
     } else if (template.kategori === "ucapan") {
       slugBase = `untuk-${data_content?.receiverName || "penerima"}`;
