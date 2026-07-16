@@ -49,7 +49,10 @@ async function main() {
         acara_resepsi_lokasi_alamat: { name: 'acara_resepsi_lokasi_alamat', label: 'Alamat Resepsi', type: 'textarea', required: true },
         acara_resepsi_lokasi_url: { name: 'acara_resepsi_lokasi_url', label: 'Link Google Maps Resepsi', type: 'url', required: true },
         
-        music_youtube_url: { name: 'music_youtube_url', label: 'Link YouTube Musik', type: 'url', required: true }
+        music_youtube_url: { name: 'music_youtube_url', label: 'Link YouTube Musik', type: 'url', required: true },
+        
+        subCategory: 'Interactive',
+        isFeatured: false
       },
       fitur_maps: true,
       fitur_countdown: false,
