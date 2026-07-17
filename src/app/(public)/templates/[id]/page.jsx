@@ -72,8 +72,9 @@ export default function TemplateDetailPage({ params }) {
       { id: 2, label: "Galeri Foto", icon: "image" },
       { id: 3, label: "Background Music", icon: "music" }
     ];
-    // Khusus Cosmic Hearts, hilangkan Background Music
-    if (template.nama?.toLowerCase().includes("cosmic")) {
+    // Khusus Cosmic Hearts dan Celestial Journey, hilangkan Background Music
+    const templateName = template.nama?.toLowerCase() || "";
+    if (templateName.includes("cosmic") || templateName.includes("celestial")) {
       defaultFeatures = defaultFeatures.filter(f => f.label !== "Background Music");
     }
   } else {
