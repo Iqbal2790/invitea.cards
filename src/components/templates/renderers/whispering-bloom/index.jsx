@@ -6,11 +6,20 @@ import { Play, Pause } from "lucide-react";
 
 // ── Icons & Assets ────────────────────────────────────────────────────────
 const FlowerSVG = ({ className }) => (
-  <svg width="40" height="120" viewBox="0 0 40 120" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 40 Q25 80 20 120" stroke="#3D2B1F" strokeWidth="2" />
-    <path d="M20 80 Q35 70 30 50 Q25 65 20 80" fill="#3D2B1F" />
-    <path d="M20 80 Q5 70 10 50 Q15 65 20 80" fill="#3D2B1F" />
-    <path d="M20 40 C10 40 5 20 20 5 C35 20 30 40 20 40 Z" fill="currentColor" />
+  <svg width="60" height="150" viewBox="0 0 100 150" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Stem */}
+    <path d="M50 150 Q50 90 50 45" stroke="currentColor" strokeWidth="4" fill="none" />
+    
+    {/* Leaves */}
+    <path d="M50 130 Q30 110 10 70 Q25 100 50 120 Z" fill="currentColor" />
+    <path d="M50 120 Q70 100 90 60 Q75 90 50 110 Z" fill="currentColor" />
+    
+    {/* Petals (Profile View) */}
+    <path d="M 50 46 Q 40 20 50 5 Q 60 20 50 46 Z" fill="currentColor" />
+    <path d="M 50 46 Q 35 25 30 10 Q 45 20 50 46 Z" fill="currentColor" />
+    <path d="M 50 46 Q 65 25 70 10 Q 55 20 50 46 Z" fill="currentColor" />
+    <path d="M 50 46 Q 25 35 15 25 Q 35 35 50 46 Z" fill="currentColor" />
+    <path d="M 50 46 Q 75 35 85 25 Q 65 35 50 46 Z" fill="currentColor" />
   </svg>
 );
 
@@ -84,7 +93,7 @@ export default function WhisperingBloomTemplate({ data }) {
           transform: scale(0.85);
           filter: drop-shadow(0 0 0px transparent);
           transition: opacity 1.2s ease-out, transform 1.2s ease-out, filter 1.2s ease-out;
-          color: #1A1A24; /* Dark bulb when off */
+          color: #5A2D13; /* Dark orange/brown when off */
         }
         .wb-flower.wb-animate {
           opacity: 1;
