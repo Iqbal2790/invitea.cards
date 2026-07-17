@@ -8,8 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Filter, Loader2 } from "lucide-react";
 
 const subCategoriesMap = {
-  undangan: ["Semua", "Minimalist", "Interactive"],
-  ucapan: ["Semua", "Romantis", "Ulang Tahun", "Interactive"]
+  undangan: ["Semua", "Minimalist"],
+  ucapan: ["Semua", "Romantis", "Ulang Tahun"]
 };
 
 function GalleryContent() {

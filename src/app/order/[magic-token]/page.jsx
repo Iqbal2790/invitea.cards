@@ -135,7 +135,7 @@ export default function OrderDashboardPage({ params }) {
   const orderData = data.orders || {};
   const rsvpData = data.rsvps || [];
   const templateName = orderData.templates?.nama || "Template Undangan";
-  const isUcapan = orderData.templates?.fields_config?.subCategory === "Romantis" || orderData.templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
+  const isUcapan = orderData.templates?.kategori === "ucapan" || orderData.templates?.category === "ucapan" || orderData.templates?.fields_config?.subCategory === "Romantis";
   const dashboardTitle = isUcapan ? "Manajemen Kartu Ucapan" : "Manajemen Undangan";
   const contentTitle = isUcapan ? "Konten Kartu Ucapan" : "Konten Undangan";
   
@@ -151,21 +151,6 @@ export default function OrderDashboardPage({ params }) {
     day: 'numeric', month: 'short', year: 'numeric'
   });
 
-  const handleWishChange = (index, value) => {
-    const newWishes = [...(editForm.wishes || [])];
-    newWishes[index] = { message: value };
-    setEditForm({ ...editForm, wishes: newWishes });
-  };
-  
-  const addWish = () => {
-    setEditForm({ ...editForm, wishes: [...(editForm.wishes || []), { message: "" }] });
-  };
-  
-  const removeWish = (index) => {
-    const newWishes = [...(editForm.wishes || [])];
-    newWishes.splice(index, 1);
-    setEditForm({ ...editForm, wishes: newWishes });
-  };
 
   return (
     <div className="min-h-screen bg-bg transition-colors duration-400 font-sans pb-[80px]">
@@ -262,132 +247,30 @@ export default function OrderDashboardPage({ params }) {
             {isEditing ? (
               <form onSubmit={handleSave} className="space-y-[24px] animate-in fade-in zoom-in-95 duration-200">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
-                  {isUcapan ? (
-                    <>
-                      <div>
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Nama Penerima</label>
-                        <input 
-                          type="text"
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                          value={editForm.receiverName}
-                          onChange={e => setEditForm({...editForm, receiverName: e.target.value})}
-                          placeholder="Contoh: Juliet"
-                          required
-                        />
+                  <>
+                    {dynamicFields.map(field => (
+                      <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'md:col-span-2' : ''}>
+                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">{field.label}</label>
+                        {field.type === 'textarea' ? (
+                          <textarea
+                            rows={3}
+                            className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
+                            value={editForm[field.name] || ''}
+                            onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
+                            required={field.required}
+                          />
+                        ) : (
+                          <input
+                            type={field.type === 'date' ? 'date' : field.type === 'time' ? 'time' : field.type === 'url' ? 'url' : 'text'}
+                            className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
+                            value={editForm[field.name] || ''}
+                            onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
+                            required={field.required}
+                          />
+                        )}
                       </div>
-                      <div>
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Nama Pengirim</label>
-                        <input 
-                          type="text"
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                          value={editForm.senderName}
-                          onChange={e => setEditForm({...editForm, senderName: e.target.value})}
-                          placeholder="Contoh: Romeo"
-                          required
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Pesan Pembuka</label>
-                        <textarea 
-                          rows={3}
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
-                          value={editForm.greetingText}
-                          onChange={e => setEditForm({...editForm, greetingText: e.target.value})}
-                          placeholder="Contoh: Happy Birthday!..."
-                          required
-                        />
-                      </div>
-
-                      <div className="md:col-span-2">
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Harapan / Lampion</label>
-                        <div className="space-y-[12px]">
-                          {(editForm.wishes || []).map((wish, idx) => (
-                            <div key={idx} className="flex gap-[8px]">
-                              <textarea
-                                rows={2}
-                                className="flex-1 px-[16px] py-[12px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
-                                value={wish.message}
-                                onChange={e => handleWishChange(idx, e.target.value)}
-                                placeholder={`Harapan ${idx + 1}...`}
-                                required
-                              />
-                              {(editForm.wishes || []).length > 1 && (
-                                <button type="button" onClick={() => removeWish(idx)} className="text-ink-soft hover:text-red-500 transition-colors p-[8px]">
-                                  <X className="w-5 h-5" />
-                                </button>
-                              )}
-                            </div>
-                          ))}
-                          {(editForm.wishes || []).length < 15 && (
-                            <button type="button" onClick={addWish} className="text-berry dark:text-pink font-semibold text-[13px] flex items-center gap-[4px] hover:underline">
-                              + Tambah Harapan
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="md:col-span-2">
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Kutipan Penutup</label>
-                        <textarea 
-                          rows={2}
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
-                          value={editForm.finalQuote}
-                          onChange={e => setEditForm({...editForm, finalQuote: e.target.value})}
-                          placeholder="Contoh: To the world you may be..."
-                          required
-                        />
-                      </div>
-                      
-                      <div className="md:col-span-2">
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Pesan Penutup</label>
-                        <textarea 
-                          rows={3}
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
-                          value={editForm.finalGreeting}
-                          onChange={e => setEditForm({...editForm, finalGreeting: e.target.value})}
-                          placeholder="Contoh: Sekali lagi, Selamat Ulang Tahun..."
-                          required
-                        />
-                      </div>
-
-                      <div className="md:col-span-2">
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">Salam Penutup</label>
-                        <input 
-                          type="text"
-                          className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                          value={editForm.closingRemark}
-                          onChange={e => setEditForm({...editForm, closingRemark: e.target.value})}
-                          placeholder="Contoh: With lots of love,"
-                          required
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      {dynamicFields.map(field => (
-                        <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'md:col-span-2' : ''}>
-                          <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">{field.label}</label>
-                          {field.type === 'textarea' ? (
-                            <textarea
-                              rows={3}
-                              className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
-                              value={editForm[field.name] || ''}
-                              onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
-                              required={field.required}
-                            />
-                          ) : (
-                            <input
-                              type={field.type === 'date' ? 'date' : field.type === 'time' ? 'time' : field.type === 'url' ? 'url' : 'text'}
-                              className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                              value={editForm[field.name] || ''}
-                              onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
-                              required={field.required}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </>
-                  )}
+                    ))}
+                  </>
                 </div>
 
                 <div className="flex items-center gap-[12px] pt-[24px] border-t border-hairline mt-[32px] justify-end">
@@ -414,31 +297,6 @@ export default function OrderDashboardPage({ params }) {
               </form>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[24px] gap-x-[24px]">
-                {isUcapan ? (
-                  <>
-                    <div>
-                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Penerima & Pengirim</p>
-                      <p className="text-ink font-medium text-[16.5px]">
-                        Untuk: {data.data_content?.receiverName || "-"} <br/>
-                        Dari: {data.data_content?.senderName || "-"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Jumlah Harapan</p>
-                      <p className="text-ink font-medium text-[16.5px]">
-                        {(data.data_content?.wishes || []).length} Pesan Lampion
-                      </p>
-                    </div>
-                    <div className="sm:col-span-2 pt-[8px] sm:pt-0">
-                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Pesan Pembuka</p>
-                      <p className="text-ink font-medium text-[16.5px] whitespace-pre-wrap">{data.data_content?.greetingText || "-"}</p>
-                    </div>
-                    <div className="sm:col-span-2">
-                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">Pesan Penutup</p>
-                      <p className="text-ink font-medium text-[16.5px] whitespace-pre-wrap">{data.data_content?.finalGreeting || "-"}</p>
-                    </div>
-                  </>
-                ) : (
                   <>
                     {dynamicFields.map(field => (
                       <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'sm:col-span-2' : ''}>
@@ -449,7 +307,6 @@ export default function OrderDashboardPage({ params }) {
                       </div>
                     ))}
                   </>
-                )}
               </div>
             )}
           </div>

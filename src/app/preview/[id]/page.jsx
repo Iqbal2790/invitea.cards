@@ -8,107 +8,122 @@ import MagicalLanternsTemplate from "@/components/templates/renderers/magical-la
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
-import WhisperingBloomTemplate from "@/components/templates/renderers/whispering-bloom";
+import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
   const { id } = resolvedParams;
 
-  // Dummy data specifically for Preview Mode
-  const previewData = {
-    groom: "Romeo",
-    bride: "Juliet",
-    eventDate: "2026-12-24T08:00",
-    locationName: "Gedung Pernikahan Klasik",
-    locationAddress: "Jl. Sudirman No. 1, Jakarta Pusat",
-    lanternsCount: 30,
-    wishLanternsCount: 15,
-    wishes: [
-      { message: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.", name: "Budi & Keluarga" },
-      { message: "Happy Wedding Romeo & Juliet! Wishing you a lifetime of love and happiness.", name: "Siska" },
-      { message: "Lancar sampai hari H ya! Gak nyangka akhirnya nikah juga kalian.", name: "Rendi" }
-    ],
-    gallery: [
-      { src: "/template-dummy.png" }
-    ],
-    // Ivory Line specific
-    nama_panggilan_pria: "Romeo",
-    nama_panggilan_wanita: "Juliet",
-    nama_lengkap_pria: "Romeo Montague",
-    nama_lengkap_wanita: "Juliet Capulet",
-    acara1_nama: "Akad Nikah",
-    acara1_tanggal: "2026-12-24",
-    acara1_jam: "08:00",
-    acara1_lokasi: "Masjid Raya Jakarta",
-    foto_urls: dummyWeddingPhotos.foto_urls,
-    foto_cover: dummyWeddingPhotos.foto_cover,
-    foto_pria: dummyWeddingPhotos.foto_pria,
-    foto_wanita: dummyWeddingPhotos.foto_wanita,
-    bank_accounts: [{ bank: "BCA", nomor: "1234567890", nama: "Romeo Montague" }],
-    youtube_url: "",
-    cerita_cinta: "Pertemuan kami berawal dari sebuah kebetulan sederhana di musim hujan lima tahun yang lalu. Dari perbincangan singkat tentang buku favorit, berlanjut menjadi diskusi panjang, hingga akhirnya kami menyadari bahwa kami saling melengkapi. Setelah melewati berbagai musim kehidupan bersama, hari ini kami memutuskan untuk mengikat janji suci dan memulai babak baru dalam cerita cinta kami.",
-    acara1_maps_url: "https://maps.google.com/?q=Jakarta",
-    acara2_nama: "Resepsi",
-    acara2_tanggal: "2026-12-24",
-    acara2_jam: "11:00",
-    acara2_lokasi: "Gedung Serbaguna, Jakarta",
-    acara2_maps_url: "https://maps.google.com/?q=Jakarta",
-    // Memory Lane specific
-    receiverName: "Jane Doe",
-    senderName: "John Doe",
-    recipientAge: "25",
-    photo1: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800",
-    photo2: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=800",
-    photo3: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800",
-    caption1: "Momen bahagia kita bersama.",
-    caption2: "Hari yang tak akan pernah terlupakan.",
-    caption3: "Terima kasih untuk segalanya.",
-    finalGreeting: "Semoga kenangan ini selalu membawa senyum di wajahmu.",
-    closingRemark: "With lots of love,",
-    
-    // Folio Bloom specific
-    mempelai_pria_nama: "Romeo",
-    mempelai_pria_ortu: "Putra dari Bapak Montague & Ibu Montague",
-    mempelai_wanita_nama: "Juliet",
-    mempelai_wanita_ortu: "Putri dari Bapak Capulet & Ibu Capulet",
-    acara_akad_nama: "Akad Nikah",
-    acara_akad_tanggal: "2026-12-24",
-    acara_akad_jam: "08:00",
-    acara_akad_lokasi_nama: "Masjid Raya Jakarta",
-    acara_akad_lokasi_alamat: "Jl. Sudirman No. 1, Jakarta Pusat",
-    acara_akad_lokasi_url: "https://maps.google.com/?q=Jakarta",
-    acara_resepsi_nama: "Resepsi",
-    acara_resepsi_tanggal: "2026-12-24",
-    acara_resepsi_jam: "11:00",
-    acara_resepsi_lokasi_nama: "Gedung Serbaguna Jakarta",
-    acara_resepsi_lokasi_alamat: "Jl. Sudirman No. 2, Jakarta Pusat",
-    acara_resepsi_lokasi_url: "https://maps.google.com/?q=Jakarta",
-    music_youtube_url: "https://www.youtube.com/watch?v=rtOvBOTyX00",
-
-    mainMessage: "Selamat ulang tahun! Semoga hari ini seindah senyummu dan tahun ini penuh dengan kejutan manis. Terima kasih sudah menjadi bagian penting dalam hidupku.",
-    reasons: [
-      "Senyum manismu",
-      "Kebaikan hatimu",
-      "Tawamu yang menular",
-      "Caramu mendengarkan",
-      "Semangatmu",
-      "Kehangatanmu",
-      "Kamu yang apa adanya"
-    ],
-    songUrl: "https://youtu.be/P3wSn5K9quo?si=Z5S7zzSCeletoPhI",
-    musicQuote: "Lagu ini selalu mengingatkanku padamu."
-  };
-
   const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
   const isMemoryLane = id === "45f4eb4d-ddab-410d-9104-401e2147f24e";
-  // We'll set an ID for Folio Bloom when registered. For now, check if Folio Bloom ID matches (we'll generate one in the registration script).
-  const isFolioBloom = id === "folio-bloom-id" || true; // We'll rely on the actual ID later, but the router will pass the ID. We can check by ID.
-  // Wait, let's just make it a placeholder ID for now or match by ID.
-  // Actually, we'll assign `50e18d6a-5c21-4f18-a6d1-123456789abc` in the register script. Let's use that.
   const isFolioBloomActual = id === "50e18d6a-5c21-4f18-a6d1-123456789abc";
-  const isWhisperingBloom = id === "wb-uuid-goes-here"; // We will set the proper UUID later when registering. Or we can just use the name if possible, but preview only has ID. Let's assign an ID in register-whispering-bloom.mjs: "70a29b3c-6d32-5e29-b7e2-234567890def"
-  const isWhisperingBloomActual = id === "70a29b3c-6d32-5e29-b7e2-234567890def";
+  const isCelestialJourney = id === "12345678-abcd-ef00-1234-567890abcdef";
+
+  let previewData = {};
+
+  if (isMemoryLane) {
+    previewData = {
+      nama_pasangan: "Ardi & Nisa",
+      pesan_pembuka: "Di bawah langit malam yang tenang, kami mengikat janji untuk melangkah bersama.",
+      foto_galeri: [
+        "/foto-dummy-undangan/10467.jpg",
+        "/foto-dummy-undangan/11212.jpg",
+        "/foto-dummy-undangan/11597.jpg",
+        "/foto-dummy-undangan/16666.jpg",
+        "/foto-dummy-undangan/338.jpg",
+        "/foto-dummy-undangan/9877.jpg"
+      ],
+      ucapan_penutup: "Terima kasih atas doa dan restu yang telah diberikan.",
+      kutipan: "Cinta bukan tentang menatap satu sama lain, tetapi melihat ke arah yang sama bersama-sama.",
+      musik_url: "https://www.youtube.com/watch?v=YOUR_AUDIO_ID",
+    };
+  } else if (isCelestialJourney) {
+    previewData = {
+      nama_penerima: "Nisa Maharani",
+      nama_pengirim: "Kevin Pratama",
+      pesan: "Terima kasih sudah selalu menjadi pendengar yang baik.\nPerjalanan kita masih panjang, mari kita ukir lebih banyak kenangan indah.\nSemoga setiap langkahmu selalu dipenuhi dengan kebahagiaan.",
+      foto_urls: [
+        "/foto-dummy-ucapan/Anh%20(1).jpg",
+        "/foto-dummy-ucapan/Anh%20(2).jpg",
+        "/foto-dummy-ucapan/Anh%20(3).jpg"
+      ]
+    };
+  } else {
+    // Default dummy data for older templates
+    previewData = {
+      groom: "Romeo",
+      bride: "Juliet",
+      eventDate: "2026-12-24T08:00",
+      locationName: "Gedung Pernikahan Klasik",
+      locationAddress: "Jl. Sudirman No. 1, Jakarta Pusat",
+      lanternsCount: 30,
+      wishLanternsCount: 15,
+      wishes: [
+        { message: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.", name: "Budi & Keluarga" },
+        { message: "Happy Wedding Romeo & Juliet! Wishing you a lifetime of love and happiness.", name: "Siska" },
+        { message: "Lancar sampai hari H ya! Gak nyangka akhirnya nikah juga kalian.", name: "Rendi" }
+      ],
+      gallery: [
+        { src: "/template-dummy.png" }
+      ],
+      // Ivory Line specific
+      nama_panggilan_pria: "Romeo",
+      nama_panggilan_wanita: "Juliet",
+      nama_lengkap_pria: "Romeo Montague",
+      nama_lengkap_wanita: "Juliet Capulet",
+      acara1_nama: "Akad Nikah",
+      acara1_tanggal: "2026-12-24",
+      acara1_jam: "08:00",
+      acara1_lokasi: "Masjid Raya Jakarta",
+      foto_urls: dummyWeddingPhotos.foto_urls,
+      foto_cover: dummyWeddingPhotos.foto_cover,
+      foto_pria: dummyWeddingPhotos.foto_pria,
+      foto_wanita: dummyWeddingPhotos.foto_wanita,
+      bank_accounts: [{ bank: "BCA", nomor: "1234567890", nama: "Romeo Montague" }],
+      youtube_url: "",
+      cerita_cinta: "Pertemuan kami berawal dari sebuah kebetulan sederhana di musim hujan lima tahun yang lalu.",
+      acara1_maps_url: "https://maps.google.com/?q=Jakarta",
+      acara2_nama: "Resepsi",
+      acara2_tanggal: "2026-12-24",
+      acara2_jam: "11:00",
+      acara2_lokasi: "Gedung Serbaguna, Jakarta",
+      acara2_maps_url: "https://maps.google.com/?q=Jakarta",
+      receiverName: "Jane Doe",
+      senderName: "John Doe",
+      recipientAge: "25",
+      photo1: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800",
+      photo2: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=800",
+      photo3: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800",
+      caption1: "Momen bahagia kita bersama.",
+      caption2: "Hari yang tak akan pernah terlupakan.",
+      caption3: "Terima kasih untuk segalanya.",
+      finalGreeting: "Semoga kenangan ini selalu membawa senyum di wajahmu.",
+      closingRemark: "With lots of love,",
+      mempelai_pria_nama: "Romeo",
+      mempelai_pria_ortu: "Putra dari Bapak Montague & Ibu Montague",
+      mempelai_wanita_nama: "Juliet",
+      mempelai_wanita_ortu: "Putri dari Bapak Capulet & Ibu Capulet",
+      acara_akad_nama: "Akad Nikah",
+      acara_akad_tanggal: "2026-12-24",
+      acara_akad_jam: "08:00",
+      acara_akad_lokasi_nama: "Masjid Raya Jakarta",
+      acara_akad_lokasi_alamat: "Jl. Sudirman No. 1, Jakarta Pusat",
+      acara_akad_lokasi_url: "https://maps.google.com/?q=Jakarta",
+      acara_resepsi_nama: "Resepsi",
+      acara_resepsi_tanggal: "2026-12-24",
+      acara_resepsi_jam: "11:00",
+      acara_resepsi_lokasi_nama: "Gedung Serbaguna Jakarta",
+      acara_resepsi_lokasi_alamat: "Jl. Sudirman No. 2, Jakarta Pusat",
+      acara_resepsi_lokasi_url: "https://maps.google.com/?q=Jakarta",
+      music_youtube_url: "https://www.youtube.com/watch?v=rtOvBOTyX00",
+      mainMessage: "Selamat ulang tahun! Semoga hari ini seindah senyummu dan tahun ini penuh dengan kejutan manis.",
+      reasons: ["Senyum manismu", "Kebaikan hatimu", "Tawamu yang menular"],
+      songUrl: "https://youtu.be/P3wSn5K9quo?si=Z5S7zzSCeletoPhI",
+      musicQuote: "Lagu ini selalu mengingatkanku padamu."
+    };
+  }
+
 
   return (
     <div className="min-h-screen bg-stone-900 flex flex-col font-sans">
@@ -143,21 +158,8 @@ export default function PreviewPage({ params }) {
             <MemoryLaneTemplate data={previewData} />
           ) : isFolioBloomActual ? (
             <FolioBloomTemplate data={previewData} />
-          ) : isWhisperingBloomActual ? (
-            <WhisperingBloomTemplate data={{
-              nama_penerima: "Anya Geraldine",
-              momen: "Selamat Ulang Tahun",
-              nama_pengirim: "Budi Santoso",
-              pesan: "Semoga hari-harimu seindah bunga yang bermekaran. Teruslah bersinar dan menginspirasi banyak orang di sekitarmu.",
-              kalimat_penutup: "Semoga kebahagiaan selalu menyertaimu.",
-              signature_penutup: "Dengan cinta,",
-              youtube_url: "",
-              foto_urls: [
-                "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop"
-              ]
-            }} />
+          ) : isCelestialJourney ? (
+            <CelestialJourneyTemplate data={previewData} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={previewData} isPreview={true} />
           ) : (
