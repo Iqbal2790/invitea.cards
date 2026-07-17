@@ -8,6 +8,7 @@ import MagicalLanternsTemplate from "@/components/templates/renderers/magical-la
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
+import WhisperingBloomTemplate from "@/components/templates/renderers/whispering-bloom";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -106,6 +107,8 @@ export default function PreviewPage({ params }) {
   // Wait, let's just make it a placeholder ID for now or match by ID.
   // Actually, we'll assign `50e18d6a-5c21-4f18-a6d1-123456789abc` in the register script. Let's use that.
   const isFolioBloomActual = id === "50e18d6a-5c21-4f18-a6d1-123456789abc";
+  const isWhisperingBloom = id === "wb-uuid-goes-here"; // We will set the proper UUID later when registering. Or we can just use the name if possible, but preview only has ID. Let's assign an ID in register-whispering-bloom.mjs: "70a29b3c-6d32-5e29-b7e2-234567890def"
+  const isWhisperingBloomActual = id === "70a29b3c-6d32-5e29-b7e2-234567890def";
 
   return (
     <div className="min-h-screen bg-stone-900 flex flex-col font-sans">
@@ -140,6 +143,21 @@ export default function PreviewPage({ params }) {
             <MemoryLaneTemplate data={previewData} />
           ) : isFolioBloomActual ? (
             <FolioBloomTemplate data={previewData} />
+          ) : isWhisperingBloomActual ? (
+            <WhisperingBloomTemplate data={{
+              nama_penerima: "Anya Geraldine",
+              momen: "Selamat Ulang Tahun",
+              nama_pengirim: "Budi Santoso",
+              pesan: "Semoga hari-harimu seindah bunga yang bermekaran. Teruslah bersinar dan menginspirasi banyak orang di sekitarmu.",
+              kalimat_penutup: "Semoga kebahagiaan selalu menyertaimu.",
+              signature_penutup: "Dengan cinta,",
+              youtube_url: "",
+              foto_urls: [
+                "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1520854221256-17451cc331bf?q=80&w=800&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop"
+              ]
+            }} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={previewData} isPreview={true} />
           ) : (

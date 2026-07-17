@@ -103,6 +103,9 @@ WAJIB update Registry Template di PRD.md setiap kali template baru selesai
 
 ## 3. Standar Frontend & UI (Next.js / React)
 
+### Kategori & Filter Gallery
+- Saat mendaftarkan template baru dengan _subCategory_ yang belum pernah ada sebelumnya, **wajib** tambahkan _subCategory_ tersebut ke dalam daftar tombol _filter_ `subCategoriesMap` di dalam `src/app/(public)/templates/page.jsx` agar pengunjung bisa memfilter template berdasarkan sub-kategori tersebut.
+
 ### Pola React & Next.js
 - Selalu gunakan **App Router** — bukan Pages Router
 - Server Components untuk fetch data, Client Components untuk interaktivitas

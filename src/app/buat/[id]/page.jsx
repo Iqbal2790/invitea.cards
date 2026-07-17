@@ -15,6 +15,8 @@ import MemoryLaneForm from "@/components/forms/MemoryLaneForm";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomForm from "@/components/forms/FolioBloomForm";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
+import WhisperingBloomForm from "@/components/forms/WhisperingBloomForm";
+import WhisperingBloomTemplate from "@/components/templates/renderers/whispering-bloom";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -160,6 +162,24 @@ export default function BuilderPage({ params }) {
     setFolioBloomFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const [whisperingBloomFormData, setWhisperingBloomFormData] = useState({
+    nama_penerima: "",
+    momen: "",
+    nama_pengirim: "",
+    pesan: "",
+    kalimat_penutup: "",
+    signature_penutup: "",
+    youtube_url: "",
+    foto_urls: []
+  });
+
+  const isWhisperingBloom = template?.nama === "Whispering Bloom";
+
+  const handleWhisperingBloomChange = (e) => {
+    const { name, value } = e.target;
+    setWhisperingBloomFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   // Map MagicalLanterns form data to the shape expected by the template
   const mappedLanternsData = {
     id: "live-preview",
@@ -239,6 +259,14 @@ export default function BuilderPage({ params }) {
               handleChange={handleFolioBloomChange}
               sessionId={sessionId}
             />
+          ) : isWhisperingBloom ? (
+            <WhisperingBloomForm
+              template={template}
+              formData={whisperingBloomFormData}
+              setFormData={setWhisperingBloomFormData}
+              handleChange={handleWhisperingBloomChange}
+              sessionId={sessionId}
+            />
           ) : isMagicalLanterns ? (
             <MagicalLanternsForm 
               template={template} 
@@ -266,6 +294,8 @@ export default function BuilderPage({ params }) {
             <MemoryLaneTemplate data={memoryLaneFormData} isPreview={true} isBuilder={true} />
           ) : isFolioBloom ? (
             <FolioBloomTemplate data={folioBloomFormData} />
+          ) : isWhisperingBloom ? (
+            <WhisperingBloomTemplate data={whisperingBloomFormData} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (

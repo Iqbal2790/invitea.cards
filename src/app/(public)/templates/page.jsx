@@ -9,7 +9,7 @@ import { Filter, Loader2 } from "lucide-react";
 
 const subCategoriesMap = {
   undangan: ["Semua", "Minimalist", "Interactive"],
-  ucapan: ["Semua", "Romantis", "Ulang Tahun"]
+  ucapan: ["Semua", "Romantis", "Ulang Tahun", "Interactive"]
 };
 
 function GalleryContent() {
