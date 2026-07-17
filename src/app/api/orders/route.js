@@ -34,7 +34,7 @@ export async function POST(request) {
       const namaWanita = data_content?.nama_panggilan_wanita || data_content?.mempelai_wanita_nama || "bahagia";
       slugBase = `${namaPria}-dan-${namaWanita}`;
     } else if (template.kategori === "ucapan") {
-      slugBase = `untuk-${data_content?.receiverName || "penerima"}`;
+      slugBase = `untuk-${data_content?.nama_penerima || data_content?.receiverName || "penerima"}`;
     }
 
     let newSlug = slugBase

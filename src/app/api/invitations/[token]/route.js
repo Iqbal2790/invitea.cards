@@ -15,7 +15,9 @@ export async function GET(request, { params }) {
       .select(`
         *,
         templates(
+          id,
           nama,
+          kategori,
           fields_config
         )
       `)

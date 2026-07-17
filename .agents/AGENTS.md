@@ -462,7 +462,7 @@ Ini berlaku di semua sesi tanpa pengecualian:
 | Perlu tahu tentang | Baca di |
 |---|---|
 | Arsitektur sistem secara keseluruhan | `PRD.md` — Section 1-6 |
-| Cara tambah template baru | `PRD.md` — Section 10 |
+| Cara tambah template baru (SOP Wajib) | `.agents/TEMPLATE_CREATION_GUIDE.md` |
 | Format form.md | `PRD.md` — Section 7 |
 | Alur API lengkap | `PRD.md` — Section 8 |
 | Database schema | `PRD.md` — Section 5 |
@@ -490,3 +490,11 @@ When building new template form components in `src/components/forms/`, ALWAYS us
 2. **Form Container**: Wrap the main form content (`<AnimatePresence>`) inside a centered container with `max-w-[440px] w-full mx-auto mt-24 mb-12`.
 3. **Buttons**: Next buttons should span `flex-1`, and Previous buttons should be icon-only circles or pills to the left.
 4. **Spacing**: Group inputs inside `space-y-[24px]` blocks, and individual label/input pairs inside `space-y-[8px]`.
+
+## 12. Checklist Wajib Pembuatan Template Baru (Mencegah Regresi)
+Sebelum menyatakan pembuatan template baru Selesai, WAJIB periksa 5 integrasi hulu-hilir berikut agar tidak terjadi kerusakan (bug) di halaman lain:
+1. **Frontend Form (Builder)**: Pastikan `Form.jsx` meniru struktur layout dari form sebelumnya (seperti `IvoryLineForm` atau `FolioBloomForm`) dan JANGAN pernah hardcode custom utility colors kecuali sudah diizinkan di `design.md`.
+2. **Checkout Page (`src/app/checkout/[order-id]/page.jsx`)**: Jika template adalah Kartu Ucapan, pastikan variabel preview memanggil `formData?.nama_pengirim` dan `formData?.nama_penerima`. JANGAN memanggil variabel undangan jika ini ucapan.
+3. **URL Custom Slug (`src/app/api/orders/route.js`)**: Pastikan API Order mampu mendeteksi `data_content.nama_penerima` (untuk ucapan) atau `data_content.nama_pria` (untuk undangan) saat membuat custom URL slug.
+4. **Dashboard Customer Editor (`src/app/order/[magic-token]/page.jsx`)**: Tambahkan identifikasi template (`orderData.templates?.nama === "Nama Template Baru"`) ke dalam variabel pendeteksi (`isUcapan` atau `isUndangan`). Pastikan form `editForm` me-render input yang sesuai (misal: Penerima & Pengirim).
+5. **Dashboard Admin (`src/app/api/admin/orders/route.js`)**: JANGAN PERNAH menimpa kolom Kustomer dengan data dari form (seperti `nama_pengirim`). Kolom Kustomer harus **SELALU 100% menggunakan Email User (`o.email`)**.

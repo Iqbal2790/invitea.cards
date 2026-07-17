@@ -15,8 +15,8 @@ import MemoryLaneForm from "@/components/forms/MemoryLaneForm";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomForm from "@/components/forms/FolioBloomForm";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
-import WhisperingBloomForm from "@/components/forms/WhisperingBloomForm";
-import WhisperingBloomTemplate from "@/components/templates/renderers/whispering-bloom";
+import CelestialJourneyForm from "@/components/forms/CelestialJourneyForm";
+import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -95,6 +95,8 @@ export default function BuilderPage({ params }) {
     music_youtube_url: "",
     music_quote: "",
   });
+  
+  const [celestialJourneyFormData, setCelestialJourneyFormData] = useState({});
 
   useEffect(() => {
     async function init() {
@@ -140,6 +142,7 @@ export default function BuilderPage({ params }) {
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad" || template?.nama === "Ivory Line";
   const isMemoryLane = template?.nama === "Memory Lane";
   const isFolioBloom = id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || template?.nama === "Folio Bloom";
+  const isCelestialJourney = template?.nama === "Celestial Journey";
 
   // Handlers for generic changes
   const handleLanternsChange = (e) => {
@@ -161,23 +164,10 @@ export default function BuilderPage({ params }) {
     const { name, value } = e.target;
     setFolioBloomFormData(prev => ({ ...prev, [name]: value }));
   };
-
-  const [whisperingBloomFormData, setWhisperingBloomFormData] = useState({
-    nama_penerima: "",
-    momen: "",
-    nama_pengirim: "",
-    pesan: "",
-    kalimat_penutup: "",
-    signature_penutup: "",
-    youtube_url: "",
-    foto_urls: []
-  });
-
-  const isWhisperingBloom = template?.nama === "Whispering Bloom";
-
-  const handleWhisperingBloomChange = (e) => {
+  
+  const handleCelestialJourneyChange = (e) => {
     const { name, value } = e.target;
-    setWhisperingBloomFormData(prev => ({ ...prev, [name]: value }));
+    setCelestialJourneyFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // Map MagicalLanterns form data to the shape expected by the template
@@ -259,12 +249,12 @@ export default function BuilderPage({ params }) {
               handleChange={handleFolioBloomChange}
               sessionId={sessionId}
             />
-          ) : isWhisperingBloom ? (
-            <WhisperingBloomForm
+          ) : isCelestialJourney ? (
+            <CelestialJourneyForm
               template={template}
-              formData={whisperingBloomFormData}
-              setFormData={setWhisperingBloomFormData}
-              handleChange={handleWhisperingBloomChange}
+              formData={celestialJourneyFormData}
+              setFormData={setCelestialJourneyFormData}
+              handleChange={handleCelestialJourneyChange}
               sessionId={sessionId}
             />
           ) : isMagicalLanterns ? (
@@ -294,8 +284,8 @@ export default function BuilderPage({ params }) {
             <MemoryLaneTemplate data={memoryLaneFormData} isPreview={true} isBuilder={true} />
           ) : isFolioBloom ? (
             <FolioBloomTemplate data={folioBloomFormData} />
-          ) : isWhisperingBloom ? (
-            <WhisperingBloomTemplate data={whisperingBloomFormData} />
+          ) : isCelestialJourney ? (
+            <CelestialJourneyTemplate data={celestialJourneyFormData} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (

@@ -189,11 +189,11 @@ export default function CheckoutPage({ params }) {
                     <>
                       <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
                         <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Pengirim</span>
-                        <span className="font-medium text-ink text-[14.5px]">{formData?.senderName || 'Romeo'}</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.nama_pengirim || formData?.senderName || 'Romeo'}</span>
                       </div>
                       <div className="bg-bg p-[16px] rounded-[6px] border border-hairline/80">
                         <span className="block text-[12px] font-medium uppercase tracking-wider text-ink-soft mb-[4px]">Penerima</span>
-                        <span className="font-medium text-ink text-[14.5px]">{formData?.receiverName || 'Juliet'}</span>
+                        <span className="font-medium text-ink text-[14.5px]">{formData?.nama_penerima || formData?.receiverName || 'Juliet'}</span>
                       </div>
                     </>
                   )}

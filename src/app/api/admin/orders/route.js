@@ -37,25 +37,9 @@ export async function GET(request) {
 
     // Transformasi data agar mudah dipakai oleh frontend
     const formattedOrders = orders.map(o => {
-      let customerName = o.email; // Default ke email
-      
-      if (o.data_content) {
-        const content = typeof o.data_content === 'string' ? JSON.parse(o.data_content) : o.data_content;
-        
-        if (o.templates?.kategori === 'undangan' && content.nama_mempelai) {
-          customerName = content.nama_mempelai;
-        } else if (content.nama_pengirim && content.nama_penerima) {
-          customerName = `${content.nama_pengirim} to ${content.nama_penerima}`;
-        } else if (content.nama_pengirim) {
-          customerName = content.nama_pengirim;
-        } else if (content.nama_pria && content.nama_wanita) {
-          customerName = `${content.nama_pria} & ${content.nama_wanita}`;
-        }
-      }
-
       return {
         id: o.id,
-        customer: customerName,
+        customer: o.email,
         email: o.email,
         template: o.templates?.nama || 'Unknown',
         category: o.templates?.kategori || '-',
