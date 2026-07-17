@@ -17,8 +17,14 @@ async function registerTemplate() {
     id: templateId,
     kategori: 'ucapan', 
     nama: 'Celestial Journey',
-    harga: 89000,
-    fields_config: [],
+    harga: 39000,
+    fields_config: {
+      subCategory: 'Romantis',
+      0: { name: 'nama_penerima', label: 'Nama Penerima', type: 'text', required: true },
+      1: { name: 'nama_pengirim', label: 'Nama Pengirim', type: 'text', required: true },
+      2: { name: 'pesan', label: 'Pesan Utama', type: 'textarea', required: true },
+      3: { name: 'foto_urls', label: 'Upload Foto', type: 'photo', required: false, multiple: true }
+    },
     is_active: true
   };
 
