@@ -21,11 +21,19 @@ async function uploadThumbnail() {
     const { data: buckets } = await supabase.storage.listBuckets();
     console.log("Buckets:", buckets.map(b => b.name));
     
-    const bucketName = 'template-assets';
-    // Create bucket if not exists
-    if (!buckets.find(b => b.name === bucketName)) {
-      console.log(`Creating bucket ${bucketName}...`);
-      await supabase.storage.createBucket(bucketName, { public: true });
+    const bucketName = 'thumbnails';
+    
+    // Cleanup old bad bucket
+    try {
+      console.log('Cleaning up bad bucket template-assets...');
+      const { data: files } = await supabase.storage.from('template-assets').list();
+      if (files && files.length > 0) {
+        await supabase.storage.from('template-assets').remove(files.map(f => f.name));
+      }
+      await supabase.storage.deleteBucket('template-assets');
+      console.log('Bad bucket deleted.');
+    } catch (e) {
+      console.log('Could not delete bad bucket:', e.message);
     }
     
     // Upload image
