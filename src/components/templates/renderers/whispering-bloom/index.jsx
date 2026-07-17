@@ -8,18 +8,22 @@ import { Play, Pause } from "lucide-react";
 const FlowerSVG = ({ className }) => (
   <svg width="60" height="150" viewBox="0 0 100 150" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
     {/* Stem */}
-    <path d="M50 150 Q50 90 50 45" stroke="currentColor" strokeWidth="4" fill="none" />
+    <path className="wb-stem" d="M50 150 Q50 90 50 45" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" />
     
     {/* Leaves */}
-    <path d="M50 130 Q30 110 10 70 Q25 100 50 120 Z" fill="currentColor" />
-    <path d="M50 120 Q70 100 90 60 Q75 90 50 110 Z" fill="currentColor" />
+    <g className="wb-leaves">
+      <path d="M50 130 Q30 110 10 70 Q25 100 50 120 Z" fill="currentColor" />
+      <path d="M50 120 Q70 100 90 60 Q75 90 50 110 Z" fill="currentColor" />
+    </g>
     
     {/* Petals (Profile View) */}
-    <path d="M 50 46 Q 40 20 50 5 Q 60 20 50 46 Z" fill="currentColor" />
-    <path d="M 50 46 Q 35 25 30 10 Q 45 20 50 46 Z" fill="currentColor" />
-    <path d="M 50 46 Q 65 25 70 10 Q 55 20 50 46 Z" fill="currentColor" />
-    <path d="M 50 46 Q 25 35 15 25 Q 35 35 50 46 Z" fill="currentColor" />
-    <path d="M 50 46 Q 75 35 85 25 Q 65 35 50 46 Z" fill="currentColor" />
+    <g className="wb-petals">
+      <path d="M 50 46 Q 40 20 50 5 Q 60 20 50 46 Z" fill="currentColor" />
+      <path d="M 50 46 Q 35 25 30 10 Q 45 20 50 46 Z" fill="currentColor" />
+      <path d="M 50 46 Q 65 25 70 10 Q 55 20 50 46 Z" fill="currentColor" />
+      <path d="M 50 46 Q 25 35 15 25 Q 35 35 50 46 Z" fill="currentColor" />
+      <path d="M 50 46 Q 75 35 85 25 Q 65 35 50 46 Z" fill="currentColor" />
+    </g>
   </svg>
 );
 
@@ -95,12 +99,45 @@ export default function WhisperingBloomTemplate({ data }) {
           transition: opacity 1.2s ease-out, transform 1.2s ease-out, filter 1.2s ease-out;
           color: #5A2D13; /* Dark orange/brown when off */
         }
+        
+        .wb-flower .wb-stem {
+          stroke-dasharray: 120;
+          stroke-dashoffset: 120;
+        }
+        .wb-flower .wb-leaves, .wb-flower .wb-petals {
+          opacity: 0;
+          transform: scale(0);
+          transform-origin: 50px 125px;
+        }
+        .wb-flower .wb-petals {
+          transform-origin: 50px 46px;
+        }
+
         .wb-flower.wb-animate {
           opacity: 1;
           transform: scale(1);
           color: #FFC069; /* Bright bulb when on */
           filter: drop-shadow(0 0 18px #FFC069) drop-shadow(0 0 36px #FF7A45);
-          animation: wb-glow-pulse 3s ease-in-out infinite alternate;
+          animation: wb-glow-pulse 3s ease-in-out infinite alternate 1.5s;
+        }
+        
+        .wb-flower.wb-animate .wb-stem {
+          animation: grow-stem 1s ease-out forwards;
+        }
+        .wb-flower.wb-animate .wb-leaves {
+          animation: pop-out 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.5s;
+        }
+        .wb-flower.wb-animate .wb-petals {
+          animation: pop-out 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.8s;
+        }
+
+        @keyframes grow-stem {
+          0% { stroke-dashoffset: 120; }
+          100% { stroke-dashoffset: 0; }
+        }
+        @keyframes pop-out {
+          0% { opacity: 0; transform: scale(0); }
+          100% { opacity: 1; transform: scale(1); }
         }
         .wb-flower.wb-personal-animate {
           opacity: 1;
@@ -179,34 +216,40 @@ function Screen1Opening({ next }) {
   const [showTap, setShowTap] = useState(false);
 
   useEffect(() => {
-    // 1. Center flower (index 2)
-    const t1 = setTimeout(() => setAnimatedIdxs([2]), 500);
+    // Exact timing from reference JS snippet
+    // 0: Center, 1: LeftInner, 2: RightInner, 3: FarLeft, 4: FarRight
+    // Their JS: flowers[0] (Center) animates immediately
+    const t1 = setTimeout(() => setAnimatedIdxs([0]), 500); 
     
-    // 2. Neighbors (index 1, 3)
-    const t2 = setTimeout(() => setAnimatedIdxs(prev => [...prev, 1, 3]), 3500);
+    // Their JS: after 3000ms, flowers[1] and flowers[2] animate
+    const t2 = setTimeout(() => setAnimatedIdxs(prev => [...prev, 1, 2]), 3500);
     
-    // 3. Random remaining (index 0, 4)
+    // Their JS: random interval for remaining
     const t3 = setTimeout(() => {
-      const remaining = [0, 4].sort(() => Math.random() - 0.5);
+      const remaining = [3, 4].sort(() => Math.random() - 0.5);
       remaining.forEach((idx, i) => {
         setTimeout(() => {
           setAnimatedIdxs(prev => [...prev, idx]);
         }, i * 500);
       });
-    }, 4000);
+    }, 3500);
 
-    // 4. Show Tap text
+    // Show Tap text
     const t4 = setTimeout(() => setShowTap(true), 6000);
 
     return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
   }, []);
 
+  // Map visual layout (FarLeft, LeftInner, Center, RightInner, FarRight)
+  // to the logical index (0 = Center, 1 = LeftInner, 2 = RightInner, 3 = FarLeft, 4 = FarRight)
+  const layoutMap = [3, 1, 0, 2, 4];
+
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center cursor-pointer" onClick={(e) => { e.stopPropagation(); next(); }}>
       <div className="absolute bottom-[10vh] flex gap-2 sm:gap-4 items-end justify-center w-full px-4">
-        {[0, 1, 2, 3, 4].map(i => (
-          <div key={i} className={`transform origin-bottom ${i === 2 ? 'scale-110 z-10' : 'scale-90 opacity-80'}`}>
-            <FlowerSVG className={`wb-flower ${animatedIdxs.includes(i) ? 'wb-animate' : ''}`} />
+        {layoutMap.map(logicalIdx => (
+          <div key={logicalIdx} className={`transform origin-bottom ${logicalIdx === 0 ? 'scale-110 z-10' : 'scale-90 opacity-80'}`}>
+            <FlowerSVG className={`wb-flower ${animatedIdxs.includes(logicalIdx) ? 'wb-animate' : ''}`} />
           </div>
         ))}
       </div>
