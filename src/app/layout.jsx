@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-bg text-ink font-sans antialiased transition-colors duration-400">
+      <body className="min-h-screen flex flex-col bg-bg text-ink font-sans antialiased transition-colors duration-400 overflow-x-hidden">
         {children}
       </body>
     </html>

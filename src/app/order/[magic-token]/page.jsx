@@ -15,7 +15,9 @@ import {
   Edit,
   Save,
   Loader2,
-  Mail
+  Mail,
+  Upload,
+  Trash2
 } from "lucide-react";
 
 export default function OrderDashboardPage({ params }) {
@@ -43,6 +45,8 @@ export default function OrderDashboardPage({ params }) {
     closingRemark: ""
   });
   const [isSaving, setIsSaving] = useState(false);
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -140,7 +144,7 @@ export default function OrderDashboardPage({ params }) {
   const contentTitle = isUcapan ? "Konten Kartu Ucapan" : "Konten Undangan";
   
   const dynamicFields = Object.values(orderData.templates?.fields_config || {})
-    .filter(f => f && typeof f === 'object' && f.name && f.type !== 'photo' && f.type !== 'bank');
+    .filter(f => f && typeof f === 'object' && f.name && f.type !== 'bank' && f.type !== 'photo');
   const totalHadir = rsvpData.filter(r => r.status_kehadiran === 'hadir').length;
   const totalTidakHadir = rsvpData.filter(r => r.status_kehadiran === 'tidak_hadir' || r.status_kehadiran === 'tidak').length;
 
@@ -301,7 +305,7 @@ export default function OrderDashboardPage({ params }) {
                     {dynamicFields.map(field => (
                       <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'sm:col-span-2' : ''}>
                         <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">{field.label}</p>
-                        <p className="text-ink font-medium text-[16.5px] whitespace-pre-wrap">
+                        <p className="text-ink font-medium text-[16.5px] whitespace-pre-wrap break-words">
                           {data.data_content?.[field.name] || "-"}
                         </p>
                       </div>

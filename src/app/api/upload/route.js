@@ -60,13 +60,16 @@ export async function POST(request) {
       .storage
       .from("orders")
       .upload(filePath, buffer, {
-        contentType: file.type,
+        contentType: file.type || "image/jpeg",
         upsert: true
       });
 
     if (uploadError) {
       console.error("Supabase storage upload error:", uploadError);
-      return NextResponse.json({ error: "Gagal mengunggah file ke storage" }, { status: 500 });
+      return NextResponse.json(
+        { error: uploadError.message || uploadError.error || "Gagal mengunggah file ke storage" },
+        { status: 500 }
+      );
     }
 
     // Get public URL
