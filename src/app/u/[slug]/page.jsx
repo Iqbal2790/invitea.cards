@@ -6,6 +6,7 @@ import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
+import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 import { Loader2 } from "lucide-react";
 
 export default function LiveInvitationPage({ params }) {
@@ -58,6 +59,7 @@ export default function LiveInvitationPage({ params }) {
   const isFolioBloom = templates?.id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || templates?.nama === "Folio Bloom";
   const isCelestialJourney = templates?.nama === "Celestial Journey";
   const isWhisperingBloom = templates?.nama === "Whispering Bloom";
+  const isKisahtanggalku = templates?.nama === "Kisahtanggalku" || templates?.nama === "Vintage Chronicle";
 
   let templateData = { id: id, rsvps: rsvps || [] };
   if (isMagicalLanterns) {
@@ -103,6 +105,8 @@ export default function LiveInvitationPage({ params }) {
         <FolioBloomTemplate data={templateData} />
       ) : isCelestialJourney ? (
         <CelestialJourneyTemplate data={templateData} />
+      ) : isKisahtanggalku ? (
+        <KisahtanggalkuTemplate data={templateData} isPreview={false} />
       ) : isMagicalLanterns ? (
         <MagicalLanternsTemplate data={templateData} isPreview={false} />
       ) : (

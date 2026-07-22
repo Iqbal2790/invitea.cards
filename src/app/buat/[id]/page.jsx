@@ -17,6 +17,8 @@ import FolioBloomForm from "@/components/forms/FolioBloomForm";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import CelestialJourneyForm from "@/components/forms/CelestialJourneyForm";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
+import KisahtanggalkuForm from "@/components/forms/KisahtanggalkuForm";
+import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -97,6 +99,7 @@ export default function BuilderPage({ params }) {
   });
   
   const [celestialJourneyFormData, setCelestialJourneyFormData] = useState({});
+  const [kisahtanggalkuFormData, setKisahtanggalkuFormData] = useState({});
 
   useEffect(() => {
     async function init() {
@@ -143,6 +146,7 @@ export default function BuilderPage({ params }) {
   const isMemoryLane = template?.nama === "Memory Lane";
   const isFolioBloom = id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || template?.nama === "Folio Bloom";
   const isCelestialJourney = template?.nama === "Celestial Journey";
+  const isKisahtanggalku = template?.nama === "Kisahtanggalku" || template?.nama === "Vintage Chronicle";
 
   // Handlers for generic changes
   const handleLanternsChange = (e) => {
@@ -168,6 +172,11 @@ export default function BuilderPage({ params }) {
   const handleCelestialJourneyChange = (e) => {
     const { name, value } = e.target;
     setCelestialJourneyFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleKisahtanggalkuChange = (e) => {
+    const { name, value } = e.target;
+    setKisahtanggalkuFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // Map MagicalLanterns form data to the shape expected by the template
@@ -257,6 +266,14 @@ export default function BuilderPage({ params }) {
               handleChange={handleCelestialJourneyChange}
               sessionId={sessionId}
             />
+          ) : isKisahtanggalku ? (
+            <KisahtanggalkuForm
+              template={template}
+              formData={kisahtanggalkuFormData}
+              setFormData={setKisahtanggalkuFormData}
+              handleChange={handleKisahtanggalkuChange}
+              sessionId={sessionId}
+            />
           ) : isMagicalLanterns ? (
             <MagicalLanternsForm 
               template={template} 
@@ -286,6 +303,8 @@ export default function BuilderPage({ params }) {
             <FolioBloomTemplate data={folioBloomFormData} />
           ) : isCelestialJourney ? (
             <CelestialJourneyTemplate data={celestialJourneyFormData} />
+          ) : isKisahtanggalku ? (
+            <KisahtanggalkuTemplate data={kisahtanggalkuFormData} isPreview={true} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (

@@ -9,6 +9,7 @@ import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
+import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -19,6 +20,7 @@ export default function PreviewPage({ params }) {
   const isMemoryLane = id === "45f4eb4d-ddab-410d-9104-401e2147f24e";
   const isFolioBloomActual = id === "50e18d6a-5c21-4f18-a6d1-123456789abc";
   const isCelestialJourney = id === "12345678-abcd-ef00-1234-567890abcdef";
+  const isKisahtanggalku = id === "99999999-9999-9999-9999-999999999999";
 
   let previewData = {};
 
@@ -160,6 +162,8 @@ export default function PreviewPage({ params }) {
             <FolioBloomTemplate data={previewData} />
           ) : isCelestialJourney ? (
             <CelestialJourneyTemplate data={previewData} />
+          ) : isKisahtanggalku ? (
+            <KisahtanggalkuTemplate data={previewData} isPreview={true} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={previewData} isPreview={true} />
           ) : (
