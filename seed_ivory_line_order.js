@@ -15,13 +15,16 @@ const dummyDataContent = {
   acara1_jam: "08:00",
   acara1_lokasi: "Masjid Agung At-Tin, Jakarta Timur",
   foto_urls: [
-    "https://images.unsplash.com/photo-1519741497674-611481863552",
-    "https://images.unsplash.com/photo-1511285560929-80b456fea0bc",
-    "https://images.unsplash.com/photo-1520854221256-17451cc331bf"
+    "/foto-dummy-undangan/338.jpg",
+    "/foto-dummy-undangan/9877.jpg",
+    "/foto-dummy-undangan/10467.jpg",
+    "/foto-dummy-undangan/11212.jpg",
+    "/foto-dummy-undangan/11597.jpg",
+    "/foto-dummy-undangan/16666.jpg"
   ],
-  foto_cover: "https://images.unsplash.com/photo-1519741497674-611481863552",
-  foto_pria: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d",
-  foto_wanita: "https://images.unsplash.com/photo-1534528741775-53994a69daeb",
+  foto_cover: "/foto-dummy-undangan/cover.jpg",
+  foto_pria: "/foto-dummy-undangan/mempelai-pria.jpg",
+  foto_wanita: "/foto-dummy-undangan/mempelai-wanita.jpg",
   bank_accounts: [{ bank: "BCA", nomor: "5432112345", nama: "Bima Aryasetya" }],
   youtube_url: "",
   cerita_cinta: "Pertemuan kami berawal dari sebuah kebetulan sederhana di sebuah kedai kopi di selatan Jakarta lima tahun yang lalu.",
