@@ -35,7 +35,8 @@ async function run() {
   const { data, error } = await supabase
     .from('templates')
     .update({
-      fields_config: fields_config
+      fields_config: fields_config,
+      harga: 39000
     })
     .eq('nama', 'Ivory Line')
     .select();
