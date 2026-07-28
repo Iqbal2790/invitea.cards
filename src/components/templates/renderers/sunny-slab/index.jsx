@@ -60,17 +60,10 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
     nama_lengkap_wanita = "Dinda Ayu Lestari",
     nama_ayah_wanita = "Bapak Somad Prasetyo",
     nama_ibu_wanita = "Ibu Ratna Kusuma",
-    foto_pria = "/foto-dummy-undangan2/loveisall.film_1784906403191.jpeg",
-    foto_wanita = "/foto-dummy-undangan2/loveisall.film_1784906406087.jpeg",
-    foto_cover = "/foto-dummy-undangan2/cover.jpeg",
-    foto_urls = [
-      "/foto-dummy-undangan2/loveisall.film_1784906406488.jpeg",
-      "/foto-dummy-undangan2/loveisall.film_1784906423202.jpeg",
-      "/foto-dummy-undangan2/loveisall.film_1784906423611.jpeg",
-      "/foto-dummy-undangan2/loveisall.film_1784906434619.jpeg",
-      "/foto-dummy-undangan2/loveisall.film_1784906435010.jpeg",
-      "/foto-dummy-undangan2/loveisall.film_1784906447931.jpeg"
-    ],
+    foto_pria,
+    foto_wanita,
+    foto_cover,
+    foto_urls,
     tanggal_acara = "2027-02-14",
     waktu_acara = "08:00",
     quote_text = "Cinta yang tumbuh dari niat baik akan selalu menemukan jalan untuk saling menguatkan, dalam suka maupun duka.",
@@ -100,6 +93,18 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
     rsvps = [],
     id: order_id
   } = data || {};
+
+  const displayFotoCover = foto_cover || "/foto-dummy-undangan2/cover.jpeg";
+  const displayFotoPria = foto_pria || "/foto-dummy-undangan2/loveisall.film_1784906403191.jpeg";
+  const displayFotoWanita = foto_wanita || "/foto-dummy-undangan2/loveisall.film_1784906406087.jpeg";
+  const displayFotoUrls = foto_urls && foto_urls.length > 0 ? foto_urls : [
+    "/foto-dummy-undangan2/loveisall.film_1784906406488.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906423202.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906423611.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906434619.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906435010.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906447931.jpeg"
+  ];
 
   const handleOpen = () => {
     setStage(1);
@@ -363,7 +368,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
             className="fixed inset-0 z-50 flex flex-col justify-between bg-[#111111] overflow-hidden"
           >
             {/* Full Bleed Background */}
-            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${foto_cover}')` }} />
+            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${displayFotoCover}')` }} />
             {/* Dark Overlay for Text Readability */}
             <div className="absolute inset-0 bg-black/40" />
 
@@ -463,7 +468,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
                 {/* Groom */}
                 <motion.div variants={popIn} initial="hidden" whileInView="visible" viewport={{ once: true }} className="neo-card w-full p-[24px_20px] text-center">
                   <div className="w-[120px] h-[120px] rounded-full border-[3px] border-[#111111] shadow-[4px_4px_0_#111111] mx-auto mb-[18px] overflow-hidden bg-[#e4d9c3]">
-                    <img src={foto_pria} alt={nama_panggilan_pria} className="w-full h-full object-cover" />
+                    <img src={displayFotoPria} alt={nama_panggilan_pria} className="w-full h-full object-cover" />
                   </div>
                   <p className="eyebrow text-[#4A4A4A]">The Groom</p>
                   <h3 className="font-semibold text-[18px] mt-[4px] leading-[1.2]">{nama_lengkap_pria}</h3>
@@ -475,7 +480,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
                 {/* Bride */}
                 <motion.div variants={popIn} initial="hidden" whileInView="visible" viewport={{ once: true, delay: 0.1 }} className="neo-card w-full p-[24px_20px] text-center">
                   <div className="w-[120px] h-[120px] rounded-full border-[3px] border-[#111111] shadow-[4px_4px_0_#111111] mx-auto mb-[18px] overflow-hidden bg-[#e4d9c3]">
-                    <img src={foto_wanita} alt={nama_panggilan_wanita} className="w-full h-full object-cover" />
+                    <img src={displayFotoWanita} alt={nama_panggilan_wanita} className="w-full h-full object-cover" />
                   </div>
                   <p className="eyebrow text-[#4A4A4A]">The Bride</p>
                   <h3 className="font-semibold text-[18px] mt-[4px] leading-[1.2]">{nama_lengkap_wanita}</h3>
@@ -486,13 +491,14 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
               </div>
             </section>
 
-            {/* GALERI */}
-            {foto_urls && foto_urls.length > 0 && (
-              <section className="section-padding text-center">
-                <h2 className="script-font-indie text-[42px] mb-[32px]">gallery</h2>
+            {/* GALLERY */}
+            {displayFotoUrls && displayFotoUrls.length > 0 && (
+              <section className="section-padding bg-alt text-center">
+                <span className="asterisk" style={{ top: 20, left: 16 }}>*</span>
+                <h2 className="script-font-indie text-[42px] mb-[32px]">moments</h2>
                 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-[10px] md:gap-[14px] w-full auto-rows-[140px] md:auto-rows-[180px]">
-                  {foto_urls.map((url, i) => {
+                <div className="grid grid-cols-3 auto-rows-[100px] gap-[12px] max-w-[420px] mx-auto w-full">
+                  {displayFotoUrls.slice(0, 6).map((url, i) => {
                     // Hanya menggunakan 2 ukuran (1x1 dan 2x2) untuk tampilan bento yang lebih rapi
                     let spanClass = "col-span-1 row-span-1";
                     const idx = i % 6;
