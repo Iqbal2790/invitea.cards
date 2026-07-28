@@ -94,16 +94,16 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
     id: order_id
   } = data || {};
 
-  const displayFotoCover = foto_cover || "/foto-dummy-undangan2/cover.jpeg";
-  const displayFotoPria = foto_pria || "/foto-dummy-undangan2/loveisall.film_1784906403191.jpeg";
-  const displayFotoWanita = foto_wanita || "/foto-dummy-undangan2/loveisall.film_1784906406087.jpeg";
+  const displayFotoCover = foto_cover || "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/cover.jpeg";
+  const displayFotoPria = foto_pria || "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906403191.jpeg";
+  const displayFotoWanita = foto_wanita || "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906406087.jpeg";
   const displayFotoUrls = foto_urls && foto_urls.length > 0 ? foto_urls : [
-    "/foto-dummy-undangan2/loveisall.film_1784906406488.jpeg",
-    "/foto-dummy-undangan2/loveisall.film_1784906423202.jpeg",
-    "/foto-dummy-undangan2/loveisall.film_1784906423611.jpeg",
-    "/foto-dummy-undangan2/loveisall.film_1784906434619.jpeg",
-    "/foto-dummy-undangan2/loveisall.film_1784906435010.jpeg",
-    "/foto-dummy-undangan2/loveisall.film_1784906447931.jpeg"
+    "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906406488.jpeg",
+    "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906423202.jpeg",
+    "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906423611.jpeg",
+    "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906434619.jpeg",
+    "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906435010.jpeg",
+    "https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/orders/dummy/loveisall.film_1784906447931.jpeg"
   ];
 
   const handleOpen = () => {

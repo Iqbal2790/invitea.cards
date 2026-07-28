@@ -29,7 +29,9 @@ export async function POST(request) {
     } else {
       // It's a string identifier like foto_pria, foto_wanita, foto_cover
       const allowedStringSlots = ["foto_pria", "foto_wanita", "foto_cover", "foto_hero", "pria", "wanita", "cover", "photo1", "photo2", "photo3", "filmPhoto1", "filmPhoto2", "filmPhoto3", "filmPhoto4", "filmPhoto5"];
-      if (!allowedStringSlots.includes(slotRaw)) {
+      // Also allow gallery_N pattern (e.g. gallery_0, gallery_1, ..., gallery_20)
+      const isGallerySlot = /^gallery_(\d+)$/.test(slotRaw) && parseInt(slotRaw.split('_')[1], 10) <= 20;
+      if (!allowedStringSlots.includes(slotRaw) && !isGallerySlot) {
         return NextResponse.json(
           { error: `Slot foto tidak valid.` },
           { status: 400 }
