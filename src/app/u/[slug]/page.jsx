@@ -7,6 +7,7 @@ import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
+import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
 import { Loader2 } from "lucide-react";
 
 export default function LiveInvitationPage({ params }) {
@@ -60,6 +61,7 @@ export default function LiveInvitationPage({ params }) {
   const isCelestialJourney = templates?.nama === "Celestial Journey";
   const isWhisperingBloom = templates?.nama === "Whispering Bloom";
   const isKisahtanggalku = templates?.nama === "Kisahtanggalku" || templates?.nama === "Vintage Chronicle";
+  const isSunnySlab = templates?.nama === "Sunny Slab" || templates?.slug === "sunny-slab";
 
   let templateData = { id: id, rsvps: rsvps || [] };
   if (isMagicalLanterns) {
@@ -107,6 +109,8 @@ export default function LiveInvitationPage({ params }) {
         <CelestialJourneyTemplate data={templateData} />
       ) : isKisahtanggalku ? (
         <KisahtanggalkuTemplate data={templateData} isPreview={false} />
+      ) : isSunnySlab ? (
+        <SunnySlabTemplate data={templateData} isPreview={false} />
       ) : isMagicalLanterns ? (
         <MagicalLanternsTemplate data={templateData} isPreview={false} />
       ) : (

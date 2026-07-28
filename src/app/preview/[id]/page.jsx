@@ -10,6 +10,7 @@ import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
 import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
+import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -21,6 +22,7 @@ export default function PreviewPage({ params }) {
   const isFolioBloomActual = id === "50e18d6a-5c21-4f18-a6d1-123456789abc";
   const isCelestialJourney = id === "12345678-abcd-ef00-1234-567890abcdef";
   const isKisahtanggalku = id === "99999999-9999-9999-9999-999999999999";
+  const isSunnySlab = id === "123e4567-e89b-12d3-a456-426614174000" || id === "sunny-slab";
 
   let previewData = {};
 
@@ -69,60 +71,85 @@ export default function PreviewPage({ params }) {
       gallery: [
         { src: "/template-dummy.png" }
       ],
-      // Ivory Line specific
+      // Wedding specific
       nama_panggilan_pria: "Bima",
       nama_panggilan_wanita: "Ayu",
       nama_lengkap_pria: "Bima Aryasetya, S.T.",
+      nama_ayah_pria: "Bapak Budi Santoso",
+      nama_ibu_pria: "Ibu Siti Aminah",
       nama_lengkap_wanita: "Ayu Lestari, S.E.",
-      acara1_nama: "Akad Nikah",
-      acara1_tanggal: "2026-12-12",
-      acara1_jam: "08:00",
-      acara1_lokasi: "Masjid Agung At-Tin, Jakarta Timur",
+      nama_ayah_wanita: "Bapak Joko Widodo",
+      nama_ibu_wanita: "Ibu Iriana",
       foto_urls: dummyWeddingPhotos.foto_urls,
       foto_cover: dummyWeddingPhotos.foto_cover,
       foto_pria: dummyWeddingPhotos.foto_pria,
       foto_wanita: dummyWeddingPhotos.foto_wanita,
-      bank_accounts: [{ bank: "BCA", nomor: "5432112345", nama: "Bima Aryasetya" }],
-      youtube_url: "",
-      cerita_cinta: "Pertemuan kami berawal dari sebuah kebetulan sederhana di sebuah kedai kopi di selatan Jakarta lima tahun yang lalu.",
-      acara1_maps_url: "https://maps.google.com/?q=Masjid+Agung+At-Tin",
-      acara2_nama: "Resepsi",
-      acara2_tanggal: "2026-12-12",
-      acara2_jam: "11:00",
-      acara2_lokasi: "Gedung Pewayangan Kautaman, TMII",
-      acara2_maps_url: "https://maps.google.com/?q=Gedung+Pewayangan",
-      receiverName: "Jane Doe",
-      senderName: "John Doe",
-      recipientAge: "25",
-      photo1: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&q=80&w=800",
-      photo2: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&q=80&w=800",
-      photo3: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&q=80&w=800",
-      caption1: "Momen bahagia kita bersama.",
-      caption2: "Hari yang tak akan pernah terlupakan.",
-      caption3: "Terima kasih untuk segalanya.",
-      finalGreeting: "Semoga kenangan ini selalu membawa senyum di wajahmu.",
-      closingRemark: "With lots of love,",
-      mempelai_pria_nama: "Romeo",
-      mempelai_pria_ortu: "Putra dari Bapak Montague & Ibu Montague",
-      mempelai_wanita_nama: "Juliet",
-      mempelai_wanita_ortu: "Putri dari Bapak Capulet & Ibu Capulet",
+      tanggal_acara: "2027-02-14",
+      waktu_acara: "08:00",
+      quote_text: "Cinta yang tumbuh dari niat baik akan selalu menemukan jalan untuk saling menguatkan, dalam suka maupun duka.",
+      quote_author: "Doa & Harapan Kami",
       acara_akad_nama: "Akad Nikah",
-      acara_akad_tanggal: "2026-12-24",
-      acara_akad_jam: "08:00",
-      acara_akad_lokasi_nama: "Masjid Raya Jakarta",
-      acara_akad_lokasi_alamat: "Jl. Sudirman No. 1, Jakarta Pusat",
-      acara_akad_lokasi_url: "https://maps.google.com/?q=Jakarta",
+      acara_akad_tanggal: "Sabtu, 14 Februari 2027",
+      acara_akad_jam: "08:00 - 10:00 WIB",
+      acara_akad_lokasi: "Masjid Raya Jakarta, Jl. Sudirman No. 1",
+      acara_akad_maps_url: "https://maps.google.com/?q=Jakarta",
       acara_resepsi_nama: "Resepsi",
-      acara_resepsi_tanggal: "2026-12-24",
-      acara_resepsi_jam: "11:00",
-      acara_resepsi_lokasi_nama: "Gedung Serbaguna Jakarta",
-      acara_resepsi_lokasi_alamat: "Jl. Sudirman No. 2, Jakarta Pusat",
-      acara_resepsi_lokasi_url: "https://maps.google.com/?q=Jakarta",
-      music_youtube_url: "https://www.youtube.com/watch?v=rtOvBOTyX00",
-      mainMessage: "Selamat ulang tahun! Semoga hari ini seindah senyummu dan tahun ini penuh dengan kejutan manis.",
-      reasons: ["Senyum manismu", "Kebaikan hatimu", "Tawamu yang menular"],
-      songUrl: "https://youtu.be/P3wSn5K9quo?si=Z5S7zzSCeletoPhI",
-      musicQuote: "Lagu ini selalu mengingatkanku padamu."
+      acara_resepsi_tanggal: "Sabtu, 14 Februari 2027",
+      acara_resepsi_jam: "11:00 - 14:00 WIB",
+      acara_resepsi_lokasi: "Gedung Serbaguna Jakarta",
+      acara_resepsi_maps_url: "https://maps.google.com/?q=Jakarta",
+      youtube_url: "rtOvBOTyX00",
+      live_youtube_url: "https://youtube.com/live/dummy_link",
+      live_zoom_url: "https://zoom.us/j/123456789",
+      live_meet_url: "https://meet.google.com/abc-defg-hij",
+      dresscode_warna: ["#F7F2E9", "#C9D9E8", "#111111"],
+      dresscode_desc: "Mohon kenakan pakaian dengan warna yang senada dengan tema kami.",
+      ucapan_terima_kasih: "Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu untuk kami.",
+      love_story: [
+        {
+          tanggal: "2020",
+          judul: "Pertama Bertemu",
+          deskripsi: "Berawal dari acara kampus, kami saling mengenal dan mulai berteman."
+        },
+        {
+          tanggal: "2023",
+          judul: "Menjalin Kasih",
+          deskripsi: "Setelah bertahun-tahun bersahabat, kami memutuskan untuk membawa hubungan ini ke tahap yang lebih serius."
+        },
+        {
+          tanggal: "2026",
+          judul: "Lamaran",
+          deskripsi: "Sebuah momen manis di mana dua keluarga besar bertemu untuk merestui niat baik kami."
+        }
+      ],
+      wishes: [
+        {
+          nama: "Andi & Keluarga",
+          pesan: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah."
+        },
+        {
+          nama: "Siska",
+          pesan: "Lancar sampai hari H yaa! Bahagia selalu untuk kalian berdua."
+        },
+        {
+          nama: "Budi",
+          pesan: "Congrats bro! Akhirnya melepas masa lajang juga. Doa terbaik buat kalian."
+        }
+      ],
+      rekening_pria: [
+        {
+          bank: "BCA",
+          nomor: "1234567890",
+          atas_nama: "Bima Aryasetya"
+        }
+      ],
+      rekening_wanita: [
+        {
+          bank: "Mandiri",
+          nomor: "0987654321",
+          atas_nama: "Ayu Lestari"
+        }
+      ]
     };
   }
 
@@ -153,7 +180,7 @@ export default function PreviewPage({ params }) {
 
       {/* Template Container (Simulating Mobile Screen on Desktop) */}
       <div className="flex-1 w-full flex justify-center bg-stone-900 py-0 md:py-8 overflow-y-auto">
-        <div className="w-full md:w-[414px] md:h-[896px] bg-white md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden overflow-y-auto relative custom-scrollbar">
+        <div className="w-full md:w-[414px] md:h-[896px] bg-white md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden overflow-y-auto relative custom-scrollbar transform-gpu">
           {isIvoryLine ? (
             <IvoryLineTemplate data={previewData} isPreview={true} />
           ) : isMemoryLane ? (
@@ -164,6 +191,8 @@ export default function PreviewPage({ params }) {
             <CelestialJourneyTemplate data={previewData} />
           ) : isKisahtanggalku ? (
             <KisahtanggalkuTemplate data={previewData} isPreview={true} />
+          ) : isSunnySlab ? (
+            <SunnySlabTemplate data={previewData} isPreview={true} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={previewData} isPreview={true} />
           ) : (

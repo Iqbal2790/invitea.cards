@@ -19,6 +19,8 @@ import CelestialJourneyForm from "@/components/forms/CelestialJourneyForm";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
 import KisahtanggalkuForm from "@/components/forms/KisahtanggalkuForm";
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
+import SunnySlabForm from "@/components/forms/SunnySlabForm";
+import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -100,6 +102,7 @@ export default function BuilderPage({ params }) {
   
   const [celestialJourneyFormData, setCelestialJourneyFormData] = useState({});
   const [kisahtanggalkuFormData, setKisahtanggalkuFormData] = useState({});
+  const [sunnySlabFormData, setSunnySlabFormData] = useState({});
 
   useEffect(() => {
     async function init() {
@@ -147,6 +150,7 @@ export default function BuilderPage({ params }) {
   const isFolioBloom = id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || template?.nama === "Folio Bloom";
   const isCelestialJourney = template?.nama === "Celestial Journey";
   const isKisahtanggalku = template?.nama === "Kisahtanggalku" || template?.nama === "Vintage Chronicle";
+  const isSunnySlab = template?.nama === "Sunny Slab" || template?.slug === "sunny-slab";
 
   // Handlers for generic changes
   const handleLanternsChange = (e) => {
@@ -177,6 +181,11 @@ export default function BuilderPage({ params }) {
   const handleKisahtanggalkuChange = (e) => {
     const { name, value } = e.target;
     setKisahtanggalkuFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSunnySlabChange = (e) => {
+    const { name, value } = e.target;
+    setSunnySlabFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // Map MagicalLanterns form data to the shape expected by the template
@@ -217,6 +226,71 @@ export default function BuilderPage({ params }) {
     wishes: [
       { message: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.", name: "Budi & Keluarga" },
       { message: "Happy Wedding Romeo & Juliet! Wishing you a lifetime of love and happiness.", name: "Siska" }
+    ]
+  };
+
+  const mappedSunnySlabData = {
+    ...sunnySlabFormData,
+    nama_panggilan_pria: sunnySlabFormData.nama_panggilan_pria || "Bima",
+    nama_panggilan_wanita: sunnySlabFormData.nama_panggilan_wanita || "Ayu",
+    nama_lengkap_pria: sunnySlabFormData.nama_lengkap_pria || "Bima Aryasetya, S.T.",
+    nama_ayah_pria: sunnySlabFormData.nama_ayah_pria || "Bapak Budi Santoso",
+    nama_ibu_pria: sunnySlabFormData.nama_ibu_pria || "Ibu Siti Aminah",
+    nama_lengkap_wanita: sunnySlabFormData.nama_lengkap_wanita || "Ayu Lestari, S.E.",
+    nama_ayah_wanita: sunnySlabFormData.nama_ayah_wanita || "Bapak Joko Widodo",
+    nama_ibu_wanita: sunnySlabFormData.nama_ibu_wanita || "Ibu Iriana",
+    foto_urls: sunnySlabFormData.foto_urls && sunnySlabFormData.foto_urls.length > 0 ? sunnySlabFormData.foto_urls : dummyWeddingPhotos.foto_urls,
+    foto_cover: sunnySlabFormData.foto_cover || dummyWeddingPhotos.foto_cover,
+    foto_pria: sunnySlabFormData.foto_pria || dummyWeddingPhotos.foto_pria,
+    foto_wanita: sunnySlabFormData.foto_wanita || dummyWeddingPhotos.foto_wanita,
+    tanggal_acara: sunnySlabFormData.tanggal_acara || "2027-02-14",
+    waktu_acara: sunnySlabFormData.waktu_acara || "08:00",
+    quote_text: sunnySlabFormData.quote_text || "Cinta yang tumbuh dari niat baik akan selalu menemukan jalan untuk saling menguatkan, dalam suka maupun duka.",
+    quote_author: sunnySlabFormData.quote_author || "Doa & Harapan Kami",
+    acara_akad_nama: sunnySlabFormData.acara_akad_nama || "Akad Nikah",
+    acara_akad_tanggal: sunnySlabFormData.acara_akad_tanggal || "Sabtu, 14 Februari 2027",
+    acara_akad_jam: sunnySlabFormData.acara_akad_jam || "08:00 - 10:00 WIB",
+    acara_akad_lokasi: sunnySlabFormData.acara_akad_lokasi || "Masjid Raya Jakarta, Jl. Sudirman No. 1",
+    acara_akad_maps_url: sunnySlabFormData.acara_akad_maps_url || "https://maps.google.com/?q=Jakarta",
+    acara_resepsi_nama: sunnySlabFormData.acara_resepsi_nama || "Resepsi",
+    acara_resepsi_tanggal: sunnySlabFormData.acara_resepsi_tanggal || "Sabtu, 14 Februari 2027",
+    acara_resepsi_jam: sunnySlabFormData.acara_resepsi_jam || "11:00 - 14:00 WIB",
+    acara_resepsi_lokasi: sunnySlabFormData.acara_resepsi_lokasi || "Gedung Serbaguna Jakarta",
+    acara_resepsi_maps_url: sunnySlabFormData.acara_resepsi_maps_url || "https://maps.google.com/?q=Jakarta",
+    youtube_url: sunnySlabFormData.youtube_url || "rtOvBOTyX00",
+    live_youtube_url: sunnySlabFormData.live_youtube_url || "https://youtube.com/live/dummy_link",
+    live_zoom_url: sunnySlabFormData.live_zoom_url || "https://zoom.us/j/123456789",
+    live_meet_url: sunnySlabFormData.live_meet_url || "https://meet.google.com/abc-defg-hij",
+    dresscode_warna: sunnySlabFormData.dresscode_warna && sunnySlabFormData.dresscode_warna.length > 0 ? sunnySlabFormData.dresscode_warna : ["#F7F2E9", "#C9D9E8", "#111111"],
+    dresscode_desc: sunnySlabFormData.dresscode_desc || "Mohon kenakan pakaian dengan warna yang senada dengan tema kami.",
+    ucapan_terima_kasih: sunnySlabFormData.ucapan_terima_kasih || "Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu untuk kami.",
+    love_story: sunnySlabFormData.love_story && sunnySlabFormData.love_story.length > 0 ? sunnySlabFormData.love_story : [
+      {
+        tanggal: "2020",
+        judul: "Pertama Bertemu",
+        deskripsi: "Berawal dari acara kampus, kami saling mengenal dan mulai berteman."
+      },
+      {
+        tanggal: "2023",
+        judul: "Menjalin Kasih",
+        deskripsi: "Setelah bertahun-tahun bersahabat, kami memutuskan untuk membawa hubungan ini ke tahap yang lebih serius."
+      },
+      {
+        tanggal: "2026",
+        judul: "Lamaran",
+        deskripsi: "Sebuah momen manis di mana dua keluarga besar bertemu untuk merestui niat baik kami."
+      }
+    ],
+    wishes: sunnySlabFormData.wishes && sunnySlabFormData.wishes.length > 0 ? sunnySlabFormData.wishes : [
+      { nama: "Andi & Keluarga", pesan: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah." },
+      { nama: "Siska", pesan: "Lancar sampai hari H yaa! Bahagia selalu untuk kalian berdua." },
+      { nama: "Budi", pesan: "Congrats bro! Akhirnya melepas masa lajang juga. Doa terbaik buat kalian." }
+    ],
+    rekening_pria: sunnySlabFormData.rekening_pria && sunnySlabFormData.rekening_pria.length > 0 ? sunnySlabFormData.rekening_pria : [
+      { bank: "BCA", nomor: "1234567890", atas_nama: "Bima Aryasetya" }
+    ],
+    rekening_wanita: sunnySlabFormData.rekening_wanita && sunnySlabFormData.rekening_wanita.length > 0 ? sunnySlabFormData.rekening_wanita : [
+      { bank: "Mandiri", nomor: "0987654321", atas_nama: "Ayu Lestari" }
     ]
   };
 
@@ -274,6 +348,14 @@ export default function BuilderPage({ params }) {
               handleChange={handleKisahtanggalkuChange}
               sessionId={sessionId}
             />
+          ) : isSunnySlab ? (
+            <SunnySlabForm
+              template={template}
+              formData={sunnySlabFormData}
+              setFormData={setSunnySlabFormData}
+              handleChange={handleSunnySlabChange}
+              sessionId={sessionId}
+            />
           ) : isMagicalLanterns ? (
             <MagicalLanternsForm 
               template={template} 
@@ -294,7 +376,7 @@ export default function BuilderPage({ params }) {
       <div className="hidden lg:flex w-1/2 relative bg-black overflow-hidden border-l border-hairline h-full">
         
         {/* Render actual template in full width/height */}
-        <div className="w-full h-full relative overflow-y-auto overscroll-contain mx-auto max-w-[480px]">
+        <div className="w-full h-full relative overflow-y-auto overscroll-contain mx-auto max-w-[480px] transform-gpu">
           {isIvoryLine ? (
             <IvoryLineTemplate data={mappedIvoryLineData} isPreview={true} isBuilder={true} />
           ) : isMemoryLane ? (
@@ -305,6 +387,8 @@ export default function BuilderPage({ params }) {
             <CelestialJourneyTemplate data={celestialJourneyFormData} />
           ) : isKisahtanggalku ? (
             <KisahtanggalkuTemplate data={kisahtanggalkuFormData} isPreview={true} />
+          ) : isSunnySlab ? (
+            <SunnySlabTemplate data={mappedSunnySlabData} isPreview={true} isBuilder={true} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (

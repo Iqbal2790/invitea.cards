@@ -78,7 +78,8 @@ export async function POST(request) {
       .from("orders")
       .getPublicUrl(filePath);
 
-    return NextResponse.json({ url: publicUrlData.publicUrl });
+    const urlWithVersion = `${publicUrlData.publicUrl}?v=${Date.now()}`;
+    return NextResponse.json({ url: urlWithVersion });
 
   } catch (error) {
     console.error("API Upload Error:", error);
