@@ -20,15 +20,15 @@ export const dummyTemplates = [
 ];
 
 export const dummyWeddingPhotos = {
-  foto_cover: "/foto-dummy-undangan/cover.jpg",
-  foto_pria: "/foto-dummy-undangan/mempelai-pria.jpg",
-  foto_wanita: "/foto-dummy-undangan/mempelai-wanita.jpg",
+  foto_cover: "/foto-dummy-undangan2/cover.jpeg",
+  foto_pria: "/foto-dummy-undangan2/loveisall.film_1784906403191.jpeg",
+  foto_wanita: "/foto-dummy-undangan2/loveisall.film_1784906406087.jpeg",
   foto_urls: [
-    "/foto-dummy-undangan/338.jpg",
-    "/foto-dummy-undangan/9877.jpg",
-    "/foto-dummy-undangan/10467.jpg",
-    "/foto-dummy-undangan/11212.jpg",
-    "/foto-dummy-undangan/11597.jpg",
-    "/foto-dummy-undangan/16666.jpg"
+    "/foto-dummy-undangan2/loveisall.film_1784906406488.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906423202.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906423611.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906434619.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906435010.jpeg",
+    "/foto-dummy-undangan2/loveisall.film_1784906447931.jpeg"
   ]
 };
