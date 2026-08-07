@@ -143,6 +143,9 @@ export default function OrderDashboardPage({ params }) {
   const dashboardTitle = isUcapan ? "Manajemen Kartu Ucapan" : "Manajemen Undangan";
   const contentTitle = isUcapan ? "Konten Kartu Ucapan" : "Konten Undangan";
   
+  const templateObj = orderData.templates || {};
+  const hasCustomGuest = templateObj.nama === "Sunny Slab" || templateObj.slug === "sunny-slab" || templateObj.fields_config?.supportsCustomGuest === true || templateObj.supportsCustomGuest === true;
+  
   // Form fields yang diizinkan untuk diedit (HANYA teks, tanggal, jam, url maps/musik/stream, quote).
   // FOTO & BANK ACCOUNTS DI-EXCLUDE TOTAL demi keamanan agar tidak bisa di-reuse.
   const photoFields = ["foto_cover", "foto_pria", "foto_wanita", "foto_urls", "photos", "photo1", "photo2", "photo3", "filmPhoto1", "filmPhoto2", "filmPhoto3", "filmPhoto4", "filmPhoto5"];
@@ -241,24 +244,26 @@ export default function OrderDashboardPage({ params }) {
           </div>
 
           {/* TUTORIAL FITUR CUSTOM TAMU */}
-          <div className="bg-bg-alt rounded-[6px] p-[20px] md:p-[24px] border border-hairline shadow-sm space-y-[12px]">
-            <div className="flex items-center gap-[10px]">
-              <span className="px-[10px] py-[4px] bg-berry/10 text-berry dark:bg-pink/20 dark:text-pink rounded-full text-[11px] font-bold uppercase tracking-wider">Fitur Spesial</span>
-              <h4 className="font-semibold text-[15px] text-ink">Cara Menambahkan Nama Tamu Spesial</h4>
-            </div>
-            <p className="text-[13.5px] text-ink-soft leading-relaxed">
-              Ingin undangan menampilkan nama tamu secara personal (misal: <em>"Kepada Yth: Bapak Budi & Keluarga"</em>)? Cukup tambahkan parameter <code className="bg-bg px-2 py-0.5 rounded border border-hairline text-berry dark:text-pink font-mono text-[12.5px]">?to=NamaTamu</code> di ujung tautan undangan Anda.
-            </p>
-            <div className="bg-bg p-[14px] rounded-[6px] border border-hairline/70 space-y-[8px] font-mono text-[12.5px] text-ink">
-              <p className="text-ink-soft font-sans font-medium text-[12px]">Contoh Tautan:</p>
-              <div className="p-2 bg-bg-alt rounded border border-hairline truncate select-all text-berry dark:text-pink">
-                {liveLink}?to=Budi+%26+Keluarga
+          {hasCustomGuest && (
+            <div className="bg-bg-alt rounded-[6px] p-[20px] md:p-[24px] border border-hairline shadow-sm space-y-[12px]">
+              <div className="flex items-center gap-[10px]">
+                <span className="px-[10px] py-[4px] bg-berry/10 text-berry dark:bg-pink/20 dark:text-pink rounded-full text-[11px] font-bold uppercase tracking-wider">Fitur Spesial</span>
+                <h4 className="font-semibold text-[15px] text-ink">Cara Menambahkan Nama Tamu Spesial</h4>
               </div>
-              <p className="text-[11.5px] font-sans text-ink-soft/80 leading-normal">
-                💡 <em>Tip: Gunakan tanda <code className="font-mono text-ink">+</code> atau <code className="font-mono text-ink">%20</code> sebagai pengganti spasi.</em>
+              <p className="text-[13.5px] text-ink-soft leading-relaxed">
+                Ingin undangan menampilkan nama tamu secara personal (misal: <em>"Kepada Yth: Bapak Budi & Keluarga"</em>)? Cukup tambahkan parameter <code className="bg-bg px-2 py-0.5 rounded border border-hairline text-berry dark:text-pink font-mono text-[12.5px]">?to=NamaTamu</code> di ujung tautan undangan Anda.
               </p>
+              <div className="bg-bg p-[14px] rounded-[6px] border border-hairline/70 space-y-[8px] font-mono text-[12.5px] text-ink">
+                <p className="text-ink-soft font-sans font-medium text-[12px]">Contoh Tautan:</p>
+                <div className="p-2 bg-bg-alt rounded border border-hairline truncate select-all text-berry dark:text-pink">
+                  {liveLink}?to=Budi+%26+Keluarga
+                </div>
+                <p className="text-[11.5px] font-sans text-ink-soft/80 leading-normal">
+                  💡 <em>Tip: Gunakan tanda <code className="font-mono text-ink">+</code> atau <code className="font-mono text-ink">%20</code> sebagai pengganti spasi.</em>
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </section>
 
         {/* NEW: 4. EDITOR UNDANGAN */}
