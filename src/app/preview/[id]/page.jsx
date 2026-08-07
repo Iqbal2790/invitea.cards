@@ -16,7 +16,7 @@ export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
   const { id } = resolvedParams;
 
-  const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
+  const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || id === "cosmic-hearts";
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
   const isMemoryLane = id === "45f4eb4d-ddab-410d-9104-401e2147f24e";
   const isFolioBloomActual = id === "50e18d6a-5c21-4f18-a6d1-123456789abc";
@@ -26,7 +26,28 @@ export default function PreviewPage({ params }) {
 
   let previewData = {};
 
-  if (isMemoryLane) {
+  if (isMagicalLanterns) {
+    previewData = {
+      receiverName: "Juliet",
+      senderName: "Romeo",
+      greetingText: "Happy Birthday, Juliet! Wishing you all the love and happiness in the world.",
+      photos: [
+        "/foto-dummy-ucapan/Anh%20(1).jpg",
+        "/foto-dummy-ucapan/Anh%20(2).jpg",
+        "/foto-dummy-ucapan/Anh%20(3).jpg"
+      ],
+      wishes: [
+        { text: "Dari Romeo yang selalu menyayangimu." },
+        { text: "Wishing you health and happiness." },
+        { text: "Another year of amazing adventures." },
+        { text: "Happy birthday to someone special." },
+        { text: "Let's celebrate this wonderful day!" },
+      ],
+      finalQuote: `"To the world you may be one person,\nbut to one person you are the world."`,
+      finalGreeting: "Once again, Happy Birthday! Enjoy your special day.",
+      closingRemark: "With lots of love,"
+    };
+  } else if (isMemoryLane) {
     previewData = {
       nama_pasangan: "Ardi & Nisa",
       pesan_pembuka: "Di bawah langit malam yang tenang, kami mengikat janji untuk melangkah bersama.",

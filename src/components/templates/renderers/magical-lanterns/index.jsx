@@ -21,7 +21,12 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
   // - senderName
   const receiver = data?.receiverName || data?.bride || data?.groom || "Special Someone";
   const greeting = data?.greetingText || `Happy Birthday, ${receiver}! Wishing you all the love and happiness in the world.`;
-  const photos = data?.photos || [null, null, null];
+  const photos = Array.isArray(data?.photos) ? data.photos : Array.isArray(data?.foto_urls) ? data.foto_urls : [];
+  const hasPhotos = photos.some((photo) => {
+    if (!photo) return false;
+    if (typeof photo === "string") return Boolean(photo.trim());
+    return Boolean(photo.previewUrl || photo.url);
+  });
   const wishes = data?.wishes || [
     { text: "Dari Alex yang selalu menyayangimu." },
     { text: "Wishing you health and happiness." },
@@ -40,6 +45,14 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
     }
     setStage(0);
   };
+
+  const nextStage = () => setStage((current) => (
+    current === 1 && !hasPhotos ? 3 : Math.min(4, current + 1)
+  ));
+
+  const previousStage = () => setStage((current) => (
+    current === 3 && !hasPhotos ? 1 : Math.max(-1, current - 1)
+  ));
 
   return (
     <div className={`w-full relative overflow-hidden bg-[#0a0a1a] ${isPreview ? 'h-full' : 'h-[100dvh]'}`}>
@@ -79,7 +92,7 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
             />
             <div className="mt-12 opacity-0 animate-[fade-in-up_1s_ease-out_5s_forwards]">
               <button 
-                onClick={() => setStage(2)}
+                onClick={() => setStage(hasPhotos ? 2 : 3)}
                 className="px-6 py-2 border border-white/30 rounded-full text-white/80 hover:bg-white/10 hover:text-white transition-all text-sm tracking-widest uppercase"
               >
                 Continue
@@ -88,10 +101,10 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
           </div>
         )}
 
-        {stage === 2 && (
-          <ConstellationGallery 
+        {stage === 2 && hasPhotos && (
+          <ConstellationGallery
             photos={photos}
-            onComplete={() => setStage(3)} 
+            onComplete={() => setStage(3)}
           />
         )}
 
@@ -124,17 +137,17 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
       {isBuilder && (
         <div className="absolute top-6 right-6 z-[100] flex items-center gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-full border border-white/10 shadow-lg">
           <button 
-            onClick={() => setStage(Math.max(-1, stage - 1))} 
+            onClick={previousStage}
             className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors" 
             title="Previous Stage"
           >
             <ChevronLeft size={18} />
           </button>
           <div className="flex items-center px-2 text-pink-300/80 text-[11px] uppercase tracking-wider font-semibold">
-            Slide {stage + 2} / 6
+            Slide {!hasPhotos && stage >= 3 ? stage + 1 : stage + 2} / {hasPhotos ? 6 : 5}
           </div>
           <button 
-            onClick={() => setStage(Math.min(4, stage + 1))} 
+            onClick={nextStage}
             className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors" 
             title="Next Stage"
           >

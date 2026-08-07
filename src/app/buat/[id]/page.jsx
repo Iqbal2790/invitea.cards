@@ -144,7 +144,7 @@ export default function BuilderPage({ params }) {
     );
   }
 
-  const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || template?.nama === "Magical Lanterns";
+  const isMagicalLanterns = id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || template?.nama === "Magical Lanterns" || template?.nama === "Cosmic Hearts" || template?.slug === "cosmic-hearts";
   const isIvoryLine = id === "8fd87cbb-3273-442b-b9cd-de875f3415ad" || template?.nama === "Ivory Line";
   const isMemoryLane = template?.nama === "Memory Lane";
   const isFolioBloom = id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || template?.nama === "Folio Bloom";

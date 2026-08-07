@@ -223,8 +223,22 @@ export default function MagicalLanternsForm({ template, formData, setFormData, h
               className="space-y-[32px]"
             >
               <div>
-                <h2 className="font-serif italic text-[2.4rem] text-ink mb-[8px] leading-tight">Galeri Foto</h2>
-                <p className="text-ink-soft text-[15px] mb-[16px]">Upload 3 foto terbaik Anda yang akan ditampilkan sebagai rasi bintang.</p>
+                <div className="flex items-center justify-between mb-[8px]">
+                  <h2 className="font-serif italic text-[2.4rem] text-ink leading-tight">Galeri Foto</h2>
+                  <span className="text-[13px] font-medium text-ink-soft bg-bg-alt px-3 py-1 rounded-full border border-hairline">Opsional</span>
+                </div>
+                <p className="text-ink-soft text-[15px] mb-[16px]">
+                  Upload hingga 3 foto terbaik Anda yang akan ditampilkan sebagai rasi bintang. Jika dikosongkan, halaman galeri foto tidak akan ditampilkan pada kartu ucapan.
+                </p>
+                {formData.photos?.some(p => p !== null) && (
+                  <button
+                    type="button"
+                    onClick={() => setFormData(prev => ({ ...prev, photos: [null, null, null] }))}
+                    className="text-[13px] text-red-500 hover:underline font-medium mb-[8px] inline-block"
+                  >
+                    Hapus Semua Foto
+                  </button>
+                )}
               </div>
               
               <div className="space-y-[16px]">
