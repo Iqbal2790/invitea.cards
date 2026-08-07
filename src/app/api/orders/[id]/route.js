@@ -2,11 +2,12 @@ import { supabaseAdmin } from "@/lib/supabase";
 import { NextResponse } from "next/server";
 import { coreApi } from "@/lib/midtrans";
 import crypto from "crypto";
+import { sendOrderSuccessEmail } from "@/lib/resend";
 
 export async function GET(request, { params }) {
   const resolvedParams = await params;
   const orderId = resolvedParams.id;
-  
+
   if (!orderId) {
     return NextResponse.json({ error: "Order ID is required" }, { status: 400 });
   }
@@ -15,7 +16,7 @@ export async function GET(request, { params }) {
     // Check order in Supabase
     const { data: order, error } = await supabaseAdmin
       .from("orders")
-      .select("id, status_payment, midtrans_id, magic_token, slug, email, template_id, created_at")
+      .select("id, status_payment, midtrans_id, magic_token, slug, email, template_id, created_at, templates(nama, kategori)")
       .eq("id", orderId)
       .single();
 
@@ -57,25 +58,32 @@ export async function GET(request, { params }) {
             // Generate magic token if paid and doesn't have one
             if (newStatus === "paid" && !currentMagicToken) {
               currentMagicToken = crypto.randomBytes(16).toString("hex");
-              
+
               if (!currentSlug) {
                 const randomSuffix = crypto.randomBytes(2).toString("hex");
                 currentSlug = `udg-${order.id.split("-")[0]}-${randomSuffix}`;
               }
-              
+
               const expiredDate = new Date();
               expiredDate.setFullYear(expiredDate.getFullYear() + 1);
 
               updatePayload.magic_token = currentMagicToken;
               updatePayload.slug = currentSlug;
               updatePayload.expired_at = expiredDate.toISOString();
+
+              await sendOrderSuccessEmail({
+                email: order.email,
+                templateName: order.templates?.nama || "Template Premium",
+                magicToken: currentMagicToken,
+                slug: currentSlug
+              });
             }
 
             await supabaseAdmin
               .from("orders")
               .update(updatePayload)
               .eq("id", orderId);
-            
+
             currentStatus = newStatus;
           }
         }

@@ -56,24 +56,23 @@ export async function POST(request) {
 
     // 4. Jika Pembayaran BERHASIL (Lunas), Buat Undangan & Kirim Email!
     if (finalStatus === "paid") {
-      
-      // Cek apakah order ini sudah memiliki magic_token (Mencegah duplicate event webhook)
-      if (!orderData.magic_token) {
-        // Generate Token
-        const magicToken = crypto.randomBytes(16).toString("hex");
-        
-        // Gunakan slug yang sudah dibuat saat checkout (berdasarkan nama), atau buat fallback
-        let finalSlug = orderData.slug;
+      let magicToken = orderData.magic_token;
+      let finalSlug = orderData.slug;
+      let isNewToken = false;
+
+      // Jika belum ada magic_token, buat baru
+      if (!magicToken) {
+        magicToken = crypto.randomBytes(16).toString("hex");
+        isNewToken = true;
+
         if (!finalSlug) {
           const randomSuffix = crypto.randomBytes(2).toString("hex");
           finalSlug = `udg-${order_id.split("-")[0]}-${randomSuffix}`;
         }
-        
-        // Masa aktif 1 tahun dari sekarang
+
         const expiredDate = new Date();
         expiredDate.setFullYear(expiredDate.getFullYear() + 1);
 
-        // Update ke tabel orders
         const { error: invError } = await supabaseAdmin
           .from("orders")
           .update({
@@ -85,15 +84,17 @@ export async function POST(request) {
 
         if (invError) {
           console.error("Gagal membuat undangan (update orders):", invError);
-        } else {
-          // Kirim Email via Resend
-          await sendOrderSuccessEmail({
-            email: orderData.email,
-            templateName: orderData.templates?.nama || "Template Premium",
-            magicToken: magicToken,
-            slug: finalSlug
-          });
         }
+      }
+
+      // Kirim Email via Resend jika ini pembuatan token baru atau status order belum paid sebelumnya
+      if (isNewToken || orderData.status_payment !== "paid") {
+        await sendOrderSuccessEmail({
+          email: orderData.email,
+          templateName: orderData.templates?.nama || "Template Premium",
+          magicToken: magicToken,
+          slug: finalSlug
+        });
       }
     }
 
