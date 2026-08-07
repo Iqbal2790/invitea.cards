@@ -143,8 +143,16 @@ export default function OrderDashboardPage({ params }) {
   const dashboardTitle = isUcapan ? "Manajemen Kartu Ucapan" : "Manajemen Undangan";
   const contentTitle = isUcapan ? "Konten Kartu Ucapan" : "Konten Undangan";
   
-  const dynamicFields = Object.values(orderData.templates?.fields_config || {})
-    .filter(f => f && typeof f === 'object' && f.name && f.type !== 'bank' && f.type !== 'photo');
+  // Form fields yang diizinkan untuk diedit (HANYA teks, tanggal, jam, url maps/musik/stream, quote).
+  // FOTO & BANK ACCOUNTS DI-EXCLUDE TOTAL demi keamanan agar tidak bisa di-reuse.
+  const photoFields = ["foto_cover", "foto_pria", "foto_wanita", "foto_urls", "photos", "photo1", "photo2", "photo3", "filmPhoto1", "filmPhoto2", "filmPhoto3", "filmPhoto4", "filmPhoto5"];
+
+  const textFields = Object.keys(data.data_content || {}).filter(key => {
+    if (photoFields.includes(key)) return false;
+    if (key === "rekening_pria" || key === "rekening_wanita" || key === "bank_accounts") return false;
+    if (Array.isArray(data.data_content[key]) && typeof data.data_content[key][0] === "string" && data.data_content[key][0]?.startsWith("http")) return false; // filter url foto
+    return true;
+  });
   const totalHadir = rsvpData.filter(r => r.status_kehadiran === 'hadir').length;
   const totalTidakHadir = rsvpData.filter(r => r.status_kehadiran === 'tidak_hadir' || r.status_kehadiran === 'tidak').length;
 
@@ -251,34 +259,40 @@ export default function OrderDashboardPage({ params }) {
             {isEditing ? (
               <form onSubmit={handleSave} className="space-y-[24px] animate-in fade-in zoom-in-95 duration-200">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
-                  <>
-                    {dynamicFields.map(field => (
-                      <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'md:col-span-2' : ''}>
-                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">{field.label}</label>
-                        {field.type === 'textarea' ? (
+                  {textFields.map(key => {
+                    const value = editForm[key];
+                    const label = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+                    const isLongText = typeof value === "string" && (value.length > 60 || key.includes("quote") || key.includes("desc") || key.includes("pesan") || key.includes("lokasi") || key.includes("cerita") || key.includes("terima_kasih"));
+
+                    if (Array.isArray(value)) {
+                      return null; // Skip array kompleks seperti love_story / wishes di simple editor
+                    }
+
+                    return (
+                      <div key={key} className={isLongText || key.includes("url") ? "md:col-span-2" : ""}>
+                        <label className="block text-[13.5px] font-semibold text-ink mb-[8px]">{label}</label>
+                        {isLongText ? (
                           <textarea
                             rows={3}
                             className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft resize-none"
-                            value={editForm[field.name] || ''}
-                            onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
-                            required={field.required}
+                            value={value || ""}
+                            onChange={e => setEditForm({ ...editForm, [key]: e.target.value })}
                           />
                         ) : (
                           <input
-                            type={field.type === 'date' ? 'date' : field.type === 'time' ? 'time' : field.type === 'url' ? 'url' : 'text'}
+                            type={key.includes("tanggal") || key.includes("date") ? "date" : key.includes("jam") || key.includes("waktu") ? "text" : key.includes("url") ? "url" : "text"}
                             className="w-full px-[16px] py-[14px] rounded-[6px] border border-hairline focus:border-berry focus:ring-1 focus:ring-berry dark:focus:border-pink dark:focus:ring-pink outline-none transition-all bg-bg text-[14.5px] text-ink placeholder:text-ink-soft"
-                            value={editForm[field.name] || ''}
-                            onChange={e => setEditForm({...editForm, [field.name]: e.target.value})}
-                            required={field.required}
+                            value={value || ""}
+                            onChange={e => setEditForm({ ...editForm, [key]: e.target.value })}
                           />
                         )}
                       </div>
-                    ))}
-                  </>
+                    );
+                  })}
                 </div>
 
                 <div className="flex items-center gap-[12px] pt-[24px] border-t border-hairline mt-[32px] justify-end">
-                  <button 
+                  <button
                     type="button"
                     onClick={() => {
                       setIsEditing(false);
@@ -289,7 +303,7 @@ export default function OrderDashboardPage({ params }) {
                   >
                     Batal
                   </button>
-                  <button 
+                  <button
                     type="submit"
                     disabled={isSaving}
                     className="flex items-center gap-[8px] px-[24px] py-[12px] rounded-full bg-pink-btn-bg text-cream-text text-[14px] font-semibold shadow-[var(--shadow-pink)] hover:-translate-y-[2px] transition-all disabled:opacity-70 disabled:hover:shadow-none disabled:hover:translate-y-0"
@@ -301,16 +315,20 @@ export default function OrderDashboardPage({ params }) {
               </form>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-[24px] gap-x-[24px]">
-                  <>
-                    {dynamicFields.map(field => (
-                      <div key={field.name} className={field.type === 'textarea' || field.type === 'url' ? 'sm:col-span-2' : ''}>
-                        <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">{field.label}</p>
-                        <p className="text-ink font-medium text-[16.5px] whitespace-pre-wrap break-words">
-                          {data.data_content?.[field.name] || "-"}
-                        </p>
-                      </div>
-                    ))}
-                  </>
+                {textFields.map(key => {
+                  const value = data.data_content?.[key];
+                  if (!value || Array.isArray(value)) return null;
+                  const label = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+
+                  return (
+                    <div key={key} className={typeof value === "string" && (value.length > 60 || key.includes("url")) ? "sm:col-span-2" : ""}>
+                      <p className="text-[11.5px] text-ink-soft font-bold uppercase tracking-[0.06em] mb-[4px]">{label}</p>
+                      <p className="text-ink font-medium text-[16.5px] whitespace-pre-wrap break-words">
+                        {value}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
