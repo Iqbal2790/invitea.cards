@@ -264,8 +264,53 @@ export default function OrderDashboardPage({ params }) {
                     const label = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
                     const isLongText = typeof value === "string" && (value.length > 60 || key.includes("quote") || key.includes("desc") || key.includes("pesan") || key.includes("lokasi") || key.includes("cerita") || key.includes("terima_kasih"));
 
+                    if (key === "love_story" && Array.isArray(value)) {
+                      return (
+                        <div key={key} className="md:col-span-2 space-y-4">
+                          <label className="block text-[13.5px] font-semibold text-ink">Love Story</label>
+                          {value.map((story, i) => (
+                            <div key={i} className="p-4 border border-hairline rounded-[6px] bg-bg space-y-3">
+                              <input
+                                type="text"
+                                placeholder="Tanggal"
+                                className="w-full px-3 py-2 rounded border border-hairline bg-bg-alt text-sm"
+                                value={story.tanggal || ""}
+                                onChange={e => {
+                                  const newArr = [...value];
+                                  newArr[i] = { ...newArr[i], tanggal: e.target.value };
+                                  setEditForm({ ...editForm, love_story: newArr });
+                                }}
+                              />
+                              <input
+                                type="text"
+                                placeholder="Judul"
+                                className="w-full px-3 py-2 rounded border border-hairline bg-bg-alt text-sm font-semibold"
+                                value={story.judul || ""}
+                                onChange={e => {
+                                  const newArr = [...value];
+                                  newArr[i] = { ...newArr[i], judul: e.target.value };
+                                  setEditForm({ ...editForm, love_story: newArr });
+                                }}
+                              />
+                              <textarea
+                                rows={2}
+                                placeholder="Deskripsi"
+                                className="w-full px-3 py-2 rounded border border-hairline bg-bg-alt text-sm"
+                                value={story.deskripsi || ""}
+                                onChange={e => {
+                                  const newArr = [...value];
+                                  newArr[i] = { ...newArr[i], deskripsi: e.target.value };
+                                  setEditForm({ ...editForm, love_story: newArr });
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    }
+
                     if (Array.isArray(value)) {
-                      return null; // Skip array kompleks seperti love_story / wishes di simple editor
+                      return null; // Skip array foto/lainnya
                     }
 
                     return (
