@@ -10,9 +10,7 @@ export async function sendOrderSuccessEmail({ email, templateName, magicToken, s
   const loginUrl = `https://invitea.cards/order/${magicToken}`;
   const liveUrl = `https://invitea.cards/u/${slug}`;
 
-  // Karena user belum konfirmasi status domain, gunakan email bawaan Resend untuk testing.
-  // Ganti `onboarding@resend.dev` dengan `noreply@domainanda.com` jika domain sudah diverifikasi.
-  const fromEmail = "onboarding@resend.dev"; 
+  const fromEmail = process.env.RESEND_FROM_EMAIL || "noreply@invitea.cards";
 
   const htmlContent = `
     <div style="font-family: sans-serif; max-w-xl; margin: 0 auto; color: #333;">
@@ -24,9 +22,9 @@ export async function sendOrderSuccessEmail({ email, templateName, magicToken, s
       <div style="background-color: #FAFAFA; border: 1px solid #EAEAEA; padding: 24px; border-radius: 12px;">
         <h2 style="margin-top: 0;">Halo!</h2>
         <p>Terima kasih telah mempercayakan momen spesial Anda bersama Invitea. Pesanan Anda untuk template <strong>${templateName}</strong> telah kami terima dan lunas.</p>
-        
+
         <p>Anda kini memiliki akses ke Ruang Kontrol Pesanan Anda. Di sana Anda dapat mengelola tautan, melihat tamu yang akan hadir (RSVP), dan lain sebagainya.</p>
-        
+
         <div style="text-align: center; margin: 32px 0;">
           <a href="${loginUrl}" style="background-color: #B76E79; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block;">Masuk ke Ruang Kontrol</a>
         </div>
@@ -50,12 +48,17 @@ export async function sendOrderSuccessEmail({ email, templateName, magicToken, s
   `;
 
   try {
-    const data = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: `Invitea <${fromEmail}>`,
       to: [email],
       subject: "🎉 Pembayaran Berhasil! Akses Pesanan Anda",
       html: htmlContent,
     });
+    if (error) {
+      console.error("Gagal mengirim email via Resend API:", error);
+      return { success: false, error };
+    }
+    console.log("Email berhasil dikirim ke:", email, data);
     return { success: true, data };
   } catch (error) {
     console.error("Gagal mengirim email:", error);
