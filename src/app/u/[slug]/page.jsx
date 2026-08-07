@@ -54,7 +54,7 @@ export default function LiveInvitationPage({ params }) {
   }
 
   const { data_content, templates, id, rsvps } = data;
-  const isMagicalLanterns = templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314";
+  const isMagicalLanterns = templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || templates?.nama === "Magical Lanterns" || templates?.nama === "Cosmic Hearts" || templates?.slug === "cosmic-hearts";
   const isIvoryLine = templates?.id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
   const isMemoryLane = templates?.id === "45f4eb4d-ddab-410d-9104-401e2147f24e" || templates?.nama === "Memory Lane";
   const isFolioBloom = templates?.id === "50e18d6a-5c21-4f18-a6d1-123456789abc" || templates?.nama === "Folio Bloom";
