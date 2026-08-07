@@ -212,9 +212,9 @@ export default function OrderDashboardPage({ params }) {
           </div>
         </section>
 
-        {/* 3. TAUTAN UNDANGAN */}
-        <section>
-          <h3 className="font-serif italic text-[24px] font-semibold text-ink mb-[16px]">{isUcapan ? "Sebar Kartu Ucapan Anda" : "Sebar Undangan Anda"}</h3>
+        {/* 3. TAUTAN UNDANGAN & TUTORIAL NAMA TAMU CUSTOM */}
+        <section className="space-y-[16px]">
+          <h3 className="font-serif italic text-[24px] font-semibold text-ink">{isUcapan ? "Sebar Kartu Ucapan Anda" : "Sebar Undangan Anda"}</h3>
           <div className="bg-bg-alt rounded-[6px] p-[8px] pl-[16px] md:pl-[24px] shadow-sm border border-hairline flex flex-col md:flex-row md:items-center gap-[12px] transition-all">
             <div className="flex-1 overflow-hidden">
               <p className="text-[15px] text-ink font-medium truncate pt-[8px] md:pt-0 pb-[4px] md:pb-0">
@@ -222,14 +222,14 @@ export default function OrderDashboardPage({ params }) {
               </p>
             </div>
             <div className="flex items-center gap-[8px] mt-[4px] md:mt-0">
-              <button 
+              <button
                 onClick={handleCopy}
                 className="flex-1 md:flex-none flex items-center justify-center gap-[8px] px-[20px] py-[10px] rounded-full bg-transparent border-[1.5px] border-hairline text-ink text-[14px] font-medium hover:border-berry dark:hover:border-pink hover:text-berry dark:hover:text-pink transition-colors"
               >
                 {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
                 {copied ? "Tersalin!" : "Salin"}
               </button>
-              
+
               <Link
                 href={`/u/${data.slug}`}
                 target="_blank"
@@ -237,6 +237,26 @@ export default function OrderDashboardPage({ params }) {
               >
                 <ExternalLink className="w-4 h-4" /> Buka
               </Link>
+            </div>
+          </div>
+
+          {/* TUTORIAL FITUR CUSTOM TAMU */}
+          <div className="bg-bg-alt rounded-[6px] p-[20px] md:p-[24px] border border-hairline shadow-sm space-y-[12px]">
+            <div className="flex items-center gap-[10px]">
+              <span className="px-[10px] py-[4px] bg-berry/10 text-berry dark:bg-pink/20 dark:text-pink rounded-full text-[11px] font-bold uppercase tracking-wider">Fitur Spesial</span>
+              <h4 className="font-semibold text-[15px] text-ink">Cara Menambahkan Nama Tamu Spesial</h4>
+            </div>
+            <p className="text-[13.5px] text-ink-soft leading-relaxed">
+              Ingin undangan menampilkan nama tamu secara personal (misal: <em>"Kepada Yth: Bapak Budi & Keluarga"</em>)? Cukup tambahkan parameter <code className="bg-bg px-2 py-0.5 rounded border border-hairline text-berry dark:text-pink font-mono text-[12.5px]">?to=NamaTamu</code> di ujung tautan undangan Anda.
+            </p>
+            <div className="bg-bg p-[14px] rounded-[6px] border border-hairline/70 space-y-[8px] font-mono text-[12.5px] text-ink">
+              <p className="text-ink-soft font-sans font-medium text-[12px]">Contoh Tautan:</p>
+              <div className="p-2 bg-bg-alt rounded border border-hairline truncate select-all text-berry dark:text-pink">
+                {liveLink}?to=Budi+%26+Keluarga
+              </div>
+              <p className="text-[11.5px] font-sans text-ink-soft/80 leading-normal">
+                💡 <em>Tip: Gunakan tanda <code className="font-mono text-ink">+</code> atau <code className="font-mono text-ink">%20</code> sebagai pengganti spasi.</em>
+              </p>
             </div>
           </div>
         </section>
