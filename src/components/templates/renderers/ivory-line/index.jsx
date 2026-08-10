@@ -1,13 +1,19 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Music, Music4 } from "lucide-react";
+import { Music, Music4, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function IvoryLineTemplate({ data, isPreview = false, isBuilder = false }) {
   const [stage, setStage] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   // Destructure with fallbacks
   const {
@@ -18,29 +24,39 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
     foto_pria = "",
     foto_wanita = "",
     foto_urls = [],
-    foto_cover = "",
-    quote_text = "",
     acara1_nama = "Akad Nikah",
     acara1_tanggal = "2026-12-12",
-    acara1_jam = "08:00",
-    acara1_lokasi = "Masjid Raya",
+    acara1_jam = "09:00",
+    acara1_lokasi = "Gedung Utama, Jakarta",
     acara1_maps_url = "",
-    acara2_nama = "",
-    acara2_tanggal = "",
-    acara2_jam = "",
-    acara2_lokasi = "",
+    acara2_nama = "Resepsi",
+    acara2_tanggal = "2026-12-12",
+    acara2_jam = "11:00",
+    acara2_lokasi = "Gedung Utama, Jakarta",
     acara2_maps_url = "",
-    cerita_cinta = "",
-    bank_accounts = [],
-    youtube_url = "",
-    ucapan_penutup = "",
+    rekening1_bank = "BCA",
+    rekening1_nomor = "1234567890",
+    rekening1_an = "Romeo",
+    rekening2_bank = "Mandiri",
+    rekening2_nomor = "0987654321",
+    rekening2_an = "Juliet",
+    bank_accounts = (data?.bank_accounts && data.bank_accounts.length > 0) 
+      ? data.bank_accounts 
+      : [
+          { bank: "BCA", nomor: "1234567890", nama: "Romeo" },
+          { bank: "Mandiri", nomor: "0987654321", nama: "Juliet" }
+        ],
     wishes = [],
+    youtube_url = "",
+    id: order_id,
     rsvps = [],
-    id: order_id
+    quote_text = "",
+    ucapan_penutup = ""
   } = data || {};
 
-  const heroPhoto = foto_cover || (foto_urls.length > 0 ? foto_urls[0] : "https://placehold.co/800x1200/F3EDE1/161512?text=Hero+Photo");
-
+  const heroPhoto = foto_urls[0] || foto_pria || "/foto-dummy-undangan2/cover.jpeg";
+  const bridePhoto = foto_wanita || "/foto-dummy-undangan2/loveisall.film_1784906406488.jpeg";
+  const groomPhoto = foto_pria || "/foto-dummy-undangan2/loveisall.film_1784906406087.jpeg";
 
   const defaultQuote = "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang.";
   const displayQuote = quote_text || defaultQuote;
@@ -144,12 +160,40 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
   }, [acara1_tanggal, acara1_jam]);
 
   return (
-    <div className={`w-full relative bg-[#FAF6EF] text-[#161512] font-sans ${isPreview ? 'h-full overflow-y-auto' : 'h-[100dvh] overflow-y-auto overflow-x-hidden'}`}>
+    <div className={`w-full relative bg-[#FAF6EF] text-[#161512] font-sans overflow-x-clip ${isPreview ? 'min-h-full' : 'min-h-screen'}`}>
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Jost:wght@400;500&display=swap');
         .ivory-font-serif { font-family: 'Fraunces', serif; letter-spacing: -0.01em; }
         .ivory-font-sans { font-family: 'Jost', sans-serif; }
       `}} />
+
+      {/* Controller for Live Preview (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
+      {mounted && isBuilder && typeof document !== "undefined" && createPortal(
+        <div className="fixed top-6 right-6 z-[9999] flex items-center gap-2 bg-black/75 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl pointer-events-auto text-white">
+          <button 
+            type="button"
+            onClick={() => setStage(0)}
+            disabled={stage === 0}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" 
+            title="Bagian Sebelumnya"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <div className="flex items-center px-2 text-white text-[11px] uppercase tracking-wider font-semibold">
+            {stage === 0 ? 'Cover' : 'Isi Undangan'}
+          </div>
+          <button 
+            type="button"
+            onClick={() => { setStage(1); setIsPlaying(true); }}
+            disabled={stage === 1}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" 
+            title="Bagian Selanjutnya"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>,
+        document.body
+      )}
 
       {/* Hidden Youtube iframe for Background Music */}
       {youtubeId && stage > 0 && isPlaying && (

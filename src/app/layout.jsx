@@ -1,4 +1,5 @@
 import { Cormorant_Garamond, Manrope } from "next/font/google";
+import ThemeInitializer from "@/components/ThemeInitializer";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -22,24 +23,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="id" className={`${cormorant.variable} ${manrope.variable} scroll-smooth`} suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark');
-                  localStorage.setItem('theme', 'dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                  localStorage.setItem('theme', 'light');
-                }
-              } catch (_) {}
-            `,
-          }}
-        />
-      </head>
-      <body className="min-h-screen flex flex-col bg-bg text-ink font-sans antialiased transition-colors duration-400 overflow-x-hidden">
+      <body className="min-h-screen flex flex-col bg-bg text-ink font-sans antialiased transition-colors duration-400 overflow-x-clip">
+        <ThemeInitializer />
         {children}
       </body>
     </html>

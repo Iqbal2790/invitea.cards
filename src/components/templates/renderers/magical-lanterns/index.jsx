@@ -1,5 +1,6 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import HeartAnimation from "./HeartAnimation";
 import NightSkyBackground from "./NightSkyBackground";
 import TypewriterText from "./TypewriterText";
@@ -9,7 +10,12 @@ import { MailOpen, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function MagicalLanternsTemplate({ data, isPreview = false, isBuilder = false }) {
   const [stage, setStage] = useState(-1);
+  const [mounted, setMounted] = useState(false);
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Parse data for this template based on generic LiveInvitationPage shape
   // For this template, we assume `data` contains:
@@ -133,27 +139,30 @@ export default function MagicalLanternsTemplate({ data, isPreview = false, isBui
         )}
       </NightSkyBackground>
 
-      {/* Controller for Live Preview */}
-      {isBuilder && (
-        <div className="absolute top-6 right-6 z-[100] flex items-center gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-full border border-white/10 shadow-lg">
+      {/* Controller for Live Preview (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
+      {mounted && isBuilder && typeof document !== "undefined" && createPortal(
+        <div className="fixed top-6 right-6 z-[9999] flex items-center gap-2 bg-black/75 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl pointer-events-auto text-white">
           <button 
+            type="button"
             onClick={previousStage}
-            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors" 
-            title="Previous Stage"
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer" 
+            title="Bagian Sebelumnya"
           >
             <ChevronLeft size={18} />
           </button>
-          <div className="flex items-center px-2 text-pink-300/80 text-[11px] uppercase tracking-wider font-semibold">
+          <div className="flex items-center px-2 text-white text-[11px] uppercase tracking-wider font-semibold">
             Slide {!hasPhotos && stage >= 3 ? stage + 1 : stage + 2} / {hasPhotos ? 6 : 5}
           </div>
           <button 
+            type="button"
             onClick={nextStage}
-            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors" 
-            title="Next Stage"
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer" 
+            title="Bagian Selanjutnya"
           >
             <ChevronRight size={18} />
           </button>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

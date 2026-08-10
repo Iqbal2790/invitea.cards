@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Music, Music4, Asterisk, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -9,7 +10,12 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
   const [stage, setStage] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [previewSection, setPreviewSection] = useState(-1);
+  const [mounted, setMounted] = useState(false);
   const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const scrollToSection = (idx) => {
     if (idx < 0) {
@@ -22,29 +28,13 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
       if (youtube_url) setIsPlaying(true);
     }
     
-    let targetIdx = idx;
-    if (scrollContainerRef.current) {
-      const sectionCount = scrollContainerRef.current.querySelectorAll('section').length;
-      if (sectionCount > 0) {
-        targetIdx = Math.min(idx, sectionCount - 1);
-      }
-    }
-    
-    setPreviewSection(targetIdx);
+    setPreviewSection(idx);
     
     setTimeout(() => {
       if (!scrollContainerRef.current) return;
       const sections = Array.from(scrollContainerRef.current.querySelectorAll('section'));
-      if (sections[targetIdx]) {
-        const scrollParent = scrollContainerRef.current.parentElement;
-        if (scrollParent) {
-          const parentRect = scrollParent.getBoundingClientRect();
-          const targetRect = sections[targetIdx].getBoundingClientRect();
-          const scrollTop = scrollParent.scrollTop + (targetRect.top - parentRect.top);
-          scrollParent.scrollTo({ top: scrollTop, behavior: 'smooth' });
-        } else {
-          sections[targetIdx].scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+      if (sections[idx]) {
+        sections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
   };
@@ -226,29 +216,32 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
   const hasLiveStreams = live_meet_url || live_youtube_url || live_zoom_url || live_tiktok_url;
 
   return (
-    <div className={`w-full relative ${isPreview ? 'h-full overflow-hidden' : 'min-h-[100dvh] overflow-x-hidden'}`}>
-      {/* Controller for Live Preview */}
-      {isBuilder && (
-        <div className="absolute top-6 right-6 z-[100] flex items-center gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-full border border-white/10 shadow-lg pointer-events-auto">
+    <div className={`w-full relative overflow-x-clip ${isPreview ? 'min-h-full' : 'min-h-screen'}`}>
+      {/* Controller for Live Preview (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
+      {mounted && isBuilder && typeof document !== "undefined" && createPortal(
+        <div className="fixed top-6 right-6 z-[9999] flex items-center gap-2 bg-black/75 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl pointer-events-auto text-white">
           <button 
+            type="button"
             onClick={() => scrollToSection(previewSection - 1)} 
             disabled={previewSection === -1}
-            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed" 
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" 
             title="Bagian Sebelumnya"
           >
             <ChevronLeft size={18} />
           </button>
-          <div className="flex items-center px-2 text-[#FFD400] text-[11px] uppercase tracking-wider font-semibold">
+          <div className="flex items-center px-2 text-white text-[11px] uppercase tracking-wider font-semibold">
             {previewSection === -1 ? 'Cover' : `Bagian ${previewSection + 1}`}
           </div>
           <button 
+            type="button"
             onClick={() => scrollToSection(previewSection + 1)} 
-            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors" 
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer" 
             title="Bagian Selanjutnya"
           >
             <ChevronRight size={18} />
           </button>
-        </div>
+        </div>,
+        document.body
       )}
 
       <div onScroll={handleScroll} className={`w-full h-full relative bg-[#F7F2E9] text-[#111111] font-sans flex flex-col ${isPreview ? 'overflow-y-auto' : ''}`}>
@@ -365,7 +358,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
             key="cover"
             exit={{ y: "-100%", opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.5, 0, 0.2, 1] }}
-            className="fixed inset-0 z-50 flex flex-col justify-between bg-[#111111] overflow-hidden"
+            className={`${isPreview ? 'absolute' : 'fixed'} inset-0 z-50 flex flex-col justify-between bg-[#111111] overflow-hidden`}
           >
             {/* Full Bleed Background */}
             <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${displayFotoCover}')` }} />

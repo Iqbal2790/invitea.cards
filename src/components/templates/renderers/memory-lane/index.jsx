@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -880,7 +881,12 @@ const MemoryLaneStyles = () => (
 export default function MemoryLane({ data, isPreview = false, isBuilder = false }) {
   const [currentScreen, setCurrentScreen] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const TOTAL_SCREENS = 9;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const nextScreen = () => {
     if (currentScreen < TOTAL_SCREENS) setCurrentScreen((n) => n + 1);
@@ -949,27 +955,30 @@ export default function MemoryLane({ data, isPreview = false, isBuilder = false 
 
       <ProgressDots total={TOTAL_SCREENS} current={currentScreen} darkBg={isDarkScreen} />
 
-      {/* Controller for Live Preview */}
-      {isBuilder && (
-        <div className="absolute top-6 right-6 z-[100] flex items-center gap-2 bg-black/60 backdrop-blur-md p-1.5 rounded-full border border-white/10 shadow-lg">
+      {/* Controller for Live Preview (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
+      {mounted && isBuilder && typeof document !== "undefined" && createPortal(
+        <div className="fixed top-6 right-6 z-[9999] flex items-center gap-2 bg-black/75 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl pointer-events-auto text-white">
           <button 
+            type="button"
             onClick={() => setCurrentScreen(Math.max(1, currentScreen - 1))} 
-            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors" 
-            title="Previous Screen"
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer" 
+            title="Bagian Sebelumnya"
           >
             <ChevronLeft size={18} />
           </button>
-          <div className="flex items-center px-2 text-[#F5F0E8] text-[11px] uppercase tracking-wider font-semibold">
+          <div className="flex items-center px-2 text-white text-[11px] uppercase tracking-wider font-semibold">
             Slide {currentScreen} / {TOTAL_SCREENS}
           </div>
           <button 
+            type="button"
             onClick={() => setCurrentScreen(Math.min(TOTAL_SCREENS, currentScreen + 1))} 
-            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors" 
-            title="Next Screen"
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer" 
+            title="Bagian Selanjutnya"
           >
             <ChevronRight size={18} />
           </button>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Hidden YouTube Audio Player (persists across screens) */}

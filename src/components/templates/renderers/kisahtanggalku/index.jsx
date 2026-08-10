@@ -137,7 +137,10 @@ const Page = React.forwardRef((props, ref) => {
 
 Page.displayName = "Page";
 
-export default function KisahtanggalkuTemplate({ data, isPreview = false }) {
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { createPortal } from "react-dom";
+
+export default function KisahtanggalkuTemplate({ data = {}, isPreview = false, isBuilder = false }) {
   const bookRef = useRef(null);
   const audioRef = useRef(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -213,9 +216,34 @@ export default function KisahtanggalkuTemplate({ data, isPreview = false }) {
   };
 
   return (
-    <div className="w-full h-full min-h-[600px] flex flex-col justify-between items-center relative overflow-hidden p-4 select-none font-sans"
+    <div className="w-full min-h-screen flex flex-col justify-between items-center relative overflow-x-clip p-4 select-none font-sans"
       style={{ backgroundColor: "#1c1917" }} // Stone 900
     >
+      {/* Floating Section Controller (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
+      {isMounted && isBuilder && typeof document !== "undefined" && createPortal(
+        <div className="fixed top-6 right-6 z-[9999] flex items-center gap-2 bg-black/75 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl pointer-events-auto text-white">
+          <button 
+            type="button"
+            onClick={handleFlipPrev}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer" 
+            title="Halaman Sebelumnya"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <div className="flex items-center px-2 text-white text-[11px] uppercase tracking-wider font-semibold">
+            Halaman {currentPage + 1}
+          </div>
+          <button 
+            type="button"
+            onClick={handleFlipNext}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors cursor-pointer" 
+            title="Halaman Selanjutnya"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>,
+        document.body
+      )}
       {/* YouTube Music Embed (If YouTube Link Provided) */}
       {youtubeId && isPlayingMusic && (
         <iframe

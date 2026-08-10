@@ -116,15 +116,16 @@ export default function KisahtanggalkuForm({ template, formData, setFormData, ha
         </div>
       </div>
 
-      <div className="mt-[60px] pb-[40px]">
+      <div className="max-w-[440px] w-full mx-auto mt-24 mb-12 font-sans px-4 md:px-0">
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div 
               key="step1" 
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 18 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="space-y-[24px]"
+              exit={{ opacity: 0, x: -18 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-[32px]"
             >
               <div>
                 <h2 className={headingClass}>Data Lahir & Identitas</h2>
@@ -214,10 +215,11 @@ export default function KisahtanggalkuForm({ template, formData, setFormData, ha
           {step === 2 && (
             <motion.div 
               key="step2" 
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 18 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              className="space-y-[24px]"
+              exit={{ opacity: 0, x: -18 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="space-y-[32px]"
             >
               <div>
                 <h2 className={headingClass}>Surat Spesial & Foto Kenangan</h2>

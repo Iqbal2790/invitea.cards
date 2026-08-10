@@ -143,7 +143,7 @@ export default function CheckoutPage({ params }) {
       </header>
 
       <main className="max-w-[1000px] mx-auto px-[clamp(20px,5vw,32px)] mt-[clamp(32px,5vw,64px)]">
-        <div className="flex flex-col lg:flex-row gap-[clamp(32px,5vw,64px)]">
+        <div className="flex flex-col lg:flex-row items-start gap-[clamp(32px,5vw,64px)]">
           
           {/* Left Column - Order Summary */}
           <div className="w-full lg:w-[55%] space-y-[32px]">
