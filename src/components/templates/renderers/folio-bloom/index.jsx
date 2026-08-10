@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, MapPin, Calendar, Clock, X, Heart, MessageCircle, Send, Image as ImageIcon, Sparkles } from "lucide-react";
+import { Play, Pause, MapPin, Calendar, Clock, X, Heart, MessageCircle, Send, Image as ImageIcon, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 
 // --- Helpers ---
 const cn = (...classes) => classes.filter(Boolean).join(" ");
@@ -21,9 +22,14 @@ const formatTime = (timeStr) => {
   return timeStr.includes("WIB") || timeStr.includes("WITA") || timeStr.includes("WIT") ? timeStr : `${timeStr} WIB`;
 };
 
-export default function FolioBloomRenderer({ data, isPreview = false }) {
+export default function FolioBloomRenderer({ data, isPreview = false, isBuilder = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCard, setActiveCard] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   // Music state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -139,7 +145,7 @@ export default function FolioBloomRenderer({ data, isPreview = false }) {
   const renderCardContent = (id) => {
     switch (id) {
       case "mempelai":
-        const prewedPhoto = data.foto_cover || "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800";
+        const prewedPhoto = data.foto_cover || (data.foto_urls && data.foto_urls[0]) || "/foto-dummy-undangan2/cover.jpeg";
         return (
           <div className="relative flex flex-col items-center justify-end text-center h-full pb-12">
             <div className="absolute inset-0 z-0">
@@ -149,12 +155,12 @@ export default function FolioBloomRenderer({ data, isPreview = false }) {
             
             <div className="relative z-10 space-y-8 px-6">
               <div>
-                <h2 className="font-serif italic text-4xl text-[#2B2632] mb-2">{data.mempelai_pria_nama || "Romeo"}</h2>
+                <h2 className="font-serif italic text-4xl text-[#2B2632] mb-2">{data.mempelai_pria_nama || data.nama_panggilan_pria || "Romeo"}</h2>
                 <p className="font-sans text-sm text-[#6B6577]">{data.mempelai_pria_ortu || "Putra dari Bpk. Montague & Ibu Montague"}</p>
               </div>
               <div className="text-2xl text-[#CC9C95]">&amp;</div>
               <div>
-                <h2 className="font-serif italic text-4xl text-[#2B2632] mb-2">{data.mempelai_wanita_nama || "Juliet"}</h2>
+                <h2 className="font-serif italic text-4xl text-[#2B2632] mb-2">{data.mempelai_wanita_nama || data.nama_panggilan_wanita || "Juliet"}</h2>
                 <p className="font-sans text-sm text-[#6B6577]">{data.mempelai_wanita_ortu || "Putri dari Bpk. Capulet & Ibu Capulet"}</p>
               </div>
             </div>
@@ -168,35 +174,35 @@ export default function FolioBloomRenderer({ data, isPreview = false }) {
             
             {/* Akad */}
             <div className="text-center space-y-4">
-              <h3 className="font-sans font-bold tracking-widest uppercase text-sm text-[#CC9C95]">{data.acara_akad_nama || "Akad Nikah"}</h3>
+              <h3 className="font-sans font-bold tracking-widest uppercase text-sm text-[#CC9C95]">{data.acara_akad_nama || data.acara1_nama || "Akad Nikah"}</h3>
               <div className="font-sans text-[#2B2632] space-y-2">
-                <p className="flex items-center justify-center gap-2"><Calendar className="w-4 h-4 text-[#B9A9D9]" /> {formatDate(data.acara_akad_tanggal) || "Sabtu, 12 Desember 2026"}</p>
-                <p className="flex items-center justify-center gap-2"><Clock className="w-4 h-4 text-[#B9A9D9]" /> {formatTime(data.acara_akad_jam) || "08:00 WIB"}</p>
+                <p className="flex items-center justify-center gap-2"><Calendar className="w-4 h-4 text-[#B9A9D9]" /> {formatDate(data.acara_akad_tanggal || data.acara1_tanggal) || "Sabtu, 12 Desember 2026"}</p>
+                <p className="flex items-center justify-center gap-2"><Clock className="w-4 h-4 text-[#B9A9D9]" /> {formatTime(data.acara_akad_jam || data.acara1_jam) || "08:00 WIB"}</p>
                 <div className="pt-2">
-                  <p className="font-semibold">{data.acara_akad_lokasi_nama || "Masjid Raya"}</p>
+                  <p className="font-semibold">{data.acara_akad_lokasi_nama || data.acara1_lokasi || "Masjid Raya"}</p>
                   <p className="text-sm text-[#6B6577] mt-1 px-4">{data.acara_akad_lokasi_alamat || "Jl. Kemerdekaan No. 1, Jakarta"}</p>
                 </div>
               </div>
-              <a href={data.acara_akad_lokasi_url || "#"} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-[#B9A9D9] text-[#14151F] px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#A691C9] transition-colors mt-2">
+              <a href={data.acara_akad_lokasi_url || data.acara1_maps_url || "#"} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-[#B9A9D9] text-[#14151F] px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#A691C9] transition-colors mt-2">
                 <MapPin className="w-4 h-4" /> Buka Peta
               </a>
             </div>
 
             {/* Resepsi (Conditionally rendered) */}
-            {(data.acara_resepsi_nama || data.acara_resepsi_tanggal) && (
+            {(data.acara_resepsi_nama || data.acara_resepsi_tanggal || data.acara2_nama) && (
               <>
                 <div className="flex justify-center"><div className="w-16 h-[1px] bg-[#B9A9D9]/40"></div></div>
                 <div className="text-center space-y-4 pb-8">
-                  <h3 className="font-sans font-bold tracking-widest uppercase text-sm text-[#CC9C95]">{data.acara_resepsi_nama || "Resepsi"}</h3>
+                  <h3 className="font-sans font-bold tracking-widest uppercase text-sm text-[#CC9C95]">{data.acara_resepsi_nama || data.acara2_nama || "Resepsi"}</h3>
                   <div className="font-sans text-[#2B2632] space-y-2">
-                    <p className="flex items-center justify-center gap-2"><Calendar className="w-4 h-4 text-[#B9A9D9]" /> {formatDate(data.acara_resepsi_tanggal)}</p>
-                    <p className="flex items-center justify-center gap-2"><Clock className="w-4 h-4 text-[#B9A9D9]" /> {formatTime(data.acara_resepsi_jam)}</p>
+                    <p className="flex items-center justify-center gap-2"><Calendar className="w-4 h-4 text-[#B9A9D9]" /> {formatDate(data.acara_resepsi_tanggal || data.acara2_tanggal || "2026-12-12")}</p>
+                    <p className="flex items-center justify-center gap-2"><Clock className="w-4 h-4 text-[#B9A9D9]" /> {formatTime(data.acara_resepsi_jam || data.acara2_jam || "11:00 WIB")}</p>
                     <div className="pt-2">
-                      <p className="font-semibold">{data.acara_resepsi_lokasi_nama}</p>
-                      <p className="text-sm text-[#6B6577] mt-1 px-4">{data.acara_resepsi_lokasi_alamat}</p>
+                      <p className="font-semibold">{data.acara_resepsi_lokasi_nama || data.acara2_lokasi || "Gedung Utama"}</p>
+                      <p className="text-sm text-[#6B6577] mt-1 px-4">{data.acara_resepsi_lokasi_alamat || "Jl. Sudirman No. 10, Jakarta"}</p>
                     </div>
                   </div>
-                  <a href={data.acara_resepsi_lokasi_url || "#"} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-[#B9A9D9] text-[#14151F] px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#A691C9] transition-colors mt-2">
+                  <a href={data.acara_resepsi_lokasi_url || data.acara2_maps_url || "#"} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-[#B9A9D9] text-[#14151F] px-6 py-2 rounded-full text-sm font-semibold hover:bg-[#A691C9] transition-colors mt-2">
                     <MapPin className="w-4 h-4" /> Buka Peta
                   </a>
                 </div>
@@ -206,9 +212,17 @@ export default function FolioBloomRenderer({ data, isPreview = false }) {
         );
 
       case "galeri":
+        const defaultDummyPhotos = [
+          "/foto-dummy-undangan2/cover.jpeg",
+          "/foto-dummy-undangan2/loveisall.film_1784906403191.jpeg",
+          "/foto-dummy-undangan2/loveisall.film_1784906406087.jpeg",
+          "/foto-dummy-undangan2/loveisall.film_1784906406488.jpeg",
+          "/foto-dummy-undangan2/loveisall.film_1784906423202.jpeg",
+          "/foto-dummy-undangan2/loveisall.film_1784906423611.jpeg"
+        ];
         const allPhotos = data.foto_urls?.filter(Boolean)?.length > 0 
           ? data.foto_urls.filter(Boolean) 
-          : ["https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=800"];
+          : defaultDummyPhotos;
         const coverPhoto = allPhotos[0];
         const remainingPhotos = allPhotos.slice(1);
         
@@ -344,6 +358,34 @@ export default function FolioBloomRenderer({ data, isPreview = false }) {
 
   return (
     <div className="relative min-h-screen bg-[#14151F] text-[#F2EEE5] overflow-hidden flex items-center justify-center font-sans">
+      
+      {/* Floating Section Controller (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
+      {mounted && isBuilder && typeof document !== "undefined" && createPortal(
+        <div className="fixed top-6 right-6 z-[9999] flex items-center gap-2 bg-black/75 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl pointer-events-auto text-white">
+          <button 
+            type="button"
+            onClick={() => { setIsOpen(false); setActiveCard(null); }}
+            disabled={!isOpen && !activeCard}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" 
+            title="Bagian Sebelumnya"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <div className="flex items-center px-2 text-white text-[11px] uppercase tracking-wider font-semibold">
+            {!isOpen ? 'Cover' : activeCard ? cards.find(c => c.id === activeCard)?.label : 'Menu'}
+          </div>
+          <button 
+            type="button"
+            onClick={() => setIsOpen(true)}
+            disabled={isOpen && !activeCard}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" 
+            title="Bagian Selanjutnya"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>,
+        document.body
+      )}
       
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">

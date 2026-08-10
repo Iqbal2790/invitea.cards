@@ -21,6 +21,8 @@ import KisahtanggalkuForm from "@/components/forms/KisahtanggalkuForm";
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 import SunnySlabForm from "@/components/forms/SunnySlabForm";
 import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
+import RetroVintageForm from "@/components/forms/RetroVintageForm";
+import RetroVintageTemplate from "@/components/templates/renderers/retro-vintage";
 
 export default function BuilderPage({ params }) {
   const router = useRouter();
@@ -103,6 +105,7 @@ export default function BuilderPage({ params }) {
   const [celestialJourneyFormData, setCelestialJourneyFormData] = useState({});
   const [kisahtanggalkuFormData, setKisahtanggalkuFormData] = useState({});
   const [sunnySlabFormData, setSunnySlabFormData] = useState({});
+  const [retroVintageFormData, setRetroVintageFormData] = useState({});
 
   useEffect(() => {
     async function init() {
@@ -151,6 +154,7 @@ export default function BuilderPage({ params }) {
   const isCelestialJourney = template?.nama === "Celestial Journey";
   const isKisahtanggalku = template?.nama === "Kisahtanggalku" || template?.nama === "Vintage Chronicle";
   const isSunnySlab = template?.nama === "Sunny Slab" || template?.slug === "sunny-slab";
+  const isRetroVintage = id === "c084ae16-0b36-4ca7-a075-533d89a2f07c" || template?.nama === "Retro Vintage Romance" || template?.slug === "retro-vintage" || id === "retro-vintage";
 
   // Handlers for generic changes
   const handleLanternsChange = (e) => {
@@ -186,6 +190,11 @@ export default function BuilderPage({ params }) {
   const handleSunnySlabChange = (e) => {
     const { name, value } = e.target;
     setSunnySlabFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleRetroVintageChange = (e) => {
+    const { name, value } = e.target;
+    setRetroVintageFormData(prev => ({ ...prev, [name]: value }));
   };
 
   // Map MagicalLanterns form data to the shape expected by the template
@@ -294,6 +303,51 @@ export default function BuilderPage({ params }) {
     ]
   };
 
+  const mappedRetroVintageData = {
+    ...retroVintageFormData,
+    nama_panggilan_pria: retroVintageFormData.nama_panggilan_pria || "Bagus",
+    nama_panggilan_wanita: retroVintageFormData.nama_panggilan_wanita || "Kartika",
+    nama_lengkap_pria: retroVintageFormData.nama_lengkap_pria || "Bagus Setyawan, S.T.",
+    nama_ayah_pria: retroVintageFormData.nama_ayah_pria || "Bapak Hendra Setyawan",
+    nama_ibu_pria: retroVintageFormData.nama_ibu_pria || "Ibu Sari Wulandari",
+    nama_lengkap_wanita: retroVintageFormData.nama_lengkap_wanita || "Kartika Ayu, S.E.",
+    nama_ayah_wanita: retroVintageFormData.nama_ayah_wanita || "Bapak Bambang Prasetyo",
+    nama_ibu_wanita: retroVintageFormData.nama_ibu_wanita || "Ibu Ratna Kusuma",
+    foto_urls: retroVintageFormData.foto_urls && retroVintageFormData.foto_urls.length > 0 ? retroVintageFormData.foto_urls : dummyWeddingPhotos.foto_urls,
+    foto_cover: retroVintageFormData.foto_cover || dummyWeddingPhotos.foto_cover,
+    foto_hero: retroVintageFormData.foto_hero || dummyWeddingPhotos.foto_hero,
+    foto_pria: retroVintageFormData.foto_pria || dummyWeddingPhotos.foto_pria,
+    foto_wanita: retroVintageFormData.foto_wanita || dummyWeddingPhotos.foto_wanita,
+    tanggal_acara: retroVintageFormData.tanggal_acara || "2026-12-12",
+    waktu_acara: retroVintageFormData.waktu_acara || "08:00",
+    quote_text: retroVintageFormData.quote_text || "Cinta bukan tentang mencari seseorang yang sempurna, tetapi belajar melihat ketidaksempurnaan dengan cara yang sempurna.",
+    quote_author: retroVintageFormData.quote_author || "Doa & Harapan Kami",
+    acara_akad_nama: retroVintageFormData.acara_akad_nama || "Akad Nikah",
+    acara_akad_tanggal: retroVintageFormData.acara_akad_tanggal || "Sabtu, 12 Desember 2026",
+    acara_akad_jam: retroVintageFormData.acara_akad_jam || "08:00 - 10:00 WIB",
+    acara_akad_lokasi: retroVintageFormData.acara_akad_lokasi || "Masjid Agung Kota, Jl. Merdeka No. 45",
+    acara_akad_maps_url: retroVintageFormData.acara_akad_maps_url || "https://maps.google.com",
+    acara_resepsi_nama: retroVintageFormData.acara_resepsi_nama || "Resepsi Nikah",
+    acara_resepsi_tanggal: retroVintageFormData.acara_resepsi_tanggal || "Sabtu, 12 Desember 2026",
+    acara_resepsi_jam: retroVintageFormData.acara_resepsi_jam || "11:00 - 14:00 WIB",
+    acara_resepsi_lokasi: retroVintageFormData.acara_resepsi_lokasi || "Gedung Serbaguna Utama, Jl. Ahmad Yani No. 100",
+    acara_resepsi_maps_url: retroVintageFormData.acara_resepsi_maps_url || "https://maps.google.com",
+    love_story: retroVintageFormData.love_story && retroVintageFormData.love_story.length > 0 ? retroVintageFormData.love_story : [
+      { tanggal: "2021", judul: "Awal Pertemuan", deskripsi: "Pertama kali bertemu saat kegiatan organisasi dan mulai menjalin komunikasi hangat." },
+      { tanggal: "2023", judul: "Menjalin Hubungan", deskripsi: "Memutuskan untuk saling mengikat komitmen dalam ikatan kasih yang lebih serius." },
+      { tanggal: "2026", judul: "Lamaran & Niat Baik", deskripsi: "Mengutarakan niat suci di hadapan kedua keluarga besar untuk melangkah ke jenjang pernikahan." }
+    ],
+    rekening_pria: retroVintageFormData.rekening_pria && retroVintageFormData.rekening_pria.length > 0 ? retroVintageFormData.rekening_pria : [
+      { bank: "BCA", nomor: "1234567890", atas_nama: "Bagus Setyawan" }
+    ],
+    rekening_wanita: retroVintageFormData.rekening_wanita && retroVintageFormData.rekening_wanita.length > 0 ? retroVintageFormData.rekening_wanita : [
+      { bank: "Mandiri", nomor: "0987654321", atas_nama: "Kartika Ayu" }
+    ],
+    dresscode_warna: retroVintageFormData.dresscode_warna && retroVintageFormData.dresscode_warna.length > 0 ? retroVintageFormData.dresscode_warna : ["#F4EAD4", "#EADCB9", "#8B263E", "#2C1E16"],
+    dresscode_desc: retroVintageFormData.dresscode_desc || "Disarankan mengenakan pakaian bernuansa Retro / Earthy Tone.",
+    ucapan_terima_kasih: retroVintageFormData.ucapan_terima_kasih || "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu."
+  };
+
   return (
     <div className="flex h-[100dvh] w-full bg-bg transition-colors duration-400 font-sans overflow-hidden">
       
@@ -356,6 +410,14 @@ export default function BuilderPage({ params }) {
               handleChange={handleSunnySlabChange}
               sessionId={sessionId}
             />
+          ) : isRetroVintage ? (
+            <RetroVintageForm
+              template={template}
+              formData={retroVintageFormData}
+              setFormData={setRetroVintageFormData}
+              handleChange={handleRetroVintageChange}
+              sessionId={sessionId}
+            />
           ) : isMagicalLanterns ? (
             <MagicalLanternsForm 
               template={template} 
@@ -373,22 +435,24 @@ export default function BuilderPage({ params }) {
       </div>
 
       {/* Right Column - Preview Area (Hidden on Mobile) */}
-      <div className="hidden lg:flex w-1/2 relative bg-black overflow-hidden border-l border-hairline h-full">
+      <div className="hidden lg:flex w-1/2 relative bg-black overflow-hidden border-l border-hairline h-full items-center justify-center">
         
-        {/* Render actual template in full width/height */}
+        {/* Render actual template in full width/height inside frame container */}
         <div className="w-full h-full relative overflow-y-auto overscroll-contain mx-auto max-w-[480px] transform-gpu">
           {isIvoryLine ? (
             <IvoryLineTemplate data={mappedIvoryLineData} isPreview={true} isBuilder={true} />
           ) : isMemoryLane ? (
             <MemoryLaneTemplate data={memoryLaneFormData} isPreview={true} isBuilder={true} />
           ) : isFolioBloom ? (
-            <FolioBloomTemplate data={folioBloomFormData} />
+            <FolioBloomTemplate data={folioBloomFormData} isPreview={true} isBuilder={true} />
           ) : isCelestialJourney ? (
-            <CelestialJourneyTemplate data={celestialJourneyFormData} />
+            <CelestialJourneyTemplate data={celestialJourneyFormData} isPreview={true} isBuilder={true} />
           ) : isKisahtanggalku ? (
-            <KisahtanggalkuTemplate data={kisahtanggalkuFormData} isPreview={true} />
+            <KisahtanggalkuTemplate data={kisahtanggalkuFormData} isPreview={true} isBuilder={true} />
           ) : isSunnySlab ? (
             <SunnySlabTemplate data={mappedSunnySlabData} isPreview={true} isBuilder={true} />
+          ) : isRetroVintage ? (
+            <RetroVintageTemplate data={mappedRetroVintageData} isPreview={true} isBuilder={true} />
           ) : isMagicalLanterns ? (
             <MagicalLanternsTemplate data={mappedLanternsData} isPreview={true} isBuilder={true} />
           ) : (
@@ -398,9 +462,9 @@ export default function BuilderPage({ params }) {
           )}
         </div>
         
-        <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent p-[32px] pt-[100px] pointer-events-none z-20">
-          <h3 className="font-serif italic text-cream-text text-[2rem] font-medium mb-[4px] leading-none">{template.nama}</h3>
-          <p className="text-cream-text/70 text-[13px] uppercase tracking-wider font-semibold">Live Preview</p>
+        {/* Clean pill badge for template title */}
+        <div className="absolute bottom-4 left-4 z-20 pointer-events-none bg-black/60 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
+          <p className="text-white text-[11px] font-bold uppercase tracking-widest">{template.nama} • Live Preview</p>
         </div>
       </div>
       

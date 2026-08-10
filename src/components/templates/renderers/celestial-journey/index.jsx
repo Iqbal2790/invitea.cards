@@ -188,9 +188,17 @@ const HorizontalGallery = ({ photos, containerRef }) => {
 
 // --- Main Template ---
 
-export default function CelestialJourneyTemplate({ data }) {
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { createPortal } from 'react-dom';
+
+export default function CelestialJourneyTemplate({ data, isPreview = false, isBuilder = false }) {
   const [isJourneyStarted, setIsJourneyStarted] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const photos = data?.foto_urls || [];
   const messageLines = data?.pesan?.split('\n').filter(line => line.trim() !== '') || [];
@@ -200,6 +208,33 @@ export default function CelestialJourneyTemplate({ data }) {
       ref={containerRef}
       className="relative w-full h-[100dvh] bg-[#05030a] text-stone-100 font-sans overflow-y-auto overflow-x-hidden scroll-smooth hide-scrollbar"
     >
+      {/* Floating Section Controller (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
+      {mounted && isBuilder && typeof document !== "undefined" && createPortal(
+        <div className="fixed top-6 right-6 z-[9999] flex items-center gap-2 bg-black/75 backdrop-blur-md p-1.5 rounded-full border border-white/20 shadow-2xl pointer-events-auto text-white">
+          <button 
+            type="button"
+            onClick={() => setIsJourneyStarted(false)}
+            disabled={!isJourneyStarted}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" 
+            title="Bagian Sebelumnya"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <div className="flex items-center px-2 text-white text-[11px] uppercase tracking-wider font-semibold">
+            {!isJourneyStarted ? 'Prologue' : 'Journey'}
+          </div>
+          <button 
+            type="button"
+            onClick={() => setIsJourneyStarted(true)}
+            disabled={isJourneyStarted}
+            className="p-1.5 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer" 
+            title="Bagian Selanjutnya"
+          >
+            <ChevronRight size={18} />
+          </button>
+        </div>,
+        document.body
+      )}
       <AnimatePresence mode="wait">
         {!isJourneyStarted ? (
           // Act 1: The Prologue

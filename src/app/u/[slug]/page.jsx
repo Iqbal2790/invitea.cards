@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useState, Suspense } from "react";
 import MagicalLanternsTemplate from "@/components/templates/renderers/magical-lanterns";
 import IvoryLineTemplate from "@/components/templates/renderers/ivory-line";
 import MemoryLaneTemplate from "@/components/templates/renderers/memory-lane";
@@ -8,6 +8,7 @@ import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
+import RetroVintageTemplate from "@/components/templates/renderers/retro-vintage";
 import { Loader2 } from "lucide-react";
 
 export default function LiveInvitationPage({ params }) {
@@ -62,6 +63,7 @@ export default function LiveInvitationPage({ params }) {
   const isWhisperingBloom = templates?.nama === "Whispering Bloom";
   const isKisahtanggalku = templates?.nama === "Kisahtanggalku" || templates?.nama === "Vintage Chronicle";
   const isSunnySlab = templates?.nama === "Sunny Slab" || templates?.slug === "sunny-slab";
+  const isRetroVintage = templates?.id === "c084ae16-0b36-4ca7-a075-533d89a2f07c" || templates?.nama === "Retro Vintage Romance" || templates?.slug === "retro-vintage";
 
   let templateData = { id: id, rsvps: rsvps || [] };
   if (isMagicalLanterns) {
@@ -98,26 +100,30 @@ export default function LiveInvitationPage({ params }) {
   }
 
   return (
-    <div className="relative w-full h-[100dvh] overflow-hidden bg-stone-900">
-      {isIvoryLine ? (
-        <IvoryLineTemplate data={templateData} isPreview={false} />
-      ) : isMemoryLane ? (
-        <MemoryLaneTemplate data={templateData} />
-      ) : isFolioBloom ? (
-        <FolioBloomTemplate data={templateData} />
-      ) : isCelestialJourney ? (
-        <CelestialJourneyTemplate data={templateData} />
-      ) : isKisahtanggalku ? (
-        <KisahtanggalkuTemplate data={templateData} isPreview={false} />
-      ) : isSunnySlab ? (
-        <SunnySlabTemplate data={templateData} isPreview={false} />
-      ) : isMagicalLanterns ? (
-        <MagicalLanternsTemplate data={templateData} isPreview={false} />
-      ) : (
-        <div className="flex items-center justify-center min-h-screen text-white">
-          Template tidak ditemukan
-        </div>
-      )}
-    </div>
+    <Suspense fallback={<div className="min-h-screen bg-stone-900 flex items-center justify-center text-white"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
+      <div className="relative w-full min-h-screen bg-stone-900">
+        {isIvoryLine ? (
+          <IvoryLineTemplate data={templateData} isPreview={false} />
+        ) : isMemoryLane ? (
+          <MemoryLaneTemplate data={templateData} />
+        ) : isFolioBloom ? (
+          <FolioBloomTemplate data={templateData} />
+        ) : isCelestialJourney ? (
+          <CelestialJourneyTemplate data={templateData} />
+        ) : isKisahtanggalku ? (
+          <KisahtanggalkuTemplate data={templateData} isPreview={false} />
+        ) : isSunnySlab ? (
+          <SunnySlabTemplate data={templateData} isPreview={false} />
+        ) : isRetroVintage ? (
+          <RetroVintageTemplate data={templateData} isPreview={false} />
+        ) : isMagicalLanterns ? (
+          <MagicalLanternsTemplate data={templateData} isPreview={false} />
+        ) : (
+          <div className="flex items-center justify-center min-h-screen text-white">
+            Template tidak ditemukan
+          </div>
+        )}
+      </div>
+    </Suspense>
   );
 }

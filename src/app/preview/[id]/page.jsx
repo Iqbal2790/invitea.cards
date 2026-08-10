@@ -11,6 +11,7 @@ import FolioBloomTemplate from "@/components/templates/renderers/folio-bloom";
 import CelestialJourneyTemplate from "@/components/templates/renderers/celestial-journey";
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
+import RetroVintageTemplate from "@/components/templates/renderers/retro-vintage";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -23,6 +24,7 @@ export default function PreviewPage({ params }) {
   const isCelestialJourney = id === "12345678-abcd-ef00-1234-567890abcdef";
   const isKisahtanggalku = id === "99999999-9999-9999-9999-999999999999";
   const isSunnySlab = id === "123e4567-e89b-12d3-a456-426614174000" || id === "sunny-slab";
+  const isRetroVintage = id === "c084ae16-0b36-4ca7-a075-533d89a2f07c" || id === "retro-vintage" || id === "77777777-7777-7777-7777-777777777777";
 
   let previewData = {};
 
@@ -73,6 +75,51 @@ export default function PreviewPage({ params }) {
         "/foto-dummy-ucapan/Anh%20(2).jpg",
         "/foto-dummy-ucapan/Anh%20(3).jpg"
       ]
+    };
+  } else if (isRetroVintage) {
+    previewData = {
+      nama_panggilan_pria: "Bagus",
+      nama_panggilan_wanita: "Kartika",
+      nama_lengkap_pria: "Bagus Setyawan, S.T.",
+      nama_ayah_pria: "Bapak Hendra Setyawan",
+      nama_ibu_pria: "Ibu Sari Wulandari",
+      nama_lengkap_wanita: "Kartika Ayu, S.E.",
+      nama_ayah_wanita: "Bapak Bambang Prasetyo",
+      nama_ibu_wanita: "Ibu Ratna Kusuma",
+      foto_urls: dummyWeddingPhotos.foto_urls,
+      foto_cover: dummyWeddingPhotos.foto_cover,
+      foto_hero: dummyWeddingPhotos.foto_hero,
+      foto_pria: dummyWeddingPhotos.foto_pria,
+      foto_wanita: dummyWeddingPhotos.foto_wanita,
+      tanggal_acara: "2026-12-12",
+      waktu_acara: "08:00",
+      quote_text: "Cinta bukan tentang mencari seseorang yang sempurna, tetapi belajar melihat ketidaksempurnaan dengan cara yang sempurna.",
+      quote_author: "Doa & Harapan Kami",
+      acara_akad_nama: "Akad Nikah",
+      acara_akad_tanggal: "Sabtu, 12 Desember 2026",
+      acara_akad_jam: "08:00 - 10:00 WIB",
+      acara_akad_lokasi: "Masjid Agung Kota, Jl. Merdeka No. 45",
+      acara_akad_maps_url: "https://maps.google.com",
+      acara_resepsi_nama: "Resepsi Nikah",
+      acara_resepsi_tanggal: "Sabtu, 12 Desember 2026",
+      acara_resepsi_jam: "11:00 - 14:00 WIB",
+      acara_resepsi_lokasi: "Gedung Serbaguna Utama, Jl. Ahmad Yani No. 100",
+      acara_resepsi_maps_url: "https://maps.google.com",
+      love_story: [
+        { tanggal: "2021", judul: "Awal Pertemuan", deskripsi: "Pertama kali bertemu saat kegiatan organisasi dan mulai menjalin komunikasi hangat." },
+        { tanggal: "2023", judul: "Menjalin Hubungan", deskripsi: "Memutuskan untuk saling mengikat komitmen dalam ikatan kasih yang lebih serius." },
+        { tanggal: "2026", judul: "Lamaran & Niat Baik", deskripsi: "Mengutarakan niat suci di hadapan kedua keluarga besar untuk melangkah ke jenjang pernikahan." }
+      ],
+      wishes: [
+        { nama: "Budi & Keluarga", pesan: "Selamat menempuh hidup baru! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah." },
+        { nama: "Siska Maharani", pesan: "Happy Wedding Bagus & Kartika! Bahagia dan langgeng selalu." },
+        { nama: "Rendi & Nisa", pesan: "Selamat kawan! Semoga lancar dan sukses semua acaranya." }
+      ],
+      rekening_pria: [ { bank: "BCA", nomor: "1234567890", atas_nama: "Bagus Setyawan" } ],
+      rekening_wanita: [ { bank: "Mandiri", nomor: "0987654321", atas_nama: "Kartika Ayu" } ],
+      dresscode_warna: ["#F4EAD4", "#EADCB9", "#8B263E", "#2C1E16"],
+      dresscode_desc: "Disarankan mengenakan pakaian bernuansa Retro / Earthy Tone.",
+      ucapan_terima_kasih: "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu."
     };
   } else {
     // Default dummy data for older templates
@@ -200,25 +247,29 @@ export default function PreviewPage({ params }) {
       </div>
 
       {/* Template Container (Simulating Mobile Screen on Desktop) */}
-      <div className="flex-1 w-full flex justify-center bg-stone-900 py-0 md:py-8 overflow-y-auto">
-        <div className="w-full md:w-[414px] md:h-[896px] bg-white md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden overflow-y-auto relative custom-scrollbar transform-gpu">
-          {isIvoryLine ? (
-            <IvoryLineTemplate data={previewData} isPreview={true} />
-          ) : isMemoryLane ? (
-            <MemoryLaneTemplate data={previewData} />
-          ) : isFolioBloomActual ? (
-            <FolioBloomTemplate data={previewData} />
-          ) : isCelestialJourney ? (
-            <CelestialJourneyTemplate data={previewData} />
-          ) : isKisahtanggalku ? (
-            <KisahtanggalkuTemplate data={previewData} isPreview={true} />
-          ) : isSunnySlab ? (
-            <SunnySlabTemplate data={previewData} isPreview={true} />
-          ) : isMagicalLanterns ? (
-            <MagicalLanternsTemplate data={previewData} isPreview={true} />
-          ) : (
-            <div className="flex items-center justify-center h-full bg-stone-900 text-white">Template tidak ditemukan</div>
-          )}
+      <div className="flex-1 w-full flex justify-center bg-stone-900 py-0 md:py-8 overflow-hidden">
+        <div className="w-full md:w-[414px] md:h-[896px] bg-[#F4EAD4] md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden relative flex flex-col">
+          <div className="w-full h-full overflow-y-auto overflow-x-clip overscroll-contain relative flex flex-col">
+            {isIvoryLine ? (
+              <IvoryLineTemplate data={previewData} isPreview={true} />
+            ) : isMemoryLane ? (
+              <MemoryLaneTemplate data={previewData} />
+            ) : isFolioBloomActual ? (
+              <FolioBloomTemplate data={previewData} />
+            ) : isCelestialJourney ? (
+              <CelestialJourneyTemplate data={previewData} />
+            ) : isKisahtanggalku ? (
+              <KisahtanggalkuTemplate data={previewData} isPreview={true} />
+            ) : isSunnySlab ? (
+              <SunnySlabTemplate data={previewData} isPreview={true} />
+            ) : isRetroVintage ? (
+              <RetroVintageTemplate data={previewData} isPreview={true} />
+            ) : isMagicalLanterns ? (
+              <MagicalLanternsTemplate data={previewData} isPreview={true} />
+            ) : (
+              <div className="flex items-center justify-center h-full bg-stone-900 text-white">Template tidak ditemukan</div>
+            )}
+          </div>
         </div>
       </div>
       
