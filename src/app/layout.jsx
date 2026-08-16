@@ -23,7 +23,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="id" className={`${cormorant.variable} ${manrope.variable} scroll-smooth`} suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-bg text-ink font-sans antialiased transition-colors duration-400 overflow-x-clip">
+      <body className="min-h-screen flex flex-col bg-bg text-ink font-sans antialiased transition-colors duration-400 overflow-x-clip" suppressHydrationWarning>
         <ThemeInitializer />
         {children}
       </body>
