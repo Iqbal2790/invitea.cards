@@ -69,7 +69,7 @@ export default function RetroVintageForm({ template, formData = {}, setFormData,
   const loveStory = Array.isArray(data.love_story) ? data.love_story : [];
   const rekWanita = Array.isArray(data.rekening_wanita) ? data.rekening_wanita : [];
   const rekPria = Array.isArray(data.rekening_pria) ? data.rekening_pria : [];
-  const dressWarna = Array.isArray(data.dresscode_warna) ? data.dresscode_warna : ["#F4EAD4", "#EADCB9", "#8B263E", "#2C1E16"];
+  const dressWarna = Array.isArray(data.dresscode_warna) ? data.dresscode_warna : ["#F5F5F5", "#76ABAE", "#303841", "#FF5722"];
 
   const handleSinglePhotoUpload = async (e, fieldName) => {
     const file = e.target.files?.[0];

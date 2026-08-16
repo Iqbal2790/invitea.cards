@@ -117,7 +117,7 @@ export default function PreviewPage({ params }) {
       ],
       rekening_pria: [ { bank: "BCA", nomor: "1234567890", atas_nama: "Bagus Setyawan" } ],
       rekening_wanita: [ { bank: "Mandiri", nomor: "0987654321", atas_nama: "Kartika Ayu" } ],
-      dresscode_warna: ["#F4EAD4", "#EADCB9", "#8B263E", "#2C1E16"],
+      dresscode_warna: ["#F5F5F5", "#76ABAE", "#303841", "#FF5722"],
       dresscode_desc: "Disarankan mengenakan pakaian bernuansa Retro / Earthy Tone.",
       ucapan_terima_kasih: "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu."
     };
@@ -248,7 +248,7 @@ export default function PreviewPage({ params }) {
 
       {/* Template Container (Simulating Mobile Screen on Desktop) */}
       <div className="flex-1 w-full flex justify-center bg-stone-900 py-0 md:py-8 overflow-hidden">
-        <div className="w-full md:w-[414px] md:h-[896px] bg-[#F4EAD4] md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden relative flex flex-col">
+        <div className="w-full md:w-[414px] md:h-[896px] bg-[#F5F5F5] md:rounded-[3rem] md:border-[8px] border-stone-800 md:shadow-2xl overflow-hidden relative flex flex-col">
           <div className="w-full h-full overflow-y-auto overflow-x-clip overscroll-contain relative flex flex-col">
             {isIvoryLine ? (
               <IvoryLineTemplate data={previewData} isPreview={true} />

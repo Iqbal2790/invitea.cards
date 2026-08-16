@@ -343,7 +343,7 @@ export default function BuilderPage({ params }) {
     rekening_wanita: retroVintageFormData.rekening_wanita && retroVintageFormData.rekening_wanita.length > 0 ? retroVintageFormData.rekening_wanita : [
       { bank: "Mandiri", nomor: "0987654321", atas_nama: "Kartika Ayu" }
     ],
-    dresscode_warna: retroVintageFormData.dresscode_warna && retroVintageFormData.dresscode_warna.length > 0 ? retroVintageFormData.dresscode_warna : ["#F4EAD4", "#EADCB9", "#8B263E", "#2C1E16"],
+    dresscode_warna: retroVintageFormData.dresscode_warna && retroVintageFormData.dresscode_warna.length > 0 ? retroVintageFormData.dresscode_warna : ["#F5F5F5", "#76ABAE", "#303841", "#FF5722"],
     dresscode_desc: retroVintageFormData.dresscode_desc || "Disarankan mengenakan pakaian bernuansa Retro / Earthy Tone.",
     ucapan_terima_kasih: retroVintageFormData.ucapan_terima_kasih || "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu."
   };
