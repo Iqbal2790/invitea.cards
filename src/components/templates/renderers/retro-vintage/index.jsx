@@ -315,7 +315,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
             alt="Cover Desktop" 
             className="absolute inset-0 w-full h-full object-cover sepia z-0 pointer-events-none" 
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1F1410]/40 via-[#1F1410]/60 to-[#1F1410]/90 z-0 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/35 to-black/75 z-0 pointer-events-none" />
 
           {/* Decorative Vintage Border Ornament */}
           <div className="absolute inset-6 border-2 border-[#FFFFFF]/30 rounded-3xl pointer-events-none z-10" />
@@ -373,7 +373,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
               alt="Cover Overlay" 
               className="absolute inset-0 w-full h-full object-cover sepia z-0 pointer-events-none" 
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#303841]/40 via-[#303841]/30 to-[#303841]/85 z-0 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/35 to-black/75 z-0 pointer-events-none" />
 
             <div className="w-full mx-auto flex flex-col h-full justify-between pt-3 pb-8 md:pb-10 relative z-10">
               
@@ -450,7 +450,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
             alt="Hero Photo" 
             className="absolute inset-0 w-full h-full object-cover object-top sepia z-0 pointer-events-none" 
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/15 to-black/65 z-0 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/35 to-black/75 z-0 pointer-events-none" />
 
           <div className="bg-[#F5F5F5]/85 backdrop-blur-md border-4 border-[#303841] p-6 rounded-3xl w-full max-w-sm mx-auto space-y-3 shadow-2xl mb-4 relative z-10">
             <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-0.5">Pernikahan Dari</p>
