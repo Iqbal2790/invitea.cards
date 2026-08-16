@@ -307,7 +307,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
       {/* DESKTOP LEFT PANEL (STATIC FIXED SIDEBAR VISIBLE ONLY ON LIVE ORDER `!isBuilder && !isPreview`) */}
       {isDesktopSplit && (
         <div 
-          className="hidden lg:flex fixed left-0 top-0 bottom-0 h-screen lg:w-[calc(100%-460px)] xl:w-[calc(100%-480px)] z-20 flex-col items-center justify-between p-12 text-center text-[#F5F5F5] border-r-4 border-[#303841] shadow-2xl overflow-hidden pointer-events-none select-none relative"
+          className="hidden lg:flex fixed left-0 top-0 bottom-0 h-screen lg:w-[calc(100%-460px)] xl:w-[calc(100%-480px)] z-20 flex-col items-center justify-between p-12 text-center text-[#F5F5F5] border-r-4 border-[#303841] shadow-2xl overflow-hidden pointer-events-none select-none"
         >
           {/* Background Image with Sepia Filter & Gradient Overlay */}
           <img 
