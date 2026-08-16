@@ -23,6 +23,7 @@ async function run() {
       .update({
         kategori: 'undangan',
         harga: 149000,
+        thumbnail_url: 'https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/thumbnails/retro-vintage-thumbnail.png',
         fields_config: fields_config,
         fitur_maps: true,
         fitur_countdown: true,
@@ -44,6 +45,7 @@ async function run() {
         nama: 'Retro Vintage Romance',
         kategori: 'undangan',
         harga: 149000,
+        thumbnail_url: 'https://uldbknkgnpisayqweklt.supabase.co/storage/v1/object/public/thumbnails/retro-vintage-thumbnail.png',
         fields_config: fields_config,
         fitur_maps: true,
         fitur_countdown: true,
