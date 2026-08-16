@@ -3,12 +3,11 @@
 ## Category
 undangan
 
-## Palette
-- Background: #F4EAD4 (Aged Sepia Paper)
-- Surface: #EADCB9 (Warm Vintage Card)
-- Primary/Text: #2C1E16 (Deep Walnut)
-- Accent/Crimson: #8B263E (Vintage Crimson)
-- Ochre Gold: #D9822B (Antique Ochre)
+## Palette (Classic 1950s Mid-Century Retro Poster)
+- Background: #F5F5F5 (Crisp Off-White Retro Paper)
+- Primary Accent & Text: #303841 (Deep Retro Charcoal)
+- Secondary Accent: #76ABAE (Vintage Slate Cyan)
+- Pop Accent: #FF5722 (Retro Bold Flame)
 
 ## Fonts
 - Display: 'Playfair Display', serif

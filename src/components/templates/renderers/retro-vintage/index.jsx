@@ -172,7 +172,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
     live_meet_url = "",
     rekening_pria = [],
     rekening_wanita = [],
-    dresscode_warna = (isPreview ? ["#F4EAD4", "#EADCB9", "#8B263E", "#2C1E16"] : []),
+    dresscode_warna = (isPreview ? ["#F5F5F5", "#76ABAE", "#303841", "#303841"] : []),
     dresscode_desc = (isPreview ? "Disarankan mengenakan pakaian bernuansa Retro / Earthy Tone." : ""),
     ucapan_terima_kasih = (isPreview ? "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu." : ""),
     wishes = [],
@@ -275,7 +275,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
   };
 
   return (
-    <div className={`w-full text-[#2C1E16] font-sans touch-pan-y ${isDesktopSplit ? 'min-h-screen flex' : 'min-h-screen relative bg-[#F4EAD4]'} selection:bg-[#8B263E] selection:text-white`}>
+    <div className={`w-full text-[#303841] font-sans touch-pan-y ${isDesktopSplit ? 'min-h-screen flex' : 'min-h-screen relative bg-[#F5F5F5]'} selection:bg-[#303841] selection:text-white`}>
       
       {/* FLOATING SECTION CONTROLLER (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
       {mounted && isBuilder && typeof document !== 'undefined' && createPortal(
@@ -307,18 +307,23 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
       {/* DESKTOP LEFT PANEL (STATIC FIXED SIDEBAR VISIBLE ONLY ON LIVE ORDER `!isBuilder && !isPreview`) */}
       {isDesktopSplit && (
         <div 
-          className="hidden lg:flex fixed left-0 top-0 bottom-0 h-screen lg:w-[calc(100%-460px)] xl:w-[calc(100%-480px)] z-20 flex-col items-center justify-between p-12 text-center text-[#F4EAD4] bg-cover bg-center border-r-4 border-[#8B263E] shadow-2xl overflow-hidden pointer-events-none select-none"
-          style={{ 
-            backgroundImage: `linear-gradient(to bottom, rgba(31, 20, 16, 0.35), rgba(31, 20, 16, 0.85)), url('${foto_cover}')` 
-          }}
+          className="hidden lg:flex fixed left-0 top-0 bottom-0 h-screen lg:w-[calc(100%-460px)] xl:w-[calc(100%-480px)] z-20 flex-col items-center justify-between p-12 text-center text-[#F5F5F5] border-r-4 border-[#303841] shadow-2xl overflow-hidden pointer-events-none select-none relative"
         >
+          {/* Background Image with Sepia Filter & Gradient Overlay */}
+          <img 
+            src={foto_cover} 
+            alt="Cover Desktop" 
+            className="absolute inset-0 w-full h-full object-cover sepia z-0 pointer-events-none" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#1F1410]/40 via-[#1F1410]/60 to-[#1F1410]/90 z-0 pointer-events-none" />
+
           {/* Decorative Vintage Border Ornament */}
-          <div className="absolute inset-6 border-2 border-[#EADCB9]/30 rounded-3xl pointer-events-none z-0" />
+          <div className="absolute inset-6 border-2 border-[#FFFFFF]/30 rounded-3xl pointer-events-none z-10" />
           
           {/* Header */}
           <div className="pt-6 relative z-10 space-y-2">
-            <span className="text-xs uppercase tracking-[0.4em] font-bold text-[#EADCB9] drop-shadow">Pernikahan Dari</span>
-            <div className="w-16 h-0.5 bg-[#8B263E] mx-auto rounded-full" />
+            <span className="text-xs uppercase tracking-[0.4em] font-bold text-[#FFFFFF] drop-shadow">Pernikahan Dari</span>
+            <div className="w-16 h-0.5 bg-[#303841] mx-auto rounded-full" />
           </div>
 
           {/* Center Couple Names & Info */}
@@ -327,12 +332,12 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
               {nama_panggilan_pria || "Pria"} & {nama_panggilan_wanita || "Wanita"}
             </h1>
             {tanggal_acara && (
-              <div className="inline-block px-6 py-2 bg-[#8B263E]/85 backdrop-blur-md rounded-full border border-white/20 shadow-md">
-                <p className="text-xs font-bold text-[#F4EAD4] uppercase tracking-[0.3em]">{tanggal_acara}</p>
+              <div className="inline-block px-6 py-2 bg-[#303841]/85 backdrop-blur-md rounded-full border border-white/20 shadow-md">
+                <p className="text-xs font-bold text-[#F5F5F5] uppercase tracking-[0.3em]">{tanggal_acara}</p>
               </div>
             )}
             {quote_text && quote_text.trim() !== '' && (
-              <p className="text-xs md:text-sm italic font-serif text-[#F4EAD4]/90 leading-relaxed max-w-md mx-auto pt-2 drop-shadow">
+              <p className="text-xs md:text-sm italic font-serif text-[#F5F5F5]/90 leading-relaxed max-w-md mx-auto pt-2 drop-shadow">
                 "{quote_text}"
               </p>
             )}
@@ -340,13 +345,13 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
 
           {/* Footer Branding */}
           <div className="pb-4 relative z-10">
-            <p className="text-[10px] uppercase tracking-[0.25em] text-[#EADCB9]/70 font-semibold">Invitea Cards — Retro Vintage Romance</p>
+            <p className="text-[10px] uppercase tracking-[0.25em] text-[#FFFFFF]/70 font-semibold">Invitea Cards — Retro Vintage Romance</p>
           </div>
         </div>
       )}
 
       {/* RIGHT INVITATION PANEL */}
-      <div className={`w-full ${isDesktopSplit ? 'lg:w-[460px] xl:w-[480px] lg:ml-auto flex-shrink-0 border-l-2 border-[#8B263E]/30 min-h-screen' : 'min-h-screen'} bg-[#F4EAD4] relative flex flex-col overflow-x-clip`}>
+      <div className={`w-full ${isDesktopSplit ? 'lg:w-[460px] xl:w-[480px] lg:ml-auto flex-shrink-0 border-l-2 border-[#303841]/30 min-h-screen' : 'min-h-screen'} bg-[#F5F5F5] relative flex flex-col overflow-x-clip`}>
 
       {/* 1. COVER OVERLAY */}
       <AnimatePresence>
@@ -360,91 +365,101 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
               pointerEvents: "none",
               transition: { duration: 0.5, ease: "easeOut" }
             }}
-            className="absolute inset-0 z-50 flex flex-col items-center justify-between p-5 text-center overflow-hidden bg-cover bg-center transform-gpu will-change-transform"
-            style={{ 
-              backgroundImage: `linear-gradient(to bottom, rgba(44, 30, 22, 0.25), rgba(44, 30, 22, 0.75)), url('${foto_cover}')` 
-            }}
+            className="absolute inset-0 z-50 flex flex-col items-center justify-between p-5 text-center overflow-hidden transform-gpu will-change-transform"
           >
-                <div className="w-full mx-auto flex flex-col h-full justify-between pt-3 pb-8 md:pb-10 relative z-10">
-                  
-                  {/* Top Subtitle */}
-                  <div className="pt-2">
-                    <span className="text-xs uppercase tracking-[0.35em] font-bold text-white/90 drop-shadow">Pernikahan Dari</span>
-                  </div>
+            {/* Background Image with Sepia Filter & Gradient Overlay */}
+            <img 
+              src={foto_cover} 
+              alt="Cover Overlay" 
+              className="absolute inset-0 w-full h-full object-cover sepia z-0 pointer-events-none" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#303841]/40 via-[#303841]/30 to-[#303841]/85 z-0 pointer-events-none" />
 
-                  {/* Center Floating Overlay Text */}
-                  <div className="my-auto py-2 space-y-3">
-                    <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white font-serif leading-tight drop-shadow-lg px-2">
-                      {nama_panggilan_pria || "Pria"} & {nama_panggilan_wanita || "Wanita"}
-                    </h1>
-                    {tanggal_acara && <p className="text-xs font-bold text-[#F4EAD4] uppercase tracking-[0.25em] drop-shadow">{tanggal_acara}</p>}
+            <div className="w-full mx-auto flex flex-col h-full justify-between pt-3 pb-8 md:pb-10 relative z-10">
+              
+              {/* Top Subtitle */}
+              <div className="pt-2">
+                <span className="text-xs uppercase tracking-[0.35em] font-bold text-white/90 drop-shadow">Pernikahan Dari</span>
+              </div>
 
-                    {guestName && (
-                      <div className="max-w-xs mx-auto mt-4 text-white space-y-0.5 drop-shadow-md">
-                        <p className="text-[10px] uppercase font-semibold tracking-widest text-white/80">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                        <p className="text-base font-bold text-white tracking-wide">{guestName}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Bottom Area: Glassmorphic Countdown Timer + CTA Button */}
-                  <div className="pb-2 md:pb-4 space-y-3 w-full max-w-xs mx-auto">
-                    {/* Countdown Timer Grid directly above Buka Undangan button */}
-                    {tanggal_acara && (
-                      <div className="grid grid-cols-4 gap-2 text-center w-full">
-                        <div className="bg-[#F4EAD4]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
-                          <span className="block text-base font-bold text-[#8B263E]">{timeLeft.days}</span>
-                          <span className="text-[8px] uppercase font-bold text-stone-700">Hari</span>
-                        </div>
-                        <div className="bg-[#F4EAD4]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
-                          <span className="block text-base font-bold text-[#8B263E]">{timeLeft.hours}</span>
-                          <span className="text-[8px] uppercase font-bold text-stone-700">Jam</span>
-                        </div>
-                        <div className="bg-[#F4EAD4]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
-                          <span className="block text-base font-bold text-[#8B263E]">{timeLeft.minutes}</span>
-                          <span className="text-[8px] uppercase font-bold text-stone-700">Menit</span>
-                        </div>
-                        <div className="bg-[#F4EAD4]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
-                          <span className="block text-base font-bold text-[#8B263E]">{timeLeft.seconds}</span>
-                          <span className="text-[8px] uppercase font-bold text-stone-700">Detik</span>
-                        </div>
-                      </div>
-                    )}
-
-                    <button 
-                      type="button"
-                      onClick={handleOpenInvitation}
-                      className="w-full py-3.5 px-6 bg-[#8B263E] hover:bg-[#6f1d30] active:bg-[#541624] text-white font-bold rounded-2xl shadow-2xl transition-all transform active:scale-95 uppercase tracking-wider text-xs flex items-center justify-center cursor-pointer relative z-10 border border-white/20"
-                    >
-                      <span>Buka Undangan</span>
-                    </button>
-                  </div>
-
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* 2. INVITATION CONTENT (REVEALED AFTER BUKA UNDANGAN) */}
-          {isOpened && (
-            <div className="w-full">
-            
-            {/* SECTION 1: HERO CONTENT (USES FOTO_HERO - DIFFERENT PREWEDDING PHOTO) */}
-            <section 
-              id="section-hero"
-              className="min-h-screen flex flex-col justify-end p-4 md:p-6 text-center relative overflow-hidden bg-cover bg-[center_top] border-b-4 border-[#8B263E]"
-              style={{ 
-                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.6)), url('${foto_hero || (foto_urls && foto_urls[0]) || '/foto-dummy-undangan2/loveisall.film_1784906403191.jpeg'}')` 
-              }}
-            >
-              <div className="bg-[#F4EAD4]/85 backdrop-blur-md border-4 border-[#8B263E] p-6 rounded-3xl w-full max-w-sm mx-auto space-y-3 shadow-2xl mb-4">
-                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-0.5">Pernikahan Dari</p>
-                <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#2C1E16] font-serif leading-tight">
+              {/* Center Floating Overlay Text */}
+              <div className="my-auto py-2 space-y-3">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white font-serif leading-tight drop-shadow-lg px-2">
                   {nama_panggilan_pria || "Pria"} & {nama_panggilan_wanita || "Wanita"}
                 </h1>
-                {tanggal_acara && <p className="text-xs font-semibold text-[#D9822B] uppercase tracking-widest">{tanggal_acara}</p>}
+                {tanggal_acara && <p className="text-xs font-bold text-[#F5F5F5] uppercase tracking-[0.25em] drop-shadow">{tanggal_acara}</p>}
+
+                {guestName && (
+                  <div className="max-w-xs mx-auto mt-4 text-white space-y-0.5 drop-shadow-md">
+                    <p className="text-[10px] uppercase font-semibold tracking-widest text-white/80">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+                    <p className="text-base font-bold text-white tracking-wide">{guestName}</p>
+                  </div>
+                )}
               </div>
-            </section>
+
+              {/* Bottom Area: Glassmorphic Countdown Timer + CTA Button */}
+              <div className="pb-2 md:pb-4 space-y-3 w-full max-w-xs mx-auto">
+                {/* Countdown Timer Grid directly above Buka Undangan button */}
+                {tanggal_acara && (
+                  <div className="grid grid-cols-4 gap-2 text-center w-full">
+                    <div className="bg-[#F5F5F5]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
+                      <span className="block text-base font-bold text-[#303841]">{timeLeft.days}</span>
+                      <span className="text-[8px] uppercase font-bold text-stone-700">Hari</span>
+                    </div>
+                    <div className="bg-[#F5F5F5]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
+                      <span className="block text-base font-bold text-[#303841]">{timeLeft.hours}</span>
+                      <span className="text-[8px] uppercase font-bold text-stone-700">Jam</span>
+                    </div>
+                    <div className="bg-[#F5F5F5]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
+                      <span className="block text-base font-bold text-[#303841]">{timeLeft.minutes}</span>
+                      <span className="text-[8px] uppercase font-bold text-stone-700">Menit</span>
+                    </div>
+                    <div className="bg-[#F5F5F5]/90 backdrop-blur-md p-2 rounded-2xl border border-white/30 shadow-md">
+                      <span className="block text-base font-bold text-[#303841]">{timeLeft.seconds}</span>
+                      <span className="text-[8px] uppercase font-bold text-stone-700">Detik</span>
+                    </div>
+                  </div>
+                )}
+
+                <button 
+                  type="button"
+                  onClick={handleOpenInvitation}
+                  className="w-full py-3.5 px-6 bg-[#303841] hover:bg-[#222831] active:bg-[#1A2027] text-white font-bold rounded-2xl shadow-2xl transition-all transform active:scale-95 uppercase tracking-wider text-xs flex items-center justify-center cursor-pointer relative z-10 border border-white/20"
+                >
+                  <span>Buka Undangan</span>
+                </button>
+              </div>
+
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 2. INVITATION CONTENT (REVEALED AFTER BUKA UNDANGAN) */}
+      {isOpened && (
+        <div className="w-full">
+        
+        {/* SECTION 1: HERO CONTENT (USES FOTO_HERO - DIFFERENT PREWEDDING PHOTO) */}
+        <section 
+          id="section-hero"
+          className="min-h-screen flex flex-col justify-end p-4 md:p-6 text-center relative overflow-hidden border-b-4 border-[#303841]"
+        >
+          {/* Background Image with Sepia Filter & Gradient Overlay */}
+          <img 
+            src={foto_hero || (foto_urls && foto_urls[0]) || '/foto-dummy-undangan2/loveisall.film_1784906403191.jpeg'} 
+            alt="Hero Photo" 
+            className="absolute inset-0 w-full h-full object-cover object-top sepia z-0 pointer-events-none" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/15 to-black/65 z-0 pointer-events-none" />
+
+          <div className="bg-[#F5F5F5]/85 backdrop-blur-md border-4 border-[#303841] p-6 rounded-3xl w-full max-w-sm mx-auto space-y-3 shadow-2xl mb-4 relative z-10">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-600 mb-0.5">Pernikahan Dari</p>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#FF5722] font-serif leading-tight">
+              {nama_panggilan_pria || "Pria"} & {nama_panggilan_wanita || "Wanita"}
+            </h1>
+            {tanggal_acara && <p className="text-xs font-semibold text-[#76ABAE] uppercase tracking-widest">{tanggal_acara}</p>}
+          </div>
+        </section>
 
             {/* 2. SUMMARY / SALAM PEMBUKA */}
             <motion.section
@@ -452,9 +467,9 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
               variants={fadeInUp}
-              className="py-10 px-6 text-center space-y-3 bg-[#F4EAD4]"
+              className="py-10 px-6 text-center space-y-3 bg-[#F5F5F5]"
             >
-              <span className="text-xs font-bold uppercase tracking-widest text-[#8B263E]">Assalamu’alaikum Wr. Wb.</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-[#303841]">Assalamu’alaikum Wr. Wb.</span>
               <p className="text-xs md:text-sm text-stone-700 leading-relaxed max-w-sm mx-auto">
                 Maha Suci Allah SWT yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan memohon rahmat dan ridho-Nya, kami bermaksud menyelenggarakan syukuran pernikahan kami.
               </p>
@@ -470,12 +485,12 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 variants={popIn}
                 className="px-5 py-6"
               >
-                <div className="bg-[#EADCB9] p-6 rounded-3xl border-2 border-[#8B263E]/40 shadow-md text-center space-y-3 relative">
-                  <div className="w-10 h-1 bg-[#8B263E] mx-auto rounded-full" />
-                  <p className="font-serif italic text-sm md:text-base text-[#2C1E16] leading-relaxed">
+                <div className="bg-[#FFFFFF] p-6 rounded-3xl border-2 border-[#303841]/40 shadow-md text-center space-y-3 relative">
+                  <div className="w-10 h-1 bg-[#303841] mx-auto rounded-full" />
+                  <p className="font-serif italic text-sm md:text-base text-[#303841] leading-relaxed">
                     "{quote_text}"
                   </p>
-                  {quote_author && <p className="text-[11px] font-bold uppercase tracking-wider text-[#D9822B]">— {quote_author}</p>}
+                  {quote_author && <p className="text-[11px] font-bold uppercase tracking-wider text-[#76ABAE]">— {quote_author}</p>}
                 </div>
               </motion.section>
             )}
@@ -490,25 +505,25 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
               className="px-5 py-8 space-y-6"
             >
               <div className="text-center space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8B263E]">Mempelai Wanita & Pria</span>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2C1E16]">Pasangan Bahagia</h2>
+                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#303841]">Mempelai Wanita & Pria</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#303841]">Pasangan Bahagia</h2>
               </div>
 
               <div className="grid grid-cols-1 gap-6 max-w-sm mx-auto">
                 {/* Groom */}
                 {(nama_lengkap_pria || foto_pria) && (
-                  <motion.div variants={fadeInUp} className="bg-[#EADCB9] p-6 rounded-3xl border-2 border-[#8B263E]/30 text-center space-y-3 shadow-sm hover:shadow-md transition">
+                  <motion.div variants={fadeInUp} className="bg-[#FFFFFF] p-6 rounded-3xl border-2 border-[#303841]/30 text-center space-y-3 shadow-sm hover:shadow-md transition">
                     {foto_pria && (
-                      <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-[#8B263E] shadow-inner">
-                        <img src={foto_pria} alt={nama_lengkap_pria} className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" />
+                      <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-[#303841] shadow-inner">
+                        <img src={foto_pria} alt={nama_lengkap_pria} className="w-full h-full object-cover sepia hover:sepia-0 transition duration-500" />
                       </div>
                     )}
                     <div className="px-2">
-                      <h3 className="text-xl font-bold font-serif text-[#2C1E16] leading-tight">{nama_lengkap_pria || nama_panggilan_pria}</h3>
-                      {nama_panggilan_pria && <p className="text-xs font-semibold text-[#8B263E] uppercase tracking-wider mt-1">{nama_panggilan_pria}</p>}
+                      <h3 className="text-xl font-bold font-serif text-[#303841] leading-tight">{nama_lengkap_pria || nama_panggilan_pria}</h3>
+                      {nama_panggilan_pria && <p className="text-xs font-semibold text-[#FF5722] uppercase tracking-wider mt-1">{nama_panggilan_pria}</p>}
                     </div>
                     {(nama_ayah_pria || nama_ibu_pria) && (
-                      <div className="text-xs text-stone-600 space-y-0.5 border-t border-[#8B263E]/15 pt-3">
+                      <div className="text-xs text-stone-600 space-y-0.5 border-t border-[#303841]/15 pt-3">
                         <p className="font-medium text-[11px]">Putra dari Pasangan:</p>
                         {nama_ayah_pria && <p className="font-bold text-stone-800">{nama_ayah_pria}</p>}
                         {nama_ibu_pria && <p className="font-bold text-stone-800">& {nama_ibu_pria}</p>}
@@ -519,21 +534,21 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
 
                 {/* Bride */}
                 {(nama_lengkap_wanita || foto_wanita) && (
-                  <motion.div variants={fadeInUp} className="bg-[#EADCB9] p-6 rounded-3xl border-2 border-[#8B263E]/30 text-center space-y-3 shadow-sm hover:shadow-md transition">
+                  <motion.div variants={fadeInUp} className="bg-[#FFFFFF] p-6 rounded-3xl border-2 border-[#303841]/30 text-center space-y-3 shadow-sm hover:shadow-md transition">
                     {foto_wanita && (
-                      <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-[#8B263E] shadow-inner">
-                        <img src={foto_wanita} alt={nama_lengkap_wanita} className="w-full h-full object-cover grayscale hover:grayscale-0 transition duration-500" />
+                      <div className="w-32 h-32 mx-auto rounded-full overflow-hidden border-4 border-[#303841] shadow-inner">
+                        <img src={foto_wanita} alt={nama_lengkap_wanita} className="w-full h-full object-cover sepia hover:sepia-0 transition duration-500" />
                       </div>
                     )}
                     <div className="px-2">
-                      <h3 className="text-xl font-bold font-serif text-[#2C1E16] leading-tight">{nama_lengkap_wanita || nama_panggilan_wanita}</h3>
-                      {nama_panggilan_wanita && <p className="text-xs font-semibold text-[#8B263E] uppercase tracking-wider mt-1">{nama_panggilan_wanita}</p>}
+                      <h3 className="text-xl font-bold font-serif text-[#303841] leading-tight">{nama_lengkap_wanita || nama_panggilan_wanita}</h3>
+                      {nama_panggilan_wanita && <p className="text-xs font-semibold text-[#FF5722] uppercase tracking-wider mt-1">{nama_panggilan_wanita}</p>}
                     </div>
                     {(nama_ayah_wanita || nama_ibu_wanita) && (
-                      <div className="text-xs text-stone-600 space-y-0.5 border-t border-[#8B263E]/15 pt-3">
+                      <div className="text-xs text-stone-600 space-y-0.5 border-t border-[#303841]/15 pt-3">
                         <p className="font-medium text-[11px]">Putri dari Pasangan:</p>
-                        {nama_ayah_wanita && <p className="font-bold text-[#2C1E16]">{nama_ayah_wanita}</p>}
-                        {nama_ibu_wanita && <p className="font-bold text-[#2C1E16]">& {nama_ibu_wanita}</p>}
+                        {nama_ayah_wanita && <p className="font-bold text-[#303841]">{nama_ayah_wanita}</p>}
+                        {nama_ibu_wanita && <p className="font-bold text-[#303841]">& {nama_ibu_wanita}</p>}
                       </div>
                     )}
                   </motion.div>
@@ -552,13 +567,13 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 className="px-5 py-8 space-y-5"
               >
                 <div className="text-center space-y-1">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8B263E]">Galeri Kenangan</span>
-                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2C1E16]">Momen Bahagia Kami</h2>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#303841]">Galeri Kenangan</span>
+                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#303841]">Momen Bahagia Kami</h2>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   {defaultGallery.map((url, idx) => (
-                    <motion.div key={idx} variants={popIn} className="bg-[#EADCB9] p-2 rounded-2xl border border-[#8B263E]/30 shadow-sm overflow-hidden group">
+                    <motion.div key={idx} variants={popIn} className="bg-[#FFFFFF] p-2 rounded-2xl border border-[#303841]/30 shadow-sm overflow-hidden group">
                       <div className="aspect-square rounded-xl overflow-hidden">
                         <img 
                           src={url} 
@@ -583,8 +598,8 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 className="px-5 py-8 space-y-6"
               >
                 <div className="text-center space-y-1">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8B263E]">Kisah Cinta</span>
-                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2C1E16]">Perjalanan Kami</h2>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#303841]">Kisah Cinta</span>
+                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#303841]">Perjalanan Kami</h2>
                 </div>
 
                 <div className="space-y-6 max-w-sm mx-auto">
@@ -592,15 +607,15 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                     <motion.div key={idx} variants={fadeInUp} className="relative">
                       {/* Connecting Line between cards */}
                       {idx < defaultLoveStory.length - 1 && (
-                        <div className="absolute left-1/2 -bottom-6 w-0.5 h-6 border-l-2 border-dashed border-[#8B263E]/40 z-0 -translate-x-1/2" />
+                        <div className="absolute left-1/2 -bottom-6 w-0.5 h-6 border-l-2 border-dashed border-[#303841]/40 z-0 -translate-x-1/2" />
                       )}
 
-                      <div className="bg-[#EADCB9] p-5 rounded-3xl border-2 border-[#8B263E]/30 text-center space-y-2 shadow-sm relative z-10 hover:shadow-md transition">
-                        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#8B263E] text-white text-[11px] font-bold rounded-full uppercase tracking-wider shadow-sm">
+                      <div className="bg-[#FFFFFF] p-5 rounded-3xl border-2 border-[#303841]/30 text-center space-y-2 shadow-sm relative z-10 hover:shadow-md transition">
+                        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 bg-[#303841] text-white text-[11px] font-bold rounded-full uppercase tracking-wider shadow-sm">
                           <Heart className="w-3.5 h-3.5 fill-current flex-shrink-0" />
                           <span>{item.tanggal}</span>
                         </div>
-                        <h4 className="text-lg font-bold text-[#2C1E16] font-serif">{item.judul}</h4>
+                        <h4 className="text-lg font-bold text-[#303841] font-serif">{item.judul}</h4>
                         <p className="text-xs text-stone-700 leading-relaxed max-w-xs mx-auto">{item.deskripsi}</p>
                       </div>
                     </motion.div>
@@ -619,29 +634,29 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
               className="px-5 py-8 space-y-6"
             >
               <div className="text-center space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8B263E]">Rangkaian Acara</span>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2C1E16]">Waktu & Lokasi</h2>
+                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#303841]">Rangkaian Acara</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#303841]">Waktu & Lokasi</h2>
               </div>
 
               <div className="grid grid-cols-1 gap-6 max-w-sm mx-auto">
                 {/* Akad (Always shown if specified or preview) */}
                 {(acara_akad_nama || acara_akad_tanggal || acara_akad_lokasi) && (
-                  <motion.div variants={fadeInUp} className="bg-[#EADCB9] p-5 md:p-6 rounded-3xl border-2 border-[#8B263E]/40 space-y-4 shadow-sm text-center flex flex-col justify-between">
+                  <motion.div variants={fadeInUp} className="bg-[#FFFFFF] p-5 md:p-6 rounded-3xl border-2 border-[#303841]/40 space-y-4 shadow-sm text-center flex flex-col justify-between">
                     <div className="space-y-3">
-                      <div className="w-10 h-10 mx-auto rounded-full bg-[#8B263E] text-white flex items-center justify-center shadow-sm">
+                      <div className="w-10 h-10 mx-auto rounded-full bg-[#303841] text-white flex items-center justify-center shadow-sm">
                         <Calendar className="w-5 h-5 flex-shrink-0" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold font-serif text-[#2C1E16]">{acara_akad_nama || "Akad Nikah"}</h3>
-                        {acara_akad_tanggal && <p className="text-xs font-bold text-[#8B263E] mt-1">{acara_akad_tanggal}</p>}
+                        <h3 className="text-xl font-bold font-serif text-[#303841]">{acara_akad_nama || "Akad Nikah"}</h3>
+                        {acara_akad_tanggal && <p className="text-xs font-bold text-[#303841] mt-1">{acara_akad_tanggal}</p>}
                         {acara_akad_jam && <p className="text-xs text-stone-600 font-semibold mt-0.5">{acara_akad_jam}</p>}
                       </div>
-                      {acara_akad_lokasi && <p className="text-xs text-stone-700 leading-relaxed border-t border-b border-[#8B263E]/20 py-3">{acara_akad_lokasi}</p>}
+                      {acara_akad_lokasi && <p className="text-xs text-stone-700 leading-relaxed border-t border-b border-[#303841]/20 py-3">{acara_akad_lokasi}</p>}
                     </div>
 
                     {/* Embedded Interactive Google Map */}
                     {acara_akad_lokasi && (
-                      <div className="w-full h-44 rounded-2xl overflow-hidden border-2 border-[#8B263E]/30 shadow-inner my-2 bg-[#F4EAD4]">
+                      <div className="w-full h-44 rounded-2xl overflow-hidden border-2 border-[#303841]/30 shadow-inner my-2 bg-[#F5F5F5]">
                         <iframe
                           src={getGoogleMapsEmbedUrl(acara_akad_maps_url, acara_akad_lokasi)}
                           width="100%"
@@ -661,7 +676,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                         href={acara_akad_maps_url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-[#8B263E] text-[#F4EAD4] font-bold text-xs rounded-2xl hover:bg-[#6f1d30] transition uppercase tracking-wider shadow-sm"
+                        className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-[#303841] text-[#F5F5F5] font-bold text-xs rounded-2xl hover:bg-[#222831] transition uppercase tracking-wider shadow-sm"
                       >
                         <MapPin className="w-4 h-4 flex-shrink-0" />
                         <span>Buka di Google Maps</span>
@@ -672,22 +687,22 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
 
                 {/* Resepsi (OPTIONAL) */}
                 {(acara_resepsi_nama || acara_resepsi_tanggal || acara_resepsi_lokasi) && (
-                  <motion.div variants={fadeInUp} className="bg-[#EADCB9] p-5 md:p-6 rounded-3xl border-2 border-[#8B263E]/40 space-y-4 shadow-sm text-center flex flex-col justify-between">
+                  <motion.div variants={fadeInUp} className="bg-[#FFFFFF] p-5 md:p-6 rounded-3xl border-2 border-[#303841]/40 space-y-4 shadow-sm text-center flex flex-col justify-between">
                     <div className="space-y-3">
-                      <div className="w-10 h-10 mx-auto rounded-full bg-[#8B263E] text-white flex items-center justify-center shadow-sm">
+                      <div className="w-10 h-10 mx-auto rounded-full bg-[#303841] text-white flex items-center justify-center shadow-sm">
                         <Heart className="w-5 h-5 flex-shrink-0" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-bold font-serif text-[#2C1E16]">{acara_resepsi_nama || "Resepsi Nikah"}</h3>
-                        {acara_resepsi_tanggal && <p className="text-xs font-bold text-[#8B263E] mt-1">{acara_resepsi_tanggal}</p>}
+                        <h3 className="text-xl font-bold font-serif text-[#303841]">{acara_resepsi_nama || "Resepsi Nikah"}</h3>
+                        {acara_resepsi_tanggal && <p className="text-xs font-bold text-[#303841] mt-1">{acara_resepsi_tanggal}</p>}
                         {acara_resepsi_jam && <p className="text-xs text-stone-600 font-semibold mt-0.5">{acara_resepsi_jam}</p>}
                       </div>
-                      {acara_resepsi_lokasi && <p className="text-xs text-stone-700 leading-relaxed border-t border-b border-[#8B263E]/20 py-3">{acara_resepsi_lokasi}</p>}
+                      {acara_resepsi_lokasi && <p className="text-xs text-stone-700 leading-relaxed border-t border-b border-[#303841]/20 py-3">{acara_resepsi_lokasi}</p>}
                     </div>
 
                     {/* Embedded Interactive Google Map */}
                     {acara_resepsi_lokasi && (
-                      <div className="w-full h-44 rounded-2xl overflow-hidden border-2 border-[#8B263E]/30 shadow-inner my-2 bg-[#F4EAD4]">
+                      <div className="w-full h-44 rounded-2xl overflow-hidden border-2 border-[#303841]/30 shadow-inner my-2 bg-[#F5F5F5]">
                         <iframe
                           src={getGoogleMapsEmbedUrl(acara_resepsi_maps_url, acara_resepsi_lokasi)}
                           width="100%"
@@ -707,7 +722,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                         href={acara_resepsi_maps_url} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-[#8B263E] text-[#F4EAD4] font-bold text-xs rounded-2xl hover:bg-[#6f1d30] transition uppercase tracking-wider shadow-sm"
+                        className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-[#303841] text-[#F5F5F5] font-bold text-xs rounded-2xl hover:bg-[#222831] transition uppercase tracking-wider shadow-sm"
                       >
                         <MapPin className="w-4 h-4 flex-shrink-0" />
                         <span>Buka di Google Maps</span>
@@ -728,23 +743,23 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 variants={popIn}
                 className="px-5 py-6"
               >
-                <div className="bg-[#EADCB9] p-6 rounded-3xl border-2 border-[#8B263E]/40 shadow-md text-center space-y-5">
-                  <h3 className="text-xl font-bold font-serif text-[#8B263E]">Hitung Mundur Waktu Bahagia</h3>
+                <div className="bg-[#FFFFFF] p-6 rounded-3xl border-2 border-[#303841]/40 shadow-md text-center space-y-5">
+                  <h3 className="text-xl font-bold font-serif text-[#303841]">Hitung Mundur Waktu Bahagia</h3>
                   <div className="grid grid-cols-4 gap-2 text-center">
-                    <div className="bg-[#F4EAD4] p-2.5 rounded-2xl border border-[#8B263E]/20 shadow-sm">
-                      <span className="block text-xl md:text-2xl font-bold text-[#8B263E]">{timeLeft.days}</span>
+                    <div className="bg-[#F5F5F5] p-2.5 rounded-2xl border border-[#303841]/20 shadow-sm">
+                      <span className="block text-xl md:text-2xl font-bold text-[#303841]">{timeLeft.days}</span>
                       <span className="text-[9px] uppercase font-bold text-stone-600">Hari</span>
                     </div>
-                    <div className="bg-[#F4EAD4] p-2.5 rounded-2xl border border-[#8B263E]/20 shadow-sm">
-                      <span className="block text-xl md:text-2xl font-bold text-[#8B263E]">{timeLeft.hours}</span>
+                    <div className="bg-[#F5F5F5] p-2.5 rounded-2xl border border-[#303841]/20 shadow-sm">
+                      <span className="block text-xl md:text-2xl font-bold text-[#303841]">{timeLeft.hours}</span>
                       <span className="text-[9px] uppercase font-bold text-stone-600">Jam</span>
                     </div>
-                    <div className="bg-[#F4EAD4] p-2.5 rounded-2xl border border-[#8B263E]/20 shadow-sm">
-                      <span className="block text-xl md:text-2xl font-bold text-[#8B263E]">{timeLeft.minutes}</span>
+                    <div className="bg-[#F5F5F5] p-2.5 rounded-2xl border border-[#303841]/20 shadow-sm">
+                      <span className="block text-xl md:text-2xl font-bold text-[#303841]">{timeLeft.minutes}</span>
                       <span className="text-[9px] uppercase font-bold text-stone-600">Menit</span>
                     </div>
-                    <div className="bg-[#F4EAD4] p-2.5 rounded-2xl border border-[#8B263E]/20 shadow-sm">
-                      <span className="block text-xl md:text-2xl font-bold text-[#8B263E]">{timeLeft.seconds}</span>
+                    <div className="bg-[#F5F5F5] p-2.5 rounded-2xl border border-[#303841]/20 shadow-sm">
+                      <span className="block text-xl md:text-2xl font-bold text-[#303841]">{timeLeft.seconds}</span>
                       <span className="text-[9px] uppercase font-bold text-stone-600">Detik</span>
                     </div>
                   </div>
@@ -762,9 +777,9 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 variants={fadeInUp}
                 className="px-5 py-6"
               >
-                <div className="bg-[#EADCB9] p-6 rounded-3xl border-2 border-[#8B263E]/30 text-center space-y-3 shadow-sm">
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#8B263E]">Siaran Virtual</span>
-                  <h3 className="text-xl font-serif font-bold text-[#2C1E16]">Live Streaming</h3>
+                <div className="bg-[#FFFFFF] p-6 rounded-3xl border-2 border-[#303841]/30 text-center space-y-3 shadow-sm">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#303841]">Siaran Virtual</span>
+                  <h3 className="text-xl font-serif font-bold text-[#303841]">Live Streaming</h3>
                   <div className="flex flex-col gap-2 pt-1">
                     {live_youtube_url && (
                       <a href={live_youtube_url} target="_blank" rel="noreferrer" className="w-full py-2.5 bg-red-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 hover:bg-red-700 transition">
@@ -796,14 +811,14 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 variants={fadeInUp}
                 className="px-5 py-6"
               >
-                <div className="bg-[#EADCB9] p-6 rounded-3xl border-2 border-[#8B263E]/30 text-center space-y-3 shadow-sm">
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#8B263E]">Panduan Busana</span>
-                  <h3 className="text-xl font-serif font-bold text-[#2C1E16]">Dress Code Tamu</h3>
+                <div className="bg-[#FFFFFF] p-6 rounded-3xl border-2 border-[#303841]/30 text-center space-y-3 shadow-sm">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-[#303841]">Panduan Busana</span>
+                  <h3 className="text-xl font-serif font-bold text-[#303841]">Dress Code Tamu</h3>
                   {dresscode_desc && <p className="text-xs text-stone-700 leading-relaxed">{dresscode_desc}</p>}
                   {dresscode_warna && dresscode_warna.length > 0 && (
                     <div className="flex items-center justify-center gap-3 pt-1">
                       {dresscode_warna.map((color, idx) => (
-                        <div key={idx} className="w-7 h-7 rounded-full border-2 border-[#8B263E]/40 shadow-sm" style={{ backgroundColor: color }} />
+                        <div key={idx} className="w-7 h-7 rounded-full border-2 border-[#303841]/40 shadow-sm" style={{ backgroundColor: color }} />
                       ))}
                     </div>
                   )}
@@ -822,23 +837,23 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 className="px-5 py-8 space-y-6"
               >
                 <div className="text-center space-y-1">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8B263E]">Tanda Kasih</span>
-                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2C1E16]">Amplop Digital</h2>
+                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#303841]">Tanda Kasih</span>
+                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#303841]">Amplop Digital</h2>
                   <p className="text-xs text-stone-600 max-w-xs mx-auto">Doa restu Anda merupakan karunia yang paling berharga bagi kami. Bagi yang ingin memberikan tanda kasih:</p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 max-w-sm mx-auto">
                   {/* Rekening Pria */}
                   {defaultRekeningPria.map((item, idx) => (
-                    <motion.div key={`pria-${idx}`} variants={fadeInUp} className="bg-[#EADCB9] p-6 rounded-3xl border border-[#8B263E]/30 text-center space-y-2 shadow-sm">
-                      <span className="text-[10px] uppercase font-bold text-[#D9822B] tracking-wider block">Rekening Mempelai Pria</span>
-                      <p className="text-lg font-bold text-[#8B263E] font-serif">{item.bank}</p>
-                      <p className="text-xl font-mono font-bold text-[#2C1E16] tracking-wider my-1">{item.nomor}</p>
+                    <motion.div key={`pria-${idx}`} variants={fadeInUp} className="bg-[#FFFFFF] p-6 rounded-3xl border border-[#303841]/30 text-center space-y-2 shadow-sm">
+                      <span className="text-[10px] uppercase font-bold text-[#76ABAE] tracking-wider block">Rekening Mempelai Pria</span>
+                      <p className="text-lg font-bold text-[#303841] font-serif">{item.bank}</p>
+                      <p className="text-xl font-mono font-bold text-[#303841] tracking-wider my-1">{item.nomor}</p>
                       {item.atas_nama && <p className="text-xs text-stone-600 font-medium">a.n. {item.atas_nama}</p>}
                       {item.nomor && (
                         <button 
                           onClick={() => handleCopyRekening(item.nomor, `pria-${idx}`)}
-                          className="w-full py-3 px-4 bg-[#8B263E] text-[#F4EAD4] font-bold text-xs rounded-2xl flex items-center justify-center gap-2 hover:bg-[#6f1d30] transition uppercase tracking-wider shadow-sm cursor-pointer"
+                          className="w-full py-3 px-4 bg-[#303841] text-[#F5F5F5] font-bold text-xs rounded-2xl flex items-center justify-center gap-2 hover:bg-[#222831] transition uppercase tracking-wider shadow-sm cursor-pointer"
                         >
                           {copiedIndex === `pria-${idx}` ? (
                             <CheckCircle className="w-4 h-4 flex-shrink-0" />
@@ -853,15 +868,15 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
 
                   {/* Rekening Wanita */}
                   {defaultRekeningWanita.map((item, idx) => (
-                    <motion.div key={`wanita-${idx}`} variants={fadeInUp} className="bg-[#EADCB9] p-6 rounded-3xl border border-[#8B263E]/30 text-center space-y-2 shadow-sm">
-                      <span className="text-[10px] uppercase font-bold text-[#D9822B] tracking-wider block">Rekening Mempelai Wanita</span>
-                      <p className="text-lg font-bold text-[#8B263E] font-serif">{item.bank}</p>
-                      <p className="text-xl font-mono font-bold text-[#2C1E16] tracking-wider my-1">{item.nomor}</p>
+                    <motion.div key={`wanita-${idx}`} variants={fadeInUp} className="bg-[#FFFFFF] p-6 rounded-3xl border border-[#303841]/30 text-center space-y-2 shadow-sm">
+                      <span className="text-[10px] uppercase font-bold text-[#76ABAE] tracking-wider block">Rekening Mempelai Wanita</span>
+                      <p className="text-lg font-bold text-[#303841] font-serif">{item.bank}</p>
+                      <p className="text-xl font-mono font-bold text-[#303841] tracking-wider my-1">{item.nomor}</p>
                       {item.atas_nama && <p className="text-xs text-stone-600 font-medium">a.n. {item.atas_nama}</p>}
                       {item.nomor && (
                         <button 
                           onClick={() => handleCopyRekening(item.nomor, `wanita-${idx}`)}
-                          className="w-full py-3 px-4 bg-[#8B263E] text-[#F4EAD4] font-bold text-xs rounded-xl flex items-center justify-center gap-2 hover:bg-[#6f1d30] transition uppercase tracking-wider shadow-sm cursor-pointer"
+                          className="w-full py-3 px-4 bg-[#303841] text-[#F5F5F5] font-bold text-xs rounded-xl flex items-center justify-center gap-2 hover:bg-[#222831] transition uppercase tracking-wider shadow-sm cursor-pointer"
                         >
                           {copiedIndex === `wanita-${idx}` ? (
                             <CheckCircle className="w-4 h-4 flex-shrink-0" />
@@ -887,22 +902,22 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
               className="px-5 py-8 space-y-6"
             >
               <div className="text-center space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#8B263E]">Konfirmasi & Ucapan</span>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#2C1E16]">RSVP & Buku Tamu</h2>
+                <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#303841]">Konfirmasi & Ucapan</span>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold text-[#303841]">RSVP & Buku Tamu</h2>
               </div>
 
-              <div className="bg-[#EADCB9] p-6 rounded-3xl border-2 border-[#8B263E]/40 space-y-5 shadow-md">
+              <div className="bg-[#FFFFFF] p-6 rounded-3xl border-2 border-[#303841]/40 space-y-5 shadow-md">
                 {rsvpSubmitted ? (
                   <div className="text-center py-6 space-y-2">
-                    <CheckCircle className="w-12 h-12 text-[#8B263E] mx-auto" />
-                    <h4 className="text-lg font-bold text-[#2C1E16] font-serif">Terima Kasih!</h4>
+                    <CheckCircle className="w-12 h-12 text-[#303841] mx-auto" />
+                    <h4 className="text-lg font-bold text-[#303841] font-serif">Terima Kasih!</h4>
                     <p className="text-xs text-stone-700">Konfirmasi kehadiran & ucapan Anda telah tersimpan.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleRsvpSubmit} className="space-y-4">
                     <div>
-                      <label htmlFor="rsvp_nama" className="block text-xs font-bold text-[#2C1E16] mb-1.5 flex items-center gap-1.5 cursor-pointer">
-                        <UserCheck className="w-3.5 h-3.5 text-[#8B263E]" /> <span>Nama Lengkap</span>
+                      <label htmlFor="rsvp_nama" className="block text-xs font-bold text-[#303841] mb-1.5 flex items-center gap-1.5 cursor-pointer">
+                        <UserCheck className="w-3.5 h-3.5 text-[#303841]" /> <span>Nama Lengkap</span>
                       </label>
                       <input 
                         id="rsvp_nama"
@@ -911,20 +926,20 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                         onChange={(e) => setRsvpForm(prev => ({ ...prev, nama: e.target.value }))}
                         required 
                         placeholder="Masukkan nama lengkap Anda..."
-                        className="w-full px-4 py-3 bg-[#F4EAD4] rounded-2xl border-2 border-[#8B263E]/30 text-xs text-[#2C1E16] font-medium focus:outline-none focus:border-[#8B263E] focus:ring-2 focus:ring-[#8B263E]/20 transition placeholder:text-stone-500"
+                        className="w-full px-4 py-3 bg-[#F5F5F5] rounded-2xl border-2 border-[#303841]/30 text-xs text-[#303841] font-medium focus:outline-none focus:border-[#303841] focus:ring-2 focus:ring-[#303841]/20 transition placeholder:text-stone-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-[#2C1E16] mb-1.5">Konfirmasi Kehadiran</label>
+                      <label className="block text-xs font-bold text-[#303841] mb-1.5">Konfirmasi Kehadiran</label>
                       <div className="grid grid-cols-2 gap-3">
                         <button
                           type="button"
                           onClick={() => setRsvpForm(prev => ({ ...prev, kehadiran: 'hadir' }))}
                           className={`py-3 px-4 rounded-2xl border-2 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
                             rsvpForm.kehadiran === 'hadir'
-                              ? 'bg-[#8B263E] text-white border-[#8B263E] shadow-md'
-                              : 'bg-[#F4EAD4] text-stone-700 border-[#8B263E]/30 hover:border-[#8B263E]/60'
+                              ? 'bg-[#303841] text-white border-[#303841] shadow-md'
+                              : 'bg-[#F5F5F5] text-stone-700 border-[#303841]/30 hover:border-[#303841]/60'
                           }`}
                         >
                           <CheckCircle className="w-4 h-4 flex-shrink-0" />
@@ -935,8 +950,8 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                           onClick={() => setRsvpForm(prev => ({ ...prev, kehadiran: 'tidak_hadir' }))}
                           className={`py-3 px-4 rounded-2xl border-2 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
                             rsvpForm.kehadiran === 'tidak_hadir'
-                              ? 'bg-[#8B263E] text-white border-[#8B263E] shadow-md'
-                              : 'bg-[#F4EAD4] text-stone-700 border-[#8B263E]/30 hover:border-[#8B263E]/60'
+                              ? 'bg-[#303841] text-white border-[#303841] shadow-md'
+                              : 'bg-[#F5F5F5] text-stone-700 border-[#303841]/30 hover:border-[#303841]/60'
                           }`}
                         >
                           <span>Maaf, Tidak Hadir</span>
@@ -946,8 +961,8 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
 
                     {rsvpForm.kehadiran === 'hadir' && (
                       <div>
-                        <label className="block text-xs font-bold text-[#2C1E16] mb-1.5 flex items-center gap-1.5">
-                          <Users className="w-3.5 h-3.5 text-[#8B263E]" /> <span>Jumlah Tamu Yang Hadir</span>
+                        <label className="block text-xs font-bold text-[#303841] mb-1.5 flex items-center gap-1.5">
+                          <Users className="w-3.5 h-3.5 text-[#303841]" /> <span>Jumlah Tamu Yang Hadir</span>
                         </label>
                         <div className="grid grid-cols-3 gap-2">
                           {['1', '2', '3'].map((count) => (
@@ -957,8 +972,8 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                               onClick={() => setRsvpForm(prev => ({ ...prev, jumlah_tamu: count }))}
                               className={`py-2.5 px-3 rounded-xl border-2 font-bold text-xs transition cursor-pointer text-center ${
                                 rsvpForm.jumlah_tamu === count
-                                  ? 'bg-[#8B263E] text-white border-[#8B263E] shadow-sm'
-                                  : 'bg-[#F4EAD4] text-[#2C1E16] border-[#8B263E]/20 hover:border-[#8B263E]/50'
+                                  ? 'bg-[#303841] text-white border-[#303841] shadow-sm'
+                                  : 'bg-[#F5F5F5] text-[#303841] border-[#303841]/20 hover:border-[#303841]/50'
                               }`}
                             >
                               {count} Orang
@@ -969,8 +984,8 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                     )}
 
                     <div>
-                      <label htmlFor="rsvp_pesan" className="block text-xs font-bold text-[#2C1E16] mb-1.5 flex items-center gap-1.5 cursor-pointer">
-                        <MessageSquare className="w-3.5 h-3.5 text-[#8B263E]" /> <span>Ucapan & Doa Restu</span>
+                      <label htmlFor="rsvp_pesan" className="block text-xs font-bold text-[#303841] mb-1.5 flex items-center gap-1.5 cursor-pointer">
+                        <MessageSquare className="w-3.5 h-3.5 text-[#303841]" /> <span>Ucapan & Doa Restu</span>
                       </label>
                       <textarea 
                         id="rsvp_pesan"
@@ -979,14 +994,14 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                         onChange={(e) => setRsvpForm(prev => ({ ...prev, pesan: e.target.value }))}
                         required 
                         placeholder="Tuliskan pesan, ucapan selamat & doa untuk kedua mempelai..."
-                        className="w-full px-4 py-3 bg-[#F4EAD4] rounded-2xl border-2 border-[#8B263E]/30 text-xs text-[#2C1E16] font-medium focus:outline-none focus:border-[#8B263E] focus:ring-2 focus:ring-[#8B263E]/20 transition placeholder:text-stone-500 resize-none"
+                        className="w-full px-4 py-3 bg-[#F5F5F5] rounded-2xl border-2 border-[#303841]/30 text-xs text-[#303841] font-medium focus:outline-none focus:border-[#303841] focus:ring-2 focus:ring-[#303841]/20 transition placeholder:text-stone-500 resize-none"
                       />
                     </div>
 
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="w-full py-3.5 bg-[#8B263E] hover:bg-[#6f1d30] active:bg-[#541624] text-white text-xs font-bold rounded-2xl flex items-center justify-center gap-2 transition uppercase tracking-wider shadow-lg transform active:scale-95 cursor-pointer"
+                      className="w-full py-3.5 bg-[#303841] hover:bg-[#222831] active:bg-[#1A2027] text-white text-xs font-bold rounded-2xl flex items-center justify-center gap-2 transition uppercase tracking-wider shadow-lg transform active:scale-95 cursor-pointer"
                     >
                       <Send className="w-4 h-4 flex-shrink-0" /> <span>{isSubmitting ? "Mengirim..." : "Kirim RSVP & Ucapan"}</span>
                     </button>
@@ -994,15 +1009,15 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 )}
 
                 {allWishes && allWishes.length > 0 && (
-                  <div className="border-t-2 border-dashed border-[#8B263E]/20 pt-5 space-y-3">
-                    <h4 className="text-xs font-bold text-[#2C1E16] font-serif uppercase tracking-wider text-center flex items-center justify-center gap-1.5">
-                      <Heart className="w-3.5 h-3.5 text-[#8B263E] fill-current" />
+                  <div className="border-t-2 border-dashed border-[#303841]/20 pt-5 space-y-3">
+                    <h4 className="text-xs font-bold text-[#303841] font-serif uppercase tracking-wider text-center flex items-center justify-center gap-1.5">
+                      <Heart className="w-3.5 h-3.5 text-[#303841] fill-current" />
                       <span>Ucapan Dari Sahabat & Kerabat</span>
                     </h4>
                     <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
                       {allWishes.map((item, idx) => (
-                        <div key={idx} className="bg-[#F4EAD4] p-3.5 rounded-2xl border border-[#8B263E]/20 text-xs space-y-1 shadow-sm">
-                          <p className="font-bold text-[#8B263E]">{item.nama}</p>
+                        <div key={idx} className="bg-[#F5F5F5] p-3.5 rounded-2xl border border-[#303841]/20 text-xs space-y-1 shadow-sm">
+                          <p className="font-bold text-[#303841]">{item.nama}</p>
                           <p className="text-stone-700 leading-relaxed italic">"{item.pesan}"</p>
                         </div>
                       ))}
@@ -1020,14 +1035,14 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
                 whileInView="visible"
                 viewport={{ once: true, margin: "-50px" }}
                 variants={fadeInUp}
-                className="py-14 px-6 text-center space-y-4 bg-[#F4EAD4] border-t-2 border-[#8B263E]/30"
+                className="py-14 px-6 text-center space-y-4 bg-[#F5F5F5] border-t-2 border-[#303841]/30"
               >
                 <p className="text-xs text-stone-700 leading-relaxed max-w-xs mx-auto italic">
                   "{ucapan_terima_kasih}"
                 </p>
                 <div className="pt-3">
-                  <span className="text-xs uppercase tracking-widest text-[#D9822B] font-bold block mb-1">Salam Hangat Dari Kami</span>
-                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#8B263E]">
+                  <span className="text-xs uppercase tracking-widest text-[#76ABAE] font-bold block mb-1">Salam Hangat Dari Kami</span>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-[#FF5722]">
                     {nama_panggilan_pria || "Pria"} & {nama_panggilan_wanita || "Wanita"}
                   </h3>
                 </div>
