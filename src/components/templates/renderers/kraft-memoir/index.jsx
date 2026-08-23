@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Music, VolumeX, MapPin, Calendar, Copy, Check, Send, Instagram, Play } from 'lucide-react';
+import { Music, VolumeX, MapPin, Calendar, Copy, Check, Send, Play } from 'lucide-react';
+import { FaInstagram as Instagram } from 'react-icons/fa6';
 import { useSearchParams } from 'next/navigation';
 
 export default function KraftMemoirTemplate({ data = {}, isPreview = false, isBuilder = false }) {
