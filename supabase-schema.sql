@@ -73,13 +73,13 @@ ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Templates are viewable by everyone" ON public.templates
     FOR SELECT USING (is_active = true);
 
--- 2. orders: Anyone can read their own order via slug or magic_token
+-- 2. orders: Anyone can read/insert/update their orders
 CREATE POLICY "Orders are viewable by everyone" ON public.orders
-    FOR SELECT USING (true);
+    FOR SELECT TO public USING (true);
 CREATE POLICY "Public can insert orders" ON public.orders
-    FOR INSERT WITH CHECK (true);
+    FOR INSERT TO public WITH CHECK (true);
 CREATE POLICY "Public can update orders" ON public.orders
-    FOR UPDATE USING (true);
+    FOR UPDATE TO public USING (true);
 
 -- 4. rsvp_responses: Anyone can insert their RSVP (API/Client), anyone can view
 CREATE POLICY "Anyone can insert RSVP" ON public.rsvp_responses

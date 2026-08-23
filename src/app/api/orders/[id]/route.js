@@ -112,7 +112,6 @@ export async function GET(request, { params }) {
     return NextResponse.json({ 
       id: order.id, 
       status: currentStatus,
-      magic_token: currentMagicToken,
       slug: currentSlug
     });
     

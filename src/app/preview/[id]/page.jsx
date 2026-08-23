@@ -12,6 +12,7 @@ import CelestialJourneyTemplate from "@/components/templates/renderers/celestial
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
 import RetroVintageTemplate from "@/components/templates/renderers/retro-vintage";
+import KraftMemoirTemplate from "@/components/templates/renderers/kraft-memoir";
 
 export default function PreviewPage({ params }) {
   const resolvedParams = use(params);
@@ -25,6 +26,7 @@ export default function PreviewPage({ params }) {
   const isKisahtanggalku = id === "99999999-9999-9999-9999-999999999999";
   const isSunnySlab = id === "123e4567-e89b-12d3-a456-426614174000" || id === "sunny-slab";
   const isRetroVintage = id === "c084ae16-0b36-4ca7-a075-533d89a2f07c" || id === "retro-vintage" || id === "77777777-7777-7777-7777-777777777777";
+  const isKraftMemoir = id === "kraft-memoir" || id === "88888888-8888-8888-8888-888888888888";
 
   let previewData = {};
 
@@ -120,6 +122,61 @@ export default function PreviewPage({ params }) {
       dresscode_warna: ["#F5F5F5", "#76ABAE", "#303841", "#FF5722"],
       dresscode_desc: "Disarankan mengenakan pakaian bernuansa Retro / Earthy Tone.",
       ucapan_terima_kasih: "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu."
+    };
+  } else if (isKraftMemoir) {
+    previewData = {
+      nama_panggilan_pria: "Rangga",
+      nama_panggilan_wanita: "Salsabila",
+      nama_lengkap_pria: "Rangga Pratama",
+      nama_lengkap_wanita: "Salsabila Putri",
+      nama_ayah_pria: "Bpk. Bambang Hermawan",
+      nama_ibu_pria: "Ibu Sri Wahyuni",
+      nama_ayah_wanita: "Bpk. Hendra Gunawan",
+      nama_ibu_wanita: "Ibu Ratna Dewi",
+      instagram_pria: "ranggapratama",
+      instagram_wanita: "salsabilaputri",
+      foto_urls: [
+        "/templates/kraft-memoir/photos/loveisall.film_1784906406087.jpeg",
+        "/templates/kraft-memoir/photos/groom.jpg",
+        "/templates/kraft-memoir/photos/bride.jpg",
+        "/templates/kraft-memoir/photos/cover.jpg"
+      ],
+      foto_cover: "/templates/kraft-memoir/photos/loveisall.film_1784906406087.jpeg",
+      foto_pria: "/templates/kraft-memoir/photos/groom.jpg",
+      foto_wanita: "/templates/kraft-memoir/photos/bride.jpg",
+      tanggal_acara: "2027-11-27",
+      quote_text: "Dan di antara tanda-tanda \nkekuasaan-Nya ialah Dia\nmenciptakan untukmu pasangan\nhidup dari jenismu sendiri,\nsupaya kamu merasa tenteram\nkepadanya, dan dijadikan-Nya di\nantaramu rasa kasih dan sayang.",
+      quote_author: "— QS. Ar-Rum: 21",
+      acara_akad_nama: "Akad Nikah",
+      acara_akad_tanggal_format: "Sabtu, 27 November 2027",
+      acara_akad_jam: "08.00 - 10.00 WIB",
+      acara_akad_lokasi: "Masjid Raya Al-Jabbar",
+      acara_akad_alamat: "Jl. Cimincrang No.14, Gedebage, Kec. Gedebage, Kota Bandung, Jawa Barat 40294",
+      acara_akad_maps_url: "https://maps.google.com/?q=Masjid+Raya+Al+Jabbar+Bandung",
+      acara_resepsi_nama: "Resepsi",
+      acara_resepsi_tanggal_format: "Sabtu, 27 November 2027",
+      acara_resepsi_jam: "11.00 - 14.00 WIB",
+      acara_resepsi_lokasi: "Grand Ballroom Al-Jabbar",
+      acara_resepsi_alamat: "Jl. Cimincrang No.14, Gedebage, Kec. Gedebage, Kota Bandung, Jawa Barat 40294",
+      acara_resepsi_maps_url: "https://maps.google.com/?q=Masjid+Raya+Al+Jabbar+Bandung",
+      love_story: [
+        { tanggal: "2021", judul: "First Met", deskripsi: "Pertama kali kami saling menyapa dan bertukar cerita di sebuah kedai kopi kecil di Bandung. Percakapan sederhana yang perlahan menjadi awal rasa nyaman." },
+        { tanggal: "2023", judul: "In A Relationship", deskripsi: "Setelah melewati banyak hari bersama dan saling memahami, kami memutuskan untuk melangkah bersama mengikat komitmen cinta." },
+        { tanggal: "2027", judul: "The Proposal", deskripsi: "Di bawah langit sore yang hangat, sebuah cincin tersemat dan jawaban \"Yes, I will\" menjadi awal janji suci kami menuju pelaminan." }
+      ],
+      dresscode_warna: [
+        { name: "Terra", hex: "#8B4513" },
+        { name: "Olive", hex: "#6B705C" },
+        { name: "Beige", hex: "#DDBEA9" },
+        { name: "Kraft", hex: "#CFA86C" }
+      ],
+      dresscode_badge: "Batik / Formal / Earth Tone Attire",
+      dresscode_desc: "\"Your presence with our color palette will make our day even more memorable.\"",
+      bank_accounts: [
+        { bank: "BANK BCA", number: "1234 5678 90", cleanNumber: "1234567890", name: "a.n Rangga Pratama" },
+        { bank: "BANK MANDIRI", number: "9876 5432 1098", cleanNumber: "987654321098", name: "a.n Salsabila Putri" }
+      ],
+      alamat_kado: "Jl. Cimincrang No. 14, Gedebage, Kota Bandung, Jawa Barat 40294 (Up: Rangga & Salsa)"
     };
   } else {
     // Default dummy data for older templates
@@ -264,6 +321,8 @@ export default function PreviewPage({ params }) {
               <SunnySlabTemplate data={previewData} isPreview={true} />
             ) : isRetroVintage ? (
               <RetroVintageTemplate data={previewData} isPreview={true} />
+            ) : isKraftMemoir ? (
+              <KraftMemoirTemplate data={previewData} isPreview={true} />
             ) : isMagicalLanterns ? (
               <MagicalLanternsTemplate data={previewData} isPreview={true} />
             ) : (

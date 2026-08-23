@@ -9,6 +9,7 @@ import CelestialJourneyTemplate from "@/components/templates/renderers/celestial
 import KisahtanggalkuTemplate from "@/components/templates/renderers/kisahtanggalku";
 import SunnySlabTemplate from "@/components/templates/renderers/sunny-slab";
 import RetroVintageTemplate from "@/components/templates/renderers/retro-vintage";
+import KraftMemoirTemplate from "@/components/templates/renderers/kraft-memoir";
 import { Loader2 } from "lucide-react";
 
 export default function LiveInvitationPage({ params }) {
@@ -54,7 +55,7 @@ export default function LiveInvitationPage({ params }) {
     );
   }
 
-  const { data_content, templates, id, rsvps } = data;
+  const { data_content, templates, rsvps } = data;
   const isMagicalLanterns = templates?.id === "b61395f5-c1ad-486f-add9-cac4bb13d314" || templates?.nama === "Magical Lanterns" || templates?.nama === "Cosmic Hearts" || templates?.slug === "cosmic-hearts";
   const isIvoryLine = templates?.id === "8fd87cbb-3273-442b-b9cd-de875f3415ad";
   const isMemoryLane = templates?.id === "45f4eb4d-ddab-410d-9104-401e2147f24e" || templates?.nama === "Memory Lane";
@@ -64,8 +65,9 @@ export default function LiveInvitationPage({ params }) {
   const isKisahtanggalku = templates?.nama === "Kisahtanggalku" || templates?.nama === "Vintage Chronicle";
   const isSunnySlab = templates?.nama === "Sunny Slab" || templates?.slug === "sunny-slab";
   const isRetroVintage = templates?.id === "c084ae16-0b36-4ca7-a075-533d89a2f07c" || templates?.nama === "Retro Vintage Romance" || templates?.slug === "retro-vintage";
+  const isKraftMemoir = templates?.id === "88888888-8888-8888-8888-888888888888" || templates?.nama === "Kraft Memoir" || templates?.slug === "kraft-memoir";
 
-  let templateData = { id: id, rsvps: rsvps || [] };
+  let templateData = { slug: slug, rsvps: rsvps || [] };
   if (isMagicalLanterns) {
     templateData = {
       ...templateData,
@@ -116,6 +118,8 @@ export default function LiveInvitationPage({ params }) {
           <SunnySlabTemplate data={templateData} isPreview={false} />
         ) : isRetroVintage ? (
           <RetroVintageTemplate data={templateData} isPreview={false} />
+        ) : isKraftMemoir ? (
+          <KraftMemoirTemplate data={templateData} isPreview={false} />
         ) : isMagicalLanterns ? (
           <MagicalLanternsTemplate data={templateData} isPreview={false} />
         ) : (

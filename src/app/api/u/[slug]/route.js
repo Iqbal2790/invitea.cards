@@ -13,10 +13,16 @@ export async function GET(request, { params }) {
     const { data: orderData, error } = await supabaseAdmin
       .from("orders")
       .select(`
-        *,
+        id,
+        slug,
+        data_content,
+        foto_urls,
+        created_at,
+        expired_at,
         templates(
           id,
           nama,
+          slug,
           kategori
         )
       `)
@@ -31,7 +37,7 @@ export async function GET(request, { params }) {
     // Fetch RSVPs
     const { data: rsvps, error: rsvpError } = await supabaseAdmin
       .from("rsvp_responses")
-      .select("*")
+      .select("id, nama_tamu, status_kehadiran, jumlah_tamu, pesan, created_at")
       .eq("order_id", orderData.id)
       .order("created_at", { ascending: false });
 
@@ -39,10 +45,13 @@ export async function GET(request, { params }) {
       console.error("Error fetching rsvps:", rsvpError);
     }
 
+    // Strip internal order UUID before returning response to client
+    const { id: _orderId, ...publicOrderData } = orderData;
+
     return NextResponse.json({
       success: true,
       data: {
-        ...orderData,
+        ...publicOrderData,
         rsvps: rsvps || []
       }
     });

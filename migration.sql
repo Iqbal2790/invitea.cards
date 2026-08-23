@@ -50,15 +50,15 @@ ON public.testimonials FOR SELECT TO public
 USING (is_active = true);
 
 -- Tambahkan policy untuk orders
+CREATE POLICY "Orders are viewable by everyone" 
+ON public.orders FOR SELECT TO public 
+USING (true);
+
 CREATE POLICY "Public can insert orders" 
 ON public.orders FOR INSERT TO public 
 WITH CHECK (true);
 
-CREATE POLICY "Public can view own order by token" 
-ON public.orders FOR SELECT TO public 
-USING (true);
-
-CREATE POLICY "Public can update own order by token" 
+CREATE POLICY "Public can update orders" 
 ON public.orders FOR UPDATE TO public 
 USING (true);
 

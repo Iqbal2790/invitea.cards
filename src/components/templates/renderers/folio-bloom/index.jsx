@@ -114,7 +114,8 @@ export default function FolioBloomRenderer({ data, isPreview = false, isBuilder 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          order_id: data.id,
+          slug: data?.slug,
+          order_id: data?.id,
           nama_tamu: rsvpData.nama_tamu,
           status_kehadiran: statusKehadiran,
           jumlah_tamu: rsvpData.jumlah_tamu,

@@ -48,6 +48,7 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
         ],
     wishes = [],
     youtube_url = "",
+    slug: order_slug,
     id: order_id,
     rsvps = [],
     quote_text = "",
@@ -112,6 +113,7 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          slug: order_slug,
           order_id,
           nama_tamu: rsvpForm.nama_tamu,
           status_kehadiran: rsvpForm.status_kehadiran,

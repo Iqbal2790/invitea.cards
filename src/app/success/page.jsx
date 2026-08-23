@@ -3,16 +3,16 @@
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { CheckCircle2, MailOpen, ArrowRight, Wand2, Loader2 } from "lucide-react";
+import { CheckCircle2, MailOpen, ArrowRight, Loader2 } from "lucide-react";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
-  const [magicToken, setMagicToken] = useState(null);
+  const [slug, setSlug] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchMagicToken() {
+    async function fetchOrderStatus() {
       if (!orderId) {
         setLoading(false);
         return;
@@ -20,8 +20,8 @@ function SuccessContent() {
       try {
         const res = await fetch(`/api/orders/${orderId}`);
         const data = await res.json();
-        if (data && data.magic_token) {
-          setMagicToken(data.magic_token);
+        if (data && data.slug) {
+          setSlug(data.slug);
         }
       } catch (err) {
         console.error("Failed to fetch order", err);
@@ -29,7 +29,7 @@ function SuccessContent() {
         setLoading(false);
       }
     }
-    fetchMagicToken();
+    fetchOrderStatus();
   }, [orderId]);
 
   return (
@@ -67,28 +67,23 @@ function SuccessContent() {
       </div>
 
       <div className="flex flex-col gap-3">
-        {magicToken ? (
+        {slug && (
           <Link 
-            href={`/order/${magicToken}`}
+            href={`/u/${slug}`}
+            target="_blank"
             className="w-full group inline-flex items-center justify-center gap-[10px] bg-ink text-bg py-[18px] px-[32px] rounded-full font-sans font-semibold text-[16px] tracking-[0.01em] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px] shadow-sm"
           >
-            <Wand2 className="w-5 h-5" />
-            Buka Editor Undangan
+            Lihat Undangan Publik
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-        ) : loading ? (
-          <div className="w-full inline-flex items-center justify-center gap-[10px] bg-ink/10 text-ink/50 py-[18px] px-[32px] rounded-full font-sans font-semibold text-[16px] tracking-[0.01em]">
-            <Loader2 className="w-5 h-5 animate-spin" />
-            Memuat Magic Link...
-          </div>
-        ) : null}
+        )}
 
         <Link 
           href="/"
-          className={`w-full group inline-flex items-center justify-center gap-[10px] ${magicToken ? 'bg-bg text-ink border border-hairline hover:bg-bg-alt' : 'bg-pink-btn-bg text-cream-text shadow-[var(--shadow-pink)] hover:shadow-[0_16px_34px_-12px_var(--shadow-pink)]'} py-[18px] px-[32px] rounded-full font-sans font-semibold text-[16px] tracking-[0.01em] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px]`}
+          className={`w-full group inline-flex items-center justify-center gap-[10px] ${slug ? 'bg-bg text-ink border border-hairline hover:bg-bg-alt' : 'bg-pink-btn-bg text-cream-text shadow-[var(--shadow-pink)] hover:shadow-[0_16px_34px_-12px_var(--shadow-pink)]'} py-[18px] px-[32px] rounded-full font-sans font-semibold text-[16px] tracking-[0.01em] transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-[2px]`}
         >
           Kembali ke Beranda
-          {!magicToken && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
+          {!slug && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
         </Link>
       </div>
       

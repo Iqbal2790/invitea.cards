@@ -81,6 +81,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
     ucapan_terima_kasih = "Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu untuk kami.",
     wishes = [],
     rsvps = [],
+    slug: order_slug,
     id: order_id
   } = data || {};
 
@@ -154,6 +155,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          slug: order_slug,
           order_id,
           nama_tamu: rsvpForm.nama_tamu,
           status_kehadiran: rsvpForm.status_kehadiran,

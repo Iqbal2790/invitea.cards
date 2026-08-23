@@ -176,6 +176,7 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
     dresscode_desc = (isPreview ? "Disarankan mengenakan pakaian bernuansa Retro / Earthy Tone." : ""),
     ucapan_terima_kasih = (isPreview ? "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu." : ""),
     wishes = [],
+    slug: order_slug,
     id: order_id
   } = data || {};
 
@@ -249,11 +250,18 @@ export default function RetroVintageTemplate({ data = {}, isPreview = false, isB
     setIsSubmitting(true);
 
     try {
-      if (order_id && !isPreview) {
-        await fetch(`/api/u/${order_id}/rsvp`, {
+      if ((order_slug || order_id) && !isPreview) {
+        await fetch('/api/rsvp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(rsvpForm)
+          body: JSON.stringify({
+            slug: order_slug,
+            order_id,
+            nama_tamu: rsvpForm.nama,
+            status_kehadiran: rsvpForm.kehadiran,
+            jumlah_tamu: rsvpForm.jumlah_tamu,
+            pesan: rsvpForm.pesan
+          })
         });
       }
       setSubmittedWishes(prev => [{ nama: rsvpForm.nama, pesan: rsvpForm.pesan }, ...prev]);
