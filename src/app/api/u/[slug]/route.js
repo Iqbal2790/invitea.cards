@@ -22,7 +22,6 @@ export async function GET(request, { params }) {
         templates(
           id,
           nama,
-          slug,
           kategori
         )
       `)
