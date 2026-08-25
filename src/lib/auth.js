@@ -1,9 +1,15 @@
 import { SignJWT, jwtVerify } from 'jose';
 
-const secretKey = process.env.JWT_SECRET || 'invitea-super-secret-jwt-key-2026-min-32-chars';
-const key = new TextEncoder().encode(secretKey);
+function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error("FATAL: JWT_SECRET environment variable is missing.");
+  }
+  return new TextEncoder().encode(secret);
+}
 
 export async function createToken(payload) {
+  const key = getJwtSecret();
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
@@ -13,6 +19,7 @@ export async function createToken(payload) {
 
 export async function verifyToken(token) {
   try {
+    const key = getJwtSecret();
     const { payload } = await jwtVerify(token, key);
     return payload;
   } catch (error) {

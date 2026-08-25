@@ -2,9 +2,19 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import bcrypt from 'bcryptjs';
 import { createToken } from '@/lib/auth';
+import { isRateLimited } from '@/lib/rateLimit';
 
 export async function POST(request) {
   try {
+    const ip = request.ip || request.headers.get('x-forwarded-for') || '127.0.0.1';
+    // Brute-force protection: Max 5 attempts per 15 minutes per IP
+    if (isRateLimited(`login_${ip}`, 5, 15 * 60 * 1000)) {
+      return NextResponse.json(
+        { error: 'Terlalu banyak percobaan login. Silakan coba lagi dalam 15 menit.' },
+        { status: 429 }
+      );
+    }
+
     const { email, password } = await request.json();
 
     if (!email || !password) {

@@ -73,13 +73,11 @@ ALTER TABLE public.admins ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Templates are viewable by everyone" ON public.templates
     FOR SELECT USING (is_active = true);
 
--- 2. orders: Anyone can read/insert/update their orders
-CREATE POLICY "Orders are viewable by everyone" ON public.orders
-    FOR SELECT TO public USING (true);
-CREATE POLICY "Public can insert orders" ON public.orders
-    FOR INSERT TO public WITH CHECK (true);
-CREATE POLICY "Public can update orders" ON public.orders
-    FOR UPDATE TO public USING (true);
+-- 2. orders: Restricted, backend only via Service Role (supabaseAdmin)
+-- Public can only view active paid orders/invitations
+CREATE POLICY "Public can view active paid invitations" ON public.orders
+    FOR SELECT TO public
+    USING (status_payment = 'paid' AND (expired_at IS NULL OR expired_at > now()));
 
 -- 4. rsvp_responses: Anyone can insert their RSVP (API/Client), anyone can view
 CREATE POLICY "Anyone can insert RSVP" ON public.rsvp_responses

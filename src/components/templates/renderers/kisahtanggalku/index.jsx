@@ -57,7 +57,9 @@ function getYouTubeId(url) {
   try {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = String(url).trim().match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    const id = (match && match[2]) ? match[2] : null;
+    if (id && /^[a-zA-Z0-9_-]{11}$/.test(id)) return id;
+    return null;
   } catch (e) {
     return null;
   }

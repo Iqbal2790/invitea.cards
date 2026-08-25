@@ -49,18 +49,10 @@ CREATE POLICY "Testimonials are viewable by everyone"
 ON public.testimonials FOR SELECT TO public 
 USING (is_active = true);
 
--- Tambahkan policy untuk orders
-CREATE POLICY "Orders are viewable by everyone" 
-ON public.orders FOR SELECT TO public 
-USING (true);
-
-CREATE POLICY "Public can insert orders" 
-ON public.orders FOR INSERT TO public 
-WITH CHECK (true);
-
-CREATE POLICY "Public can update orders" 
-ON public.orders FOR UPDATE TO public 
-USING (true);
+-- Tambahkan policy untuk orders (Restricted, backend-only inserts/updates)
+CREATE POLICY "Public can view active paid invitations"
+ON public.orders FOR SELECT TO public
+USING (status_payment = 'paid' AND (expired_at IS NULL OR expired_at > now()));
 
 -- Tambahkan policy untuk rsvp
 CREATE POLICY "Public can view rsvp" 

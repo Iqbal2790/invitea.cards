@@ -119,10 +119,10 @@ export async function POST(request) {
 
   } catch (error) {
     console.error("API Orders Error:", error);
+    const isDev = process.env.NODE_ENV !== "production";
     return NextResponse.json({ 
       error: "Terjadi kesalahan internal server", 
-      details: error.message,
-      apiResponse: error.ApiResponse || null
+      ...(isDev ? { details: error.message, apiResponse: error.ApiResponse || null } : {})
     }, { status: 500 });
   }
 }

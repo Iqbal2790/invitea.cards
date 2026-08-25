@@ -25,6 +25,42 @@ export async function POST(request) {
       targetOrderId = order.id;
     }
 
+    // 2.5 Normalisasi nama untuk mencegah duplikasi spasi/karakter
+    const normalizedName = String(nama_tamu).trim().replace(/\s+/g, " ");
+
+    // 2.6 Cek duplikasi RSVP untuk nama + order yang sama (update alih-alih insert)
+    const { data: existing, error: existingError } = await supabaseAdmin
+      .from("rsvp_responses")
+      .select("id")
+      .eq("order_id", targetOrderId)
+      .ilike("nama_tamu", normalizedName)
+      .maybeSingle();
+
+    if (existingError && existingError.code !== "PGRST116") {
+      console.error("Error checking existing RSVP:", existingError);
+      return NextResponse.json({ error: "Gagal menyimpan data" }, { status: 500 });
+    }
+
+    if (existing) {
+      // Update RSVP yang sudah ada
+      const { data: updated, error: updateError } = await supabaseAdmin
+        .from("rsvp_responses")
+        .update({
+          status_kehadiran: status_kehadiran || "Hanya Ucapan",
+          jumlah_tamu: jumlah_tamu ? parseInt(jumlah_tamu, 10) : 1,
+          pesan: pesan || null
+        })
+        .eq("id", existing.id)
+        .select("id, nama_tamu, status_kehadiran, jumlah_tamu, pesan, created_at");
+
+      if (updateError) {
+        console.error("Error updating RSVP:", updateError);
+        return NextResponse.json({ error: "Gagal memperbarui data" }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, data: updated[0], updated: true });
+    }
+
     const { data, error } = await supabaseAdmin
       .from("rsvp_responses")
       .insert([

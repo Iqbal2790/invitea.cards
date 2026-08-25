@@ -45,7 +45,11 @@ export default function FolioBloomRenderer({ data, isPreview = false, isBuilder 
     if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    const id = match && match[2] ? match[2] : null;
+    if (id && /^[a-zA-Z0-9_-]{11}$/.test(id)) {
+      return id;
+    }
+    return null;
   };
   const youtubeId = extractYoutubeId(data.music_youtube_url);
 
@@ -295,7 +299,7 @@ export default function FolioBloomRenderer({ data, isPreview = false, isBuilder 
 
               {rsvpData.hadir && (
                 <div>
-                  <select className="w-full bg-[#14151F]/5 border border-[#B9A9D9]/30 rounded-lg px-4 py-3 text-[#2B2632] focus:outline-none focus:border-[#B9A9D9]" value={rsvpData.jumlah_tamu} onChange={(e) => setRsvpData({...rsvpData, jumlah_tamu: parseInt(e.target.value)})}>
+                  <select className="w-full bg-[#14151F]/5 border border-[#B9A9D9]/30 rounded-lg px-4 py-3 text-[#2B2632] focus:outline-none focus:border-[#B9A9D9]" value={rsvpData.jumlah_tamu} onChange={(e) => setRsvpData({...rsvpData, jumlah_tamu: parseInt(e.target.value, 10)})}>
                     <option value={1}>1 Orang</option>
                     <option value={2}>2 Orang</option>
                     <option value={3}>3 Orang</option>

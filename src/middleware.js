@@ -1,8 +1,21 @@
 import { NextResponse } from 'next/server';
 import { verifyToken } from './lib/auth';
+import { isRateLimited } from './lib/rateLimit';
 
 export async function middleware(request) {
   const { pathname } = request.nextUrl;
+
+  // Rate Limiting for API routes (except Midtrans webhook)
+  if (pathname.startsWith('/api') && pathname !== '/api/midtrans/webhook') {
+    const ip = request.ip || request.headers.get('x-forwarded-for') || '127.0.0.1';
+    // Limit: 60 requests per minute
+    if (isRateLimited(ip, 60, 60 * 1000)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      );
+    }
+  }
 
   // Protect /api/admin backend routes (except /api/admin/login)
   if (pathname.startsWith('/api/admin')) {
@@ -57,5 +70,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/login', '/api/admin/:path*'],
+  matcher: ['/admin/:path*', '/login', '/api/:path*'],
 };

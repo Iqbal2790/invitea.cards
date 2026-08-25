@@ -27,7 +27,32 @@ export async function POST(request) {
       return NextResponse.json({ error: "Invalid signature" }, { status: 403 });
     }
 
-    // 2. Tentukan Status Akhir Pesanan
+    // 2. Fetch current order state for Idempotency and Amount Validation
+    const { data: currentOrder, error: fetchError } = await supabaseAdmin
+      .from("orders")
+      .select("status_payment, templates(harga)")
+      .eq("id", order_id)
+      .single();
+
+    if (fetchError || !currentOrder) {
+      console.error("Order not found:", fetchError);
+      return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    }
+
+    // Amount validation
+    if (currentOrder.templates && currentOrder.templates.harga !== undefined) {
+      if (parseFloat(gross_amount) < parseFloat(currentOrder.templates.harga)) {
+        console.error("Amount mismatch:", gross_amount, currentOrder.templates.harga);
+        return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
+      }
+    }
+
+    // Idempotency check: If already paid, ignore duplicate webhook
+    if (currentOrder.status_payment === "paid") {
+      return NextResponse.json({ success: true, message: "Webhook already processed" });
+    }
+
+    // 3. Tentukan Status Akhir Pesanan
     let finalStatus = "pending";
     if (transaction_status === "capture") {
       if (fraud_status === "challenge") finalStatus = "pending";

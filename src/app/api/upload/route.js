@@ -14,6 +14,18 @@ export async function POST(request) {
       return NextResponse.json({ error: "Tidak ada file yang diunggah" }, { status: 400 });
     }
 
+    // 1. File size validation (Max 5MB)
+    const MAX_FILE_SIZE = 5 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ error: "Ukuran file terlalu besar (Maksimal 5MB)" }, { status: 400 });
+    }
+
+    // 2. MIME type validation
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedMimeTypes.includes(file.type)) {
+      return NextResponse.json({ error: "Tipe file tidak diizinkan. Hanya JPG, PNG, dan WebP." }, { status: 400 });
+    }
+
     let fileName = "";
     
     // Validate slot 
@@ -54,6 +66,13 @@ export async function POST(request) {
     // e.g. slot0.jpg, slot1.jpg, slot2.jpg — no timestamp, so upsert works correctly
     const originalName = file.name || "photo.jpg";
     const fileExt = originalName.split(".").pop().toLowerCase();
+
+    // 3. Extension validation
+    const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
+    if (!allowedExtensions.includes(fileExt)) {
+      return NextResponse.json({ error: "Ekstensi file tidak diizinkan." }, { status: 400 });
+    }
+
     const finalFileName = `${fileName}.${fileExt}`;
     const filePath = `${safeSessionId}/${finalFileName}`;
 

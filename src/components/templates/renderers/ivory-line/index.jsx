@@ -76,15 +76,19 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
   // Extract YouTube ID safely
   const getYouTubeId = (url) => {
     if (!url) return null;
+    let id = null;
     try {
       const urlObj = new URL(url);
       if (urlObj.hostname.includes('youtube.com')) {
-        return urlObj.searchParams.get('v');
+        id = urlObj.searchParams.get('v');
       } else if (urlObj.hostname.includes('youtu.be')) {
-        return urlObj.pathname.slice(1);
+        id = urlObj.pathname.slice(1);
       }
     } catch (e) {
       return null;
+    }
+    if (id && /^[a-zA-Z0-9_-]{11}$/.test(id)) {
+      return id;
     }
     return null;
   };
@@ -163,11 +167,11 @@ export default function IvoryLineTemplate({ data, isPreview = false, isBuilder =
 
   return (
     <div className={`w-full relative bg-[#FAF6EF] text-[#161512] font-sans overflow-x-clip ${isPreview ? 'min-h-full' : 'min-h-screen'}`}>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Jost:wght@400;500&display=swap');
         .ivory-font-serif { font-family: 'Fraunces', serif; letter-spacing: -0.01em; }
         .ivory-font-sans { font-family: 'Jost', sans-serif; }
-      `}} />
+      `}</style>
 
       {/* Controller for Live Preview (PORTALED DIRECTLY TO BODY SO IT NEVER SCROLLS - BUILDER ONLY) */}
       {mounted && isBuilder && typeof document !== "undefined" && createPortal(

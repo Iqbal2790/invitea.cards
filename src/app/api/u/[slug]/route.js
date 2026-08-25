@@ -15,6 +15,7 @@ export async function GET(request, { params }) {
       .select(`
         id,
         slug,
+        status_payment,
         data_content,
         foto_urls,
         created_at,
@@ -31,6 +32,14 @@ export async function GET(request, { params }) {
     if (error || !orderData) {
       console.error("Error fetching order by slug:", error);
       return NextResponse.json({ error: "Undangan tidak ditemukan" }, { status: 404 });
+    }
+
+    if (orderData.status_payment !== "paid") {
+      return NextResponse.json({ error: "Undangan belum aktif atau belum dibayar" }, { status: 403 });
+    }
+
+    if (orderData.expired_at && new Date(orderData.expired_at) < new Date()) {
+      return NextResponse.json({ error: "Masa aktif undangan telah berakhir" }, { status: 410 });
     }
 
     // Fetch RSVPs

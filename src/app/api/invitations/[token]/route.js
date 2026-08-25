@@ -29,6 +29,10 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Undangan tidak ditemukan" }, { status: 404 });
     }
 
+    if (orderData.expired_at && new Date(orderData.expired_at) < new Date()) {
+      return NextResponse.json({ error: "Magic link telah kedaluwarsa" }, { status: 403 });
+    }
+
     // 2. Fetch RSVPs
     const { data: rsvps, error: rsvpError } = await supabaseAdmin
       .from("rsvp_responses")
@@ -66,6 +70,20 @@ export async function PATCH(request, { params }) {
   }
 
   try {
+    const { data: orderData, error: orderError } = await supabaseAdmin
+      .from("orders")
+      .select("expired_at")
+      .eq("magic_token", token)
+      .single();
+
+    if (orderError || !orderData) {
+      return NextResponse.json({ error: "Undangan tidak ditemukan" }, { status: 404 });
+    }
+
+    if (orderData.expired_at && new Date(orderData.expired_at) < new Date()) {
+      return NextResponse.json({ error: "Magic link telah kedaluwarsa" }, { status: 403 });
+    }
+
     const body = await request.json();
     const { data_content, foto_urls } = body;
 

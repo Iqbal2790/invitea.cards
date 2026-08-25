@@ -125,11 +125,13 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
 
   const getYouTubeId = (url) => {
     if (!url) return null;
+    let id = null;
     try {
       const urlObj = new URL(url);
-      if (urlObj.hostname.includes('youtube.com')) return urlObj.searchParams.get('v');
-      if (urlObj.hostname.includes('youtu.be')) return urlObj.pathname.slice(1);
+      if (urlObj.hostname.includes('youtube.com')) id = urlObj.searchParams.get('v');
+      if (urlObj.hostname.includes('youtu.be')) id = urlObj.pathname.slice(1);
     } catch (e) { return null; }
+    if (id && /^[a-zA-Z0-9_-]{11}$/.test(id)) return id;
     return null;
   };
   const youtubeId = getYouTubeId(youtube_url);
@@ -247,22 +249,22 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
       )}
 
       <div onScroll={handleScroll} className={`w-full h-full relative bg-[#F7F2E9] text-[#111111] font-sans flex flex-col ${isPreview ? 'overflow-y-auto' : ''}`}>
-      <style dangerouslySetInnerHTML={{__html: `
+      <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Manrope:wght@500;700;800&family=Shadows+Into+Light&family=Caveat:wght@400;700&family=Indie+Flower&display=swap');
-        
+
         .slab-font-display { font-family: 'Baloo 2', sans-serif; font-weight: 800; line-height: 1.1; }
         .slab-font-body { font-family: 'Manrope', sans-serif; }
         .script-font-shadows { font-family: 'Shadows Into Light', cursive; font-weight: 400; }
         .script-font-caveat { font-family: 'Caveat', cursive; font-weight: 700; }
         .script-font-indie { font-family: 'Indie Flower', cursive; font-weight: 400; }
-        
+
         .neo-card {
           border: 3px solid #111111;
           border-radius: 14px;
           box-shadow: 5px 5px 0 #111111;
           background: #FFFFFF;
         }
-        
+
         .neo-btn {
           display: inline-flex; align-items: center; justify-content: center;
           border: 3px solid #111111;
@@ -288,7 +290,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
         .neo-btn.green { background: #2ECC71; }
         .neo-btn.pink { background: #FF5D8F; }
         .neo-btn.selected { box-shadow: inset 4px 4px 0 rgba(0,0,0,0.2); transform: translate(2px, 2px); }
-        
+
         .eyebrow {
           font-size: 12px; font-weight: 800; letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -301,28 +303,28 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
           position: absolute; color: #FFD400; -webkit-text-stroke: 1.5px #111111;
           font-size: 34px; font-weight: 800; line-height: 1; user-select: none; pointer-events: none;
         }
-        
+
         .section-padding { padding: 80px 24px; display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; }
         .section-padding > * { max-width: 768px; width: 100%; }
         .section-padding > .asterisk { width: auto; max-width: none; }
         .bg-alt { background: #C9D9E8; }
-        
+
         @keyframes marqueeScroll {
           from { transform: translateX(0); }
           to { transform: translateX(calc(-50% - 8px)); }
         }
         .marquee-track {
-          display: flex; gap: 16px; width: max-content; 
+          display: flex; gap: 16px; width: max-content;
           animation: marqueeScroll 30s linear infinite;
         }
         .wish-card {
-          background: #FFFFFF; color: #111111; border: 3px solid #111111; border-radius: 12px; 
+          background: #FFFFFF; color: #111111; border: 3px solid #111111; border-radius: 12px;
           box-shadow: 4px 4px 0 #111111; padding: 16px 18px; width: 280px; flex-shrink: 0;
           white-space: normal;
         }
-        
+
         details.gift-acc {
-          background: #FFFFFF; color: #111111; border: 3px solid #111111; border-radius: 12px; 
+          background: #FFFFFF; color: #111111; border: 3px solid #111111; border-radius: 12px;
           box-shadow: 4px 4px 0 #111111; padding: 18px 20px; margin-bottom: 16px;
         }
         details.gift-acc summary {
@@ -332,7 +334,7 @@ export default function SunnySlabTemplate({ data, isPreview = false, isBuilder =
         details.gift-acc summary::-webkit-details-marker { display: none; }
         details.gift-acc summary::after { content: '+'; font-size: 20px; font-weight: 800; }
         details.gift-acc[open] summary::after { content: '–'; }
-      `}} />
+      `}</style>
 
       {/* Hidden Youtube iframe */}
       {youtubeId && stage > 0 && isPlaying && (

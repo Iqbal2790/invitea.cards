@@ -109,10 +109,9 @@ export async function GET(request, { params }) {
       }
     }
 
-    return NextResponse.json({ 
-      id: order.id, 
-      status: currentStatus,
-      slug: currentSlug
+    return NextResponse.json({
+      id: order.id,
+      status: currentStatus
     });
     
   } catch (error) {

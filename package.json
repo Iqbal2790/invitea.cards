@@ -2,10 +2,22 @@
   "name": "invitea.cards",
   "version": "0.1.0",
   "private": true,
+  "description": "",
+  "homepage": "https://github.com/Iqbal2790/invitea.cards#readme",
+  "bugs": {
+    "url": "https://github.com/Iqbal2790/invitea.cards/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Iqbal2790/invitea.cards.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node node_modules/next/dist/bin/next dev",
+    "build": "node node_modules/next/dist/bin/next build",
+    "start": "node node_modules/next/dist/bin/next start",
     "lint": "eslint"
   },
   "dependencies": {

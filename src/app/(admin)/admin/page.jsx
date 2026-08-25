@@ -115,7 +115,7 @@ export default function AdminOrdersPage() {
   const formatMonthName = (YYYYMM) => {
     if (!YYYYMM) return "";
     const [year, month] = YYYYMM.split('-');
-    const date = new Date(year, parseInt(month) - 1, 1);
+    const date = new Date(year, parseInt(month, 10) - 1, 1);
     return date.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
   };
 
