@@ -22,13 +22,13 @@
 
 ## 📅 Log Aktivitas & Keputusan
 
-### [2026-10-08] — Fase 1 Selesai: Eksekusi Reset Database & Penyempurnaan V2
-- **Skema Database Baru Aktif:** Script [`unified-schema.sql`](file:///home/iqbal/Documents/invitea.cards/unified-schema.sql) berhasil dijalankan di Supabase SQL Editor.
-- **Penyempurnaan V2 Disiapkan:** Dibuatkan script [`migration-v2.sql`](file:///home/iqbal/Documents/invitea.cards/migration-v2.sql) untuk menambahkan:
-  - `is_private_gate` & `is_canvas_editor` di tabel `invitations`.
-  - `payout_proof_url` & `payout_notes` di tabel `referral_commissions`.
-  - Fungsi keamanan RPC `verify_guest_gatekeeper` (verifikasi 4-digit no HP tanpa mengekspos nomor asli ke browser).
-- **Tabel Terpadu Aktif:** 11 tabel baru terbuat dengan RLS & indexing edge:
+### [2026-10-08] — Fase 1 Selesai & Pengarsipan Kode Legacy ke `legacy-v1/`
+- **Arsip Kode Lama:** Seluruh kode lama Next.js (`src/`, `public/`, `package.json`, scripts) berhasil dipindahkan ke folder `legacy-v1/` sebagai cadangan referensi tanpa merusak riwayat git.
+- **Root Workspace Bersih:** Root directory kini siap dan bersih untuk inisialisasi fresh React Router v7 + Cloudflare Workers.
+- **Database Migrations Tertata Rapi:** File SQL dipindahkan ke struktur standar Supabase di [`supabase/migrations/`](file:///home/iqbal/Documents/invitea.cards/supabase/migrations):
+  - `supabase/migrations/01_unified_schema.sql` (Skema master 11 tabel)
+  - `supabase/migrations/02_migration_v2.sql` (Penyempurnaan Gatekeeper, Canvas flag, & Payout proof)
+- **Skema Database Baru Aktif:** Skema berhasil dijalankan di Supabase SQL Editor.
   - `profiles` + trigger auth Google
   - `wedding_projects`, `templates` (fresh kosong), `invitations`, `custom_domains`
   - `guests` (sinkronisasi RSVP live), `checklist_items`, `budget_items`
