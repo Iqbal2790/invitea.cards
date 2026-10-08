@@ -46,3 +46,8 @@ next-env.d.ts
 Thumbs.db
 *.swp
 .DS_Store
+
+# Obsidian Vault & Local Docs (Rebuild Documentation)
+vault/
+.obsidian/
+
