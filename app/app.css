@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss" source(".");
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  --color-ivory: #FAF8F5;
+  --color-ivory-alt: #F4EFEB;
+  --color-noir: #18181B;
+  --color-noir-muted: #3F3F46;
+  --color-gold: #C5A880;
+  --color-gold-deep: #A3835B;
+  --color-gold-light: #DFCDBC;
+}
+
+html, body {
+  font-family: var(--font-sans);
+  background-color: #FAF8F5;
+  color: #18181B;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}

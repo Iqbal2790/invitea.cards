@@ -36,9 +36,16 @@ yarn-error.log*
 # vercel
 .vercel
 
-# typescript
+# React Router & Build
+/.react-router/
+/build/
 *.tsbuildinfo
-next-env.d.ts
+
+# Cloudflare Workers
+.mf
+.wrangler
+.dev.vars*
+worker-configuration.d.ts
 
 # OS & IDE Files
 .vscode/
@@ -50,4 +57,5 @@ Thumbs.db
 # Obsidian Vault & Local Docs (Rebuild Documentation)
 vault/
 .obsidian/
+
 

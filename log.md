@@ -7,9 +7,9 @@
 
 ## 📌 Ringkasan Status Proyek
 
-- **Status Saat Ini:** Fase 1 — Database Reset & Unified Schema (SELESAI) $\rightarrow$ Siap untuk Fase 2 (Scaffolding React Router v7)
+- **Status Saat Ini:** Fase 2 — Scaffolding React Router v7 & Cloudflare Workers (SELESAI) $\rightarrow$ Siap untuk Fase 3 (Google OAuth & Subdomain Dispatcher)
 - **Target Deployment:** Cloudflare Workers (Edge Runtime)
-- **Framework Pilihan:** React Router v7 (Vite + Cloudflare Workers Adapter)
+- **Framework Pilihan:** React Router v7 (Vite + Cloudflare Workers Adapter — AKTIF)
 - **Database:** Supabase (Fresh Reset + Unified Schema — AKTIF)
 - **Auth:** Google OAuth (Supabase Auth)
 - **Subdomain Routing:**
@@ -21,6 +21,24 @@
 ---
 
 ## 📅 Log Aktivitas & Keputusan
+
+### [2026-10-08] — Fase 2 Selesai: Scaffolding React Router v7 & Cloudflare Workers
+- **Inisialisasi Project Baru:** Berhasil menginisialisasi React Router v7 (`^8.4.0`) dengan template Cloudflare Workers murni via C3 CLI.
+- **Konfigurasi Edge Build:**
+  - `vite.config.ts` terintegrasi dengan `@cloudflare/vite-plugin` (SSR mode) dan `@tailwindcss/vite`.
+  - `wrangler.jsonc` terkonfigurasi dengan nama `invitea-cards`, `nodejs_compat`, dan entry `./workers/app.ts`.
+- **Integrasi Desain Timeless Editorial Luxury:**
+  - `app/app.css` dikonfigurasikan dengan font editorial Google Fonts (*Cormorant Garamond* dan *Plus Jakarta Sans*) serta palet warna Ivory, Noir, dan Champagne Gold.
+- **Instalasi Dependensi Inti Berhasil:**
+  - `@supabase/supabase-js` (koneksi database & auth edge).
+  - `lucide-react` (set ikon antarmuka).
+  - `framer-motion` (animasi sinematik & interaktif).
+  - `canvas-confetti` & types (efek selebrasi).
+  - `clsx` & `tailwind-merge` + helper `cn` di `app/lib/utils.ts`.
+- **Setup Edge Client Supabase:** Dibuat modul helper `app/lib/supabase.ts` yang kompatibel dengan browser dan edge SSR.
+- **Verifikasi Build:** `npm run build` sukses 100% tanpa error maupun warning (~1.5s total build time).
+- **Template Env:** Dibuatkan template `.env.example` untuk kredensial Supabase, Discord Webhook, dan Midtrans.
+- **Checkpoint:** Fase 2 resmi selesai.
 
 ### [2026-10-08] — Fase 1 Selesai & Pengarsipan Kode Legacy ke `legacy-v1/`
 - **Arsip Kode Lama:** Seluruh kode lama Next.js (`src/`, `public/`, `package.json`, scripts) berhasil dipindahkan ke folder `legacy-v1/` sebagai cadangan referensi tanpa merusak riwayat git.
@@ -83,8 +101,8 @@
 | :---: | :--- | :---: | :--- |
 | **0** | **Blueprint & Setup Vault** | 🟢 *Done* | Penyusunan 14 dokumen Obsidian Vault & inisialisasi log |
 | **1** | **Database Reset & Unified Schema** | 🟢 *Done* | Database & Storage Supabase bersih, 11 tabel baru aktif |
-| **2** | **Scaffolding React Router v7** | 🟡 *Next* | Inisialisasi base RRv7 + Tailwind v4 + Cloudflare Workers adapter |
-| **3** | **Auth Google & Subdomain Dispatcher** | ⚪ *Pending* | Setup Supabase Auth Google & routing `plan.*`, `create.*`, root |
+| **2** | **Scaffolding React Router v7** | 🟢 *Done* | Base RRv7 + Tailwind v4 + Cloudflare Workers adapter aktif |
+| **3** | **Auth Google & Subdomain Dispatcher** | 🟡 *Next* | Setup Supabase Auth Google & routing `plan.*`, `create.*`, root |
 | **4** | **Bespoke Showcase & Landing Page** | ⚪ *Pending* | Redesain hero section & portfolio flow custom design |
 | **5** | **Template Builder (Free & Paid)** | ⚪ *Pending* | Porting template renderers & pemisahan logic freemium |
 | **6** | **Wedding Planner Engine** | ⚪ *Pending* | Modul Guest List (sync RSVP), Checklist, & Budget Tracker |
