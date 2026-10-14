@@ -3,15 +3,21 @@
 
 @theme {
   --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
   
   --color-ivory: #FAF8F5;
   --color-ivory-alt: #F4EFEB;
   --color-noir: #18181B;
-  --color-noir-muted: #3F3F46;
+  --color-noir-muted: #52525B;
+  --color-champagne-border: #EADBCE;
+  --color-champagne-border-subtle: #E5DDD3;
   --color-gold: #C5A880;
   --color-gold-deep: #A3835B;
   --color-gold-light: #DFCDBC;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html, body {
