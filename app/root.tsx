@@ -19,7 +19,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap",
   },
 ];
 
@@ -63,16 +63,16 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="pt-24 p-6 container mx-auto text-center">
-      <h1 className="font-serif text-4xl font-bold text-[#18181B] mb-2">{message}</h1>
-      <p className="text-[#52525B] mb-6">{details}</p>
+      <h1 className="font-serif text-4xl font-bold text-[oklch(23%_0.03_40)] mb-2">{message}</h1>
+      <p className="text-[oklch(40%_0.03_35)] mb-6">{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto text-left text-xs bg-[#18181B] text-[#FAF8F5] rounded-lg">
+        <pre className="w-full p-4 overflow-x-auto text-left text-xs bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] rounded-lg">
           <code>{stack}</code>
         </pre>
       )}
       <a
         href="/"
-        className="inline-block mt-4 px-6 py-2 rounded-full bg-[#18181B] text-[#FAF8F5] text-sm font-medium hover:bg-[#A3835B] transition-colors"
+        className="inline-block mt-4 px-6 py-2 rounded-full bg-[oklch(58%_0.13_15)] text-[oklch(94%_0.02_70)] text-sm font-medium hover:bg-[oklch(38%_0.14_15)] transition-colors"
       >
         Kembali ke Beranda
       </a>
