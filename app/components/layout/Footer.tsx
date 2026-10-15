@@ -199,12 +199,12 @@ export function Footer() {
 
       {/* Tier 3: Wordmark Container */}
       <div
-        className="relative z-0 w-full bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-4 sm:py-6 lg:py-8"
+        className="relative z-0 w-full bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none pt-4 sm:pt-6 pb-6 sm:pb-8"
         aria-hidden="true"
       >
         <svg
-          viewBox="-20 -780 2800 830"
-          className="w-full h-auto max-h-[160px] sm:max-h-[200px] lg:max-h-[240px] block select-none pointer-events-none"
+          viewBox="0 -700 2750 740"
+          className="w-full h-auto block select-none pointer-events-none"
           preserveAspectRatio="xMidYMid meet"
         >
           <text
