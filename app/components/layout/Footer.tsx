@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Globe, ChevronDown, ArrowUpRight } from "lucide-react";
 
 interface FooterLink {
@@ -89,11 +90,66 @@ function YouTubeIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const wordmarkRef = useRef<HTMLDivElement>(null);
+  const wordmarkTextRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const updateProgress = () => {
+      if (!contentRef.current || !wordmarkRef.current || !wordmarkTextRef.current) {
+        ticking = false;
+        return;
+      }
+      const contentRect = contentRef.current.getBoundingClientRect();
+      const wordmarkHeight = wordmarkRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const scrollY = window.scrollY;
+
+      // Distance Tier 2 bottom has scrolled above the bottom of the viewport
+      const exposed = windowHeight - contentRect.bottom;
+      const isAtBottom = windowHeight + scrollY >= docHeight - 2;
+
+      if (wordmarkHeight > 0) {
+        const rawProgress = exposed / wordmarkHeight;
+        const progress = exposed <= 0 ? 0 : isAtBottom ? 1 : Math.min(1, Math.max(0, rawProgress));
+
+        wordmarkRef.current.style.setProperty("--reveal-progress", progress.toString());
+        wordmarkRef.current.style.visibility = progress > 0 ? "visible" : "hidden";
+      }
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    updateProgress();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   return (
-    <footer className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
+    <footer
+      ref={footerRef}
+      className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]"
+    >
       {/* Tier 1 & 2: Wrapper Konten Solid */}
-      <div className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl pt-10 sm:pt-12">
+      <div
+        ref={contentRef}
+        className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] pt-10 sm:pt-12"
+      >
         {/* Tier 1: Navigasi Multi-Kolom */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pb-8 sm:pb-10">
           {FOOTER_COLUMNS.map((column) => (
@@ -199,27 +255,36 @@ export function Footer() {
 
       {/* Tier 3: Wordmark Container */}
       <div
-        className="relative z-0 w-full bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none pt-4 sm:pt-6 pb-6 sm:pb-8"
+        ref={wordmarkRef}
+        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none pt-4 sm:pt-6 pb-6 sm:pb-8"
         aria-hidden="true"
       >
-        <svg
-          viewBox="0 -700 2750 740"
-          className="w-full h-auto block select-none pointer-events-none"
-          preserveAspectRatio="xMidYMid meet"
+        <div
+          ref={wordmarkTextRef}
+          className="w-full flex items-center justify-center will-change-transform"
+          style={{
+            transform: "translateY(calc((1 - var(--reveal-progress, 1)) * 18%))",
+          }}
         >
-          <text
-            x="0"
-            y="0"
-            className="font-serif font-bold fill-[oklch(94%_0.02_70)] tracking-tight"
-            style={{
-              fontFamily: '"Cormorant Garamond", Georgia, serif',
-              letterSpacing: "-0.025em",
-              fontSize: "1000px",
-            }}
+          <svg
+            viewBox="0 -700 2750 740"
+            className="w-full h-auto block select-none pointer-events-none"
+            preserveAspectRatio="xMidYMid meet"
           >
-            Invitea.
-          </text>
-        </svg>
+            <text
+              x="0"
+              y="0"
+              className="font-serif font-bold fill-[oklch(94%_0.02_70)] tracking-tight"
+              style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                letterSpacing: "-0.025em",
+                fontSize: "1000px",
+              }}
+            >
+              Invitea.
+            </text>
+          </svg>
+        </div>
       </div>
     </footer>
   );
