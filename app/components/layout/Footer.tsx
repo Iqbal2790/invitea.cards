@@ -5,7 +5,7 @@ export function Footer() {
 
   return (
     <footer className="bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
+      <div className="w-full px-6 sm:px-8 lg:px-12 pt-14 pb-12">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16">
           {/* Sisi Kiri: Brand */}
           <div className="max-w-sm space-y-4">
