@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Globe, ChevronDown, ArrowUpRight } from "lucide-react";
 
 interface FooterLink {
@@ -89,10 +90,54 @@ function YouTubeIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement>(null);
+  const wordmarkRef = useRef<HTMLDivElement>(null);
+  const wordmarkTextRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const updateProgress = () => {
+      if (!footerRef.current || !wordmarkRef.current || !wordmarkTextRef.current) {
+        ticking = false;
+        return;
+      }
+      const footerRect = footerRef.current.getBoundingClientRect();
+      const wordmarkHeight = wordmarkRef.current.offsetHeight;
+      if (wordmarkHeight > 0) {
+        const windowHeight = window.innerHeight;
+        const wrapperBottom = footerRect.bottom - wordmarkHeight;
+        const exposed = windowHeight - wrapperBottom;
+        const progress = Math.min(1, Math.max(0, exposed / wordmarkHeight));
+        wordmarkTextRef.current.style.setProperty("--reveal-progress", progress.toString());
+      }
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateProgress);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    updateProgress();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   return (
-    <footer className="w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
-      <div className="w-full px-6 sm:px-8 lg:px-12">
+    <footer
+      ref={footerRef}
+      className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]"
+    >
+      {/* Tier 1 & Tier 2: Wrapper Konten Solid Stacking Layer */}
+      <div className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl">
         {/* Tier 1: Navigasi Multi-Kolom */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pt-14 pb-12">
           {FOOTER_COLUMNS.map((column) => (
@@ -196,10 +241,37 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Tier 3: Monumental Adobe-style Wordmark */}
-      <div className="w-full overflow-hidden border-t border-[oklch(38%_0.14_15)]/40 select-none pointer-events-none" aria-hidden="true">
-        <div className="w-full text-center font-serif font-black tracking-tighter leading-none text-[oklch(94%_0.02_70)]/10 text-[clamp(3.5rem,14vw,13rem)] pt-6 sm:pt-8 pb-2 sm:pb-4 whitespace-nowrap">
-          INVITEA
+      {/* Tier 3: Sticky Stacking Reveal Wordmark Container */}
+      <div
+        ref={wordmarkRef}
+        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)]/95 border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-4 sm:py-6 lg:py-8"
+        aria-hidden="true"
+      >
+        <div
+          ref={wordmarkTextRef}
+          className="w-full flex items-center justify-center will-change-transform"
+          style={{
+            transform: "translateY(calc((1 - var(--reveal-progress, 1)) * 15%))",
+          }}
+        >
+          <svg
+            viewBox="24 -630 2724 646"
+            className="w-full h-auto block select-none pointer-events-none"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <text
+              x="0"
+              y="0"
+              className="font-serif font-bold fill-[oklch(94%_0.02_70)]/15 tracking-tight"
+              style={{
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                letterSpacing: "-0.025em",
+                fontSize: "1000px",
+              }}
+            >
+              Invitea.
+            </text>
+          </svg>
         </div>
       </div>
     </footer>

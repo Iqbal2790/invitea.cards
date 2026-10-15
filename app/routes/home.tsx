@@ -19,7 +19,7 @@ export function loader() {
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-[oklch(96%_0.02_75)] text-[oklch(23%_0.03_40)] selection:bg-[oklch(72%_0.09_16)]/30 selection:text-[oklch(23%_0.03_40)] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[oklch(96%_0.02_75)] text-[oklch(23%_0.03_40)] selection:bg-[oklch(72%_0.09_16)]/30 selection:text-[oklch(23%_0.03_40)] overflow-x-clip">
       <Navbar />
 
       <main className="flex-1 flex flex-col items-center justify-center py-24 sm:py-32 px-6 sm:px-8 lg:px-12 w-full">
