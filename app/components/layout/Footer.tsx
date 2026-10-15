@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Globe, ArrowUpRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Globe, ChevronDown, ArrowUpRight } from "lucide-react";
 
 interface FooterLink {
   label: string;
@@ -87,9 +87,30 @@ function WhatsAppIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
+const LANGUAGES = [
+  { code: "id" as const, label: "Indonesia (ID)" },
+  { code: "en" as const, label: "English (EN)" },
+];
+
 export function Footer() {
-  const [lang, setLang] = useState<"id" | "en">("id");
+  const [selectedLang, setSelectedLang] = useState<"id" | "en">("id");
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
     <footer className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
@@ -128,33 +149,55 @@ export function Footer() {
 
         {/* Tier 2: Options & Legal Bar */}
         <div className="py-5 sm:py-6 border-t border-[oklch(38%_0.14_15)] flex flex-col xl:flex-row items-center justify-between gap-6 text-xs text-[oklch(94%_0.02_70)]/80">
-          {/* Kiri: Switch Bahasa */}
-          <div className="flex items-center gap-2 text-xs text-[oklch(94%_0.02_70)]/90">
-            <Globe className="w-4 h-4 text-[oklch(72%_0.09_16)]" aria-hidden="true" />
-            <div className="flex items-center bg-[oklch(38%_0.14_15)]/40 p-0.5 rounded-full border border-[oklch(38%_0.14_15)]/60 text-[11px] font-medium">
-              <button
-                type="button"
-                onClick={() => setLang("id")}
-                className={`px-2 py-0.5 rounded-full transition-all ${
-                  lang === "id"
-                    ? "bg-[oklch(72%_0.09_16)] text-[oklch(28%_0.11_15)] font-semibold shadow-sm"
-                    : "text-[oklch(94%_0.02_70)]/70 hover:text-[oklch(94%_0.02_70)]"
+          {/* Kiri: Switch Bahasa (Interactive Dropdown) */}
+          <div ref={dropdownRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setIsOpen((prev) => !prev)}
+              aria-haspopup="listbox"
+              aria-expanded={isOpen}
+              className="flex items-center gap-2 text-xs font-medium text-[oklch(94%_0.02_70)]/90 hover:text-[oklch(72%_0.09_16)] cursor-pointer transition-colors group focus:outline-none"
+            >
+              <Globe className="w-4 h-4 text-[oklch(72%_0.09_16)]" aria-hidden="true" />
+              <span>{LANGUAGES.find((l) => l.code === selectedLang)?.label ?? "Indonesia (ID)"}</span>
+              <ChevronDown
+                className={`w-3.5 h-3.5 opacity-60 transition-transform ${
+                  isOpen ? "rotate-180" : "group-hover:translate-y-0.5"
                 }`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {isOpen && (
+              <div
+                role="listbox"
+                className="absolute bottom-full mb-2 left-0 z-20 bg-[oklch(24%_0.09_15)] border border-[oklch(38%_0.14_15)] shadow-xl rounded-lg py-1 w-44 overflow-hidden"
               >
-                ID
-              </button>
-              <button
-                type="button"
-                onClick={() => setLang("en")}
-                className={`px-2 py-0.5 rounded-full transition-all ${
-                  lang === "en"
-                    ? "bg-[oklch(72%_0.09_16)] text-[oklch(28%_0.11_15)] font-semibold shadow-sm"
-                    : "text-[oklch(94%_0.02_70)]/70 hover:text-[oklch(94%_0.02_70)]"
-                }`}
-              >
-                EN
-              </button>
-            </div>
+                {LANGUAGES.map((item) => {
+                  const isActive = selectedLang === item.code;
+                  return (
+                    <button
+                      key={item.code}
+                      type="button"
+                      role="option"
+                      aria-selected={isActive}
+                      onClick={() => {
+                        setSelectedLang(item.code);
+                        setIsOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between transition-colors ${
+                        isActive
+                          ? "text-[oklch(72%_0.09_16)] font-semibold bg-[oklch(28%_0.11_15)]"
+                          : "text-[oklch(94%_0.02_70)]/80 hover:bg-[oklch(34%_0.12_15)] hover:text-white"
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      {isActive && <span className="text-[oklch(72%_0.09_16)] text-xs font-bold">✓</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Tengah: Baris Copyright & Tautan Hukum */}
