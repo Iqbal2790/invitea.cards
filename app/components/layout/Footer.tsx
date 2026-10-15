@@ -131,11 +131,13 @@ export function Footer() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("lenis-scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     updateProgress();
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("lenis-scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
   }, []);
@@ -261,7 +263,7 @@ export function Footer() {
       >
         <div
           ref={wordmarkTextRef}
-          className="w-full flex items-center justify-center will-change-transform"
+          className="w-full flex items-center justify-center will-change-transform transition-transform duration-75 ease-out"
           style={{
             transform: "translateY(calc((1 - var(--reveal-progress, 1)) * 18%))",
           }}
