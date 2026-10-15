@@ -92,10 +92,10 @@ export function Footer() {
 
   return (
     <footer className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
-      {/* Tier 1 & 2: Wrapper Konten Solid Stacking Layer (Curtain) */}
-      <div className="relative z-10 w-full min-h-[calc(100vh-64px)] flex flex-col justify-between bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl pt-14 sm:pt-16 lg:pt-20 pb-8 sm:pb-10">
+      {/* Tier 1 & 2: Wrapper Konten Solid */}
+      <div className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl pt-10 sm:pt-12">
         {/* Tier 1: Navigasi Multi-Kolom */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pb-10 sm:pb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pb-8 sm:pb-10">
           {FOOTER_COLUMNS.map((column) => (
             <div key={column.title} className="space-y-4">
               <h3 className="font-serif text-xs font-semibold uppercase tracking-wider text-[oklch(72%_0.09_16)]">
@@ -126,7 +126,7 @@ export function Footer() {
         </div>
 
         {/* Tier 2: Options & Legal Bar */}
-        <div className="py-8 sm:py-10 border-t border-[oklch(38%_0.14_15)] flex flex-col xl:flex-row items-center justify-between gap-6 text-xs text-[oklch(94%_0.02_70)]/80">
+        <div className="py-5 sm:py-6 border-t border-[oklch(38%_0.14_15)] flex flex-col xl:flex-row items-center justify-between gap-6 text-xs text-[oklch(94%_0.02_70)]/80">
           {/* Kiri: Selector Wilayah */}
           <div className="flex items-center gap-2 text-xs font-medium text-[oklch(94%_0.02_70)]/90 hover:text-[oklch(72%_0.09_16)] cursor-pointer transition-colors group">
             <Globe className="w-4 h-4 text-[oklch(72%_0.09_16)]" aria-hidden="true" />
@@ -197,14 +197,14 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Tier 3: Sticky Stacking Reveal Wordmark Container */}
+      {/* Tier 3: Wordmark Container */}
       <div
-        className="sticky bottom-0 z-0 w-full bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-8 sm:py-12 lg:py-16"
+        className="relative z-0 w-full bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-4 sm:py-6 lg:py-8"
         aria-hidden="true"
       >
         <svg
-          viewBox="-30 -1150 2820 1500"
-          className="w-full h-auto max-h-[75vh] block select-none pointer-events-none"
+          viewBox="-20 -780 2800 830"
+          className="w-full h-auto max-h-[160px] sm:max-h-[200px] lg:max-h-[240px] block select-none pointer-events-none"
           preserveAspectRatio="xMidYMid meet"
         >
           <text
