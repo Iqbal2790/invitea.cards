@@ -258,7 +258,7 @@ export function Footer() {
       {/* Tier 3: Wordmark Container */}
       <div
         ref={wordmarkRef}
-        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none pt-4 sm:pt-6 pb-6 sm:pb-8"
+        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/30 flex items-center justify-center select-none pointer-events-none pt-2 sm:pt-3 pb-1 sm:pb-2"
         aria-hidden="true"
       >
         <div
@@ -269,7 +269,7 @@ export function Footer() {
           }}
         >
           <svg
-            viewBox="0 -700 2750 740"
+            viewBox="60 -635 2640 655"
             className="w-full h-auto block select-none pointer-events-none"
             preserveAspectRatio="xMidYMid meet"
           >
