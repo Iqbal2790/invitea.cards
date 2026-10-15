@@ -20,10 +20,10 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Kolom 2: Layanan Undangan Website */}
+          {/* Kolom 2: Layanan */}
           <div>
             <h3 className="font-serif text-base font-semibold tracking-wider text-[oklch(72%_0.09_16)] uppercase mb-4">
-              Layanan Undangan Website
+              Layanan
             </h3>
             <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
