@@ -8,9 +8,9 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Portofolio Bespoke", href: "#portofolio" },
+  { label: "Contoh Undangan", href: "#portofolio" },
   { label: "Paket & Harga", href: "#pricing" },
-  { label: "Fitur Ekosistem", href: "#ekosistem" },
+  { label: "Keunggulan & Fitur", href: "#ekosistem" },
   { label: "Template Instan", href: "https://create.invitea.cards", isExternal: true },
   { label: "Wedding Planner", href: "https://plan.invitea.cards", isExternal: true },
 ];
@@ -56,7 +56,7 @@ export function Navbar() {
               href="#inquiry"
               className="bg-[oklch(58%_0.13_15)] text-[oklch(94%_0.02_70)] hover:bg-[oklch(38%_0.14_15)] transition-colors rounded-full px-5 py-2 text-sm font-medium tracking-wide shadow-xs"
             >
-              Konsultasi Desain
+              Konsultasi Gratis
             </a>
           </div>
 
@@ -105,7 +105,7 @@ export function Navbar() {
               onClick={closeMenu}
               className="block w-full text-center bg-[oklch(58%_0.13_15)] text-[oklch(94%_0.02_70)] hover:bg-[oklch(38%_0.14_15)] transition-colors rounded-full py-2.5 text-sm font-medium tracking-wide shadow-xs"
             >
-              Konsultasi Desain
+              Konsultasi Gratis
             </a>
           </div>
         </div>

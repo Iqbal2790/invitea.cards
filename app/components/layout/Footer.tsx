@@ -16,39 +16,38 @@ export function Footer() {
               Invitea.
             </a>
             <p className="text-sm leading-relaxed text-[oklch(94%_0.02_70)]/70 max-w-sm">
-              Bespoke Wedding Invitation &amp; Digital Experience. Merancang undangan pernikahan kustom
-              eksklusif dengan domain pribadi dan integrasi ekosistem wedding planner.
+              Undangan Pernikahan Mewah dengan Website &amp; Domain Nama Sendiri. Dibuatkan khusus oleh tim desainer profesional untuk momen sekali seumur hidup.
             </p>
           </div>
 
-          {/* Kolom 2: Layanan Bespoke */}
+          {/* Kolom 2: Layanan Undangan Mewah */}
           <div>
             <h3 className="font-serif text-base font-semibold tracking-wider text-[oklch(72%_0.09_16)] uppercase mb-4">
-              Layanan Bespoke
+              Layanan Undangan Mewah
             </h3>
             <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
                 <a href="#portofolio" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Portofolio Kustom
+                  Contoh Undangan
                 </a>
               </li>
               <li>
                 <a href="#pricing" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Paket Domain Bundling
+                  Paket Website &amp; Domain
                 </a>
               </li>
               <li>
                 <a href="#inquiry" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Form Konsultasi Desain
+                  Konsultasi Desain Gratis
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Kolom 3: Ekosistem Invitea */}
+          {/* Kolom 3: Fitur & Layanan */}
           <div>
             <h3 className="font-serif text-base font-semibold tracking-wider text-[oklch(72%_0.09_16)] uppercase mb-4">
-              Ekosistem Invitea
+              Fitur &amp; Layanan
             </h3>
             <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
@@ -58,7 +57,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-[oklch(72%_0.09_16)] transition-colors inline-flex items-center gap-1"
                 >
-                  <span>Instant Template Builder</span>
+                  <span>Buat Undangan Instan</span>
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
                 </a>
               </li>
@@ -69,18 +68,18 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="hover:text-[oklch(72%_0.09_16)] transition-colors inline-flex items-center gap-1"
                 >
-                  <span>Wedding Planner Hub</span>
+                  <span>Aplikasi Wedding Planner</span>
                   <ArrowUpRight className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
                 </a>
               </li>
               <li>
                 <a href="#ekosistem" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Guest List &amp; RSVP Sync
+                  Buku Tamu &amp; RSVP Otomatis
                 </a>
               </li>
               <li>
                 <a href="#ekosistem" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Private Gatekeeper
+                  Keamanan &amp; Tamu Privat
                 </a>
               </li>
             </ul>
@@ -94,7 +93,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
                 <a
-                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20dengan%20undangan%20bespoke."
+                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20bikin%20undangan%20pernikahan%20mewah%20dengan%20domain%20sendiri."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[oklch(72%_0.09_16)] transition-colors inline-flex items-center gap-1"
@@ -116,7 +115,7 @@ export function Footer() {
         <div className="mt-14 pt-8 border-t border-[oklch(38%_0.14_15)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[oklch(94%_0.02_70)]/60">
           <p>© {currentYear} Invitea.cards. All rights reserved.</p>
           <p className="font-serif italic tracking-wide text-[oklch(94%_0.02_70)]/70">
-            Crafted for unforgettable moments.
+            Momen istimewa, dirancang sempurna.
           </p>
         </div>
       </div>
