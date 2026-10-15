@@ -4,11 +4,11 @@ import { Footer } from "../components/layout/Footer";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Invitea.cards — Undangan Pernikahan Mewah dengan Domain Sendiri" },
+    { title: "Invitea.cards — Undangan Pernikahan dengan Website & Domain Sendiri" },
     {
       name: "description",
       content:
-        "Bikin website undangan pernikahan mewah dengan domain nama sendiri. Dibuatkan langsung oleh tim desainer, bukan template pasaran.",
+        "Bikin website undangan pernikahan dengan domain nama sendiri. Dibuatkan langsung oleh tim desainer, bukan template pasaran.",
     },
   ];
 }
@@ -28,7 +28,7 @@ export default function Home() {
             <span>Fase 4.1 — Layout Shell</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[oklch(23%_0.03_40)]">
-            Undangan Pernikahan Mewah dengan Website &amp; Domain Nama Sendiri
+            Undangan Pernikahan dengan Website &amp; Domain Nama Sendiri
           </h1>
           <p className="text-sm sm:text-base text-[oklch(40%_0.03_35)] max-w-lg mx-auto leading-relaxed">
             Fondasi desain dan navigasi aktif. Siap untuk integrasi modul konten Hero &amp; Penawaran (Fase 4.2).

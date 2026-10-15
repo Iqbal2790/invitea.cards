@@ -16,14 +16,14 @@ export function Footer() {
               Invitea.
             </a>
             <p className="text-sm leading-relaxed text-[oklch(94%_0.02_70)]/70 max-w-sm">
-              Undangan Pernikahan Mewah dengan Website &amp; Domain Nama Sendiri. Dibuatkan khusus oleh tim desainer profesional untuk momen sekali seumur hidup.
+              Undangan Pernikahan dengan Website &amp; Domain Nama Sendiri. Dibuatkan khusus oleh tim desainer profesional untuk momen sekali seumur hidup.
             </p>
           </div>
 
-          {/* Kolom 2: Layanan Undangan Mewah */}
+          {/* Kolom 2: Layanan Undangan Website */}
           <div>
             <h3 className="font-serif text-base font-semibold tracking-wider text-[oklch(72%_0.09_16)] uppercase mb-4">
-              Layanan Undangan Mewah
+              Layanan Undangan Website
             </h3>
             <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
@@ -93,7 +93,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
                 <a
-                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20bikin%20undangan%20pernikahan%20mewah%20dengan%20domain%20sendiri."
+                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20bikin%20undangan%20pernikahan%20dengan%20domain%20sendiri."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[oklch(72%_0.09_16)] transition-colors inline-flex items-center gap-1"
