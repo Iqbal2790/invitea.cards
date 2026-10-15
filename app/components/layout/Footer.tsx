@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { Globe, ChevronDown, ArrowUpRight } from "lucide-react";
 
 interface FooterLink {
@@ -90,69 +89,13 @@ function YouTubeIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const footerRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const wordmarkRef = useRef<HTMLDivElement>(null);
-  const wordmarkTextRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let ticking = false;
-
-    const updateProgress = () => {
-      if (!contentRef.current || !wordmarkRef.current || !wordmarkTextRef.current) {
-        ticking = false;
-        return;
-      }
-      const contentRect = contentRef.current.getBoundingClientRect();
-      const wordmarkHeight = wordmarkRef.current.offsetHeight;
-      const windowHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      const scrollY = window.scrollY;
-
-      // Distance Tier 2 bottom has scrolled above the bottom of the viewport
-      const exposed = windowHeight - contentRect.bottom;
-      const isAtBottom = windowHeight + scrollY >= docHeight - 2;
-
-      if (wordmarkHeight > 0) {
-        const rawProgress = exposed / wordmarkHeight;
-        const progress = exposed <= 0 ? 0 : isAtBottom ? 1 : Math.min(1, Math.max(0, rawProgress));
-
-        wordmarkRef.current.style.setProperty("--reveal-progress", progress.toString());
-        wordmarkRef.current.style.opacity = progress.toString();
-        wordmarkRef.current.style.visibility = progress > 0 ? "visible" : "hidden";
-      }
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateProgress);
-        ticking = true;
-      }
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    updateProgress();
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
 
   return (
-    <footer
-      ref={footerRef}
-      className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]"
-    >
-      {/* Tier 1 & Tier 2: Wrapper Konten Solid Stacking Layer */}
-      <div
-        ref={contentRef}
-        className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl min-h-[460px] sm:min-h-[500px] lg:min-h-[540px]"
-      >
+    <footer className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
+      {/* Tier 1 & 2: Wrapper Konten Solid Stacking Layer (Curtain) */}
+      <div className="relative z-10 w-full min-h-[calc(100vh-64px)] flex flex-col justify-between bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl pt-14 sm:pt-16 lg:pt-20 pb-8 sm:pb-10">
         {/* Tier 1: Navigasi Multi-Kolom */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pt-16 sm:pt-20 lg:pt-24 pb-14 sm:pb-16 lg:pb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pb-10 sm:pb-12">
           {FOOTER_COLUMNS.map((column) => (
             <div key={column.title} className="space-y-4">
               <h3 className="font-serif text-xs font-semibold uppercase tracking-wider text-[oklch(72%_0.09_16)]">
@@ -256,40 +199,27 @@ export function Footer() {
 
       {/* Tier 3: Sticky Stacking Reveal Wordmark Container */}
       <div
-        ref={wordmarkRef}
-        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-4 sm:py-6 lg:py-8"
-        style={{
-          opacity: 0,
-          visibility: "hidden",
-        }}
+        className="sticky bottom-0 z-0 w-full bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-8 sm:py-12 lg:py-16"
         aria-hidden="true"
       >
-        <div
-          ref={wordmarkTextRef}
-          className="w-full flex items-center justify-center will-change-transform"
-          style={{
-            transform: "translateY(calc((1 - var(--reveal-progress, 0)) * 20%))",
-          }}
+        <svg
+          viewBox="-30 -1150 2820 1500"
+          className="w-full h-auto max-h-[75vh] block select-none pointer-events-none"
+          preserveAspectRatio="xMidYMid meet"
         >
-          <svg
-            viewBox="24 -630 2724 646"
-            className="w-full h-auto block select-none pointer-events-none"
-            preserveAspectRatio="xMidYMid meet"
+          <text
+            x="0"
+            y="0"
+            className="font-serif font-bold fill-[oklch(94%_0.02_70)] tracking-tight"
+            style={{
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
+              letterSpacing: "-0.025em",
+              fontSize: "1000px",
+            }}
           >
-            <text
-              x="0"
-              y="0"
-              className="font-serif font-bold fill-[oklch(94%_0.02_70)] tracking-tight"
-              style={{
-                fontFamily: '"Cormorant Garamond", Georgia, serif',
-                letterSpacing: "-0.025em",
-                fontSize: "1000px",
-              }}
-            >
-              Invitea.
-            </text>
-          </svg>
-        </div>
+            Invitea.
+          </text>
+        </svg>
       </div>
     </footer>
   );
