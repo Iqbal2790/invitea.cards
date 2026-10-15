@@ -91,6 +91,7 @@ function YouTubeIcon({ className = "w-4 h-4" }: { className?: string }) {
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const footerRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const wordmarkRef = useRef<HTMLDivElement>(null);
   const wordmarkTextRef = useRef<HTMLDivElement>(null);
 
@@ -98,18 +99,27 @@ export function Footer() {
     let ticking = false;
 
     const updateProgress = () => {
-      if (!footerRef.current || !wordmarkRef.current || !wordmarkTextRef.current) {
+      if (!contentRef.current || !wordmarkRef.current || !wordmarkTextRef.current) {
         ticking = false;
         return;
       }
-      const footerRect = footerRef.current.getBoundingClientRect();
+      const contentRect = contentRef.current.getBoundingClientRect();
       const wordmarkHeight = wordmarkRef.current.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      const scrollY = window.scrollY;
+
+      // Distance Tier 2 bottom has scrolled above the bottom of the viewport
+      const exposed = windowHeight - contentRect.bottom;
+      const isAtBottom = windowHeight + scrollY >= docHeight - 2;
+
       if (wordmarkHeight > 0) {
-        const windowHeight = window.innerHeight;
-        const wrapperBottom = footerRect.bottom - wordmarkHeight;
-        const exposed = windowHeight - wrapperBottom;
-        const progress = Math.min(1, Math.max(0, exposed / wordmarkHeight));
-        wordmarkTextRef.current.style.setProperty("--reveal-progress", progress.toString());
+        const rawProgress = exposed / wordmarkHeight;
+        const progress = exposed <= 0 ? 0 : isAtBottom ? 1 : Math.min(1, Math.max(0, rawProgress));
+
+        wordmarkRef.current.style.setProperty("--reveal-progress", progress.toString());
+        wordmarkRef.current.style.opacity = progress.toString();
+        wordmarkRef.current.style.visibility = progress > 0 ? "visible" : "hidden";
       }
       ticking = false;
     };
@@ -137,9 +147,12 @@ export function Footer() {
       className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]"
     >
       {/* Tier 1 & Tier 2: Wrapper Konten Solid Stacking Layer */}
-      <div className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl">
+      <div
+        ref={contentRef}
+        className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 shadow-2xl min-h-[460px] sm:min-h-[500px] lg:min-h-[540px]"
+      >
         {/* Tier 1: Navigasi Multi-Kolom */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pt-14 pb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pt-16 sm:pt-20 lg:pt-24 pb-14 sm:pb-16 lg:pb-20">
           {FOOTER_COLUMNS.map((column) => (
             <div key={column.title} className="space-y-4">
               <h3 className="font-serif text-xs font-semibold uppercase tracking-wider text-[oklch(72%_0.09_16)]">
@@ -170,7 +183,7 @@ export function Footer() {
         </div>
 
         {/* Tier 2: Options & Legal Bar */}
-        <div className="py-6 border-t border-[oklch(38%_0.14_15)] flex flex-col xl:flex-row items-center justify-between gap-6 text-xs text-[oklch(94%_0.02_70)]/80">
+        <div className="py-8 sm:py-10 border-t border-[oklch(38%_0.14_15)] flex flex-col xl:flex-row items-center justify-between gap-6 text-xs text-[oklch(94%_0.02_70)]/80">
           {/* Kiri: Selector Wilayah */}
           <div className="flex items-center gap-2 text-xs font-medium text-[oklch(94%_0.02_70)]/90 hover:text-[oklch(72%_0.09_16)] cursor-pointer transition-colors group">
             <Globe className="w-4 h-4 text-[oklch(72%_0.09_16)]" aria-hidden="true" />
@@ -244,14 +257,18 @@ export function Footer() {
       {/* Tier 3: Sticky Stacking Reveal Wordmark Container */}
       <div
         ref={wordmarkRef}
-        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)]/95 border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-4 sm:py-6 lg:py-8"
+        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/40 flex items-center justify-center select-none pointer-events-none py-4 sm:py-6 lg:py-8"
+        style={{
+          opacity: 0,
+          visibility: "hidden",
+        }}
         aria-hidden="true"
       >
         <div
           ref={wordmarkTextRef}
           className="w-full flex items-center justify-center will-change-transform"
           style={{
-            transform: "translateY(calc((1 - var(--reveal-progress, 1)) * 15%))",
+            transform: "translateY(calc((1 - var(--reveal-progress, 0)) * 20%))",
           }}
         >
           <svg
@@ -262,7 +279,7 @@ export function Footer() {
             <text
               x="0"
               y="0"
-              className="font-serif font-bold fill-[oklch(94%_0.02_70)]/15 tracking-tight"
+              className="font-serif font-bold fill-[oklch(94%_0.02_70)] tracking-tight"
               style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 letterSpacing: "-0.025em",

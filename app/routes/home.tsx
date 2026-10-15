@@ -22,7 +22,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-[oklch(96%_0.02_75)] text-[oklch(23%_0.03_40)] selection:bg-[oklch(72%_0.09_16)]/30 selection:text-[oklch(23%_0.03_40)] overflow-x-clip">
       <Navbar />
 
-      <main className="flex-1 flex flex-col items-center justify-center py-24 sm:py-32 px-6 sm:px-8 lg:px-12 w-full">
+      <main className="flex-1 min-h-[70vh] flex flex-col items-center justify-center py-24 sm:py-32 px-6 sm:px-8 lg:px-12 w-full">
         <div className="w-full max-w-4xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[oklch(84%_0.05_18)] bg-[oklch(91%_0.03_20)] text-[oklch(38%_0.14_15)] text-xs font-medium tracking-widest uppercase">
             <span>Fase 4.1 — Layout Shell</span>
