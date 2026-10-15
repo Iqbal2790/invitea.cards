@@ -6,9 +6,9 @@ export function Footer() {
   return (
     <footer className="bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
-          {/* Kolom 1: Brand (Spans 2 cols on lg) */}
-          <div className="lg:col-span-2 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12">
+          {/* Kolom 1: Brand */}
+          <div className="space-y-4">
             <a
               href="#hero"
               className="inline-block font-serif text-2xl md:text-3xl font-bold tracking-tight text-[oklch(94%_0.02_70)] hover:text-[oklch(72%_0.09_16)] transition-colors"
@@ -20,10 +20,10 @@ export function Footer() {
             </p>
           </div>
 
-          {/* Kolom 2: Layanan */}
+          {/* Kolom 2: Fitur & Layanan */}
           <div>
             <h3 className="font-serif text-base font-semibold tracking-wider text-[oklch(72%_0.09_16)] uppercase mb-4">
-              Layanan
+              Fitur &amp; Layanan
             </h3>
             <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
@@ -33,23 +33,9 @@ export function Footer() {
               </li>
               <li>
                 <a href="#pricing" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Paket Website &amp; Domain
+                  Paket &amp; Harga
                 </a>
               </li>
-              <li>
-                <a href="#inquiry" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Konsultasi Desain Gratis
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Kolom 3: Fitur & Layanan */}
-          <div>
-            <h3 className="font-serif text-base font-semibold tracking-wider text-[oklch(72%_0.09_16)] uppercase mb-4">
-              Fitur &amp; Layanan
-            </h3>
-            <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
               <li>
                 <a
                   href="https://create.invitea.cards"
@@ -74,18 +60,18 @@ export function Footer() {
               </li>
               <li>
                 <a href="#ekosistem" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Buku Tamu &amp; RSVP Otomatis
+                  Keamanan &amp; Tamu Privat
                 </a>
               </li>
               <li>
-                <a href="#ekosistem" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
-                  Keamanan &amp; Tamu Privat
+                <a href="#inquiry" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
+                  Konsultasi Gratis
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Kolom 4: Kontak & Bantuan */}
+          {/* Kolom 3: Kontak & Bantuan */}
           <div>
             <h3 className="font-serif text-base font-semibold tracking-wider text-[oklch(72%_0.09_16)] uppercase mb-4">
               Kontak &amp; Bantuan
