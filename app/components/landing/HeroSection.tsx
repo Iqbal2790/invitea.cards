@@ -24,7 +24,7 @@ export function HeroSection() {
         </div>
 
         {/* Staggered Line-by-Line Serif Headline */}
-        <h1 className="max-w-4xl font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem] leading-[1.1] font-normal tracking-tight text-ink">
+        <h1 className="max-w-5xl font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] xl:text-[5.75rem] leading-[1.06] font-normal tracking-tight text-ink">
           <span className="block will-change-transform sm:whitespace-nowrap animate-hero-title-1">
             Sampaikan Kabar Bahagiamu
           </span>
@@ -34,25 +34,27 @@ export function HeroSection() {
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-3.5 sm:mt-4.5 max-w-md sm:max-w-lg text-sm sm:text-base leading-relaxed text-ink-soft will-change-transform font-sans animate-hero-sub">
+        <p className="mt-4 sm:mt-5 max-w-lg sm:max-w-xl text-base sm:text-lg leading-relaxed text-ink-soft will-change-transform font-sans animate-hero-sub">
           Rayakan hari bahagiamu dengan undangan pernikahan digital yang indah dan bermakna. Setiap detail disiapkan untuk mengabadikan awal perjalanan cinta kalian berdua.
         </p>
 
-        {/* Dual CTA Actions */}
-        <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto will-change-transform animate-hero-cta">
-          <a
-            href="#katalog"
-            className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-berry px-8 sm:px-9 py-3 sm:py-3.5 text-sm font-medium text-cream-text shadow-md hover:bg-berry-deep transition-all duration-150 active:scale-[0.97]"
-          >
-            Lihat Katalog Undangan
-          </a>
+        {/* Dual CTA Actions - Layanan Gratis */}
+        <div className="mt-6 sm:mt-7 flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto will-change-transform animate-hero-cta">
           <a
             href="https://create.invitea.cards"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black bg-white/90 backdrop-blur-xs px-7 sm:px-8 py-3 sm:py-3.5 text-sm font-medium text-black hover:bg-white transition-all duration-150 active:scale-[0.97]"
+            className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-berry px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md hover:bg-berry-deep transition-all duration-150 active:scale-[0.97]"
           >
-            Coba Template Instan
+            Buat Undangan Gratis
+          </a>
+          <a
+            href="https://plan.invitea.cards"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black bg-white/90 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black hover:bg-white transition-all duration-150 active:scale-[0.97]"
+          >
+            Wedding Planner Gratis
           </a>
         </div>
       </div>
