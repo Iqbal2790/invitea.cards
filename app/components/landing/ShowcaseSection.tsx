@@ -68,99 +68,116 @@ const TEMPLATES: TemplateTheme[] = [
   },
 ];
 
+// 3x clone for seamless endless conveyor belt
+const EXTENDED_TEMPLATES = [...TEMPLATES, ...TEMPLATES, ...TEMPLATES];
+const BASE_OFFSET = TEMPLATES.length; // index 8
+
 export function ShowcaseSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(BASE_OFFSET);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(1440);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const touchStartXRef = useRef<number | null>(null);
 
-  const checkScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+  // Measure viewport width
+  useEffect(() => {
+    const updateWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
-    const { scrollLeft, scrollWidth, clientWidth } = el;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  // Card & conveyor belt geometry
+  const cardWidth = viewportWidth >= 1024 ? 260 : viewportWidth >= 640 ? 230 : 195;
+  const gap = viewportWidth >= 1024 ? 32 : viewportWidth >= 640 ? 24 : 16;
+  const stride = cardWidth + gap;
 
-    const firstCard = el.firstElementChild as HTMLElement | null;
-    if (firstCard) {
-      const cardWidth = firstCard.offsetWidth + 24; // width + gap
-      const newIndex = Math.min(
-        Math.max(0, Math.round(scrollLeft / cardWidth)),
-        TEMPLATES.length - 1
-      );
-      setActiveIndex(newIndex);
+  // Center active card horizontally
+  const translateX = viewportWidth / 2 - (activeIndex * stride + cardWidth / 2);
+
+  const handleNext = useCallback(() => {
+    setIsTransitioning(true);
+    setActiveIndex((prev) => prev + 1);
+  }, []);
+
+  const handlePrev = useCallback(() => {
+    setIsTransitioning(true);
+    setActiveIndex((prev) => prev - 1);
+  }, []);
+
+  // Endless loop wrap-around without visual jump
+  const handleTransitionEnd = () => {
+    if (activeIndex >= BASE_OFFSET + TEMPLATES.length) {
+      setIsTransitioning(false);
+      setActiveIndex(activeIndex - TEMPLATES.length);
+    } else if (activeIndex < BASE_OFFSET) {
+      setIsTransitioning(false);
+      setActiveIndex(activeIndex + TEMPLATES.length);
     }
-  }, []);
-
-  const scrollToIndex = useCallback((index: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const firstCard = el.firstElementChild as HTMLElement | null;
-    const cardWidth = firstCard ? firstCard.offsetWidth + 24 : 295;
-    el.scrollTo({ left: index * cardWidth, behavior: "smooth" });
-  }, []);
-
-  const scrollTo = (direction: "left" | "right") => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const firstCard = el.firstElementChild as HTMLElement | null;
-    const cardWidth = firstCard ? firstCard.offsetWidth + 24 : 295;
-    const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
-
-    el.scrollBy({ left: scrollAmount, behavior: "smooth" });
   };
 
-  // Autoplay carousel scroll every 3.5s when not hovered
+  // Re-enable smooth transition after silent loop jump
+  useEffect(() => {
+    if (!isTransitioning) {
+      const raf = requestAnimationFrame(() => {
+        setIsTransitioning(true);
+      });
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [isTransitioning]);
+
+  // Autoplay conveyor belt every 3.5s when not hovered/paused
   useEffect(() => {
     if (isPaused) return;
 
-    const interval = setInterval(() => {
-      const el = scrollRef.current;
-      if (!el) return;
-
-      const nextIndex = (activeIndex + 1) % TEMPLATES.length;
-      scrollToIndex(nextIndex);
+    const timer = setInterval(() => {
+      handleNext();
     }, 3500);
 
-    return () => clearInterval(interval);
-  }, [activeIndex, isPaused, scrollToIndex]);
+    return () => clearInterval(timer);
+  }, [isPaused, handleNext]);
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+  // Touch gesture handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
+    touchStartXRef.current = e.touches[0].clientX;
+  };
 
-    checkScroll();
-    el.addEventListener("scroll", checkScroll, { passive: true });
-    window.addEventListener("resize", checkScroll);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    setIsPaused(false);
+    if (touchStartXRef.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartXRef.current;
+    if (diff > 40) {
+      handlePrev();
+    } else if (diff < -40) {
+      handleNext();
+    }
+    touchStartXRef.current = null;
+  };
 
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, [checkScroll]);
+  const currentDisplayIndex = activeIndex % TEMPLATES.length;
 
   return (
-    <section id="katalog" className="scroll-mt-20 py-16 sm:py-20 md:py-28 w-full overflow-hidden">
+    <section id="katalog" className="scroll-mt-20 py-8 sm:py-12 md:py-16 w-full overflow-hidden">
       {/* Anchor alias for navbar #portofolio */}
       <div id="portofolio" className="sr-only" aria-hidden="true" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        {/* Section Header with Controls & "Lihat Lainnya" */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 sm:gap-6 mb-8 sm:mb-10 md:mb-14">
+      {/* Section Header: Full Width matching Navbar & Footer (no margin) */}
+      <div className="w-full px-6 sm:px-8 lg:px-12 mb-5 sm:mb-7 md:mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6">
           <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 text-xs font-mono font-medium tracking-[0.2em] uppercase text-berry mb-2 sm:mb-3">
+            <span className="inline-flex items-center gap-2 text-xs font-mono font-medium tracking-[0.2em] uppercase text-berry mb-1.5 sm:mb-2.5">
               Katalog Tema Undangan
             </span>
-            <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-normal tracking-tight text-ink leading-[1.15] sm:leading-[1.12]">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-normal tracking-tight text-ink leading-[1.15] sm:leading-[1.12]">
               Koleksi Desain Pilihan untuk Momen Bersejarah
             </h2>
           </div>
 
-          {/* Controls: "Lihat Lainnya" Link + Navigation Arrows */}
+          {/* Controls: "Lihat Lainnya" Link + Conveyor Navigation Arrows */}
           <div className="flex items-center justify-between sm:justify-end gap-3 w-full md:w-auto">
             <a
               href="https://create.invitea.cards"
@@ -172,160 +189,168 @@ export function ShowcaseSection() {
               <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
             </a>
 
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => scrollTo("left")}
-                disabled={!canScrollLeft}
+                onClick={handlePrev}
                 aria-label="Geser ke kiri"
-                className="p-2.5 rounded-full border border-black/15 bg-white text-ink hover:bg-white hover:border-black/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 active:scale-95 shadow-2xs"
+                className="p-2 sm:p-2.5 rounded-full border border-black/15 bg-white text-ink hover:bg-white hover:border-black/40 transition-all duration-150 active:scale-95 shadow-2xs"
               >
                 <ChevronLeft className="w-4 h-4" aria-hidden="true" />
               </button>
               <button
                 type="button"
-                onClick={() => scrollTo("right")}
-                disabled={!canScrollRight}
+                onClick={handleNext}
                 aria-label="Geser ke kanan"
-                className="p-2.5 rounded-full border border-black/15 bg-white text-ink hover:bg-white hover:border-black/40 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-150 active:scale-95 shadow-2xs"
+                className="p-2 sm:p-2.5 rounded-full border border-black/15 bg-white text-ink hover:bg-white hover:border-black/40 transition-all duration-150 active:scale-95 shadow-2xs"
               >
                 <ChevronRight className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Carousel Scroll Track - Realistic Smartphone Mockups */}
+      {/* Endless Conveyor Belt Track: Full Viewport Width */}
+      <div
+        ref={containerRef}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="w-full overflow-visible py-3 sm:py-5 md:py-6 select-none relative"
+      >
         <div
-          ref={scrollRef}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
-          className="flex gap-6 sm:gap-7 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar pb-6 pt-2 -mx-6 px-6 sm:-mx-8 sm:px-8 lg:-mx-12 lg:px-12 items-stretch"
+          onTransitionEnd={handleTransitionEnd}
+          style={{
+            transform: `translateX(${translateX}px)`,
+            transition: isTransitioning ? "transform 650ms cubic-bezier(0.25, 1, 0.5, 1)" : "none",
+            gap: `${gap}px`,
+          }}
+          className="flex items-center will-change-transform"
         >
-          {TEMPLATES.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col items-center flex-shrink-0 w-[240px] sm:w-[265px] lg:w-[285px] snap-center group select-none"
-            >
-              {/* Smartphone Container */}
-              <div className="relative w-full aspect-[389/800] transition-transform duration-300 group-hover:-translate-y-1">
-                {/* Screen Content Underneath Phone Frame */}
-                <div className="absolute top-[2%] bottom-[2%] left-[5%] right-[5%] rounded-[30px] sm:rounded-[34px] overflow-hidden bg-stone-900 z-10 flex flex-col justify-between">
-                  {/* Wallpaper / Template Artwork */}
-                  <div className="absolute inset-0 z-0">
-                    <img
-                      src={item.thumbnail}
-                      alt={item.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    {/* Gradient Scrim for Readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/25 pointer-events-none" />
+          {EXTENDED_TEMPLATES.map((item, idx) => {
+            const isActive = idx === activeIndex;
+            return (
+              <div
+                key={`${item.id}-${idx}`}
+                onClick={() => {
+                  if (!isActive) {
+                    setIsTransitioning(true);
+                    setActiveIndex(idx);
+                  }
+                }}
+                style={{ width: `${cardWidth}px` }}
+                className={`flex-shrink-0 flex flex-col items-center transition-all duration-500 ease-out origin-center ${
+                  isActive
+                    ? "scale-105 sm:scale-110 lg:scale-[1.12] z-30 opacity-100"
+                    : "scale-90 sm:scale-92 z-10 opacity-45 hover:opacity-80 cursor-pointer"
+                }`}
+              >
+                {/* Smartphone Container */}
+                <div
+                  className={`relative w-full aspect-[389/800] transition-shadow duration-500 ${
+                    isActive ? "drop-shadow-2xl" : "drop-shadow-md"
+                  }`}
+                >
+                  {/* Screen Content Underneath Phone Frame: Flush placement without any gap */}
+                  <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[36px] sm:rounded-[40px] overflow-hidden z-10 flex flex-col justify-between">
+                    {/* Wallpaper / Template Artwork */}
+                    <div className="absolute inset-0 z-0">
+                      <img
+                        src={item.thumbnail}
+                        alt={item.name}
+                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                        loading="lazy"
+                      />
+                      {/* Gradient Scrim for Readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/25 pointer-events-none" />
+                    </div>
+
+                    {/* Header inside Screen */}
+                    <div className="relative z-10 pt-7 sm:pt-8 px-3 text-center pointer-events-none">
+                      <p className="text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.22em] text-white/70 drop-shadow-xs">
+                        The Wedding of
+                      </p>
+                    </div>
+
+                    {/* Floating Dock Card inside Screen */}
+                    <div className="relative z-10 p-2 sm:p-2.5 m-2 sm:m-2.5 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 text-white shadow-md pointer-events-none">
+                      <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-wider text-white/70 block mb-0.5">
+                        {item.category}
+                      </span>
+                      <h3 className="font-serif text-sm sm:text-base font-bold text-white tracking-tight leading-tight">
+                        {item.name}
+                      </h3>
+                    </div>
                   </div>
 
-                  {/* Header inside Screen */}
-                  <div className="relative z-10 pt-8 px-3 text-center pointer-events-none">
-                    <p className="text-[9px] font-mono uppercase tracking-[0.22em] text-white/70 drop-shadow-xs">
-                      The Wedding of
-                    </p>
-                  </div>
-
-                  {/* Floating Dock Card inside Screen */}
-                  <div className="relative z-10 p-2.5 sm:p-3 m-2.5 rounded-xl bg-black/65 backdrop-blur-md border border-white/15 text-white shadow-md pointer-events-none">
-                    <span className="text-[9px] font-mono uppercase tracking-wider text-white/70 block mb-0.5">
-                      {item.category}
-                    </span>
-                    <h3 className="font-serif text-base sm:text-lg font-bold text-white tracking-tight leading-tight">
-                      {item.name}
-                    </h3>
-                  </div>
+                  {/* Smartphone Mockup Frame Overlay (Provided Asset) */}
+                  <img
+                    src="/images/phone-mockup.webp"
+                    alt="Smartphone Frame"
+                    className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+                    aria-hidden="true"
+                  />
                 </div>
 
-                {/* Smartphone Mockup Frame Overlay (Provided Asset) */}
-                <img
-                  src="/images/phone-mockup.webp"
-                  alt="Smartphone Frame"
-                  className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20 drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-300"
-                  aria-hidden="true"
-                />
+                {/* Action Buttons Below Smartphone: Only visible on active center card */}
+                <div
+                  className={`w-full mt-3.5 flex items-center gap-2 transition-all duration-300 ${
+                    isActive ? "opacity-100" : "opacity-0 pointer-events-none select-none"
+                  }`}
+                >
+                  <a
+                    href={item.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 px-2.5 rounded-full border border-black/20 bg-white/95 backdrop-blur-xs text-xs font-semibold text-ink hover:bg-white hover:border-black/50 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95"
+                  >
+                    <Eye className="w-3.5 h-3.5 opacity-70" aria-hidden="true" />
+                    <span>Live Demo</span>
+                  </a>
+                  <a
+                    href={`https://create.invitea.cards?theme=${item.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 px-2.5 rounded-full bg-berry text-cream-text text-xs font-semibold hover:bg-berry-deep transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95"
+                  >
+                    <span>Gunakan Tema</span>
+                    <ExternalLink className="w-3 h-3 opacity-80" aria-hidden="true" />
+                  </a>
+                </div>
               </div>
+            );
+          })}
+        </div>
+      </div>
 
-              {/* Action Buttons Below Smartphone */}
-              <div className="w-full mt-3.5 flex items-center gap-2">
-                <a
-                  href={item.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-2.5 px-3 rounded-full border border-black/20 bg-white/90 backdrop-blur-xs text-xs font-semibold text-ink hover:bg-white hover:border-black/50 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95"
-                >
-                  <Eye className="w-3.5 h-3.5 opacity-70" aria-hidden="true" />
-                  <span>Live Demo</span>
-                </a>
-                <a
-                  href={`https://create.invitea.cards?theme=${item.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-2.5 px-3 rounded-full bg-berry text-cream-text text-xs font-semibold hover:bg-berry-deep transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95"
-                >
-                  <span>Gunakan Tema</span>
-                  <ExternalLink className="w-3 h-3 opacity-80" aria-hidden="true" />
-                </a>
-              </div>
-            </div>
+      {/* Progress Dots & Counter: Centered under conveyor belt */}
+      <div className="w-full px-6 sm:px-8 lg:px-12 mt-6 sm:mt-8 flex items-center justify-center gap-4">
+        {/* Indicator dots */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {TEMPLATES.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => {
+                setIsTransitioning(true);
+                setActiveIndex(BASE_OFFSET + idx);
+              }}
+              aria-label={`Lihat tema nomor ${idx + 1}`}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                currentDisplayIndex === idx
+                  ? "w-7 bg-berry"
+                  : "w-2 bg-berry/20 hover:bg-berry/40"
+              }`}
+            />
           ))}
-
-          {/* End Card: "Lihat Semua Tema" Discovery Card */}
-          <div className="flex flex-col items-center justify-center flex-shrink-0 w-[220px] sm:w-[245px] snap-center select-none">
-            <a
-              href="https://create.invitea.cards"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group w-full aspect-[389/800] rounded-[36px] sm:rounded-[40px] border-2 border-dashed border-berry/30 hover:border-berry bg-white/50 hover:bg-white/80 transition-all duration-300 p-6 flex flex-col items-center justify-center text-center shadow-2xs hover:shadow-md"
-            >
-              <div className="w-12 h-12 rounded-full bg-berry/10 text-berry flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-berry group-hover:text-cream-text transition-all duration-200">
-                <ArrowUpRight className="w-6 h-6" />
-              </div>
-              <span className="font-serif text-xl sm:text-2xl font-bold text-ink mb-2">
-                Lihat Semua Tema
-              </span>
-              <p className="text-xs text-ink-soft leading-relaxed max-w-[18ch]">
-                Jelajahi seluruh koleksi desain di Creator Studio
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 px-4 py-2 rounded-full bg-berry text-cream-text text-xs font-medium">
-                Buka Creator
-              </span>
-            </a>
-            {/* Spacer matching bottom buttons height */}
-            <div className="w-full mt-3.5 h-[38px]" />
-          </div>
         </div>
 
-        {/* Progress Indicator Dots & Counter */}
-        <div className="mt-8 flex items-center justify-between">
-          {/* Indicator dots */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            {TEMPLATES.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => scrollToIndex(idx)}
-                aria-label={`Lihat tema nomor ${idx + 1}`}
-                className={`h-2 rounded-full transition-all duration-200 ${
-                  activeIndex === idx
-                    ? "w-7 bg-berry"
-                    : "w-2 bg-berry/20 hover:bg-berry/40"
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Counter text */}
-          <span className="text-xs font-mono text-ink-soft font-medium">
-            0{activeIndex + 1} / 0{TEMPLATES.length}
-          </span>
-        </div>
+        {/* Counter text */}
+        <span className="text-xs font-mono text-ink-soft font-medium">
+          0{currentDisplayIndex + 1} / 0{TEMPLATES.length}
+        </span>
       </div>
     </section>
   );
