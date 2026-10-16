@@ -2,12 +2,6 @@ import type { Route } from "./+types/home";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/landing/HeroSection";
-import { SocialProofSection } from "../components/landing/SocialProofSection";
-import { ShowcaseSection } from "../components/landing/ShowcaseSection";
-import { HowItWorksSection } from "../components/landing/HowItWorksSection";
-import { ValueSection } from "../components/landing/ValueSection";
-import { TestimonialsSection } from "../components/landing/TestimonialsSection";
-import { CtaSection } from "../components/landing/CtaSection";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -31,12 +25,6 @@ export default function Home() {
 
       <main className="flex-1 w-full">
         <HeroSection />
-        <SocialProofSection />
-        <ShowcaseSection />
-        <HowItWorksSection />
-        <ValueSection />
-        <TestimonialsSection />
-        <CtaSection />
       </main>
 
       <Footer />
