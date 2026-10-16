@@ -78,7 +78,9 @@ export function ShowcaseSection() {
   const [isPaused, setIsPaused] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(1440);
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const touchStartXRef = useRef<number | null>(null);
+  const isSlidingRef = useRef(false);
 
   // Measure viewport width
   useEffect(() => {
@@ -99,33 +101,49 @@ export function ShowcaseSection() {
   const translateX = viewportWidth / 2 - (activeIndex * stride + cardWidth / 2);
 
   const handleNext = useCallback(() => {
+    if (isSlidingRef.current) return;
+    isSlidingRef.current = true;
     setIsTransitioning(true);
     setActiveIndex((prev) => prev + 1);
   }, []);
 
   const handlePrev = useCallback(() => {
+    if (isSlidingRef.current) return;
+    isSlidingRef.current = true;
     setIsTransitioning(true);
     setActiveIndex((prev) => prev - 1);
   }, []);
 
   // Endless loop wrap-around without visual jump
-  const handleTransitionEnd = () => {
+  const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    // Only respond to the track's own transform transition, ignore bubbling child events
+    if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
+
     if (activeIndex >= BASE_OFFSET + TEMPLATES.length) {
       setIsTransitioning(false);
       setActiveIndex(activeIndex - TEMPLATES.length);
     } else if (activeIndex < BASE_OFFSET) {
       setIsTransitioning(false);
       setActiveIndex(activeIndex + TEMPLATES.length);
+    } else {
+      isSlidingRef.current = false;
     }
   };
 
-  // Re-enable smooth transition after silent loop jump
+  // Re-enable smooth transition after silent loop jump via double rAF + reflow
   useEffect(() => {
     if (!isTransitioning) {
-      const raf = requestAnimationFrame(() => {
-        setIsTransitioning(true);
+      if (trackRef.current) {
+        void trackRef.current.offsetHeight;
+      }
+      const raf1 = requestAnimationFrame(() => {
+        const raf2 = requestAnimationFrame(() => {
+          setIsTransitioning(true);
+          isSlidingRef.current = false;
+        });
+        return () => cancelAnimationFrame(raf2);
       });
-      return () => cancelAnimationFrame(raf);
+      return () => cancelAnimationFrame(raf1);
     }
   }, [isTransitioning]);
 
@@ -161,18 +179,23 @@ export function ShowcaseSection() {
   const currentDisplayIndex = activeIndex % TEMPLATES.length;
 
   return (
-    <section id="katalog" className="scroll-mt-20 py-8 sm:py-12 md:py-16 w-full overflow-hidden">
+    <section
+      id="katalog"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      className="scroll-mt-20 py-6 sm:py-9 md:py-12 w-full overflow-hidden"
+    >
       {/* Anchor alias for navbar #portofolio */}
       <div id="portofolio" className="sr-only" aria-hidden="true" />
 
       {/* Section Header: Full Width matching Navbar & Footer (no margin) */}
-      <div className="w-full px-6 sm:px-8 lg:px-12 mb-5 sm:mb-7 md:mb-10">
+      <div className="w-full px-6 sm:px-8 lg:px-12 mb-4 sm:mb-6 md:mb-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6">
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-2 text-xs font-mono font-medium tracking-[0.2em] uppercase text-berry mb-1.5 sm:mb-2.5">
               Katalog Tema Undangan
             </span>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-normal tracking-tight text-ink leading-[1.15] sm:leading-[1.12]">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-normal tracking-tight text-ink leading-snug sm:leading-tight pt-1 pb-1">
               Koleksi Desain Pilihan untuk Momen Bersejarah
             </h2>
           </div>
@@ -221,6 +244,7 @@ export function ShowcaseSection() {
         className="w-full overflow-visible py-3 sm:py-5 md:py-6 select-none relative"
       >
         <div
+          ref={trackRef}
           onTransitionEnd={handleTransitionEnd}
           style={{
             transform: `translateX(${translateX}px)`,
@@ -241,7 +265,9 @@ export function ShowcaseSection() {
                   }
                 }}
                 style={{ width: `${cardWidth}px` }}
-                className={`flex-shrink-0 flex flex-col items-center transition-all duration-500 ease-out origin-center ${
+                className={`flex-shrink-0 flex flex-col items-center origin-center ${
+                  isTransitioning ? "transition-all duration-500 ease-out" : ""
+                } ${
                   isActive
                     ? "scale-105 sm:scale-110 lg:scale-[1.12] z-30 opacity-100"
                     : "scale-90 sm:scale-92 z-10 opacity-45 hover:opacity-80 cursor-pointer"
@@ -318,8 +344,8 @@ export function ShowcaseSection() {
         </div>
       </div>
 
-      {/* Progress Dots & Counter: Centered under conveyor belt */}
-      <div className="w-full px-6 sm:px-8 lg:px-12 mt-6 sm:mt-8 flex items-center justify-center gap-4">
+      {/* Progress Dots: Centered under conveyor belt */}
+      <div className="w-full px-6 sm:px-8 lg:px-12 mt-4 sm:mt-5 flex items-center justify-center">
         {/* Indicator dots */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {TEMPLATES.map((_, idx) => (
@@ -339,11 +365,6 @@ export function ShowcaseSection() {
             />
           ))}
         </div>
-
-        {/* Counter text */}
-        <span className="text-xs font-mono text-ink-soft font-medium">
-          0{currentDisplayIndex + 1} / 0{TEMPLATES.length}
-        </span>
       </div>
     </section>
   );
