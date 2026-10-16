@@ -3,6 +3,7 @@ import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/landing/HeroSection";
 import { SocialProofSection } from "../components/landing/SocialProofSection";
+import { ShowcaseSection } from "../components/landing/ShowcaseSection";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -27,6 +28,7 @@ export default function Home() {
       <main className="flex-1 w-full">
         <HeroSection />
         <SocialProofSection />
+        <ShowcaseSection />
       </main>
 
       <Footer />
