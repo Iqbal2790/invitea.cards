@@ -53,10 +53,10 @@ export function Navbar() {
           {/* Right Action Button (Desktop CTA) */}
           <div className="hidden md:flex items-center">
             <a
-              href="#inquiry"
+              href="/login"
               className="bg-[oklch(58%_0.13_15)] text-[oklch(94%_0.02_70)] hover:bg-[oklch(38%_0.14_15)] transition-colors rounded-full px-5 py-2 text-sm font-medium tracking-wide shadow-xs"
             >
-              Konsultasi Gratis
+              Login
             </a>
           </div>
 
@@ -101,11 +101,11 @@ export function Navbar() {
           </nav>
           <div className="pt-2 border-t border-[oklch(84%_0.05_18)]/40">
             <a
-              href="#inquiry"
+              href="/login"
               onClick={closeMenu}
               className="block w-full text-center bg-[oklch(58%_0.13_15)] text-[oklch(94%_0.02_70)] hover:bg-[oklch(38%_0.14_15)] transition-colors rounded-full py-2.5 text-sm font-medium tracking-wide shadow-xs"
             >
-              Konsultasi Gratis
+              Login
             </a>
           </div>
         </div>
