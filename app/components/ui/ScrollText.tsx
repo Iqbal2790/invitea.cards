@@ -66,7 +66,6 @@ function AnimatedElement({
   mode: "word" | "char";
   isLast: boolean;
 }) {
-  // Staggered progressive unblur following Framer ScrollText algorithm
   const startRatio = index / Math.max(1, totalElements);
   const endRatio = Math.min(1, startRatio + 0.4);
 
@@ -103,17 +102,72 @@ function AnimatedElement({
   );
 }
 
+interface BlurRevealItemProps {
+  children: React.ReactNode;
+  className?: string;
+  staggerIndex?: number;
+  initialBlur?: number;
+  y?: number;
+  as?: "div" | "span";
+}
+
+/**
+ * BlurRevealItem
+ * Applies Framer ScrollText blur reveal to any individual element, text, badge, button, or card item.
+ */
+export function BlurRevealItem({
+  children,
+  className = "",
+  staggerIndex = 0,
+  initialBlur = 8,
+  y = 6,
+  as = "div",
+}: BlurRevealItemProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const startOffset = Math.max(88, 98 - staggerIndex);
+  const endOffset = Math.max(72, 84 - staggerIndex);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: [`start ${startOffset}%`, `start ${endOffset}%`],
+  });
+
+  const blurAmount = Math.max(4, initialBlur + staggerIndex);
+  const depthBlur = useTransform(scrollYProgress, [0, 1], [blurAmount, 0]);
+  const depthOpacity = useTransform(scrollYProgress, [0, 1], [0.35, 1]);
+  const translateY = useTransform(scrollYProgress, [0, 1], [y, 0]);
+  const depthFilter = useTransform(
+    depthBlur,
+    (v) => `blur(${Math.max(0, v)}px)`
+  );
+
+  const Component = as === "span" ? motion.span : motion.div;
+
+  return (
+    <Component
+      ref={ref as any}
+      style={{
+        filter: depthFilter,
+        opacity: depthOpacity,
+        y: translateY,
+      }}
+      className={`will-change-[filter,opacity,transform] ${className}`}
+    >
+      {children}
+    </Component>
+  );
+}
+
 interface BlurRevealCardItemProps {
   children: React.ReactNode;
   index: number;
   totalElements?: number;
-  scrollYProgress: MotionValue<number>;
+  scrollYProgress?: MotionValue<number>;
   className?: string;
 }
 
 /**
  * BlurRevealCardItem for sub-feature items inside each card
- * Progressively unblurs and fades in as the card scrolls through the viewport.
  */
 export function BlurRevealCardItem({
   children,
@@ -122,26 +176,32 @@ export function BlurRevealCardItem({
   scrollYProgress,
   className = "",
 }: BlurRevealCardItemProps) {
-  // Progressive window based on item index
-  const startRatio = (index / totalElements) * 0.35;
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: localScroll } = useScroll({
+    target: ref,
+    offset: ["start 98%", "start 82%"],
+  });
+
+  const activeProgress = scrollYProgress || localScroll;
+  const startRatio = (index / totalElements) * 0.25;
   const endRatio = Math.min(1, startRatio + 0.55);
 
   const depthBlur = useTransform(
-    scrollYProgress,
+    activeProgress,
     [startRatio, endRatio],
-    [(index + 1) * 3, 0]
+    [(index + 1) * 2.5, 0]
   );
 
   const depthOpacity = useTransform(
-    scrollYProgress,
+    activeProgress,
     [startRatio, endRatio],
-    [0.4, 1]
+    [0.35, 1]
   );
 
   const translateY = useTransform(
-    scrollYProgress,
+    activeProgress,
     [startRatio, endRatio],
-    [10, 0]
+    [8, 0]
   );
 
   const depthFilter = useTransform(
@@ -151,6 +211,7 @@ export function BlurRevealCardItem({
 
   return (
     <motion.div
+      ref={ref}
       style={{
         filter: depthFilter,
         opacity: depthOpacity,
@@ -173,13 +234,20 @@ export function BlurRevealContainer({
   initialBlur = 8,
 }: {
   children: React.ReactNode;
-  scrollYProgress: MotionValue<number>;
+  scrollYProgress?: MotionValue<number>;
   className?: string;
   initialBlur?: number;
 }) {
-  const depthBlur = useTransform(scrollYProgress, [0.1, 0.7], [initialBlur, 0]);
-  const depthOpacity = useTransform(scrollYProgress, [0.1, 0.7], [0.4, 1]);
-  const scale = useTransform(scrollYProgress, [0.1, 0.7], [0.97, 1]);
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: localProgress } = useScroll({
+    target: ref,
+    offset: ["start 95%", "center 65%"],
+  });
+
+  const activeProgress = scrollYProgress || localProgress;
+  const depthBlur = useTransform(activeProgress, [0.05, 0.75], [initialBlur, 0]);
+  const depthOpacity = useTransform(activeProgress, [0.05, 0.75], [0.3, 1]);
+  const scale = useTransform(activeProgress, [0.05, 0.75], [0.97, 1]);
   const depthFilter = useTransform(
     depthBlur,
     (v) => `blur(${Math.max(0, v)}px)`
@@ -187,6 +255,7 @@ export function BlurRevealContainer({
 
   return (
     <motion.div
+      ref={ref}
       style={{
         filter: depthFilter,
         opacity: depthOpacity,
