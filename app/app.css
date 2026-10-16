@@ -118,3 +118,24 @@ html, body {
 .animate-hero-bg {
   animation: bgReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
+
+/* Laptop Mockup Auto-Scroll Animation */
+@keyframes laptopScroll {
+  0%, 18% {
+    transform: translateY(0%);
+  }
+  48%, 68% {
+    transform: translateY(-50%);
+  }
+  92%, 100% {
+    transform: translateY(0%);
+  }
+}
+
+.animate-mockup-scroll {
+  animation: laptopScroll 14s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+
+.animate-mockup-scroll:hover {
+  animation-play-state: paused;
+}

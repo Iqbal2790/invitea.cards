@@ -212,10 +212,10 @@ export function ServicesSection() {
           </div>
 
           {/* Card 2: Undangan Digital */}
-          <div className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 transition-all">
+          <div className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 pb-12 sm:pb-14 lg:pb-16 transition-all">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Copy & Sub-features */}
-              <div className="lg:col-span-7 flex flex-col justify-between">
+              <div className="lg:col-span-6 flex flex-col justify-between">
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-pink-soft text-berry border border-pink-line/70 mb-4">
                     Coba Gratis
@@ -228,7 +228,8 @@ export function ServicesSection() {
                   <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
                     Website undangan pernikahan berdomain nama sendiri. Bagikan
                     momen berharga dengan RSVP otomatis, rute peta presisi, dan buku
-                    ucapan doa dalam tampilan mobile yang ringan dan responsif.
+                    ucapan doa dalam tampilan responsif yang anggun di laptop maupun
+                    smartphone.
                   </p>
 
                   <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5">
@@ -310,57 +311,148 @@ export function ServicesSection() {
                 </div>
               </div>
 
-              {/* Right Column: Invitation Phone Mockup */}
-              <div className="lg:col-span-5 flex justify-center mt-6 lg:mt-0">
-                <div className="relative w-[230px] sm:w-[250px] aspect-[9/18.5] select-none">
-                  {/* Screen Content Wrapper matching Showcase bezel curve */}
-                  <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[32px] sm:rounded-[36px] overflow-hidden bg-stone-900 shadow-xl">
-                    <img
-                      src="/thumbnails/wedding-portrait.jpg"
-                      alt="Pratinjau Undangan Digital"
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35" />
-
-                    {/* Top Tag: Domain (placed below Dynamic Island hardware cutout) */}
-                    <div className="absolute top-9 inset-x-4 flex justify-center z-10">
-                      <div className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] text-white/90 font-medium">
+              {/* Right Column: Composite Laptop Mockup + Phone Mockup with Auto-Scroll Animation */}
+              <div className="lg:col-span-6 flex justify-center items-center mt-6 lg:mt-0">
+                <div className="relative w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px] aspect-[800/489] select-none">
+                  {/* Laptop Screen Content (Behind bezel, visible through transparent screen cutout) */}
+                  <div className="absolute top-[4.3%] bottom-[10.6%] left-[9.6%] right-[9.6%] overflow-hidden bg-bg rounded-t-[5px]">
+                    {/* Browser Mockup Chrome */}
+                    <div className="sticky top-0 z-20 w-full px-2 sm:px-2.5 py-1 bg-stone-100/95 backdrop-blur-sm border-b border-stone-200/80 flex items-center gap-1.5">
+                      <div className="flex items-center gap-1">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                      </div>
+                      <div className="flex-1 max-w-[150px] sm:max-w-[180px] mx-auto px-2 py-0.5 rounded bg-white border border-stone-200/80 text-[7px] sm:text-[8px] text-stone-600 text-center truncate">
                         invitea.cards/sarah-dimas
                       </div>
                     </div>
 
-                    {/* Bottom Card: Invitation Details (no artificial 'The Wedding of' overlay) */}
-                    <div className="absolute bottom-4 inset-x-3 p-3.5 rounded-2xl bg-black/75 backdrop-blur-md border border-white/15 text-white flex flex-col gap-2">
-                      <div className="text-center">
-                        <h5 className="font-serif text-xl font-medium tracking-tight text-white leading-tight">
-                          Sarah &amp; Dimas
-                        </h5>
-                        <p className="text-[10px] text-white/70 mt-1">
-                          Sabtu, 14 November 2026
-                        </p>
+                    {/* Auto-scrolling Page Content */}
+                    <div className="w-full animate-mockup-scroll will-change-transform">
+                      {/* Section 1: Hero Cover */}
+                      <div className="w-full relative h-[180px] sm:h-[200px] p-3 sm:p-4 flex flex-col justify-between text-white">
+                        <img
+                          src="/thumbnails/wedding-rings.jpg"
+                          alt=""
+                          aria-hidden="true"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/45" />
+
+                        <div className="relative z-10 flex items-center justify-between text-[7px] sm:text-[8px] uppercase tracking-wider text-pink-200">
+                          <span>Wedding Celebration</span>
+                          <span className="px-1.5 py-0.5 rounded bg-black/40 backdrop-blur-sm border border-white/20">
+                            Save The Date
+                          </span>
+                        </div>
+
+                        <div className="relative z-10 text-center my-auto py-2">
+                          <h6 className="font-serif text-xl sm:text-2xl font-medium tracking-tight text-white leading-tight">
+                            Sarah &amp; Dimas
+                          </h6>
+                          <p className="text-[8px] sm:text-[9px] text-white/80 mt-1">
+                            Sabtu, 14 November 2026 · Jakarta
+                          </p>
+                        </div>
+
+                        <div className="relative z-10 flex justify-center">
+                          <span className="text-[7px] sm:text-[8px] px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm text-white/90">
+                            Scroll untuk melihat rangkaian acara
+                          </span>
+                        </div>
                       </div>
 
-                      <div className="pt-2 border-t border-white/15 text-center">
-                        <span className="text-[9px] text-white/60 block">
-                          Kepada Yth. Tamu Undangan
-                        </span>
-                        <div className="mt-1.5 py-1.5 px-3 rounded-full bg-white text-ink text-[11px] font-semibold">
-                          Buka Undangan
+                      {/* Section 2: Event Schedule & Map */}
+                      <div className="w-full p-3 sm:p-4 bg-bg text-ink flex flex-col gap-2 sm:gap-2.5">
+                        <div className="text-center">
+                          <span className="text-[7px] sm:text-[8px] uppercase tracking-wider text-berry font-semibold">
+                            Rangkaian Acara
+                          </span>
+                          <h6 className="font-serif text-xs sm:text-sm font-semibold text-ink mt-0.5">
+                            Akad &amp; Resepsi Pernikahan
+                          </h6>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-1.5 text-[7px] sm:text-[8px]">
+                          <div className="p-2 rounded-lg bg-bg-alt/40 border border-header-border">
+                            <span className="font-semibold text-berry block">Akad Nikah</span>
+                            <span className="text-ink-soft block mt-0.5">08.00 - 10.00 WIB</span>
+                            <span className="text-ink block mt-0.5 font-medium">Masjid Al-Barkah</span>
+                          </div>
+                          <div className="p-2 rounded-lg bg-bg-alt/40 border border-header-border">
+                            <span className="font-semibold text-berry block">Resepsi</span>
+                            <span className="text-ink-soft block mt-0.5">11.00 - 14.00 WIB</span>
+                            <span className="text-ink block mt-0.5 font-medium">Grand Ballroom</span>
+                          </div>
+                        </div>
+
+                        {/* Location Hook */}
+                        <div className="p-1.5 sm:p-2 rounded-lg bg-bg-alt/30 border border-header-border flex items-center justify-between text-[7px] sm:text-[8px]">
+                          <div className="flex items-center gap-1">
+                            <MapPin className="w-2.5 h-2.5 text-berry shrink-0" />
+                            <span className="text-ink font-medium">Jl. Sudirman No. 12, Jakarta</span>
+                          </div>
+                          <span className="text-berry font-semibold">Buka Maps</span>
+                        </div>
+
+                        {/* RSVP Hook */}
+                        <div className="p-2 rounded-lg bg-pink-soft/50 border border-pink-line/60 flex items-center justify-between text-[7px] sm:text-[8px]">
+                          <span className="text-ink font-medium">Konfirmasi Kehadiran Tamu</span>
+                          <span className="px-2 py-0.5 rounded bg-berry text-white font-semibold">
+                            Isi RSVP
+                          </span>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Realistic Phone Bezel Mockup Frame */}
+                  {/* Laptop Mockup Bezel & Aluminum Base */}
                   <img
-                    src="/images/phone-mockup.webp"
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-0 w-full h-full pointer-events-none object-fill z-10 drop-shadow-2xl"
+                    src="/images/laptop-mockup.webp"
+                    alt="Mockup Laptop Undangan Digital"
+                    className="absolute inset-0 w-full h-full pointer-events-none object-fill z-10 drop-shadow-xl"
                   />
+
+                  {/* Overlapping Phone Mockup (Bottom-Right) */}
+                  <div className="absolute -bottom-1 -right-0.5 sm:-bottom-3 sm:-right-2 md:-right-3 w-[64px] sm:w-[95px] lg:w-[130px] aspect-[9/18.5] z-20 drop-shadow-2xl">
+                    {/* Screen Content */}
+                    <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[10px] sm:rounded-[16px] lg:rounded-[20px] overflow-hidden bg-stone-900 shadow-xl">
+                      <img
+                        src="/thumbnails/wedding-portrait.jpg"
+                        alt="Mobile Preview"
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35" />
+
+                      <div className="absolute top-2 sm:top-3.5 inset-x-1 flex justify-center z-10">
+                        <div className="px-1 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[4.5px] sm:text-[6.5px] text-white/90 font-medium leading-none">
+                          invitea.cards
+                        </div>
+                      </div>
+
+                      <div className="absolute bottom-1.5 inset-x-1 p-1 sm:p-1.5 rounded sm:rounded-xl bg-black/75 backdrop-blur-md border border-white/15 text-white flex flex-col gap-0.5 text-center">
+                        <h6 className="font-serif text-[7px] sm:text-[10px] font-medium tracking-tight text-white leading-tight">
+                          Sarah &amp; Dimas
+                        </h6>
+                        <span className="text-[4.5px] sm:text-[6.5px] text-white/70 leading-none">
+                          14 Nov 2026
+                        </span>
+                        <div className="mt-0.5 py-0.5 px-1 rounded-full bg-white text-ink text-[5.5px] sm:text-[7.5px] font-semibold leading-none">
+                          Buka
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Realistic Phone Bezel */}
+                    <img
+                      src="/images/phone-mockup.webp"
+                      alt=""
+                      aria-hidden="true"
+                      className="absolute inset-0 w-full h-full pointer-events-none object-fill z-10"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
