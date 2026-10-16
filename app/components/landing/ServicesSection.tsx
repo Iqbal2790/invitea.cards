@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useScroll } from "framer-motion";
 import {
   CheckCircle2,
   CalendarDays,
@@ -11,8 +13,21 @@ import {
   ArrowRight,
   ArrowUpRight,
 } from "lucide-react";
+import { ScrollText, BlurRevealCardItem, BlurRevealContainer } from "~/components/ui/ScrollText";
 
 export function ServicesSection() {
+  const card1Ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: card1Progress } = useScroll({
+    target: card1Ref,
+    offset: ["start 90%", "center 55%"],
+  });
+
+  const card2Ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: card2Progress } = useScroll({
+    target: card2Ref,
+    offset: ["start 90%", "center 55%"],
+  });
+
   return (
     <section
       id="layanan"
@@ -30,7 +45,7 @@ export function ServicesSection() {
             Ekosistem Layanan
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-[1.15]">
-            Mulai dari yang kalian butuhkan.
+            <ScrollText text="Mulai dari yang kalian butuhkan." blurRevealIntensity={0.6} />
           </h2>
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl">
             Dua solusi terpadu untuk merencanakan pernikahan impian dan
@@ -38,10 +53,13 @@ export function ServicesSection() {
           </p>
         </div>
 
-        {/* Services Showcase Cards */}
-        <div className="flex flex-col gap-10 sm:gap-12 lg:gap-14">
+        {/* Services Showcase Cards: Clean Bento Flow with Blur Reveal Scroll */}
+        <div className="flex flex-col gap-10 sm:gap-12 lg:gap-16">
           {/* Card 1: Wedding Planner */}
-          <div className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 transition-all">
+          <div
+            ref={card1Ref}
+            className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 transition-all shadow-sm"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Copy & Sub-features */}
               <div className="lg:col-span-7 flex flex-col justify-between">
@@ -51,7 +69,7 @@ export function ServicesSection() {
                   </div>
 
                   <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-ink tracking-tight">
-                    Wedding Planner
+                    <ScrollText text="Wedding Planner" blurRevealIntensity={0.6} />
                   </h3>
 
                   <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
@@ -73,69 +91,82 @@ export function ServicesSection() {
                   </div>
                 </div>
 
-                {/* Sub-features 2x2 Grid */}
+                {/* Sub-features 2x2 Grid with Blur Reveal Animation */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={0} scrollYProgress={card1Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          Checklist Persiapan
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Tugas terstruktur bertahap, pantau dan centang satu per satu.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        Checklist Persiapan
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Tugas terstruktur bertahap, pantau dan centang satu per satu.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
 
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <Wallet className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={1} scrollYProgress={card1Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <Wallet className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          Kontrol Anggaran
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Rencana alokasi dana dan rekap pengeluaran riil per kategori.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        Kontrol Anggaran
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Rencana alokasi dana dan rekap pengeluaran riil per kategori.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
 
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <Users2 className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={2} scrollYProgress={card1Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <Users2 className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          Manajemen Vendor
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Kandidat, harga kesepakatan, DP, dan histori pembayaran.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        Manajemen Vendor
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Kandidat, harga kesepakatan, DP, dan histori pembayaran.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
 
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <CalendarDays className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={3} scrollYProgress={card1Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <CalendarDays className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          Jadwal &amp; Rundown
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Hitung mundur hari-H dan susunan waktu acara terkoordinasi.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        Jadwal &amp; Rundown
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Hitung mundur hari-H dan susunan waktu acara terkoordinasi.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
                 </div>
               </div>
 
               {/* Right Column: Planner UI Mockup */}
               <div className="lg:col-span-5 flex justify-center mt-6 lg:mt-0">
-                <div className="w-full max-w-md rounded-2xl border border-header-border bg-bg p-5 sm:p-6 shadow-sm flex flex-col gap-5">
+                <BlurRevealContainer
+                  scrollYProgress={card1Progress}
+                  initialBlur={10}
+                  className="w-full max-w-md"
+                >
+                  <div className="w-full rounded-2xl border border-header-border bg-bg p-5 sm:p-6 shadow-sm flex flex-col gap-5">
                   {/* Mockup Header */}
                   <div className="flex items-center justify-between pb-4 border-b border-hairline/60">
                     <div>
@@ -207,12 +238,16 @@ export function ServicesSection() {
                     <span className="text-berry font-semibold">Terkontrol</span>
                   </div>
                 </div>
-              </div>
+              </BlurRevealContainer>
+            </div>
             </div>
           </div>
 
           {/* Card 2: Undangan Digital */}
-          <div className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 pb-12 sm:pb-14 lg:pb-16 transition-all">
+          <div
+            ref={card2Ref}
+            className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 pb-12 sm:pb-14 lg:pb-16 transition-all shadow-sm"
+          >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Copy & Sub-features */}
               <div className="lg:col-span-6 flex flex-col justify-between">
@@ -222,7 +257,7 @@ export function ServicesSection() {
                   </div>
 
                   <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-ink tracking-tight">
-                    Undangan Digital
+                    <ScrollText text="Undangan Digital" blurRevealIntensity={0.6} />
                   </h3>
 
                   <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
@@ -251,69 +286,82 @@ export function ServicesSection() {
                   </div>
                 </div>
 
-                {/* Sub-features 2x2 Grid */}
+                {/* Sub-features 2x2 Grid with Blur Reveal Animation */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <UserCheck className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={0} scrollYProgress={card2Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <UserCheck className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          Tamu Personal
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Nama tamu tertera khusus pada cover dan tautan undangan personal.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        Tamu Personal
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Nama tamu tertera khusus pada cover dan tautan undangan personal.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
 
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <MessageSquareHeart className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={1} scrollYProgress={card2Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <MessageSquareHeart className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          RSVP &amp; Buku Ucapan
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Konfirmasi kehadiran otomatis terdata tanpa rekap manual.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        RSVP &amp; Buku Ucapan
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Konfirmasi kehadiran otomatis terdata tanpa rekap manual.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
 
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <Globe2 className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={2} scrollYProgress={card2Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <Globe2 className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          Domain Nama Sendiri
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Tautan eksklusif nama berdua untuk kesan personal sejak awal.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        Domain Nama Sendiri
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Tautan eksklusif nama berdua untuk kesan personal sejak awal.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
 
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
-                      <MapPin className="w-5 h-5" aria-hidden="true" />
+                  <BlurRevealCardItem index={3} scrollYProgress={card2Progress}>
+                    <div className="flex items-start gap-3.5">
+                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                        <MapPin className="w-5 h-5" aria-hidden="true" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm sm:text-base text-ink">
+                          Navigasi Peta Presisi
+                        </h4>
+                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                          Arah rute langsung menuju Google Maps &amp; Waze lokasi acara.
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm sm:text-base text-ink">
-                        Navigasi Peta Presisi
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                        Arah rute langsung menuju Google Maps &amp; Waze lokasi acara.
-                      </p>
-                    </div>
-                  </div>
+                  </BlurRevealCardItem>
                 </div>
               </div>
 
               {/* Right Column: Composite Laptop Mockup + Phone Mockup with Auto-Scroll Animation */}
               <div className="lg:col-span-6 flex justify-center items-center mt-6 lg:mt-0">
-                <div className="relative w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px] aspect-[800/489] select-none">
+                <BlurRevealContainer
+                  scrollYProgress={card2Progress}
+                  initialBlur={10}
+                  className="w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px]"
+                >
+                  <div className="relative w-full aspect-[800/489] select-none">
                   {/* Laptop Screen Content (Behind bezel, visible through transparent screen cutout) */}
                   <div className="absolute top-[4.3%] bottom-[10.6%] left-[9.6%] right-[9.6%] overflow-hidden bg-bg rounded-t-[5px]">
                     {/* Browser Mockup Chrome */}
@@ -454,7 +502,8 @@ export function ServicesSection() {
                     />
                   </div>
                 </div>
-              </div>
+              </BlurRevealContainer>
+            </div>
             </div>
           </div>
         </div>
