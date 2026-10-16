@@ -4,6 +4,7 @@ import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/landing/HeroSection";
 import { SocialProofSection } from "../components/landing/SocialProofSection";
 import { ShowcaseSection } from "../components/landing/ShowcaseSection";
+import { ServicesSection } from "../components/landing/ServicesSection";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -29,6 +30,7 @@ export default function Home() {
         <HeroSection />
         <SocialProofSection />
         <ShowcaseSection />
+        <ServicesSection />
       </main>
 
       <Footer />
