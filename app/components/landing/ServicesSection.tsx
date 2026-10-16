@@ -105,7 +105,7 @@ export function ServicesSection() {
 
                 {/* Sub-features 2x2 Grid with Blur Reveal Animation */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
-                  <BlurRevealCardItem index={0} scrollYProgress={card1Progress}>
+                  <BlurRevealCardItem index={0}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
@@ -121,7 +121,7 @@ export function ServicesSection() {
                     </div>
                   </BlurRevealCardItem>
 
-                  <BlurRevealCardItem index={1} scrollYProgress={card1Progress}>
+                  <BlurRevealCardItem index={1}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <Wallet className="w-5 h-5" aria-hidden="true" />
@@ -137,7 +137,7 @@ export function ServicesSection() {
                     </div>
                   </BlurRevealCardItem>
 
-                  <BlurRevealCardItem index={2} scrollYProgress={card1Progress}>
+                  <BlurRevealCardItem index={2}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <Users2 className="w-5 h-5" aria-hidden="true" />
@@ -153,7 +153,7 @@ export function ServicesSection() {
                     </div>
                   </BlurRevealCardItem>
 
-                  <BlurRevealCardItem index={3} scrollYProgress={card1Progress}>
+                  <BlurRevealCardItem index={3}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <CalendarDays className="w-5 h-5" aria-hidden="true" />
@@ -174,8 +174,7 @@ export function ServicesSection() {
               {/* Right Column: Planner UI Mockup with Inner Elements Blur Reveal */}
               <div className="lg:col-span-5 flex justify-center mt-6 lg:mt-0">
                 <BlurRevealContainer
-                  scrollYProgress={card1Progress}
-                  initialBlur={10}
+                  initialBlur={12}
                   className="w-full max-w-md"
                 >
                   <div className="w-full rounded-2xl border border-header-border bg-bg p-5 sm:p-6 shadow-sm flex flex-col gap-5">
@@ -316,7 +315,7 @@ export function ServicesSection() {
 
                 {/* Sub-features 2x2 Grid with Blur Reveal Animation */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
-                  <BlurRevealCardItem index={0} scrollYProgress={card2Progress}>
+                  <BlurRevealCardItem index={0}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <UserCheck className="w-5 h-5" aria-hidden="true" />
@@ -332,7 +331,7 @@ export function ServicesSection() {
                     </div>
                   </BlurRevealCardItem>
 
-                  <BlurRevealCardItem index={1} scrollYProgress={card2Progress}>
+                  <BlurRevealCardItem index={1}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <MessageSquareHeart className="w-5 h-5" aria-hidden="true" />
@@ -348,7 +347,7 @@ export function ServicesSection() {
                     </div>
                   </BlurRevealCardItem>
 
-                  <BlurRevealCardItem index={2} scrollYProgress={card2Progress}>
+                  <BlurRevealCardItem index={2}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <Globe2 className="w-5 h-5" aria-hidden="true" />
@@ -364,7 +363,7 @@ export function ServicesSection() {
                     </div>
                   </BlurRevealCardItem>
 
-                  <BlurRevealCardItem index={3} scrollYProgress={card2Progress}>
+                  <BlurRevealCardItem index={3}>
                     <div className="flex items-start gap-3.5">
                       <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
                         <MapPin className="w-5 h-5" aria-hidden="true" />
@@ -382,11 +381,10 @@ export function ServicesSection() {
                 </div>
               </div>
 
-              {/* Right Column: Composite Laptop Mockup + Phone Mockup with Blur Reveal */}
+              {/* Right Column: Composite Laptop + Phone Mockup with Blur Reveal */}
               <div className="lg:col-span-6 flex justify-center items-center mt-6 lg:mt-0">
                 <BlurRevealContainer
-                  scrollYProgress={card2Progress}
-                  initialBlur={10}
+                  initialBlur={12}
                   className="w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px]"
                 >
                   <div className="relative w-full aspect-[800/489] select-none">
