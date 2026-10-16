@@ -11,10 +11,18 @@ interface ThemeCard {
 
 const THEME_CARDS: ThemeCard[] = [
   {
+    id: "vintage-chronicle",
+    name: "Vintage Chronicle",
+    category: "Classic Typographic",
+    thumbnail: "/thumbnails/vintage-chronicle.jpg",
+    demoUrl: "https://create.invitea.cards?theme=vintage-chronicle",
+  },
+  {
     id: "folio-bloom",
     name: "Folio Bloom",
-    category: "Floral & Organic",
+    category: "Floral & Editorial",
     thumbnail: "/thumbnails/folio-bloom.png",
+    isHero: true,
     demoUrl: "https://create.invitea.cards?theme=folio-bloom",
   },
   {
@@ -22,15 +30,7 @@ const THEME_CARDS: ThemeCard[] = [
     name: "Memory Lane",
     category: "Modern Film & Monogram",
     thumbnail: "/thumbnails/memory-lane.png",
-    isHero: true,
     demoUrl: "https://create.invitea.cards?theme=memory-lane",
-  },
-  {
-    id: "vintage-chronicle",
-    name: "Vintage Chronicle",
-    category: "Classic Typographic",
-    thumbnail: "/thumbnails/vintage-chronicle.jpg",
-    demoUrl: "https://create.invitea.cards?theme=vintage-chronicle",
   },
 ];
 
