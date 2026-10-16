@@ -46,7 +46,7 @@ export function HeroSection() {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-berry px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md hover:bg-berry-deep transition-all duration-150 active:scale-[0.97]"
           >
-            Buat Undangan Gratis
+            Mulai Buat Undangan — Gratis
           </a>
           <a
             href="https://plan.invitea.cards"
@@ -54,7 +54,7 @@ export function HeroSection() {
             rel="noopener noreferrer"
             className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black bg-white/90 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black hover:bg-white transition-all duration-150 active:scale-[0.97]"
           >
-            Wedding Planner Gratis
+            Akses Wedding Planner Gratis
           </a>
         </div>
       </div>
