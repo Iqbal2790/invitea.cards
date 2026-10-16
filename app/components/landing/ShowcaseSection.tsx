@@ -254,7 +254,7 @@ export function ShowcaseSection() {
                   }`}
                 >
                   {/* Screen Content Underneath Phone Frame: Flush placement without any gap */}
-                  <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[36px] sm:rounded-[40px] overflow-hidden z-10 flex flex-col justify-between">
+                  <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[36px] sm:rounded-[40px] overflow-hidden z-10 flex flex-col justify-end">
                     {/* Wallpaper / Template Artwork */}
                     <div className="absolute inset-0 z-0">
                       <img
@@ -265,13 +265,6 @@ export function ShowcaseSection() {
                       />
                       {/* Gradient Scrim for Readability */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/25 pointer-events-none" />
-                    </div>
-
-                    {/* Header inside Screen */}
-                    <div className="relative z-10 pt-7 sm:pt-8 px-3 text-center pointer-events-none">
-                      <p className="text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.22em] text-white/70 drop-shadow-xs">
-                        The Wedding of
-                      </p>
                     </div>
 
                     {/* Floating Dock Card inside Screen */}
