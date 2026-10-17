@@ -29,9 +29,9 @@ const FAQ_ITEMS: FaqItem[] = [
       "Invitea menyediakan generator tautan otomatis. Anda cukup memasukkan daftar nama tamu di dashboard, lalu membagikannya dengan satu klik langsung ke WhatsApp tamu bersangkutan dengan sapaan personal.",
   },
   {
-    question: "Apakah data atau foto masih bisa diubah setelah undangan disebar?",
+    question: "Apakah informasi acara masih bisa diubah setelah undangan disebar?",
     answer:
-      "Bisa kapan saja. Seluruh perubahan teks, tanggal, jam acara, tautan peta lokasi, hingga foto galeri dapat diperbarui secara mandiri melalui dashboard dan langsung terupdate otomatis di tautan undangan.",
+      "Bisa kapan saja untuk revisi teks. Anda dapat memperbarui rincian teks seperti jam acara, catatan lokasi, hingga teks cerita langsung melalui dashboard secara mandiri. Untuk menjaga keaslian identitas undangan dan mencegah penyalahgunaan, revisi dibatasi khusus pada data teks acara.",
   },
   {
     question: "Apakah ada batasan jumlah tamu yang bisa membuka undangan dan mengisi RSVP?",
