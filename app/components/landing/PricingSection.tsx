@@ -80,7 +80,7 @@ export function PricingSection() {
                       rel="noopener noreferrer"
                       data-ink-btn
                       style={{
-                        "--ink-bg": "var(--color-ink)",
+                        "--ink-bg": "var(--color-berry)",
                         "--ink-text": "var(--color-cream-text)",
                       } as React.CSSProperties}
                       className="ink-btn flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full"
@@ -95,7 +95,7 @@ export function PricingSection() {
                       rel="noopener noreferrer"
                       data-ink-btn
                       style={{
-                        "--ink-bg": "var(--color-ink)",
+                        "--ink-bg": "var(--color-berry)",
                         "--ink-text": "var(--color-cream-text)",
                       } as React.CSSProperties}
                       className="ink-btn flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full"
@@ -273,7 +273,7 @@ export function PricingSection() {
                   rel="noopener noreferrer"
                   data-ink-btn
                   style={{
-                    "--ink-bg": "var(--color-berry-deep)",
+                    "--ink-bg": "var(--color-ink)",
                     "--ink-text": "var(--color-cream-text)",
                   } as React.CSSProperties}
                   className="ink-btn w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-berry text-cream-text text-xs sm:text-sm font-semibold shadow-sm active:scale-[0.98]"

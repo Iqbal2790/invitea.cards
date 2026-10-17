@@ -41,7 +41,7 @@ export function HeroSection() {
             rel="noopener noreferrer"
             data-ink-btn
             style={{
-              "--ink-bg": "var(--color-berry-deep)",
+              "--ink-bg": "var(--color-ink)",
               "--ink-text": "var(--color-cream-text)",
             } as React.CSSProperties}
             className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-berry px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md active:scale-[0.97]"
@@ -54,9 +54,9 @@ export function HeroSection() {
             rel="noopener noreferrer"
             data-ink-btn
             style={{
-              "--ink-bg": "var(--color-ink)",
+              "--ink-bg": "var(--color-berry)",
               "--ink-text": "var(--color-cream-text)",
-              "--ink-border": "var(--color-ink)",
+              "--ink-border": "var(--color-berry)",
             } as React.CSSProperties}
             className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black bg-white/90 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black active:scale-[0.97]"
           >
