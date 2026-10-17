@@ -139,3 +139,52 @@ html, body {
 .animate-mockup-scroll:hover {
   animation-play-state: paused;
 }
+
+/* ==========================================================================
+   Framer-style Ink Fill Button Hover Effect (Button-Fill-1JCKDQ)
+   ========================================================================== */
+.ink-btn {
+  position: relative !important;
+  overflow: hidden !important;
+  isolation: isolate;
+  --ink-bg: var(--color-berry);
+  --ink-text: var(--color-cream-text);
+  --ink-border: transparent;
+  transition: border-color 0.35s ease, box-shadow 0.25s ease, transform 0.15s ease, background-color 0.3s ease;
+}
+
+.ink-btn::before {
+  content: "";
+  position: absolute;
+  left: var(--ink-x, 50%);
+  top: var(--ink-y, 50%);
+  width: calc(var(--ink-r, 120px) * 2);
+  height: calc(var(--ink-r, 120px) * 2);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  background-color: var(--ink-bg);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ink-btn:hover::before,
+.ink-btn:focus-visible::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.ink-btn > * {
+  position: relative;
+  z-index: 1;
+  transition: color 0.25s ease, transform 0.15s ease;
+}
+
+.ink-btn:hover > *,
+.ink-btn:focus-visible > * {
+  color: var(--ink-text) !important;
+}
+
+.ink-btn:hover {
+  border-color: var(--ink-border, currentColor);
+}

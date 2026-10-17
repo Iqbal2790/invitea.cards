@@ -54,9 +54,15 @@ export function Navbar() {
           <div className="hidden md:flex items-center">
             <a
               href="/login"
-              className="border border-black text-black bg-transparent hover:bg-[oklch(38%_0.14_15)] hover:text-[oklch(94%_0.02_70)] hover:border-[oklch(38%_0.14_15)] transition-colors duration-200 rounded-full px-5 py-2 text-sm font-medium tracking-wide"
+              data-ink-btn
+              style={{
+                "--ink-bg": "var(--color-berry)",
+                "--ink-text": "var(--color-cream-text)",
+                "--ink-border": "var(--color-berry)",
+              } as React.CSSProperties}
+              className="ink-btn border border-black text-black bg-transparent rounded-full px-5 py-2 text-sm font-medium tracking-wide active:scale-95"
             >
-              Login
+              <span>Login</span>
             </a>
           </div>
 
@@ -103,9 +109,15 @@ export function Navbar() {
             <a
               href="/login"
               onClick={closeMenu}
-              className="block w-full text-center border border-black text-black bg-transparent hover:bg-[oklch(38%_0.14_15)] hover:text-[oklch(94%_0.02_70)] hover:border-[oklch(38%_0.14_15)] transition-colors duration-200 rounded-full py-2.5 text-sm font-medium tracking-wide"
+              data-ink-btn
+              style={{
+                "--ink-bg": "var(--color-berry)",
+                "--ink-text": "var(--color-cream-text)",
+                "--ink-border": "var(--color-berry)",
+              } as React.CSSProperties}
+              className="ink-btn block w-full text-center border border-black text-black bg-transparent rounded-full py-2.5 text-sm font-medium tracking-wide active:scale-95"
             >
-              Login
+              <span>Login</span>
             </a>
           </div>
         </div>

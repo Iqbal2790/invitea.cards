@@ -78,7 +78,12 @@ export function PricingSection() {
                       href="https://create.invitea.cards"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold hover:bg-ink hover:text-cream-text transition-colors rounded-l-full"
+                      data-ink-btn
+                      style={{
+                        "--ink-bg": "var(--color-ink)",
+                        "--ink-text": "var(--color-cream-text)",
+                      } as React.CSSProperties}
+                      className="ink-btn flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full"
                     >
                       <span className="truncate">Mulai Buat Undangan</span>
                       <ArrowUpRight className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
@@ -88,7 +93,12 @@ export function PricingSection() {
                       href="https://plan.invitea.cards"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold hover:bg-ink hover:text-cream-text transition-colors rounded-l-full"
+                      data-ink-btn
+                      style={{
+                        "--ink-bg": "var(--color-ink)",
+                        "--ink-text": "var(--color-cream-text)",
+                      } as React.CSSProperties}
+                      className="ink-btn flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full"
                     >
                       <span className="truncate">Buka Wedding Planner</span>
                       <ArrowUpRight className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
@@ -261,7 +271,12 @@ export function PricingSection() {
                   href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20pesan%20Paket%20Plus%20(Rp%20150.000)."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-berry text-cream-text text-xs sm:text-sm font-semibold hover:bg-berry/90 transition-all duration-150 shadow-sm"
+                  data-ink-btn
+                  style={{
+                    "--ink-bg": "var(--color-berry-deep)",
+                    "--ink-text": "var(--color-cream-text)",
+                  } as React.CSSProperties}
+                  className="ink-btn w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-berry text-cream-text text-xs sm:text-sm font-semibold shadow-sm active:scale-[0.98]"
                 >
                   <span>Pesan Paket Plus</span>
                   <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
@@ -353,7 +368,12 @@ export function PricingSection() {
                   href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20Paket%20Pro%20(Rp%20350.000)."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-ink text-cream-text text-xs sm:text-sm font-semibold hover:bg-berry transition-colors shadow-sm"
+                  data-ink-btn
+                  style={{
+                    "--ink-bg": "var(--color-berry)",
+                    "--ink-text": "var(--color-cream-text)",
+                  } as React.CSSProperties}
+                  className="ink-btn w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-ink text-cream-text text-xs sm:text-sm font-semibold shadow-sm active:scale-[0.98]"
                 >
                   <span>Konsultasi &amp; Pesan Pro</span>
                   <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />

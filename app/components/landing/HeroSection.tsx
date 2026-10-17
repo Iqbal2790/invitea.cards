@@ -39,17 +39,28 @@ export function HeroSection() {
             href="https://create.invitea.cards"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-berry px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md hover:bg-berry-deep transition-all duration-150 active:scale-[0.97]"
+            data-ink-btn
+            style={{
+              "--ink-bg": "var(--color-berry-deep)",
+              "--ink-text": "var(--color-cream-text)",
+            } as React.CSSProperties}
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-berry px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md active:scale-[0.97]"
           >
-            Mulai Buat Undangan Gratis
+            <span>Mulai Buat Undangan Gratis</span>
           </a>
           <a
             href="https://plan.invitea.cards"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black bg-white/90 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black hover:bg-white transition-all duration-150 active:scale-[0.97]"
+            data-ink-btn
+            style={{
+              "--ink-bg": "var(--color-ink)",
+              "--ink-text": "var(--color-cream-text)",
+              "--ink-border": "var(--color-ink)",
+            } as React.CSSProperties}
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black bg-white/90 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black active:scale-[0.97]"
           >
-            Akses Wedding Planner Gratis
+            <span>Akses Wedding Planner Gratis</span>
           </a>
         </div>
       </div>

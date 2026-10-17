@@ -10,6 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { SmoothScroll } from "./components/common/SmoothScroll";
+import { InkHover } from "./components/common/InkHover";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preload", href: "/images/phone-mockup.webp", as: "image", type: "image/webp" },
@@ -36,6 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="overflow-x-clip">
         <SmoothScroll />
+        <InkHover />
         {children}
         <ScrollRestoration />
         <Scripts />
