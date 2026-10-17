@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Check, ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ScrollReveal } from "~/components/ui/ScrollReveal";
 
 type FreeServiceOption = "undangan" | "planner";
 
@@ -42,7 +43,17 @@ export function PricingSection() {
           {/* =========================================
               CARD 1: FREE (Rp 0)
               ========================================= */}
-          <div className="rounded-3xl border border-header-border bg-bg-alt/20 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
+          <ScrollReveal
+            transition={{ delay: 0, duration: 0.5, ease: "easeOut" }}
+            variants={{
+              hidden: { opacity: 0, y: 24 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            viewOptions={{ amount: 0.2 }}
+            className="h-full"
+            once
+          >
+            <div className="h-full rounded-3xl border border-header-border bg-bg-alt/20 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
             <div>
               {/* Top Row: Package Name + Badge */}
               <div className="flex items-center justify-between mb-2">
@@ -212,11 +223,22 @@ export function PricingSection() {
               </div>
             </div>
           </div>
+        </ScrollReveal>
 
-          {/* =========================================
-              CARD 2: PLUS (Rp 150.000) ⭐ RECOMMENDED
-              ========================================= */}
-          <div className="relative rounded-3xl border-2 border-berry bg-bg p-6 sm:p-7 flex flex-col justify-between shadow-md ring-1 ring-berry/20">
+        {/* =========================================
+            CARD 2: PLUS (Rp 150.000) ⭐ RECOMMENDED
+            ========================================= */}
+        <ScrollReveal
+          transition={{ delay: 0.12, duration: 0.5, ease: "easeOut" }}
+          variants={{
+            hidden: { opacity: 0, y: 24 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          viewOptions={{ amount: 0.2 }}
+          className="h-full"
+          once
+        >
+          <div className="h-full relative rounded-3xl border-2 border-berry bg-bg p-6 sm:p-7 flex flex-col justify-between shadow-md ring-1 ring-berry/20">
             <div>
               {/* Top Row: Package Name + Recommended Badge */}
               <div className="flex items-center justify-between mb-2">
@@ -293,11 +315,22 @@ export function PricingSection() {
               </div>
             </div>
           </div>
+        </ScrollReveal>
 
-          {/* =========================================
-              CARD 3: PRO (Rp 350.000)
-              ========================================= */}
-          <div className="rounded-3xl border border-header-border bg-bg-alt/20 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
+        {/* =========================================
+            CARD 3: PRO (Rp 350.000)
+            ========================================= */}
+        <ScrollReveal
+          transition={{ delay: 0.24, duration: 0.5, ease: "easeOut" }}
+          variants={{
+            hidden: { opacity: 0, y: 24 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          viewOptions={{ amount: 0.2 }}
+          className="h-full"
+          once
+        >
+          <div className="h-full rounded-3xl border border-header-border bg-bg-alt/20 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
             <div>
               {/* Top Row: Package Name + Badge */}
               <div className="flex items-center justify-between mb-2">
@@ -386,8 +419,9 @@ export function PricingSection() {
               </div>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }
