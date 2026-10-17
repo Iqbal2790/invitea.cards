@@ -11,6 +11,14 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { SmoothScroll } from "./components/common/SmoothScroll";
 import { InkHover } from "./components/common/InkHover";
+import { resolveHostContext, type HostContext } from "./lib/host";
+
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const hostHeader = request.headers.get("x-forwarded-host") || request.headers.get("host");
+  const hostContext = resolveHostContext(hostHeader, url.searchParams);
+  return { hostContext };
+}
 
 export const links: Route.LinksFunction = () => [
   { rel: "preload", href: "/images/phone-mockup.webp", as: "image", type: "image/webp" },
