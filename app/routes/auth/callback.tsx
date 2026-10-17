@@ -82,17 +82,23 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function CallbackPage({ loaderData, actionData }: Route.ComponentProps) {
-  const submit = useSubmit();
   const [clientError, setClientError] = useState<string | null>(null);
   const error = actionData?.error || loaderData?.error || clientError;
 
   useEffect(() => {
     if (typeof window === "undefined" || error) return;
 
-    // Check for hash parameters (#access_token=...&refresh_token=...)
+    // 1. Check for hash parameters (#access_token=... or #error=...)
     if (window.location.hash) {
       const hash = window.location.hash.substring(1);
       const params = new URLSearchParams(hash);
+
+      const errorDesc = params.get("error_description") || params.get("error");
+      if (errorDesc) {
+        setClientError(decodeURIComponent(errorDesc.replace(/\+/g, " ")));
+        return;
+      }
+
       const accessToken = params.get("access_token");
       const refreshToken = params.get("refresh_token");
 
@@ -101,11 +107,22 @@ export default function CallbackPage({ loaderData, actionData }: Route.Component
         formData.append("access_token", accessToken);
         formData.append("refresh_token", refreshToken);
         formData.append("return_to", "/");
-        submit(formData, { method: "post" });
+
+        fetch("/auth/callback", {
+          method: "POST",
+          body: formData,
+        })
+          .then(() => {
+            // Once the cookies are set via Set-Cookie headers, replace URL to clear JWT from address bar
+            window.location.replace("/");
+          })
+          .catch((err) => {
+            setClientError(err?.message || "Koneksi terputus saat verifikasi sesi.");
+          });
         return;
       }
     }
-  }, [submit, error]);
+  }, [error]);
 
   if (error) {
     return (
