@@ -28,8 +28,8 @@ export function PricingSection() {
     >
       <div className="w-full px-6 sm:px-8 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-2xl mb-10 sm:mb-12">
-          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2">
+        <div className="max-w-2xl mb-12 sm:mb-14">
+          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
             Paket &amp; Investasi
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
@@ -37,33 +37,40 @@ export function PricingSection() {
           </h2>
         </div>
 
-        {/* 3-Card Responsive Grid */}
+        {/* 3-Card Responsive Grid - ChatGPT Anatomy */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch">
           {/* =========================================
-              CARD 1: PAKET GRATIS (Rp 0)
+              CARD 1: FREE (Rp 0)
               ========================================= */}
-          <div className="rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
+          <div className="rounded-3xl border border-header-border bg-bg-alt/20 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
             <div>
-              {/* Header Badge & Title */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-bg border border-header-border text-ink-soft">
-                  Mulai Bebas Biaya
+              {/* Top Row: Tier Name */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-base font-semibold tracking-tight text-ink font-sans">
+                  Free
+                </span>
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-bg border border-header-border text-ink-soft uppercase tracking-wider">
+                  Uji Coba
                 </span>
               </div>
 
-              <h3 className="font-serif text-2xl font-semibold text-ink tracking-tight">
-                Paket Gratis
+              {/* Title & Description */}
+              <h3 className="font-serif text-2xl font-semibold text-ink tracking-tight mb-2">
+                Coba Invitea
               </h3>
+              <p className="text-xs text-ink-soft leading-relaxed h-[36px] mb-4 line-clamp-2">
+                Akses dasar tanpa biaya untuk memulai persiapan hari bahagia tanpa syarat.
+              </p>
 
               {/* Service Dropdown Selector */}
-              <div className="mt-4" ref={freeDropdownRef}>
+              <div className="mb-4 h-[36px]" ref={freeDropdownRef}>
                 <div className="relative">
                   <button
                     type="button"
                     onClick={() => setIsFreeDropdownOpen((prev) => !prev)}
                     aria-haspopup="listbox"
                     aria-expanded={isFreeDropdownOpen}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl border border-header-border bg-bg text-ink text-xs font-semibold hover:border-berry/40 transition-colors focus:outline-none"
+                    className="w-full h-[36px] flex items-center justify-between px-3 rounded-xl border border-header-border bg-bg text-ink text-xs font-semibold hover:border-berry/40 transition-colors focus:outline-none"
                   >
                     <span>
                       {freeService === "undangan"
@@ -127,18 +134,49 @@ export function PricingSection() {
                 </div>
               </div>
 
-              {/* Price */}
-              <div className="mt-4 pb-4 border-b border-hairline/60">
+              {/* Action Button (ChatGPT Style: Top Placement) */}
+              <div className="mb-6">
+                {freeService === "undangan" ? (
+                  <a
+                    href="https://create.invitea.cards"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full border border-ink/30 bg-bg text-ink text-sm font-semibold hover:bg-ink hover:text-cream-text transition-all duration-150 shadow-2xs"
+                  >
+                    <span>Mulai Buat Undangan</span>
+                    <ArrowUpRight className="w-4 h-4 opacity-70" aria-hidden="true" />
+                  </a>
+                ) : (
+                  <a
+                    href="https://plan.invitea.cards"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full border border-ink/30 bg-bg text-ink text-sm font-semibold hover:bg-ink hover:text-cream-text transition-all duration-150 shadow-2xs"
+                  >
+                    <span>Buka Wedding Planner</span>
+                    <ArrowUpRight className="w-4 h-4 opacity-70" aria-hidden="true" />
+                  </a>
+                )}
+              </div>
+
+              {/* Price Block */}
+              <div className="pt-2 pb-5 border-b border-hairline/60">
                 <div className="flex items-baseline gap-1">
-                  <span className="font-serif text-3xl font-semibold text-ink">
+                  <span className="font-serif text-3xl sm:text-4xl font-semibold text-ink">
                     Rp 0
                   </span>
                   <span className="text-xs text-ink-soft">/ layanan</span>
                 </div>
+                <p className="text-[11px] text-ink-soft mt-1">
+                  Tanpa kartu kredit • Langsung terbitkan
+                </p>
               </div>
 
-              {/* Marketing Benefits List */}
+              {/* Capabilities List */}
               <div className="mt-5 space-y-2.5">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">
+                  Fitur yang didapatkan:
+                </p>
                 {freeService === "undangan" ? (
                   <ul className="space-y-2.5 text-sm text-ink-soft">
                     <li className="flex items-start gap-2.5">
@@ -180,67 +218,69 @@ export function PricingSection() {
                 )}
               </div>
             </div>
-
-            {/* CTA Button */}
-            <div className="mt-7 pt-4 border-t border-hairline/60">
-              {freeService === "undangan" ? (
-                <a
-                  href="https://create.invitea.cards"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-full border border-ink/40 bg-bg text-ink text-sm font-semibold hover:bg-ink hover:text-cream-text transition-all duration-150 shadow-2xs"
-                >
-                  <span>Mulai Buat Undangan</span>
-                  <ArrowUpRight className="w-4 h-4 opacity-70" aria-hidden="true" />
-                </a>
-              ) : (
-                <a
-                  href="https://plan.invitea.cards"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-full border border-ink/40 bg-bg text-ink text-sm font-semibold hover:bg-ink hover:text-cream-text transition-all duration-150 shadow-2xs"
-                >
-                  <span>Buka Wedding Planner</span>
-                  <ArrowUpRight className="w-4 h-4 opacity-70" aria-hidden="true" />
-                </a>
-              )}
-            </div>
           </div>
 
           {/* =========================================
-              CARD 2: DOMAIN FAVORIT (Rp 150.000) ⭐ HIGHLIGHTED
+              CARD 2: PLUS (Rp 150.000) ⭐ RECOMMENDED
               ========================================= */}
-          <div className="relative rounded-3xl border-2 border-berry bg-bg p-6 sm:p-7 flex flex-col justify-between shadow-md ring-1 ring-berry/20 mt-3 lg:mt-0">
-            {/* High-Contrast Floating Pill */}
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-berry text-cream-text text-[10px] font-semibold px-3.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm z-10 whitespace-nowrap">
-              Paling Populer
-            </div>
-
+          <div className="relative rounded-3xl border-2 border-berry bg-bg p-6 sm:p-7 flex flex-col justify-between shadow-md ring-1 ring-berry/20">
             <div>
-              {/* Eyebrow & Title */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-pink-soft text-berry border border-pink-line/70">
-                  Rekomendasi Utama
+              {/* Top Row: Tier Name + Recommended Badge */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-base font-semibold tracking-tight text-berry font-sans">
+                  Plus
                 </span>
-                <span className="text-xs text-berry font-semibold">Paling Diminati</span>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-berry text-cream-text uppercase tracking-wider shadow-2xs">
+                  Direkomendasikan
+                </span>
               </div>
 
-              <h3 className="font-serif text-2xl font-semibold text-ink tracking-tight">
+              {/* Title & Description */}
+              <h3 className="font-serif text-2xl font-semibold text-ink tracking-tight mb-2">
                 Domain Favorit
               </h3>
+              <p className="text-xs text-ink-soft leading-relaxed h-[36px] mb-4 line-clamp-2">
+                Pilihan utama pasangan untuk undangan praktis dengan domain web nama berdua.
+              </p>
 
-              {/* Price */}
-              <div className="mt-4 pb-4 border-b border-hairline/60">
+              {/* Spacer matching Card 1 dropdown height */}
+              <div className="mb-4 flex items-center h-[36px]">
+                <span className="text-xs font-medium text-berry bg-pink-soft px-2.5 py-1.5 rounded-xl border border-pink-line/60">
+                  Domain Pilihan Termasuk
+                </span>
+              </div>
+
+              {/* Action Button (ChatGPT Style: Top Placement) */}
+              <div className="mb-6">
+                <a
+                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20pesan%20Paket%20Plus%20(Rp%20150.000)."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-berry text-cream-text text-sm font-semibold hover:bg-berry/90 transition-all duration-150 shadow-sm"
+                >
+                  <span>Pesan Paket Plus</span>
+                  <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
+                </a>
+              </div>
+
+              {/* Price Block */}
+              <div className="pt-2 pb-5 border-b border-hairline/60">
                 <div className="flex items-baseline gap-1.5">
-                  <span className="font-serif text-3xl font-semibold text-berry">
+                  <span className="font-serif text-3xl sm:text-4xl font-semibold text-berry">
                     Rp 150.000
                   </span>
                   <span className="text-xs text-ink-soft">/ paket</span>
                 </div>
+                <p className="text-[11px] text-ink-soft mt-1">
+                  Sekali bayar • Sudah termasuk domain web aktif 1 tahun
+                </p>
               </div>
 
-              {/* Marketing Benefits List (6 items) */}
+              {/* Capabilities List (6 items) */}
               <div className="mt-5 space-y-2.5">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">
+                  Fitur lengkap sudah termasuk:
+                </p>
                 <ul className="space-y-2.5 text-sm text-ink-soft">
                   <li className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-berry shrink-0 mt-0.5" aria-hidden="true" />
@@ -269,50 +309,69 @@ export function PricingSection() {
                 </ul>
               </div>
             </div>
-
-            {/* CTA Button */}
-            <div className="mt-7 pt-4 border-t border-hairline/60">
-              <a
-                href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20pesan%20Paket%20Domain%20Favorit%20(Rp%20150.000)."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-full bg-berry text-cream-text text-sm font-semibold hover:bg-berry/90 transition-all duration-150 shadow-sm"
-              >
-                <span>Pesan Paket Favorit</span>
-                <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
-              </a>
-            </div>
           </div>
 
           {/* =========================================
-              CARD 3: DOMAIN EKSKLUSIF (Rp 350.000)
+              CARD 3: PRO (Rp 350.000)
               ========================================= */}
-          <div className="rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
+          <div className="rounded-3xl border border-header-border bg-bg-alt/20 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all">
             <div>
-              {/* Eyebrow & Title */}
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-bg border border-header-border text-ink-soft">
-                  Layanan Prioritas
+              {/* Top Row: Tier Name */}
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-base font-semibold tracking-tight text-ink font-sans">
+                  Pro
                 </span>
-                <span className="text-xs text-ink-soft font-medium">Domain Global</span>
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-bg border border-header-border text-ink-soft uppercase tracking-wider">
+                  Prioritas Penuh
+                </span>
               </div>
 
-              <h3 className="font-serif text-2xl font-semibold text-ink tracking-tight">
-                Domain Eksklusif
+              {/* Title & Description */}
+              <h3 className="font-serif text-2xl font-semibold text-ink tracking-tight mb-2">
+                Layanan Paripurna
               </h3>
+              <p className="text-xs text-ink-soft leading-relaxed h-[36px] mb-4 line-clamp-2">
+                Pengalaman tertinggi dengan domain global, proteksi anti-sebar, dan auto-blast.
+              </p>
 
-              {/* Price */}
-              <div className="mt-4 pb-4 border-b border-hairline/60">
+              {/* Spacer matching Card 1 dropdown height */}
+              <div className="mb-4 flex items-center h-[36px]">
+                <span className="text-xs font-medium text-ink bg-bg px-2.5 py-1.5 rounded-xl border border-header-border">
+                  Domain Global (.com / .net / .id)
+                </span>
+              </div>
+
+              {/* Action Button (ChatGPT Style: Top Placement) */}
+              <div className="mb-6">
+                <a
+                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20Paket%20Pro%20(Rp%20350.000)."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-full bg-ink text-cream-text text-sm font-semibold hover:bg-berry transition-colors shadow-sm"
+                >
+                  <span>Konsultasi &amp; Pesan Pro</span>
+                  <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
+                </a>
+              </div>
+
+              {/* Price Block */}
+              <div className="pt-2 pb-5 border-b border-hairline/60">
                 <div className="flex items-baseline gap-1.5">
-                  <span className="font-serif text-3xl font-semibold text-ink">
+                  <span className="font-serif text-3xl sm:text-4xl font-semibold text-ink">
                     Rp 350.000
                   </span>
                   <span className="text-xs text-ink-soft">/ paket</span>
                 </div>
+                <p className="text-[11px] text-ink-soft mt-1">
+                  Sekali bayar • Sudah termasuk registrasi domain global 1 tahun
+                </p>
               </div>
 
-              {/* Marketing Benefits List (8 items - Most Value) */}
+              {/* Capabilities List (9 items - Most Value) */}
               <div className="mt-5 space-y-2.5">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">
+                  Fasilitas terlengkap sudah termasuk:
+                </p>
                 <ul className="space-y-2.5 text-sm text-ink-soft">
                   <li className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-berry shrink-0 mt-0.5" aria-hidden="true" />
@@ -320,7 +379,7 @@ export function PricingSection() {
                   </li>
                   <li className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-berry shrink-0 mt-0.5" aria-hidden="true" />
-                    <span className="text-ink">Semua fitur lengkap Paket Domain Favorit</span>
+                    <span className="text-ink">Semua fitur lengkap Paket Plus</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-berry shrink-0 mt-0.5" aria-hidden="true" />
@@ -352,19 +411,6 @@ export function PricingSection() {
                   </li>
                 </ul>
               </div>
-            </div>
-
-            {/* CTA Button */}
-            <div className="mt-7 pt-4 border-t border-hairline/60">
-              <a
-                href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20Paket%20Domain%20Eksklusif%20(Rp%20350.000)."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-full bg-ink text-cream-text text-sm font-semibold hover:bg-berry transition-colors shadow-sm"
-              >
-                <span>Konsultasi &amp; Pesan Paket</span>
-                <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
-              </a>
             </div>
           </div>
         </div>
