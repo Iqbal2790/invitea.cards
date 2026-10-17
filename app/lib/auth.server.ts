@@ -223,3 +223,102 @@ export async function requireAuthUser(
 
   return { user, tokens };
 }
+
+/**
+ * Returns Google OAuth Credentials from environment or configured fallbacks
+ */
+export function getGoogleOAuthCredentials(env?: Record<string, string | undefined>) {
+  const procEnv = (globalThis as { process?: { env?: Record<string, string | undefined> } })
+    .process?.env;
+
+  const clientId =
+    env?.GOOGLE_CLIENT_ID ||
+    procEnv?.GOOGLE_CLIENT_ID ||
+    "";
+
+  const clientSecret =
+    env?.GOOGLE_CLIENT_SECRET ||
+    procEnv?.GOOGLE_CLIENT_SECRET ||
+    "";
+
+  return { clientId, clientSecret };
+}
+
+/**
+ * Builds Google OAuth 2.0 direct authorization URL (Edge Native)
+ */
+export function buildGoogleAuthUrl({
+  clientId,
+  redirectUri,
+  state,
+}: {
+  clientId: string;
+  redirectUri: string;
+  state?: string;
+}): string {
+  const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+  authUrl.searchParams.set("client_id", clientId);
+  authUrl.searchParams.set("redirect_uri", redirectUri);
+  authUrl.searchParams.set("response_type", "code");
+  authUrl.searchParams.set("scope", "openid email profile");
+  authUrl.searchParams.set("access_type", "offline");
+  authUrl.searchParams.set("prompt", "consent");
+  if (state) {
+    authUrl.searchParams.set("state", state);
+  }
+  return authUrl.toString();
+}
+
+/**
+ * Exchanges Google authorization code directly at Google Token Endpoint
+ */
+export async function exchangeGoogleCodeForTokens({
+  code,
+  clientId,
+  clientSecret,
+  redirectUri,
+}: {
+  code: string;
+  clientId: string;
+  clientSecret: string;
+  redirectUri: string;
+}): Promise<{ id_token?: string; access_token?: string; error?: string }> {
+  try {
+    const response = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        code,
+        client_id: clientId,
+        client_secret: clientSecret,
+        redirect_uri: redirectUri,
+        grant_type: "authorization_code",
+      }),
+    });
+
+    const data = (await response.json()) as {
+      id_token?: string;
+      access_token?: string;
+      error?: string;
+      error_description?: string;
+    };
+
+    if (!response.ok || !data.id_token) {
+      return {
+        error:
+          data.error_description ||
+          data.error ||
+          "Gagal menukar kode otentikasi Google dengan token resmi.",
+      };
+    }
+
+    return {
+      id_token: data.id_token,
+      access_token: data.access_token,
+    };
+  } catch (err) {
+    return {
+      error: err instanceof Error ? err.message : "Gagal menghubungi server Google OAuth.",
+    };
+  }
+}

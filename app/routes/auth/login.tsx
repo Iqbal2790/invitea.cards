@@ -3,8 +3,9 @@ import { redirect, Form } from "react-router";
 import { ArrowLeft, ShieldCheck } from "lucide-react";
 import {
   getAuthUser,
-  createServerSupabase,
   createReturnToCookieHeader,
+  getGoogleOAuthCredentials,
+  buildGoogleAuthUrl,
 } from "../../lib/auth.server";
 import { resolveHostContext, buildSubdomainUrl } from "../../lib/host";
 
@@ -37,59 +38,45 @@ export async function loader({ request }: Route.LoaderArgs) {
   if (url.searchParams.get("direct") === "google") {
     const callbackOrigin = url.origin;
     const redirectToUrl = `${callbackOrigin}/auth/callback`;
+    const { clientId } = getGoogleOAuthCredentials();
 
-    const supabase = createServerSupabase();
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: redirectToUrl,
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
+    const authUrl = buildGoogleAuthUrl({
+      clientId,
+      redirectUri: redirectToUrl,
+      state: returnTo,
     });
 
-    if (error || !data?.url) {
-      return { error: error?.message || "Gagal memulai sesi Google OAuth" };
-    }
-
     const headers = createReturnToCookieHeader(returnTo, request);
-    return redirect(data.url, { headers });
+    return redirect(authUrl, { headers });
   }
 
   return { returnTo };
 }
 
 export async function action({ request }: Route.ActionArgs) {
-  const url = new URL(request.url);
-  const formData = await request.formData();
-  const returnTo =
-    (formData.get("redirectTo") as string) ||
-    url.searchParams.get("redirectTo") ||
-    "/";
+  try {
+    const url = new URL(request.url);
+    const formData = await request.formData();
+    const returnTo =
+      (formData.get("redirectTo") as string) ||
+      url.searchParams.get("redirectTo") ||
+      "/";
 
-  const callbackOrigin = url.origin;
-  const redirectToUrl = `${callbackOrigin}/auth/callback`;
+    const callbackOrigin = url.origin;
+    const redirectToUrl = `${callbackOrigin}/auth/callback`;
+    const { clientId } = getGoogleOAuthCredentials();
 
-  const supabase = createServerSupabase();
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: redirectToUrl,
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-    },
-  });
+    const authUrl = buildGoogleAuthUrl({
+      clientId,
+      redirectUri: redirectToUrl,
+      state: returnTo,
+    });
 
-  if (error || !data?.url) {
-    return { error: error?.message || "Gagal memulai autentikasi Google" };
+    const headers = createReturnToCookieHeader(returnTo, request);
+    return redirect(authUrl, { headers });
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Gagal memulai autentikasi Google" };
   }
-
-  const headers = createReturnToCookieHeader(returnTo, request);
-  return redirect(data.url, { headers });
 }
 
 export default function LoginPage({ loaderData, actionData }: Route.ComponentProps) {

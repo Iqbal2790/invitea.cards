@@ -7,6 +7,8 @@ import {
   createSessionCookieHeaders,
   parseCookies,
   RETURN_TO_COOKIE_NAME,
+  getGoogleOAuthCredentials,
+  exchangeGoogleCodeForTokens,
 } from "../../lib/auth.server";
 
 export function meta() {
@@ -24,22 +26,64 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   if (code) {
-    const supabase = createServerSupabase();
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    const { clientId, clientSecret } = getGoogleOAuthCredentials();
+    const callbackOrigin = url.origin;
+    const redirectToUrl = `${callbackOrigin}/auth/callback`;
 
-    if (error || !data?.session) {
-      return {
-        error: error?.message || "Gagal menukar kode otentikasi dengan sesi aktif.",
-      };
+    let accessToken: string | null = null;
+    let refreshToken: string | null = null;
+
+    // 1. Try Native Edge direct exchange with Google Token API
+    const googleTokens = await exchangeGoogleCodeForTokens({
+      code,
+      clientId,
+      clientSecret,
+      redirectUri: redirectToUrl,
+    });
+
+    if (googleTokens.id_token) {
+      // Authenticate with Supabase via verified Google ID token
+      const supabase = createServerSupabase();
+      const { data, error } = await supabase.auth.signInWithIdToken({
+        provider: "google",
+        token: googleTokens.id_token,
+        access_token: googleTokens.access_token,
+      });
+
+      if (error || !data?.session) {
+        return {
+          error: error?.message || "Gagal memvalidasi token Google dengan Supabase.",
+        };
+      }
+
+      accessToken = data.session.access_token;
+      refreshToken = data.session.refresh_token;
+    } else {
+      // 2. Fallback: Check if code was issued directly by Supabase PKCE flow
+      const supabase = createServerSupabase();
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+
+      if (error || !data?.session) {
+        return {
+          error:
+            googleTokens.error ||
+            error?.message ||
+            "Gagal menukar kode otentikasi dengan sesi aktif.",
+        };
+      }
+
+      accessToken = data.session.access_token;
+      refreshToken = data.session.refresh_token;
     }
 
+    const state = url.searchParams.get("state");
     const cookies = parseCookies(request);
-    const returnTo = cookies[RETURN_TO_COOKIE_NAME] || "/";
+    const returnTo = state || cookies[RETURN_TO_COOKIE_NAME] || "/";
 
     const sessionHeaders = createSessionCookieHeaders(
       {
-        access_token: data.session.access_token,
-        refresh_token: data.session.refresh_token,
+        access_token: accessToken,
+        refresh_token: refreshToken,
       },
       request,
     );

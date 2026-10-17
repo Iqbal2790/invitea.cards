@@ -63,6 +63,26 @@ test("HTTP Endpoints: /auth/login returns 200 with Google OAuth UI", async () =>
   assert.ok(html.includes("form"), "Login page must contain OAuth form");
 });
 
+test("HTTP Endpoints: /auth/login direct=google redirects to accounts.google.com with native callback", async () => {
+  const res = await fetch("http://localhost:5173/auth/login?direct=google", {
+    redirect: "manual",
+  });
+  assert.equal(res.status, 302);
+  const location = res.headers.get("location") || "";
+  assert.ok(
+    location.startsWith("https://accounts.google.com/o/oauth2/v2/auth"),
+    "Must redirect directly to Google OAuth consent",
+  );
+  assert.ok(
+    location.includes("client_id=115720029459-nls4hrgvfh49d0jpl8uh4e3bec4oh48n"),
+    "Must pass correct Google Client ID",
+  );
+  assert.ok(
+    location.includes("redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fauth%2Fcallback"),
+    "Must pass native callback endpoint to Google",
+  );
+});
+
 test("HTTP Endpoints: /auth/logout clears session cookies and redirects", async () => {
   const res = await fetch("http://localhost:5173/auth/logout", {
     redirect: "manual",
