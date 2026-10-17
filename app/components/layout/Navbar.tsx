@@ -145,14 +145,9 @@ export function Navbar() {
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-semibold text-ink truncate">
-                        {user.fullName}
-                      </span>
-                      <span className="text-[10px] font-semibold bg-[#2D1E1E]/5 border border-black/10 text-ink px-1.5 py-0.5 rounded-full shrink-0">
-                        Planner
-                      </span>
-                    </div>
+                    <span className="text-sm font-semibold text-ink block truncate">
+                      {user.fullName}
+                    </span>
                     <div className="text-xs text-ink/60 font-mono truncate mt-0.5">
                       {user.email}
                     </div>
