@@ -16,7 +16,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "Apakah benar-benar bisa dicoba secara gratis?",
     answer:
-      "Ya, 100% gratis. Anda dapat langsung membuat undangan uji coba, melihat pratinjau live, dan menggunakan fitur Wedding Planner tanpa kartu kredit atau komitmen biaya apa pun di awal.",
+      "Ya, 100% gratis. Anda dapat langsung membuat undangan uji coba, melihat pratinjau live, dan menggunakan fitur Wedding Planner tanpa biaya apa pun di awal.",
   },
   {
     question: "Bisakah undangan menggunakan nama domain sendiri?",
