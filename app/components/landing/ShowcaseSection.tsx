@@ -74,41 +74,18 @@ const BASE_OFFSET = TEMPLATES.length; // index 8
 
 export function ShowcaseSection() {
   const [activeIndex, setActiveIndex] = useState(BASE_OFFSET);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState(() =>
-    typeof window !== "undefined" ? window.innerWidth : 1440
-  );
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const touchStartXRef = useRef<number | null>(null);
   const isSlidingRef = useRef(false);
 
-  // Measure viewport width & enable transitions only after initial mount
+  // Enable transitions only after client-side mount
   useEffect(() => {
-    const updateWidth = () => {
-      setViewportWidth(window.innerWidth);
-    };
-    updateWidth();
-    // Enable sliding transitions only after first clean render has painted
-    const t = setTimeout(() => {
-      setHasMounted(true);
-    }, 150);
-    window.addEventListener("resize", updateWidth);
-    return () => {
-      clearTimeout(t);
-      window.removeEventListener("resize", updateWidth);
-    };
+    setHasMounted(true);
   }, []);
-
-  // Card & conveyor belt geometry
-  const cardWidth = viewportWidth >= 1024 ? 280 : viewportWidth >= 640 ? 240 : 200;
-  const gap = viewportWidth >= 1024 ? 32 : viewportWidth >= 640 ? 24 : 16;
-  const stride = cardWidth + gap;
-
-  // Center active card horizontally
-  const translateX = viewportWidth / 2 - (activeIndex * stride + cardWidth / 2);
 
   const handleNext = useCallback(() => {
     if (isSlidingRef.current) return;
@@ -195,6 +172,28 @@ export function ShowcaseSection() {
       onMouseLeave={() => setIsPaused(false)}
       className="scroll-mt-20 py-6 sm:py-9 md:py-12 w-full overflow-hidden"
     >
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            #katalog {
+              --card-w: 200px;
+              --gap: 16px;
+            }
+            @media (min-width: 640px) {
+              #katalog {
+                --card-w: 240px;
+                --gap: 24px;
+              }
+            }
+            @media (min-width: 1024px) {
+              #katalog {
+                --card-w: 280px;
+                --gap: 32px;
+              }
+            }
+          `,
+        }}
+      />
       {/* Anchor alias for navbar #portofolio */}
       <div id="portofolio" className="sr-only" aria-hidden="true" />
 
@@ -257,11 +256,11 @@ export function ShowcaseSection() {
           ref={trackRef}
           onTransitionEnd={handleTransitionEnd}
           style={{
-            transform: `translateX(${translateX}px)`,
+            transform: `translateX(calc(-1 * (${activeIndex} * (var(--card-w) + var(--gap)) + var(--card-w) / 2)))`,
             transition: hasMounted && isTransitioning ? "transform 650ms cubic-bezier(0.25, 1, 0.5, 1)" : "none",
-            gap: `${gap}px`,
+            gap: "var(--gap)",
           }}
-          className="flex items-center will-change-transform"
+          className="relative left-1/2 flex items-center will-change-transform"
         >
         {EXTENDED_TEMPLATES.map((item, idx) => {
           const isActive = idx === activeIndex;
@@ -274,7 +273,7 @@ export function ShowcaseSection() {
                   setActiveIndex(idx);
                 }
               }}
-              style={{ width: `${cardWidth}px` }}
+              style={{ width: "var(--card-w)" }}
               className={`flex-shrink-0 flex flex-col items-center origin-center ${
                 hasMounted && isTransitioning ? "transition-all duration-500 ease-out" : ""
               } ${
@@ -289,17 +288,20 @@ export function ShowcaseSection() {
                   isActive ? "drop-shadow-2xl" : "drop-shadow-md"
                 }`}
               >
-                {/* Inner Screen Area with Bezel Padding */}
-                <div className="absolute inset-[2.5%] sm:inset-[2.8%] rounded-[24px] sm:rounded-[30px] overflow-hidden bg-white z-10 flex flex-col justify-end">
-                  {/* Background Wedding Invitation Thumbnail */}
-                  <img
-                    src={item.thumbnail}
-                    alt={item.name}
-                    className="absolute inset-0 w-full h-full object-cover object-top select-none pointer-events-none"
-                  />
-
-                  {/* Gradient overlay for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-0" />
+                {/* Screen Content Underneath Phone Frame: Flush placement without any gap */}
+                <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[36px] sm:rounded-[40px] overflow-hidden z-10 flex flex-col justify-end">
+                  {/* Wallpaper / Template Artwork */}
+                  <div className="absolute inset-0 z-0">
+                    <img
+                      src={item.thumbnail}
+                      alt={item.name}
+                      className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                      loading="eager"
+                      decoding="async"
+                    />
+                    {/* Gradient Scrim for Readability */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/25 pointer-events-none" />
+                  </div>
 
                   {/* Floating Dock Card inside Screen */}
                   <div className="relative z-10 p-2 sm:p-2.5 m-2 sm:m-2.5 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 text-white shadow-md pointer-events-none">
