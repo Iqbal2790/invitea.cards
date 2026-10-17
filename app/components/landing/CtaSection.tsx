@@ -1,4 +1,4 @@
-import { MessageCircle, ArrowUpRight, Check, Lock } from "lucide-react";
+import { MessageCircle, ArrowUpRight, Check } from "lucide-react";
 
 export function CtaSection() {
   return (
@@ -22,8 +22,8 @@ export function CtaSection() {
             <circle cx="75" cy="30" r="9" stroke="oklch(94% 0.02 70)" strokeWidth="1.5" />
           </svg>
 
-          {/* Main 2-Column Grid: Left Content + Right Live Device Showcase */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">
+          {/* Main 2-Column Grid: Left Content + Right Clean Device Showcase */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center">
             {/* Left Column: Left-aligned Content & Conversion Actions */}
             <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start text-left">
               <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-pink-soft block mb-3 font-mono">
@@ -60,56 +60,50 @@ export function CtaSection() {
               </div>
             </div>
 
-            {/* Right Column: High-Impact Device Mockups (Laptop + Phone) - Hidden on Mobile */}
+            {/* Right Column: Clean Device Mockups (Laptop + Phone) - Hidden on Mobile */}
             <div className="hidden lg:flex lg:col-span-5 xl:col-span-6 relative w-full items-center justify-center xl:justify-end select-none">
-              <div className="relative w-full max-w-[460px] xl:max-w-[510px]">
-                {/* Floating Top Badge: Live Website & SSL Status */}
-                <div className="absolute -top-3 left-6 z-30 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-lg text-[10px] font-mono">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Domain Aktif &bull; SSL Aman</span>
-                </div>
-
-                {/* Laptop Mockup: Live Published Invitation Page */}
-                <div className="relative w-full aspect-[16/10]">
-                  {/* Laptop Screen Content Container */}
-                  <div className="absolute top-[3.2%] bottom-[13%] left-[11.8%] right-[11.8%] rounded-t-[5px] overflow-hidden bg-[#1F070C] text-cream-text flex flex-col border border-black/20 shadow-inner">
-                    {/* Sleek Browser Bar with URL */}
-                    <div className="h-5 sm:h-6 bg-[#2D0912] text-cream-text flex items-center px-2.5 gap-1.5 border-b border-white/10 shrink-0">
+              <div className="relative w-full max-w-[450px] xl:max-w-[480px]">
+                {/* Laptop Mockup: Exactly 800/489 matching hardware asset */}
+                <div className="relative w-full aspect-[800/489]">
+                  {/* Laptop Screen Content: Exact screen cutout (4.3% top, 10.6% bottom, 9.6% sides) */}
+                  <div className="absolute top-[4.3%] bottom-[10.6%] left-[9.6%] right-[9.6%] overflow-hidden bg-[#1F070C] rounded-t-[4px] flex flex-col">
+                    {/* Clean Browser Chrome */}
+                    <div className="h-5 bg-[#2D0912] text-cream-text/80 flex items-center px-2.5 gap-1.5 border-b border-white/10 shrink-0">
                       <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
-                        <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/80" />
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500/80" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-400/80" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80" />
                       </div>
-                      <div className="px-2 py-0.5 rounded-full bg-black/40 border border-white/10 text-[7px] sm:text-[8px] font-mono text-cream-text/80 flex items-center gap-1 mx-auto">
-                        <Lock className="w-2 h-2 text-emerald-400 shrink-0" />
-                        <span>invitea.cards/baskara-nadhira</span>
+                      <div className="px-2 py-0.5 rounded bg-black/40 border border-white/10 text-[7px] font-mono text-cream-text/75 mx-auto">
+                        invitea.cards/baskara-nadhira
                       </div>
                     </div>
 
-                    {/* Live Website Screen Body */}
-                    <div className="relative flex-1 overflow-hidden flex flex-col justify-between p-2.5 sm:p-3">
+                    {/* Wedding Invitation Screen Body */}
+                    <div className="relative flex-1 overflow-hidden flex flex-col justify-between p-2.5 text-white">
                       <img
                         src="/thumbnails/wedding-rings.jpg"
-                        alt="Wedding Background"
-                        className="absolute inset-0 w-full h-full object-cover filter brightness-[0.6] scale-105"
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full object-cover filter brightness-[0.62]"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#1F070C] via-[#1F070C]/50 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1F070C] via-[#1F070C]/40 to-transparent" />
 
                       <div className="relative z-10 text-center space-y-0.5">
-                        <span className="text-[7px] sm:text-[8px] font-mono uppercase tracking-widest text-pink-soft block">
+                        <span className="text-[6.5px] font-mono uppercase tracking-widest text-pink-soft block">
                           The Wedding Celebration
                         </span>
-                        <h4 className="font-serif text-sm sm:text-base xl:text-lg font-medium text-white leading-tight">
+                        <h4 className="font-serif text-sm sm:text-base font-medium text-white leading-tight">
                           Baskara &amp; Nadhira
                         </h4>
-                        <p className="text-[7px] sm:text-[8px] text-cream-text/75 font-sans">
+                        <p className="text-[7px] text-cream-text/80 font-sans">
                           Sabtu, 24 Oktober 2026 &bull; Jakarta
                         </p>
                       </div>
 
-                      {/* Live Countdown & Interactive Actions */}
-                      <div className="relative z-10 flex flex-col items-center gap-1.5 pb-1">
-                        <div className="flex items-center gap-1 text-[6.5px] sm:text-[7.5px] font-mono text-white/90">
+                      {/* Couple Countdown & Direct Actions */}
+                      <div className="relative z-10 flex flex-col items-center gap-1">
+                        <div className="flex items-center gap-1 text-[6.5px] font-mono text-white/90">
                           <span className="px-1.5 py-0.5 rounded bg-white/20 backdrop-blur-sm border border-white/20">
                             14 Hari
                           </span>
@@ -123,10 +117,10 @@ export function CtaSection() {
                           </span>
                         </div>
                         <div className="flex items-center gap-1.5">
-                          <span className="px-2 py-0.5 rounded-full bg-white text-ink text-[6.5px] sm:text-[7.5px] font-semibold shadow-sm">
+                          <span className="px-2 py-0.5 rounded-full bg-white text-ink text-[6.5px] font-semibold">
                             Kirim Hadiah
                           </span>
-                          <span className="px-2 py-0.5 rounded-full bg-berry text-white text-[6.5px] sm:text-[7.5px] font-semibold border border-white/20">
+                          <span className="px-2 py-0.5 rounded-full bg-berry text-white text-[6.5px] font-semibold border border-white/20">
                             Isi RSVP
                           </span>
                         </div>
@@ -142,10 +136,10 @@ export function CtaSection() {
                   />
 
                   {/* Overlapping Phone Mockup (Bottom-Right) */}
-                  <div className="absolute -bottom-2 -right-1 xl:-right-3 w-[100px] sm:w-[120px] xl:w-[135px] aspect-[9/18.5] z-20 drop-shadow-2xl">
+                  <div className="absolute -bottom-1.5 right-0 w-[95px] sm:w-[110px] xl:w-[120px] aspect-[9/18.5] z-20 drop-shadow-2xl">
                     <div className="relative w-full h-full">
                       {/* Screen Content: Mobile Invitation View */}
-                      <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[12px] sm:rounded-[18px] overflow-hidden bg-stone-900 shadow-xl">
+                      <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[12px] sm:rounded-[16px] overflow-hidden bg-stone-900 shadow-xl">
                         <img
                           src="/thumbnails/folio-bloom.png"
                           alt="Mobile Preview"
@@ -154,13 +148,13 @@ export function CtaSection() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                        {/* Interactive Mobile RSVP Toast */}
-                        <div className="absolute bottom-1.5 inset-x-1 p-1 sm:p-1.5 rounded sm:rounded-lg bg-black/85 backdrop-blur-md border border-white/20 text-white flex flex-col gap-0.5 text-center">
-                          <div className="flex items-center justify-between text-[5.5px] sm:text-[7px] font-mono text-emerald-400 font-bold">
+                        {/* Mobile RSVP Indicator */}
+                        <div className="absolute bottom-1.5 inset-x-1 p-1 rounded bg-black/85 backdrop-blur-md border border-white/20 text-white flex flex-col gap-0.5 text-center">
+                          <div className="flex items-center justify-between text-[5.5px] font-mono text-emerald-400 font-bold">
                             <span>✓ RSVP HADIR</span>
                             <span>2 Tamu</span>
                           </div>
-                          <span className="text-[5px] sm:text-[6.5px] text-white/80 truncate">
+                          <span className="text-[5px] text-white/80 truncate">
                             Dimas Prasetyo
                           </span>
                         </div>
@@ -175,12 +169,6 @@ export function CtaSection() {
                       />
                     </div>
                   </div>
-                </div>
-
-                {/* Floating Bottom Badge: Verified RSVP Rate */}
-                <div className="absolute -bottom-2 left-6 z-30 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-ink shadow-xl text-[10px] font-sans font-semibold border border-black/10">
-                  <Check className="w-3 h-3 text-emerald-600 stroke-[3]" />
-                  <span>99.8% Tamu Terkonfirmasi</span>
                 </div>
               </div>
             </div>
