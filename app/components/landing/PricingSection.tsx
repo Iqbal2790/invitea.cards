@@ -258,7 +258,7 @@ export function PricingSection() {
               {/* Action Button */}
               <div className="mb-6">
                 <a
-                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20pesan%20Paket%20Plus%20(Rp%20150.000)."
+                  href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20pesan%20Paket%20Plus%20(Rp%20150.000)."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-berry text-cream-text text-xs sm:text-sm font-semibold hover:bg-berry/90 transition-all duration-150 shadow-sm"
@@ -350,7 +350,7 @@ export function PricingSection() {
               {/* Action Button */}
               <div className="mb-6">
                 <a
-                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20Paket%20Pro%20(Rp%20350.000)."
+                  href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20Paket%20Pro%20(Rp%20350.000)."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-ink text-cream-text text-xs sm:text-sm font-semibold hover:bg-berry transition-colors shadow-sm"

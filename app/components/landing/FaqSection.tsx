@@ -175,7 +175,7 @@ export function FaqSection() {
             </p>
           </div>
           <a
-            href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20ingin%20tanya%20seputar%20undangan%20pernikahan."
+            href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20ingin%20tanya%20seputar%20undangan%20pernikahan."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-sm bg-berry text-white hover:bg-berry-deep transition-all duration-150 active:scale-95 shrink-0 shadow-xs"

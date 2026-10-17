@@ -49,7 +49,7 @@ export function CtaSection() {
                 </a>
 
                 <a
-                  href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan."
+                  href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide border border-cream-text/60 text-cream-text hover:bg-cream-text/10 hover:border-cream-text transition-all duration-150 active:scale-95 whitespace-nowrap"

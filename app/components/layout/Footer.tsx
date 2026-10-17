@@ -44,13 +44,13 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       {
         label: "WhatsApp",
-        href: "https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan.",
+        href: "https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan.",
         isExternal: true,
       },
       { label: "Jadwal Konsultasi", href: "#inquiry" },
       {
         label: "Kemitraan Wedding Organizer",
-        href: "https://wa.me/6281234567890?text=Halo%20Invitea%2C%20kami%20tertarik%20kemitraan%20Wedding%20Organizer.",
+        href: "https://wa.me/6282255667944?text=Halo%20Invitea%2C%20kami%20tertarik%20kemitraan%20Wedding%20Organizer.",
         isExternal: true,
       },
     ],
@@ -247,7 +247,7 @@ export function Footer() {
               <TikTokIcon className="w-4 h-4" />
             </a>
             <a
-              href="https://wa.me/6281234567890?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan."
+              href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan."
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
