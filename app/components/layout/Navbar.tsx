@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useRouteLoaderData } from "react-router";
-import { Menu, X, ArrowUpRight, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, ArrowUpRight, LogOut, LayoutDashboard, FolderKanban } from "lucide-react";
 import { buildSubdomainUrl, type HostContext } from "../../lib/host";
+import { UserProfileDropdown } from "./UserProfileDropdown";
 
 interface NavItem {
   label: string;
@@ -65,36 +66,11 @@ export function Navbar() {
           {/* Right Action Button (Desktop CTA) */}
           <div className="hidden md:flex items-center">
             {user ? (
-              <div className="flex items-center gap-2">
-                <a
-                  href={plannerUrl}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-black/15 bg-white text-ink text-xs font-semibold hover:border-black/30 hover:bg-[#FAF8F5] transition-all shadow-2xs"
-                >
-                  {user.avatarUrl ? (
-                    <img
-                      src={user.avatarUrl}
-                      alt=""
-                      className="w-5 h-5 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-5 h-5 rounded-full bg-[oklch(38%_0.14_15)] text-white text-[10px] font-bold flex items-center justify-center">
-                      {user.fullName?.charAt(0).toUpperCase() || "U"}
-                    </div>
-                  )}
-                  <span>{user.fullName?.split(" ")[0]}</span>
-                  <span className="text-[10px] text-[oklch(38%_0.14_15)] font-mono uppercase bg-[oklch(38%_0.14_15)]/10 px-1.5 py-0.5 rounded">
-                    Planner ↗
-                  </span>
-                </a>
-
-                <a
-                  href="/auth/logout"
-                  title="Keluar dari akun"
-                  className="p-2 rounded-full text-[oklch(23%_0.03_40)]/60 hover:text-[oklch(38%_0.14_15)] hover:bg-black/5 transition-colors"
-                >
-                  <LogOut className="w-4 h-4" />
-                </a>
-              </div>
+              <UserProfileDropdown
+                user={user}
+                plannerUrl={plannerUrl}
+                builderUrl="https://create.invitea.cards"
+              />
             ) : (
               <a
                 href="/auth/login"
@@ -154,23 +130,30 @@ export function Navbar() {
           <div className="pt-2 border-t border-[oklch(84%_0.05_18)]/40">
             {user ? (
               <div className="space-y-2">
-                <div className="flex items-center gap-3 px-3 py-2 bg-white/70 rounded-xl border border-black/10">
-                  {user.avatarUrl ? (
-                    <img
-                      src={user.avatarUrl}
-                      alt=""
-                      className="w-8 h-8 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-[oklch(38%_0.14_15)] text-white text-xs font-bold flex items-center justify-center">
-                      {user.fullName?.charAt(0).toUpperCase() || "U"}
+                <div className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-black/10 shadow-2xs">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border border-black/10 shrink-0 bg-[#FAF5E9] flex items-center justify-center">
+                    {user.avatarUrl ? (
+                      <img
+                        src={user.avatarUrl}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-sm font-bold text-[#6E182A]">
+                        {user.fullName?.charAt(0).toUpperCase() || "U"}
+                      </span>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-semibold text-ink truncate">
+                        {user.fullName}
+                      </span>
+                      <span className="text-[10px] font-semibold bg-[#2D1E1E]/5 border border-black/10 text-ink px-1.5 py-0.5 rounded-full shrink-0">
+                        Planner
+                      </span>
                     </div>
-                  )}
-                  <div className="overflow-hidden">
-                    <div className="text-xs font-semibold text-ink truncate">
-                      {user.fullName}
-                    </div>
-                    <div className="text-[10px] text-ink/60 font-mono truncate">
+                    <div className="text-xs text-ink/60 font-mono truncate mt-0.5">
                       {user.email}
                     </div>
                   </div>
@@ -179,7 +162,7 @@ export function Navbar() {
                 <a
                   href={plannerUrl}
                   onClick={closeMenu}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-[oklch(38%_0.14_15)] text-white text-xs font-semibold shadow-xs"
+                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-[oklch(38%_0.14_15)] text-white text-xs font-semibold shadow-xs hover:bg-[oklch(34%_0.14_15)] transition-colors"
                 >
                   <LayoutDashboard className="w-3.5 h-3.5" />
                   <span>Buka Wedding Planner</span>
@@ -188,10 +171,10 @@ export function Navbar() {
                 <a
                   href="/auth/logout"
                   onClick={closeMenu}
-                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-full border border-black/15 text-ink text-xs font-medium hover:bg-black/5"
+                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-full border border-rose-200 text-rose-600 text-xs font-medium hover:bg-rose-50 transition-colors"
                 >
                   <LogOut className="w-3.5 h-3.5" />
-                  <span>Keluar dari Akun</span>
+                  <span>Keluar Akun</span>
                 </a>
               </div>
             ) : (

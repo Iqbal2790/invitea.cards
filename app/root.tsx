@@ -20,23 +20,36 @@ export async function loader({ request }: Route.LoaderArgs) {
   const hostContext = resolveHostContext(hostHeader, url.searchParams);
   const { user } = await getAuthUser(request);
 
+  const isMockDev =
+    (url.hostname === "localhost" || url.hostname === "127.0.0.1") &&
+    url.searchParams.has("__mock_user");
+
+  const effectiveUser = isMockDev
+    ? {
+        id: "mock-iqbal-123",
+        email: "iqbal.muhammad1040@gmail.com",
+        fullName: "Iqbal Muhammad",
+        avatarUrl: undefined,
+      }
+    : user
+    ? {
+        id: user.id,
+        email: user.email,
+        fullName:
+          (user.user_metadata?.full_name as string) ||
+          (user.user_metadata?.name as string) ||
+          user.email?.split("@")[0] ||
+          "User",
+        avatarUrl:
+          (user.user_metadata?.avatar_url as string) ||
+          (user.user_metadata?.picture as string) ||
+          undefined,
+      }
+    : null;
+
   return {
     hostContext,
-    user: user
-      ? {
-          id: user.id,
-          email: user.email,
-          fullName:
-            (user.user_metadata?.full_name as string) ||
-            (user.user_metadata?.name as string) ||
-            user.email?.split("@")[0] ||
-            "User",
-          avatarUrl:
-            (user.user_metadata?.avatar_url as string) ||
-            (user.user_metadata?.picture as string) ||
-            undefined,
-        }
-      : null,
+    user: effectiveUser,
   };
 }
 
