@@ -91,6 +91,21 @@ export function createClearSessionHeaders(request: Request): Headers {
 }
 
 /**
+ * Builds Set-Cookie header for temporary oauth return_to destination (10 mins expiry)
+ */
+export function createReturnToCookieHeader(returnTo: string, request: Request): Headers {
+  const headers = new Headers();
+  const url = new URL(request.url);
+  const hostname = url.hostname.toLowerCase();
+  const isProductionDomain = hostname.endsWith("invitea.cards");
+  const domainFlag = isProductionDomain ? "; Domain=.invitea.cards" : "";
+  const baseFlags = `Path=/; HttpOnly; SameSite=Lax; Max-Age=600${domainFlag}`;
+
+  headers.append("Set-Cookie", `${RETURN_TO_COOKIE_NAME}=${encodeURIComponent(returnTo)}; ${baseFlags}`);
+  return headers;
+}
+
+/**
  * Creates an edge-compatible stateless Supabase server client
  */
 export function createServerSupabase(
