@@ -27,7 +27,23 @@ export function SmoothScroll() {
 
     const rafId = requestAnimationFrame(raf);
 
+    function handleAnchorClick(e: MouseEvent) {
+      const target = (e.target as HTMLElement).closest("a");
+      if (!target) return;
+      const href = target.getAttribute("href");
+      if (href && href.startsWith("#") && href.length > 1) {
+        const el = document.querySelector(href);
+        if (el) {
+          e.preventDefault();
+          lenis.scrollTo(el as HTMLElement, { offset: -70 });
+        }
+      }
+    }
+
+    document.addEventListener("click", handleAnchorClick);
+
     return () => {
+      document.removeEventListener("click", handleAnchorClick);
       cancelAnimationFrame(rafId);
       unbind();
       lenis.destroy();
