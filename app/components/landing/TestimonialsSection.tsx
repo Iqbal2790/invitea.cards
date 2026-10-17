@@ -1,95 +1,123 @@
-import { Star } from "lucide-react";
+import { Star, CheckCircle2 } from "lucide-react";
+import { ScrollReveal } from "~/components/ui/ScrollReveal";
 
 interface TestimonialItem {
   id: string;
   couple: string;
   location: string;
-  quote: string;
   theme: string;
+  plan: string;
+  quote: string;
 }
 
 const TESTIMONIALS: TestimonialItem[] = [
   {
     id: "testi-1",
     couple: "Dimas & Saraswati",
-    location: "Jakarta",
+    location: "Jakarta • Okt 2026",
     theme: "Folio Bloom",
+    plan: "Paket Plus",
     quote:
-      "Undangan digital Invitea sangat jelas dan rapi. Tamu-tamu kami banyak yang memuji betapa mudahnya mengisi RSVP dan membuka peta lokasi. Tim Invitea juga sangat sabar mendampingi kami sampai hari H.",
+      "Undangan digital Invitea sangat jelas dan rapi. Tamu-tamu kami banyak yang memuji betapa mudahnya mengisi RSVP dan membuka rute peta. Proses aktivasi domain nama kami berdua juga selesai dalam hitungan jam.",
   },
   {
     id: "testi-2",
     couple: "Aditya & Nabila",
-    location: "Bandung",
+    location: "Bandung • Sep 2026",
     theme: "Vintage Chronicle",
+    plan: "Paket Pro",
     quote:
-      "Tampilannya hangat dan tidak pasaran. Fitur integrasi ke WhatsApp memudahkan kami mengirim undangan ke ratusan keluarga besar dalam satu sore saja tanpa ada yang terlewat.",
+      "Fitur proteksi anti-sebar dan auto-blast WhatsApp sangat membantu. Kami bisa mengirim tautan personal ke ratusan tamu tanpa cemas data resepsi bocor ke publik. Benar-benar memberi ketenangan.",
   },
   {
     id: "testi-3",
     couple: "Rian & Felicia",
-    location: "Surabaya",
+    location: "Surabaya • Agu 2026",
     theme: "Memory Lane",
+    plan: "Paket Plus",
     quote:
-      "Desainnya anggun dan cepat diakses walau dari jaringan ponsel keluarga di luar kota. Tidak ada kendala loading sama sekali. Sangat bersyukur memilih Invitea untuk hari terpenting kami.",
+      "Tampilannya elegan dan cepat diakses walau dari jaringan ponsel keluarga di luar kota. Integrasi langsung dengan Wedding Planner membuat kontrol anggaran dan rekap buku tamu jadi sangat praktis.",
   },
 ];
 
 export function TestimonialsSection() {
   return (
-    <section id="testimoni" className="scroll-mt-20 py-20 md:py-28 w-full border-t border-hairline/60 bg-bg-alt/30">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <section
+      id="testimoni"
+      className="scroll-mt-20 py-16 sm:py-20 md:py-24 w-full border-t border-hairline/60 bg-bg-alt/30"
+    >
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
         {/* Header */}
-        <div className="max-w-2xl mx-auto text-center mb-14 md:mb-18">
+        <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-16">
           <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
-            Testimoni Nyata
+            Testimoni Pasangan
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
             Cerita Bahagia Bersama Invitea
           </h2>
-          <p className="mt-4 text-base text-ink-soft leading-relaxed max-w-xl mx-auto text-balance">
-            Menjadi bagian dari ribuan awal perjalanan cinta pasangan pengantin adalah kehormatan bagi kami.
+          <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl mx-auto text-balance">
+            Menjadi bagian dari ribuan awal perjalanan cinta pasangan pengantin di seluruh Indonesia.
           </p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {TESTIMONIALS.map((item) => (
-            <div
+        {/* Testimonials Grid with Staggered ScrollReveal */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 items-stretch">
+          {TESTIMONIALS.map((item, index) => (
+            <ScrollReveal
               key={item.id}
-              className="p-7 sm:p-8 rounded-2xl border border-[oklch(85%_0.03_25/0.8)] bg-white/70 backdrop-blur-xs flex flex-col justify-between shadow-xs hover:shadow-md transition-all duration-200"
+              transition={{ delay: index * 0.12, duration: 0.5, ease: "easeOut" }}
+              variants={{
+                hidden: { opacity: 0, y: 24 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              viewOptions={{ amount: 0.2 }}
+              className="h-full"
+              once
             >
-              <div>
-                {/* Star rating strip */}
-                <div className="flex items-center gap-1 text-berry mb-4" aria-label="Rating 5 bintang">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-berry text-berry"
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-
-                <p className="font-serif text-base sm:text-lg text-ink leading-relaxed">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-              </div>
-
-              <div className="mt-8 pt-5 border-t border-hairline/50 flex items-center justify-between">
+              <div className="h-full rounded-3xl border border-header-border bg-bg p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-hairline transition-all duration-200">
                 <div>
-                  <h3 className="font-sans font-semibold text-sm sm:text-base text-ink">
-                    {item.couple}
-                  </h3>
-                  <p className="text-xs text-ink-soft">
-                    {item.location}
+                  {/* Top: Star rating & Verified badge */}
+                  <div className="flex items-center justify-between mb-5">
+                    <div
+                      className="flex items-center gap-1 text-berry"
+                      aria-label="Rating 5 bintang"
+                    >
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-4 h-4 fill-berry text-berry"
+                          aria-hidden="true"
+                        />
+                      ))}
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-ink-soft bg-bg-alt px-2 py-0.5 rounded-full border border-header-border uppercase tracking-wider">
+                      <CheckCircle2 className="w-3 h-3 text-berry" aria-hidden="true" />
+                      <span>Terverifikasi</span>
+                    </span>
+                  </div>
+
+                  {/* Quote text */}
+                  <p className="font-serif text-base sm:text-lg text-ink leading-relaxed">
+                    &ldquo;{item.quote}&rdquo;
                   </p>
                 </div>
-                <span className="text-[11px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full bg-pink-soft text-berry">
-                  {item.theme}
-                </span>
+
+                {/* Footer: Couple info & Plan tag */}
+                <div className="mt-8 pt-5 border-t border-hairline/60 flex items-center justify-between gap-3 flex-wrap">
+                  <div>
+                    <h3 className="font-sans font-bold text-sm sm:text-base text-ink tracking-tight">
+                      {item.couple}
+                    </h3>
+                    <p className="text-xs text-ink-soft mt-0.5">
+                      {item.location}
+                    </p>
+                  </div>
+                  <span className="text-[11px] font-medium tracking-wide uppercase px-2.5 py-1 rounded-full bg-pink-soft text-berry border border-berry/10 shrink-0">
+                    {item.theme}
+                  </span>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
