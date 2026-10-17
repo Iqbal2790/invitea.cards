@@ -10,6 +10,7 @@ import { TestimonialsSection } from "../components/landing/TestimonialsSection";
 import { FaqSection } from "../components/landing/FaqSection";
 import { CtaSection } from "../components/landing/CtaSection";
 import { resolveHostContext, type HostContext } from "../lib/host";
+import { getAuthUser } from "../lib/auth.server";
 import { PlannerShell } from "../components/planner/PlannerShell";
 import { BuilderShell } from "../components/builder/BuilderShell";
 import { CustomDomainShell } from "../components/custom/CustomDomainShell";
@@ -51,18 +52,37 @@ export function meta({ matches }: Route.MetaArgs) {
   ];
 }
 
-export function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const hostHeader = request.headers.get("x-forwarded-host") || request.headers.get("host");
   const hostContext = resolveHostContext(hostHeader, url.searchParams);
-  return { hostContext };
+  const { user } = await getAuthUser(request);
+
+  return {
+    hostContext,
+    user: user
+      ? {
+          id: user.id,
+          email: user.email,
+          fullName:
+            (user.user_metadata?.full_name as string) ||
+            (user.user_metadata?.name as string) ||
+            user.email?.split("@")[0] ||
+            "User",
+          avatarUrl:
+            (user.user_metadata?.avatar_url as string) ||
+            (user.user_metadata?.picture as string) ||
+            undefined,
+        }
+      : null,
+  };
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { hostContext } = loaderData;
+  const { hostContext, user } = loaderData;
 
   if (hostContext.type === "planner") {
-    return <PlannerShell hostContext={hostContext} />;
+    return <PlannerShell hostContext={hostContext} user={user} />;
   }
 
   if (hostContext.type === "builder") {

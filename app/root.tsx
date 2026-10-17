@@ -12,12 +12,32 @@ import "./app.css";
 import { SmoothScroll } from "./components/common/SmoothScroll";
 import { InkHover } from "./components/common/InkHover";
 import { resolveHostContext, type HostContext } from "./lib/host";
+import { getAuthUser } from "./lib/auth.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const hostHeader = request.headers.get("x-forwarded-host") || request.headers.get("host");
   const hostContext = resolveHostContext(hostHeader, url.searchParams);
-  return { hostContext };
+  const { user } = await getAuthUser(request);
+
+  return {
+    hostContext,
+    user: user
+      ? {
+          id: user.id,
+          email: user.email,
+          fullName:
+            (user.user_metadata?.full_name as string) ||
+            (user.user_metadata?.name as string) ||
+            user.email?.split("@")[0] ||
+            "User",
+          avatarUrl:
+            (user.user_metadata?.avatar_url as string) ||
+            (user.user_metadata?.picture as string) ||
+            undefined,
+        }
+      : null,
+  };
 }
 
 export const links: Route.LinksFunction = () => [

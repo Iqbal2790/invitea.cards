@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { useRouteLoaderData } from "react-router";
+import { Menu, X, ArrowUpRight, LogOut, LayoutDashboard } from "lucide-react";
+import { buildSubdomainUrl, type HostContext } from "../../lib/host";
 
 interface NavItem {
   label: string;
@@ -17,8 +19,18 @@ const NAV_ITEMS: NavItem[] = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-
   const closeMenu = () => setIsOpen(false);
+
+  const rootData = useRouteLoaderData("root") as
+    | {
+        hostContext?: HostContext;
+        user?: { id: string; email?: string; fullName?: string; avatarUrl?: string } | null;
+      }
+    | undefined;
+
+  const user = rootData?.user;
+  const hostContext = rootData?.hostContext;
+  const plannerUrl = buildSubdomainUrl("planner", "/", hostContext);
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-[oklch(96%_0.02_75/0.88)] border-b border-[oklch(85%_0.03_25/0.6)] transition-all duration-300">
@@ -52,18 +64,51 @@ export function Navbar() {
 
           {/* Right Action Button (Desktop CTA) */}
           <div className="hidden md:flex items-center">
-            <a
-              href="/login"
-              data-ink-btn
-              style={{
-                "--ink-bg": "var(--color-berry)",
-                "--ink-text": "var(--color-cream-text)",
-                "--ink-border": "var(--color-berry)",
-              } as React.CSSProperties}
-              className="ink-btn border border-black text-black bg-transparent rounded-full px-5 py-2 text-sm font-medium tracking-wide active:scale-95"
-            >
-              <span>Login</span>
-            </a>
+            {user ? (
+              <div className="flex items-center gap-2">
+                <a
+                  href={plannerUrl}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-black/15 bg-white text-ink text-xs font-semibold hover:border-black/30 hover:bg-[#FAF8F5] transition-all shadow-2xs"
+                >
+                  {user.avatarUrl ? (
+                    <img
+                      src={user.avatarUrl}
+                      alt=""
+                      className="w-5 h-5 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-5 h-5 rounded-full bg-[oklch(38%_0.14_15)] text-white text-[10px] font-bold flex items-center justify-center">
+                      {user.fullName?.charAt(0).toUpperCase() || "U"}
+                    </div>
+                  )}
+                  <span>{user.fullName?.split(" ")[0]}</span>
+                  <span className="text-[10px] text-[oklch(38%_0.14_15)] font-mono uppercase bg-[oklch(38%_0.14_15)]/10 px-1.5 py-0.5 rounded">
+                    Planner ↗
+                  </span>
+                </a>
+
+                <a
+                  href="/auth/logout"
+                  title="Keluar dari akun"
+                  className="p-2 rounded-full text-[oklch(23%_0.03_40)]/60 hover:text-[oklch(38%_0.14_15)] hover:bg-black/5 transition-colors"
+                >
+                  <LogOut className="w-4 h-4" />
+                </a>
+              </div>
+            ) : (
+              <a
+                href="/auth/login"
+                data-ink-btn
+                style={{
+                  "--ink-bg": "var(--color-berry)",
+                  "--ink-text": "var(--color-cream-text)",
+                  "--ink-border": "var(--color-berry)",
+                } as React.CSSProperties}
+                className="ink-btn border border-black text-black bg-transparent rounded-full px-5 py-2 text-sm font-medium tracking-wide active:scale-95"
+              >
+                <span>Login</span>
+              </a>
+            )}
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -105,20 +150,65 @@ export function Navbar() {
               </a>
             ))}
           </nav>
+
           <div className="pt-2 border-t border-[oklch(84%_0.05_18)]/40">
-            <a
-              href="/login"
-              onClick={closeMenu}
-              data-ink-btn
-              style={{
-                "--ink-bg": "var(--color-berry)",
-                "--ink-text": "var(--color-cream-text)",
-                "--ink-border": "var(--color-berry)",
-              } as React.CSSProperties}
-              className="ink-btn block w-full text-center border border-black text-black bg-transparent rounded-full py-2.5 text-sm font-medium tracking-wide active:scale-95"
-            >
-              <span>Login</span>
-            </a>
+            {user ? (
+              <div className="space-y-2">
+                <div className="flex items-center gap-3 px-3 py-2 bg-white/70 rounded-xl border border-black/10">
+                  {user.avatarUrl ? (
+                    <img
+                      src={user.avatarUrl}
+                      alt=""
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-[oklch(38%_0.14_15)] text-white text-xs font-bold flex items-center justify-center">
+                      {user.fullName?.charAt(0).toUpperCase() || "U"}
+                    </div>
+                  )}
+                  <div className="overflow-hidden">
+                    <div className="text-xs font-semibold text-ink truncate">
+                      {user.fullName}
+                    </div>
+                    <div className="text-[10px] text-ink/60 font-mono truncate">
+                      {user.email}
+                    </div>
+                  </div>
+                </div>
+
+                <a
+                  href={plannerUrl}
+                  onClick={closeMenu}
+                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-[oklch(38%_0.14_15)] text-white text-xs font-semibold shadow-xs"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5" />
+                  <span>Buka Wedding Planner</span>
+                </a>
+
+                <a
+                  href="/auth/logout"
+                  onClick={closeMenu}
+                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-full border border-black/15 text-ink text-xs font-medium hover:bg-black/5"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Keluar dari Akun</span>
+                </a>
+              </div>
+            ) : (
+              <a
+                href="/auth/login"
+                onClick={closeMenu}
+                data-ink-btn
+                style={{
+                  "--ink-bg": "var(--color-berry)",
+                  "--ink-text": "var(--color-cream-text)",
+                  "--ink-border": "var(--color-berry)",
+                } as React.CSSProperties}
+                className="ink-btn block w-full text-center border border-black text-black bg-transparent rounded-full py-2.5 text-sm font-medium tracking-wide active:scale-95"
+              >
+                <span>Login</span>
+              </a>
+            )}
           </div>
         </div>
       )}
