@@ -142,12 +142,12 @@ function ConveyorRow({
 
   return (
     <div
-      className="flex overflow-hidden select-none py-1"
+      className="flex overflow-hidden select-none py-1 no-scrollbar outline-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        className="flex gap-4 sm:gap-6 shrink-0 will-change-transform"
+        className="flex gap-4 sm:gap-6 shrink-0 will-change-transform no-scrollbar"
         style={{ x }}
       >
         {duplicatedItems.map((item, index) => (

@@ -23,13 +23,13 @@ export function ServicesSection() {
   const card1Ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress: card1Progress } = useScroll({
     target: card1Ref,
-    offset: ["start 92%", "center 55%"],
+    offset: ["start 95%", "start 80%"],
   });
 
   const card2Ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress: card2Progress } = useScroll({
     target: card2Ref,
-    offset: ["start 92%", "center 55%"],
+    offset: ["start 95%", "start 80%"],
   });
 
   return (

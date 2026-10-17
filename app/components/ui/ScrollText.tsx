@@ -22,7 +22,7 @@ export function ScrollText({
   const containerRef = useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "center 60%"],
+    offset: ["start end", "start 80%"],
   });
 
   const elements = mode === "word" ? text.split(" ") : text.split("");
@@ -119,22 +119,22 @@ export function BlurRevealItem({
   children,
   className = "",
   staggerIndex = 0,
-  initialBlur = 12,
-  y = 8,
+  initialBlur = 6,
+  y = 6,
   as = "div",
 }: BlurRevealItemProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const startOffset = Math.max(88, 96 - staggerIndex);
-  const endOffset = Math.max(50, 65 - staggerIndex * 2);
+  const startOffset = Math.max(90, 98 - staggerIndex * 2);
+  const endOffset = Math.max(78, 86 - staggerIndex * 2);
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: [`start ${startOffset}%`, `center ${endOffset}%`],
+    offset: [`start ${startOffset}%`, `start ${endOffset}%`],
   });
 
-  const blurAmount = Math.max(8, initialBlur + staggerIndex * 1.5);
+  const blurAmount = Math.max(4, initialBlur + staggerIndex * 0.8);
   const depthBlur = useTransform(scrollYProgress, [0, 1], [blurAmount, 0]);
-  const depthOpacity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
+  const depthOpacity = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
   const translateY = useTransform(scrollYProgress, [0, 1], [y, 0]);
   const depthFilter = useTransform(
     depthBlur,
@@ -168,29 +168,29 @@ interface BlurRevealCardItemProps {
 
 /**
  * BlurRevealCardItem for sub-feature items inside each card.
- * Uses its own viewport target to guarantee strong, unmistakable blur reveal as it enters the view.
+ * Uses its own viewport target to guarantee early crisp reveal near bottom of screen.
  */
 export function BlurRevealCardItem({
   children,
   index = 0,
   className = "",
-  initialBlur = 12,
+  initialBlur = 6,
 }: BlurRevealCardItemProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Stagger start slightly per column/row
-  const startPercent = Math.max(88, 96 - (index % 2) * 3);
-  const endPercent = Math.max(50, 62 - (index % 2) * 3);
+  // Stagger start slightly per column/row, unblur early near screen bottom (82-86%)
+  const startPercent = Math.max(90, 98 - (index % 2) * 2);
+  const endPercent = Math.max(78, 84 - (index % 2) * 2);
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: [`start ${startPercent}%`, `center ${endPercent}%`],
+    offset: [`start ${startPercent}%`, `start ${endPercent}%`],
   });
 
-  const blurAmount = Math.max(8, initialBlur + (index % 2) * 2);
+  const blurAmount = Math.max(4, initialBlur + (index % 2) * 1.2);
   const depthBlur = useTransform(scrollYProgress, [0, 1], [blurAmount, 0]);
-  const depthOpacity = useTransform(scrollYProgress, [0, 1], [0.2, 1]);
-  const translateY = useTransform(scrollYProgress, [0, 1], [12, 0]);
+  const depthOpacity = useTransform(scrollYProgress, [0, 1], [0.55, 1]);
+  const translateY = useTransform(scrollYProgress, [0, 1], [8, 0]);
   const depthFilter = useTransform(
     depthBlur,
     (v) => `blur(${Math.max(0, v)}px)`
@@ -217,7 +217,7 @@ export function BlurRevealCardItem({
 export function BlurRevealContainer({
   children,
   className = "",
-  initialBlur = 12,
+  initialBlur = 6,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -226,12 +226,12 @@ export function BlurRevealContainer({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 95%", "center 60%"],
+    offset: ["start 96%", "start 80%"],
   });
 
   const depthBlur = useTransform(scrollYProgress, [0, 1], [initialBlur, 0]);
-  const depthOpacity = useTransform(scrollYProgress, [0, 1], [0.25, 1]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.96, 1]);
+  const depthOpacity = useTransform(scrollYProgress, [0, 1], [0.6, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.98, 1]);
   const depthFilter = useTransform(
     depthBlur,
     (v) => `blur(${Math.max(0, v)}px)`
