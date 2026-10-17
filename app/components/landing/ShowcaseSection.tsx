@@ -76,20 +76,30 @@ export function ShowcaseSection() {
   const [activeIndex, setActiveIndex] = useState(BASE_OFFSET);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState(1440);
+  const [hasMounted, setHasMounted] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 1440
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const touchStartXRef = useRef<number | null>(null);
   const isSlidingRef = useRef(false);
 
-  // Measure viewport width
+  // Measure viewport width & enable transitions only after initial mount
   useEffect(() => {
     const updateWidth = () => {
       setViewportWidth(window.innerWidth);
     };
     updateWidth();
+    // Enable sliding transitions only after first clean render has painted
+    const t = setTimeout(() => {
+      setHasMounted(true);
+    }, 150);
     window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener("resize", updateWidth);
+    };
   }, []);
 
   // Card & conveyor belt geometry
@@ -248,72 +258,72 @@ export function ShowcaseSection() {
           onTransitionEnd={handleTransitionEnd}
           style={{
             transform: `translateX(${translateX}px)`,
-            transition: isTransitioning ? "transform 650ms cubic-bezier(0.25, 1, 0.5, 1)" : "none",
+            transition: hasMounted && isTransitioning ? "transform 650ms cubic-bezier(0.25, 1, 0.5, 1)" : "none",
             gap: `${gap}px`,
           }}
           className="flex items-center will-change-transform"
         >
-          {EXTENDED_TEMPLATES.map((item, idx) => {
-            const isActive = idx === activeIndex;
-            return (
+        {EXTENDED_TEMPLATES.map((item, idx) => {
+          const isActive = idx === activeIndex;
+          return (
+            <div
+              key={`${item.id}-${idx}`}
+              onClick={() => {
+                if (!isActive) {
+                  setIsTransitioning(true);
+                  setActiveIndex(idx);
+                }
+              }}
+              style={{ width: `${cardWidth}px` }}
+              className={`flex-shrink-0 flex flex-col items-center origin-center ${
+                hasMounted && isTransitioning ? "transition-all duration-500 ease-out" : ""
+              } ${
+                isActive
+                  ? "scale-105 sm:scale-110 lg:scale-[1.12] z-30 opacity-100"
+                  : "scale-90 sm:scale-92 z-10 opacity-45 hover:opacity-80 cursor-pointer"
+              }`}
+            >
+              {/* Smartphone Container */}
               <div
-                key={`${item.id}-${idx}`}
-                onClick={() => {
-                  if (!isActive) {
-                    setIsTransitioning(true);
-                    setActiveIndex(idx);
-                  }
-                }}
-                style={{ width: `${cardWidth}px` }}
-                className={`flex-shrink-0 flex flex-col items-center origin-center ${
-                  isTransitioning ? "transition-all duration-500 ease-out" : ""
-                } ${
-                  isActive
-                    ? "scale-105 sm:scale-110 lg:scale-[1.12] z-30 opacity-100"
-                    : "scale-90 sm:scale-92 z-10 opacity-45 hover:opacity-80 cursor-pointer"
+                className={`relative w-full aspect-[389/800] transition-shadow duration-500 ${
+                  isActive ? "drop-shadow-2xl" : "drop-shadow-md"
                 }`}
               >
-                {/* Smartphone Container */}
-                <div
-                  className={`relative w-full aspect-[389/800] transition-shadow duration-500 ${
-                    isActive ? "drop-shadow-2xl" : "drop-shadow-md"
-                  }`}
-                >
-                  {/* Screen Content Underneath Phone Frame: Flush placement without any gap */}
-                  <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[36px] sm:rounded-[40px] overflow-hidden z-10 flex flex-col justify-end">
-                    {/* Wallpaper / Template Artwork */}
-                    <div className="absolute inset-0 z-0">
-                      <img
-                        src={item.thumbnail}
-                        alt={item.name}
-                        className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                        loading="lazy"
-                      />
-                      {/* Gradient Scrim for Readability */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/25 pointer-events-none" />
-                    </div>
-
-                    {/* Floating Dock Card inside Screen */}
-                    <div className="relative z-10 p-2 sm:p-2.5 m-2 sm:m-2.5 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 text-white shadow-md pointer-events-none">
-                      <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-wider text-white/70 block mb-0.5">
-                        {item.category}
-                      </span>
-                      <h3 className="font-serif text-sm sm:text-base font-bold text-white tracking-tight leading-tight">
-                        {item.name}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Smartphone Mockup Frame Overlay (Provided Asset) */}
+                {/* Inner Screen Area with Bezel Padding */}
+                <div className="absolute inset-[2.5%] sm:inset-[2.8%] rounded-[24px] sm:rounded-[30px] overflow-hidden bg-white z-10 flex flex-col justify-end">
+                  {/* Background Wedding Invitation Thumbnail */}
                   <img
-                    src="/images/phone-mockup.webp"
-                    alt="Smartphone Frame"
-                    className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
-                    aria-hidden="true"
+                    src={item.thumbnail}
+                    alt={item.name}
+                    className="absolute inset-0 w-full h-full object-cover object-top select-none pointer-events-none"
                   />
+
+                  {/* Gradient overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none z-0" />
+
+                  {/* Floating Dock Card inside Screen */}
+                  <div className="relative z-10 p-2 sm:p-2.5 m-2 sm:m-2.5 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 text-white shadow-md pointer-events-none">
+                    <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-wider text-white/70 block mb-0.5">
+                      {item.category}
+                    </span>
+                    <h3 className="font-serif text-sm sm:text-base font-bold text-white tracking-tight leading-tight">
+                      {item.name}
+                    </h3>
+                  </div>
                 </div>
 
-                {/* Action Buttons Below Smartphone: Only visible on active center card */}
+                {/* Smartphone Mockup Frame Overlay (Provided Asset) */}
+                <img
+                  src="/images/phone-mockup.webp"
+                  alt=""
+                  loading="eager"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-contain pointer-events-none z-20"
+                  aria-hidden="true"
+                />
+              </div>
+
+              {/* Action Buttons Below Smartphone: Only visible on active center card */}
                 <div
                   className={`w-full mt-3.5 flex flex-col sm:flex-row items-center justify-center gap-2 transition-all duration-300 ${
                     isActive ? "opacity-100" : "opacity-0 pointer-events-none select-none"

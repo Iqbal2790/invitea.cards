@@ -12,6 +12,7 @@ import "./app.css";
 import { SmoothScroll } from "./components/common/SmoothScroll";
 
 export const links: Route.LinksFunction = () => [
+  { rel: "preload", href: "/images/phone-mockup.webp", as: "image", type: "image/webp" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
