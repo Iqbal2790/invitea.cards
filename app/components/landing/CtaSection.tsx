@@ -1,4 +1,4 @@
-import { MessageCircle, ArrowUpRight, Check, Heart } from "lucide-react";
+import { MessageCircle, ArrowUpRight, Check, Lock } from "lucide-react";
 
 export function CtaSection() {
   return (
@@ -22,10 +22,10 @@ export function CtaSection() {
             <circle cx="75" cy="30" r="9" stroke="oklch(94% 0.02 70)" strokeWidth="1.5" />
           </svg>
 
-          {/* Top 2-Column Grid: Left Content + Right Floating Mockup */}
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Main 2-Column Grid: Left Content + Right Live Device Showcase */}
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-14 items-center">
             {/* Left Column: Left-aligned Content & Conversion Actions */}
-            <div className="lg:col-span-7 flex flex-col items-start text-left">
+            <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start text-left">
               <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-pink-soft block mb-3 font-mono">
                 Mulai Hari Bahagiamu
               </span>
@@ -60,70 +60,127 @@ export function CtaSection() {
               </div>
             </div>
 
-            {/* Right Column: Floating Card Mockup (Option 1) */}
-            <div className="lg:col-span-5 relative w-full flex items-center justify-center lg:justify-end select-none">
-              <div className="relative w-full max-w-[320px] sm:max-w-[360px] h-[310px] sm:h-[330px]">
-                {/* Back Card: Wedding Invitation Preview (Tilted -3deg) */}
-                <div className="absolute left-0 sm:left-2 top-0 w-[230px] sm:w-[260px] rounded-2xl overflow-hidden shadow-2xl border border-white/20 bg-[#24060e] text-cream-text -rotate-3 transition-transform duration-300 hover:rotate-0">
-                  <div className="relative h-28 sm:h-30 overflow-hidden">
-                    <img
-                      src="/thumbnails/wedding-portrait.jpg"
-                      alt="Preview Undangan"
-                      className="w-full h-full object-cover object-top filter brightness-[0.92]"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#24060e] via-transparent to-black/20" />
-                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider bg-black/50 text-pink-soft backdrop-blur-md border border-white/10">
-                      Editorial Theme
-                    </span>
-                  </div>
-                  <div className="p-3 sm:p-3.5 space-y-1">
-                    <div className="flex items-center gap-1.5 text-pink-soft/80 text-[10px] font-mono uppercase tracking-wider">
-                      <Heart className="w-2.5 h-2.5 text-pink-soft fill-pink-soft" />
-                      <span>The Wedding Of</span>
+            {/* Right Column: High-Impact Device Mockups (Laptop + Phone) - Hidden on Mobile */}
+            <div className="hidden lg:flex lg:col-span-5 xl:col-span-6 relative w-full items-center justify-center xl:justify-end select-none">
+              <div className="relative w-full max-w-[460px] xl:max-w-[510px]">
+                {/* Floating Top Badge: Live Website & SSL Status */}
+                <div className="absolute -top-3 left-6 z-30 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white shadow-lg text-[10px] font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Domain Aktif &bull; SSL Aman</span>
+                </div>
+
+                {/* Laptop Mockup: Live Published Invitation Page */}
+                <div className="relative w-full aspect-[16/10]">
+                  {/* Laptop Screen Content Container */}
+                  <div className="absolute top-[3.2%] bottom-[13%] left-[11.8%] right-[11.8%] rounded-t-[5px] overflow-hidden bg-[#1F070C] text-cream-text flex flex-col border border-black/20 shadow-inner">
+                    {/* Sleek Browser Bar with URL */}
+                    <div className="h-5 sm:h-6 bg-[#2D0912] text-cream-text flex items-center px-2.5 gap-1.5 border-b border-white/10 shrink-0">
+                      <div className="flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/80" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-500/80" />
+                      </div>
+                      <div className="px-2 py-0.5 rounded-full bg-black/40 border border-white/10 text-[7px] sm:text-[8px] font-mono text-cream-text/80 flex items-center gap-1 mx-auto">
+                        <Lock className="w-2 h-2 text-emerald-400 shrink-0" />
+                        <span>invitea.cards/baskara-nadhira</span>
+                      </div>
                     </div>
-                    <h3 className="font-serif text-sm sm:text-base font-medium leading-tight text-cream-text">
-                      Baskara &amp; Nadhira
-                    </h3>
-                    <p className="text-[10px] sm:text-[11px] text-cream-text/70 font-sans">
-                      Sabtu, 24 Oktober 2026
-                    </p>
-                    <div className="pt-1.5 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-cream-text/60">
-                      <span className="truncate">invitea.cards/baskara-nadhira</span>
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 ml-1.5" />
+
+                    {/* Live Website Screen Body */}
+                    <div className="relative flex-1 overflow-hidden flex flex-col justify-between p-2.5 sm:p-3">
+                      <img
+                        src="/thumbnails/wedding-rings.jpg"
+                        alt="Wedding Background"
+                        className="absolute inset-0 w-full h-full object-cover filter brightness-[0.6] scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1F070C] via-[#1F070C]/50 to-transparent" />
+
+                      <div className="relative z-10 text-center space-y-0.5">
+                        <span className="text-[7px] sm:text-[8px] font-mono uppercase tracking-widest text-pink-soft block">
+                          The Wedding Celebration
+                        </span>
+                        <h4 className="font-serif text-sm sm:text-base xl:text-lg font-medium text-white leading-tight">
+                          Baskara &amp; Nadhira
+                        </h4>
+                        <p className="text-[7px] sm:text-[8px] text-cream-text/75 font-sans">
+                          Sabtu, 24 Oktober 2026 &bull; Jakarta
+                        </p>
+                      </div>
+
+                      {/* Live Countdown & Interactive Actions */}
+                      <div className="relative z-10 flex flex-col items-center gap-1.5 pb-1">
+                        <div className="flex items-center gap-1 text-[6.5px] sm:text-[7.5px] font-mono text-white/90">
+                          <span className="px-1.5 py-0.5 rounded bg-white/20 backdrop-blur-sm border border-white/20">
+                            14 Hari
+                          </span>
+                          <span>:</span>
+                          <span className="px-1.5 py-0.5 rounded bg-white/20 backdrop-blur-sm border border-white/20">
+                            08 Jam
+                          </span>
+                          <span>:</span>
+                          <span className="px-1.5 py-0.5 rounded bg-white/20 backdrop-blur-sm border border-white/20">
+                            45 Mnt
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <span className="px-2 py-0.5 rounded-full bg-white text-ink text-[6.5px] sm:text-[7.5px] font-semibold shadow-sm">
+                            Kirim Hadiah
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full bg-berry text-white text-[6.5px] sm:text-[7.5px] font-semibold border border-white/20">
+                            Isi RSVP
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Laptop Mockup Bezel */}
+                  <img
+                    src="/images/laptop-mockup.webp"
+                    alt="Mockup Laptop"
+                    className="absolute inset-0 w-full h-full pointer-events-none object-fill z-10 drop-shadow-2xl"
+                  />
+
+                  {/* Overlapping Phone Mockup (Bottom-Right) */}
+                  <div className="absolute -bottom-2 -right-1 xl:-right-3 w-[100px] sm:w-[120px] xl:w-[135px] aspect-[9/18.5] z-20 drop-shadow-2xl">
+                    <div className="relative w-full h-full">
+                      {/* Screen Content: Mobile Invitation View */}
+                      <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[12px] sm:rounded-[18px] overflow-hidden bg-stone-900 shadow-xl">
+                        <img
+                          src="/thumbnails/folio-bloom.png"
+                          alt="Mobile Preview"
+                          className="w-full h-full object-cover object-top filter brightness-[0.92]"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+
+                        {/* Interactive Mobile RSVP Toast */}
+                        <div className="absolute bottom-1.5 inset-x-1 p-1 sm:p-1.5 rounded sm:rounded-lg bg-black/85 backdrop-blur-md border border-white/20 text-white flex flex-col gap-0.5 text-center">
+                          <div className="flex items-center justify-between text-[5.5px] sm:text-[7px] font-mono text-emerald-400 font-bold">
+                            <span>✓ RSVP HADIR</span>
+                            <span>2 Tamu</span>
+                          </div>
+                          <span className="text-[5px] sm:text-[6.5px] text-white/80 truncate">
+                            Dimas Prasetyo
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Phone Bezel */}
+                      <img
+                        src="/images/phone-mockup.webp"
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full pointer-events-none object-fill z-10"
+                      />
                     </div>
                   </div>
                 </div>
 
-                {/* Front Card: Live Interactive RSVP Response (Tilted +3deg) */}
-                <div className="absolute right-0 sm:right-2 bottom-0 w-[215px] sm:w-[245px] rounded-xl p-3 sm:p-3.5 shadow-2xl border border-black/10 bg-[#FAF7F2] text-[#1D1B1E] rotate-3 transition-transform duration-300 hover:rotate-0 z-20">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-black/10">
-                    <div className="flex items-center gap-1.5">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600" />
-                      </span>
-                      <span className="font-mono text-[9px] sm:text-[10px] font-bold tracking-wider uppercase text-emerald-800">
-                        RSVP Terkonfirmasi
-                      </span>
-                    </div>
-                    <span className="font-mono text-[9px] text-zinc-600">Baru saja</span>
-                  </div>
-
-                  <div className="mt-2 space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-sans font-bold text-xs sm:text-sm text-zinc-900">
-                        Dimas Prasetyo
-                      </span>
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-semibold bg-emerald-100 text-emerald-800">
-                        <Check className="w-2.5 h-2.5" />
-                        2 Tamu
-                      </span>
-                    </div>
-                    <p className="text-[10px] sm:text-[11px] text-zinc-600 italic leading-snug pt-1 border-t border-zinc-200">
-                      &ldquo;Selamat ya Baskara &amp; Nadhira! Semoga lancar sampai hari H.&rdquo;
-                    </p>
-                  </div>
+                {/* Floating Bottom Badge: Verified RSVP Rate */}
+                <div className="absolute -bottom-2 left-6 z-30 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white text-ink shadow-xl text-[10px] font-sans font-semibold border border-black/10">
+                  <Check className="w-3 h-3 text-emerald-600 stroke-[3]" />
+                  <span>99.8% Tamu Terkonfirmasi</span>
                 </div>
               </div>
             </div>
