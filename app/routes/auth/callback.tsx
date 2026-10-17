@@ -27,7 +27,15 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   if (code) {
     const { clientId, clientSecret } = getGoogleOAuthCredentials();
-    const callbackOrigin = url.origin;
+    let callbackOrigin = url.origin;
+    if (
+      url.hostname === "127.0.0.1" ||
+      url.hostname === "localhost" ||
+      url.hostname === "::1" ||
+      url.hostname === "[::1]"
+    ) {
+      callbackOrigin = `http://localhost:${url.port || "5173"}`;
+    }
     const redirectToUrl = `${callbackOrigin}/auth/callback`;
 
     let accessToken: string | null = null;
