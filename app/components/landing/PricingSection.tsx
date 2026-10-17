@@ -72,18 +72,20 @@ export function PricingSection() {
 
               {/* Action: Split Button with Dropdown */}
               <div className="relative mb-6" ref={freeDropdownRef}>
-                <div className="flex items-stretch w-full rounded-full border border-ink/30 bg-bg hover:border-ink transition-all shadow-2xs">
+                <div
+                  data-ink-btn
+                  style={{
+                    "--ink-bg": "var(--color-berry)",
+                    "--ink-text": "var(--color-cream-text)",
+                  } as React.CSSProperties}
+                  className="ink-btn group flex items-stretch w-full rounded-full border border-ink/30 bg-bg hover:border-berry transition-all shadow-2xs"
+                >
                   {freeService === "undangan" ? (
                     <a
                       href="https://create.invitea.cards"
                       target="_blank"
                       rel="noopener noreferrer"
-                      data-ink-btn
-                      style={{
-                        "--ink-bg": "var(--color-berry)",
-                        "--ink-text": "var(--color-cream-text)",
-                      } as React.CSSProperties}
-                      className="ink-btn flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full group-hover:text-cream-text transition-colors"
                     >
                       <span className="truncate">Mulai Buat Undangan</span>
                       <ArrowUpRight className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
@@ -93,12 +95,7 @@ export function PricingSection() {
                       href="https://plan.invitea.cards"
                       target="_blank"
                       rel="noopener noreferrer"
-                      data-ink-btn
-                      style={{
-                        "--ink-bg": "var(--color-berry)",
-                        "--ink-text": "var(--color-cream-text)",
-                      } as React.CSSProperties}
-                      className="ink-btn flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-ink text-xs sm:text-sm font-semibold rounded-l-full group-hover:text-cream-text transition-colors"
                     >
                       <span className="truncate">Buka Wedding Planner</span>
                       <ArrowUpRight className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
@@ -110,7 +107,7 @@ export function PricingSection() {
                     aria-haspopup="listbox"
                     aria-expanded={isFreeDropdownOpen}
                     aria-label="Pilih jenis layanan gratis"
-                    className="px-3 border-l border-ink/20 text-ink hover:bg-ink hover:text-cream-text transition-colors rounded-r-full flex items-center justify-center focus:outline-none"
+                    className="px-3 border-l border-ink/20 group-hover:border-cream-text/30 text-ink group-hover:text-cream-text transition-colors rounded-r-full flex items-center justify-center focus:outline-none hover:bg-white/15"
                   >
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-200 ${
