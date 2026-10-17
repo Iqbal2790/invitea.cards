@@ -25,7 +25,7 @@ const STATS: StatItem[] = [
   {
     target: 100,
     format: (v) => `${Math.round(v)}%`,
-    label: "Pendampingan Ramah hingga Hari Bahagia",
+    label: "Bantuan Ramah hingga Undangan Siap Sebar",
   },
 ];
 
