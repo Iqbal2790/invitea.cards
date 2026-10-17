@@ -336,6 +336,10 @@ export function PricingSection() {
                   </li>
                   <li className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-berry shrink-0 mt-0.5" aria-hidden="true" />
+                    <span className="text-ink font-medium">Layanan Auto-Blast WhatsApp (Kirim otomatis ke semua tamu)</span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-berry shrink-0 mt-0.5" aria-hidden="true" />
                     <span>Animasi interaktif kustom &amp; musik pilihan</span>
                   </li>
                   <li className="flex items-start gap-2.5">
