@@ -17,12 +17,7 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content Stack */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-6 sm:pt-8 md:pt-10 pb-12 text-center max-w-5xl mx-auto w-full">
-        {/* Kicker Pill Badge */}
-        <div className="mb-3 sm:mb-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[oklch(85%_0.03_25/0.8)] bg-white/85 backdrop-blur-xs text-xs font-medium text-ink-soft tracking-wide shadow-2xs will-change-transform animate-hero-badge">
-          <span>Kini Hadir untuk Momen Spesialmu</span>
-        </div>
-
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-8 sm:pt-10 md:pt-12 pb-12 text-center max-w-5xl mx-auto w-full">
         {/* Staggered Line-by-Line Serif Headline */}
         <h1 className="max-w-5xl font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] xl:text-[5.75rem] leading-[1.06] font-normal tracking-tight text-ink">
           <span className="block will-change-transform sm:whitespace-nowrap animate-hero-title-1">

@@ -175,7 +175,7 @@ export function CtaSection() {
           </div>
 
           {/* Full-width Divider & Trust Micro-Guarantees spanning bottom */}
-          <div className="relative z-10 mt-10 pt-6 border-t border-cream-text/20 w-full flex flex-wrap items-center justify-start sm:justify-between gap-y-3 gap-x-6 text-xs sm:text-sm text-cream-text/90 font-sans">
+          <div className="relative z-10 mt-10 pt-6 border-t border-cream-text/20 w-full flex flex-wrap items-center justify-start gap-y-3 gap-x-8 sm:gap-x-10 text-xs sm:text-sm text-cream-text/90 font-sans">
             <div className="inline-flex items-center gap-2">
               <Check className="w-4 h-4 text-pink-soft shrink-0" aria-hidden="true" />
               <span>Tanpa Biaya di Awal</span>
