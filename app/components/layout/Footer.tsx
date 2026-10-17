@@ -35,7 +35,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: "Pusat Bantuan", href: "#inquiry" },
       { label: "Tanya Jawab (FAQ)", href: "#faq" },
-      { label: "Panduan Format Undangan", href: "#panduan" },
+      { label: "Panduan Format Undangan", href: "#layanan" },
       { label: "Panduan Memilih Paket", href: "#pricing" },
     ],
   },
@@ -48,7 +48,11 @@ const FOOTER_COLUMNS: FooterColumn[] = [
         isExternal: true,
       },
       { label: "Jadwal Konsultasi", href: "#inquiry" },
-      { label: "Kemitraan Wedding Organizer", href: "#kemitraan" },
+      {
+        label: "Kemitraan Wedding Organizer",
+        href: "https://wa.me/6281234567890?text=Halo%20Invitea%2C%20kami%20tertarik%20kemitraan%20Wedding%20Organizer.",
+        isExternal: true,
+      },
     ],
   },
 ];
@@ -204,11 +208,11 @@ export function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-1.5 text-center text-xs text-[oklch(94%_0.02_70)]/75">
             <span>© {currentYear} Invitea. Hak cipta dilindungi undang-undang.</span>
             <span className="hidden sm:inline opacity-40">/</span>
-            <a href="#privasi" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
+            <a href="#faq" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
               Kebijakan Privasi
             </a>
             <span className="opacity-40">/</span>
-            <a href="#syarat" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
+            <a href="#faq" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
               Syarat &amp; Ketentuan
             </a>
           </div>
