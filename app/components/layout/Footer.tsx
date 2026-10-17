@@ -34,7 +34,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     title: "Bantuan & Panduan",
     links: [
       { label: "Pusat Bantuan", href: "#inquiry" },
-      { label: "Tanya Jawab (FAQ)", href: "#inquiry" },
+      { label: "Tanya Jawab (FAQ)", href: "#faq" },
       { label: "Panduan Format Undangan", href: "#panduan" },
       { label: "Panduan Memilih Paket", href: "#pricing" },
     ],
