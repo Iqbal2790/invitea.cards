@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouteLoaderData } from "react-router";
-import { Menu, X, ArrowUpRight, LogOut, LayoutDashboard, FolderKanban } from "lucide-react";
+import { Menu, X, ArrowUpRight, LogOut, LayoutDashboard } from "lucide-react";
 import { buildSubdomainUrl, type HostContext } from "../../lib/host";
 import { UserProfileDropdown } from "./UserProfileDropdown";
 
