@@ -21,8 +21,8 @@ export type ScrollRevealProps = {
 };
 
 const defaultVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0 },
 };
 
 export function ScrollReveal({
@@ -32,10 +32,14 @@ export function ScrollReveal({
   transition,
   viewOptions,
   as = "div",
-  once,
+  once = true,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, viewOptions);
+  const isInView = useInView(ref, {
+    amount: 0.2,
+    ...viewOptions,
+    once,
+  });
   const [isViewed, setIsViewed] = useState(false);
 
   const MotionComponent =
@@ -46,8 +50,10 @@ export function ScrollReveal({
     <MotionComponent
       animate={isInView || isViewed ? "visible" : "hidden"}
       initial="hidden"
-      onAnimationComplete={() => {
-        if (once) setIsViewed(true);
+      onAnimationComplete={(definition) => {
+        if (once && definition === "visible") {
+          setIsViewed(true);
+        }
       }}
       ref={ref}
       transition={transition}
