@@ -191,11 +191,11 @@ export function ShowcaseSection() {
       {/* Section Header: Full Width matching Navbar & Footer (no margin) */}
       <div className="w-full px-6 sm:px-8 lg:px-12 mb-4 sm:mb-6 md:mb-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6">
-          <div className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 text-xs font-mono font-medium tracking-[0.2em] uppercase text-berry mb-1.5 sm:mb-2.5">
+          <div className="max-w-3xl">
+            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
               Katalog Tema Undangan
             </span>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-normal tracking-tight text-ink leading-snug sm:leading-tight pt-1 pb-1">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
               Koleksi Desain Pilihan untuk Momen Bersejarah
             </h2>
           </div>

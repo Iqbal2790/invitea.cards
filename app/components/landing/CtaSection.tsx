@@ -25,10 +25,10 @@ export function CtaSection() {
           </svg>
 
           <div className="relative z-10 max-w-3xl">
-            <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-wider uppercase text-pink-soft/90 mb-4">
+            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-pink-soft block mb-2 font-mono">
               Mulai Perjalanan Anda
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-cream-text leading-[1.12]">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-cream-text leading-tight">
               Sampaikan Kabar Bahagiamu Mulai Hari Ini
             </h2>
             <p className="mt-5 text-base sm:text-lg text-cream-text/80 max-w-[48ch] leading-relaxed">

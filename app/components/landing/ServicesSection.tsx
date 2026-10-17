@@ -45,10 +45,10 @@ export function ServicesSection() {
       <div className="w-full px-6 sm:px-8 lg:px-12">
         {/* Section Header: Static crisp typography (no blur reveal on section header) */}
         <div className="max-w-3xl mb-12 sm:mb-16">
-          <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry mb-3">
+          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
             Ekosistem Layanan
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-[1.15]">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
             Mulai dari yang kalian butuhkan.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-2xl">

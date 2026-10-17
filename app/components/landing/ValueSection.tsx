@@ -60,10 +60,10 @@ export function ValueSection() {
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
         <div className="max-w-2xl mb-14 md:mb-18">
-          <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry mb-3">
+          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
             Keunggulan &amp; Fitur
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-[1.12]">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
             Didesain untuk Ketenangan Pasangan &amp; Kenyamanan Tamu
           </h2>
           <p className="mt-4 text-base text-ink-soft leading-relaxed">
