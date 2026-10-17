@@ -71,7 +71,14 @@ export function buildSubdomainUrl(
 ): string {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
 
-  if (currentContext?.isSimulator) {
+  const isLocal =
+    currentContext?.isSimulator ||
+    currentContext?.hostname === "localhost" ||
+    currentContext?.hostname === "127.0.0.1" ||
+    currentContext?.hostname === "::1" ||
+    currentContext?.hostname === "[::1]";
+
+  if (isLocal) {
     const targetHost =
       target === "planner"
         ? "plan.invitea.cards"
