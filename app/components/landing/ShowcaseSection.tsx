@@ -197,15 +197,12 @@ export function ShowcaseSection() {
       {/* Anchor alias for navbar #portofolio */}
       <div id="portofolio" className="sr-only" aria-hidden="true" />
 
-      {/* Section Header: Full Width matching Navbar & Footer (no margin) */}
-      <div className="w-full px-6 sm:px-8 lg:px-12 mb-4 sm:mb-6 md:mb-8">
+      {/* Section Header: Aligned with Section 2 Margin (1580px max-w, px-4 sm:px-6) */}
+      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6 mb-6 sm:mb-8 lg:mb-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
-              <span>Katalog Tema Undangan</span>
-            </div>
-            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
-              Koleksi Desain Pilihan untuk Momen Bersejarah
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ink tracking-tight leading-[1.15]">
+              Template-nya bisa kamu lihat dulu.
             </h2>
           </div>
 
