@@ -6,21 +6,25 @@
   --font-serif: "Google Sans Flex", "Google Sans", "Google Sans Text", sans-serif;
   --font-sans: "Google Sans Flex", "Google Sans", "Google Sans Text", sans-serif;
 
-  --color-bg: oklch(96% 0.02 75);
-  --color-bg-alt: oklch(91% 0.035 25);
-  --color-berry: oklch(38% 0.14 15);
-  --color-berry-deep: oklch(28% 0.11 15);
-  --color-pink: oklch(72% 0.09 16);
-  --color-pink-btn-bg: oklch(58% 0.13 15);
-  --color-pink-btn-text: oklch(28% 0.06 15);
-  --color-pink-soft: oklch(91% 0.03 20);
-  --color-pink-line: oklch(84% 0.05 18);
-  --color-ink: oklch(23% 0.03 40);
-  --color-ink-soft: oklch(40% 0.03 35);
-  --color-cream-text: oklch(94% 0.02 70);
-  --color-header-bg: oklch(96% 0.02 75 / 0.85);
-  --color-header-border: oklch(85% 0.03 25 / 0.6);
-  --color-hairline: oklch(70% 0.04 20 / 0.5);
+  /* Palette: 000000 9929EA FF5FCF FAEB92 FFFFFF */
+  --color-bg: #FFFFFF;
+  --color-bg-alt: #FAFAFA;
+  --color-ink: #000000;
+  --color-ink-soft: #404040;
+  --color-berry: #9929EA;
+  --color-berry-deep: #7A18C2;
+  --color-purple: #9929EA;
+  --color-pink: #FF5FCF;
+  --color-pink-btn-bg: #FF5FCF;
+  --color-pink-btn-text: #000000;
+  --color-pink-soft: #FFF0FA;
+  --color-pink-line: #FFD4F3;
+  --color-yellow: #FAEB92;
+  --color-butter: #FAEB92;
+  --color-cream-text: #FFFFFF;
+  --color-header-bg: rgba(255, 255, 255, 0.9);
+  --color-header-border: rgba(0, 0, 0, 0.08);
+  --color-hairline: rgba(0, 0, 0, 0.08);
 }
 
 html {

@@ -2,10 +2,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden antialiased flex flex-col justify-between"
-      style={{
-        backgroundColor: "#faf9f7",
-      }}
+      className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden antialiased flex flex-col justify-between bg-white"
     >
       {/* Background Wildflower Meadow Illustration (Hero-36 Signature) */}
       <div className="pointer-events-none absolute inset-0 z-0 will-change-transform select-none animate-hero-bg">

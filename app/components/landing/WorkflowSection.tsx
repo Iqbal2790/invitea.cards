@@ -159,7 +159,7 @@ export function WorkflowSection() {
     <section
       id="alur"
       ref={scrollyRef}
-      className="relative w-full h-[250vh] bg-[#FAF9F7] border-t border-black/8"
+      className="relative w-full h-[250vh] bg-white border-t border-black/8"
     >
       {/* Sticky Pin Container: stays locked in view while user scrolls through the 250vh range */}
       <div
@@ -206,7 +206,7 @@ export function WorkflowSection() {
                       }}
                       className={`relative rounded-2xl transition-colors duration-200 cursor-pointer select-none text-left ${
                         isActive
-                          ? "bg-[#262626] text-white p-4 sm:p-5 shadow-md"
+                          ? "bg-black text-white p-4 sm:p-5 shadow-md"
                           : "bg-transparent hover:bg-black/[0.03] text-ink/75 hover:text-ink px-4 py-3 sm:py-3.5"
                       }`}
                     >
@@ -262,7 +262,7 @@ export function WorkflowSection() {
                       ref={(el) => {
                         panelRefs.current[idx] = el;
                       }}
-                      className="absolute inset-0 w-full h-full will-change-transform rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)] bg-[#FAF9F7]"
+                      className="absolute inset-0 w-full h-full will-change-transform rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)] bg-white"
                       style={{
                         zIndex: idx + 10,
                         transform: idx === 0 ? "translate3d(0, 0%, 0)" : "translate3d(0, 100%, 0)",

@@ -34,34 +34,36 @@ export function Navbar() {
   const plannerUrl = buildSubdomainUrl("planner", "/", hostContext);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-[oklch(96%_0.02_75/0.88)] border-b border-[oklch(85%_0.03_25/0.6)] transition-all duration-300">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-black/8 transition-all duration-300">
       <div className="w-full px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-20">
-          {/* Brand Mark */}
-          <a
-            href="#hero"
-            className="font-logo text-2xl md:text-3xl font-bold tracking-tight text-[oklch(23%_0.03_40)] hover:text-[oklch(38%_0.14_15)] transition-colors"
-          >
-            Invitea.
-          </a>
+          {/* Brand Mark & Left-Aligned Desktop Navigation (Rata Kiri) */}
+          <div className="flex items-center gap-8 lg:gap-10">
+            <a
+              href="#hero"
+              className="font-logo text-2xl md:text-3xl font-bold tracking-tight text-ink hover:text-berry transition-colors"
+            >
+              Invitea.
+            </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-7 lg:gap-8">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                target={item.isExternal ? "_blank" : undefined}
-                rel={item.isExternal ? "noopener noreferrer" : undefined}
-                className="text-sm font-medium text-[oklch(40%_0.03_35)] hover:text-[oklch(23%_0.03_40)] transition-colors inline-flex items-center gap-1"
-              >
-                <span>{item.label}</span>
-                {item.isExternal && (
-                  <ArrowUpRight className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
-                )}
-              </a>
-            ))}
-          </nav>
+            {/* Desktop Navigation (Rata Kiri) */}
+            <nav className="hidden md:flex items-center gap-6 lg:gap-7">
+              {NAV_ITEMS.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.isExternal ? "_blank" : undefined}
+                  rel={item.isExternal ? "noopener noreferrer" : undefined}
+                  className="text-sm font-medium text-ink/75 hover:text-ink transition-colors inline-flex items-center gap-1"
+                >
+                  <span>{item.label}</span>
+                  {item.isExternal && (
+                    <ArrowUpRight className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
+                  )}
+                </a>
+              ))}
+            </nav>
+          </div>
 
           {/* Right Action Button (Desktop CTA) */}
           <div className="hidden md:flex items-center">
@@ -108,7 +110,7 @@ export function Navbar() {
 
       {/* Mobile Drawer / Dropdown */}
       {isOpen && (
-        <div className="md:hidden border-t border-[oklch(84%_0.05_18)] bg-[oklch(96%_0.02_75)] px-4 pt-3 pb-6 space-y-3 shadow-lg animate-in fade-in duration-200">
+        <div className="md:hidden border-t border-black/8 bg-white px-4 pt-3 pb-6 space-y-3 shadow-lg animate-in fade-in duration-200">
           <nav className="flex flex-col space-y-1">
             {NAV_ITEMS.map((item) => (
               <a
@@ -117,17 +119,17 @@ export function Navbar() {
                 target={item.isExternal ? "_blank" : undefined}
                 rel={item.isExternal ? "noopener noreferrer" : undefined}
                 onClick={closeMenu}
-                className="flex items-center justify-between py-2.5 px-3 rounded-md text-base font-medium text-[oklch(23%_0.03_40)] hover:bg-[oklch(84%_0.05_18)]/25 transition-colors"
+                className="flex items-center justify-between py-2.5 px-3 rounded-md text-base font-medium text-ink hover:bg-black/5 transition-colors"
               >
                 <span>{item.label}</span>
                 {item.isExternal && (
-                  <ArrowUpRight className="w-4 h-4 text-[oklch(40%_0.03_35)]" aria-hidden="true" />
+                  <ArrowUpRight className="w-4 h-4 text-ink/60" aria-hidden="true" />
                 )}
               </a>
             ))}
           </nav>
 
-          <div className="pt-2 border-t border-[oklch(84%_0.05_18)]/40">
+          <div className="pt-2 border-t border-black/8">
             {user ? (
               <div className="space-y-2">
                 <div className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-black/10 shadow-2xs">
