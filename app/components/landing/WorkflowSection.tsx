@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { LayoutTemplate, PenLine, Share2, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface StepItem {
   id: string;
   title: string;
   description: string;
-  icon: typeof LayoutTemplate;
   linkText?: string;
   linkHref?: string;
   isExternal?: boolean;
@@ -16,7 +15,6 @@ const STEPS: StepItem[] = [
     id: "step-1",
     title: "Pilih template",
     description: "Lihat dulu semua template undangan, lalu pilih yang paling cocok buat acaramu.",
-    icon: LayoutTemplate,
     linkText: "Lihat contoh undangan",
     linkHref: "#katalog",
     isExternal: false,
@@ -24,8 +22,7 @@ const STEPS: StepItem[] = [
   {
     id: "step-2",
     title: "Isi data",
-    description: "Isi data acaramu, seperti nama, tanggal, dan lokasi. Bisa langsung mulai tanpa login.",
-    icon: PenLine,
+    description: "Isi data acaramu, seperti nama, tanggal, dan lokasi. Langsung mulai tanpa perlu registrasi.",
     linkText: "Mulai bikin undangan",
     linkHref: "https://create.invitea.cards",
     isExternal: true,
@@ -34,7 +31,6 @@ const STEPS: StepItem[] = [
     id: "step-3",
     title: "Undangan siap disebar",
     description: "Link undangan tinggal kamu salin dan kirim lewat WhatsApp. Kamu yang pilih mau kirim ke siapa dan kapan.",
-    icon: Share2,
   },
 ];
 
@@ -57,61 +53,58 @@ export function WorkflowSection() {
   const [activeStep, setActiveStep] = useState<number>(0);
 
   return (
-    <section id="alur" className="relative w-full py-16 sm:py-20 md:py-24 bg-[#FAF9F7] border-t border-black/8 overflow-hidden">
+    <section id="alur" className="relative w-full py-14 sm:py-20 md:py-24 bg-[#FAF9F7] border-t border-black/8 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header (OpenDesign-style Kicker + Headline) */}
-        <div className="max-w-2xl mb-12 sm:mb-16">
+        <div className="max-w-2xl mb-10 sm:mb-14">
           <p className="text-xs sm:text-sm font-mono font-semibold uppercase tracking-wider text-berry mb-2">
             Alur 3 Langkah · Mulai Gratis
           </p>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-ink tracking-tight leading-[1.15]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ink tracking-tight leading-[1.15]">
             Dari pilih template, sampai undangan siap disebar.
           </h2>
         </div>
 
-        {/* Two-Column Split Layout (OpenDesign Architecture) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        {/* Two-Column Split Layout on Desktop, Vertical Stack on Mobile */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           {/* Left Column: Interactive Step Selector Tabs (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col gap-3.5">
+          <div className="lg:col-span-5 flex flex-col gap-2 sm:gap-3">
             {STEPS.map((item, idx) => {
               const isActive = activeStep === idx;
-              const Icon = item.icon;
 
               return (
                 <div
                   key={item.id}
                   onClick={() => setActiveStep(idx)}
-                  className={`relative rounded-2xl transition-all duration-300 cursor-pointer ${
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setActiveStep(idx);
+                    }
+                  }}
+                  className={`relative rounded-2xl transition-all duration-200 cursor-pointer select-none text-left ${
                     isActive
-                      ? "bg-[#2D1E1E] text-white p-6 sm:p-7 shadow-lg shadow-black/10"
-                      : "bg-transparent hover:bg-black/[0.03] text-ink p-5 sm:p-6"
+                      ? "bg-[#2D1E1E] text-white p-5 sm:p-6 shadow-md"
+                      : "bg-transparent hover:bg-black/[0.03] text-ink/70 hover:text-ink px-4 py-3 sm:py-3.5"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <h3
-                      className={`font-serif text-xl sm:text-2xl font-semibold tracking-tight ${
-                        isActive ? "text-white" : "text-ink"
-                      }`}
-                    >
-                      {item.title}
-                    </h3>
+                  <h3
+                    className={`text-lg sm:text-xl font-bold tracking-tight transition-colors duration-200 ${
+                      isActive ? "text-white" : "text-ink/75 hover:text-ink font-semibold"
+                    }`}
+                  >
+                    {item.title}
+                  </h3>
 
-                    <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                        isActive ? "bg-white/10 text-white" : "bg-black/4 text-ink/60"
-                      }`}
-                    >
-                      <Icon className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-
-                  {/* Expanded description on active state */}
+                  {/* Expanded description on active state only (Identical to OpenDesign) */}
                   {isActive && (
-                    <div className="mt-3 text-sm text-white/80 leading-relaxed font-sans">
+                    <div className="mt-2 text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
                       <p>{item.description}</p>
 
                       {item.linkText && item.linkHref && (
-                        <div className="mt-4 pt-3 border-t border-white/15">
+                        <div className="mt-3.5 pt-2.5 border-t border-white/15">
                           <a
                             href={item.linkHref}
                             target={item.isExternal ? "_blank" : undefined}
@@ -126,27 +119,36 @@ export function WorkflowSection() {
                       )}
                     </div>
                   )}
-
-                  {/* Inactive collapsed subtle hint */}
-                  {!isActive && (
-                    <p className="mt-1 text-xs sm:text-sm text-ink-soft line-clamp-1 font-sans">
-                      {item.description}
-                    </p>
-                  )}
                 </div>
               );
             })}
           </div>
 
-          {/* Right Column: Visual Preview Container with Dummy Images (7 cols) - Borderless OpenDesign Style */}
+          {/* Right Column: Visual Preview Container with Stacking Card Animation (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-16/10 sm:aspect-4/3 lg:aspect-16/10">
-              <img
-                key={activeStep}
-                src={STEP_IMAGES[activeStep].src}
-                alt={STEP_IMAGES[activeStep].alt}
-                className="w-full h-full object-cover rounded-2xl sm:rounded-3xl transition-all duration-300"
-              />
+            <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-16/10 bg-black/5 shadow-sm">
+              {STEP_IMAGES.map((img, idx) => {
+                const isStacked = idx <= activeStep;
+
+                return (
+                  <div
+                    key={img.src}
+                    className="absolute inset-0 w-full h-full will-change-transform rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)]"
+                    style={{
+                      zIndex: idx + 10,
+                      transform: isStacked ? "translateY(0%)" : "translateY(100%)",
+                      transition: "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)",
+                    }}
+                  >
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="w-full h-full object-cover"
+                      loading="eager"
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
