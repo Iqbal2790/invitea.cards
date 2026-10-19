@@ -91,33 +91,23 @@ export function WorkflowSection() {
                       : "bg-white/60 hover:bg-white text-ink border border-black/6 hover:border-black/15 p-5 sm:p-6"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <span
-                      className={`text-xs font-mono font-semibold tracking-tight px-2.5 py-0.5 rounded-full ${
-                        isActive
-                          ? "bg-white/15 text-pink border border-white/20"
-                          : "bg-berry/10 text-berry font-medium"
+                  <div className="flex items-center justify-between mb-2">
+                    <h3
+                      className={`font-serif text-xl sm:text-2xl font-semibold tracking-tight ${
+                        isActive ? "text-white" : "text-ink"
                       }`}
                     >
-                      {item.step}
-                    </span>
+                      {item.title}
+                    </h3>
 
                     <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
                         isActive ? "bg-white/10 text-white" : "bg-black/4 text-ink/60"
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" />
                     </div>
                   </div>
-
-                  <h3
-                    className={`font-serif text-xl sm:text-2xl font-semibold tracking-tight ${
-                      isActive ? "text-white" : "text-ink"
-                    }`}
-                  >
-                    {item.title}
-                  </h3>
 
                   {/* Expanded description on active state */}
                   {isActive && (
