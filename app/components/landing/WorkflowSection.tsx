@@ -183,7 +183,7 @@ export function WorkflowSection() {
             {/* Left Column: Interactive Step Selector Tabs (Locked 384px) with Dynamic Space Transfer */}
             <div
               ref={railRef}
-              className="w-full lg:w-[384px] flex flex-col"
+              className="w-full lg:w-[384px] flex flex-col justify-between"
             >
               <div className="flex flex-col gap-2">
                 {STEPS.map((item, idx) => {
@@ -229,9 +229,9 @@ export function WorkflowSection() {
                 })}
               </div>
 
-              {/* Action button on step 3: pill shaped with signature fluid ink-hover animation like in Hero */}
+              {/* Action button on step 3: pill shaped with signature fluid ink-hover animation pinned to bottom like OpenDesign */}
               {activeStep === 2 && (
-                <div className="pt-5 sm:pt-6">
+                <div className="pt-4 lg:pt-0">
                   <a
                     href="https://create.invitea.cards"
                     target="_blank"
