@@ -54,7 +54,7 @@ export function Navbar() {
                   href={item.href}
                   target={item.isExternal ? "_blank" : undefined}
                   rel={item.isExternal ? "noopener noreferrer" : undefined}
-                  className="nav-link-underline"
+                  className="nav-link-underline text-black/75 dark:text-white/80 hover:text-black dark:hover:text-white"
                 >
                   <span className="inline-flex items-center gap-1">
                     {item.label}

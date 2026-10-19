@@ -187,7 +187,11 @@ html, body {
   color: #000000;
 }
 
-html.dark .nav-link-underline:hover {
+:where(.dark, html.dark, [data-theme="dark"]) .nav-link-underline {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+:where(.dark, html.dark, [data-theme="dark"]) .nav-link-underline:hover {
   color: #ffffff;
 }
 

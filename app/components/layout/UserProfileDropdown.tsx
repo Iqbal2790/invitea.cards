@@ -100,10 +100,10 @@ export function UserProfileDropdown({
         aria-expanded={isOpen}
         aria-haspopup="true"
         aria-label="Menu profil akun"
-        className="h-11 pl-2 pr-3.5 py-1.5 rounded-full border border-black/12 bg-white/95 hover:bg-white hover:border-black/25 text-[#2D1E1E] transition-all flex items-center gap-2.5 shadow-2xs cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[#6E182A]/20"
+        className="h-11 pl-2 pr-3.5 py-1.5 rounded-full border border-black/12 dark:border-white/15 bg-white/95 dark:bg-neutral-900 hover:bg-white dark:hover:bg-neutral-800 hover:border-black/25 dark:hover:border-white/25 text-[#2D1E1E] dark:text-white transition-all flex items-center gap-2.5 shadow-2xs cursor-pointer group focus:outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/20"
       >
         {/* Avatar */}
-        <div className="w-8 h-8 rounded-full overflow-hidden border border-black/10 shrink-0 bg-neutral-100 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full overflow-hidden border border-black/10 dark:border-white/15 shrink-0 bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
           {user.avatarUrl && !imageError ? (
             <img
               src={user.avatarUrl}
@@ -113,18 +113,18 @@ export function UserProfileDropdown({
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-xs font-bold text-black font-sans">{initial}</span>
+            <span className="text-xs font-bold text-black dark:text-white font-sans">{initial}</span>
           )}
         </div>
 
         {/* User Name */}
-        <span className="text-sm font-medium text-black max-w-[140px] truncate">
+        <span className="text-sm font-medium text-black dark:text-white max-w-[140px] truncate">
           {firstName}
         </span>
 
         {/* Caret Chevron */}
         <ChevronDown
-          className={`w-4 h-4 text-black/50 group-hover:text-black transition-transform duration-200 ${
+          className={`w-4 h-4 text-black/50 dark:text-white/60 group-hover:text-black dark:group-hover:text-white transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
