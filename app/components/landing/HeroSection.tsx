@@ -21,7 +21,7 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content Stack */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-14 sm:pt-16 md:pt-20 pb-12 text-center max-w-5xl mx-auto w-full">
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-20 sm:pt-28 md:pt-36 pb-12 text-center max-w-5xl mx-auto w-full">
         {/* Headline Utama Bold Tanpa Italic */}
         <h1 className="max-w-6xl text-4xl sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] leading-[1.1] font-bold tracking-tight text-ink">
           <span className="block will-change-transform md:whitespace-nowrap animate-hero-title-1">
