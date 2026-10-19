@@ -54,12 +54,14 @@ export function Navbar() {
                   href={item.href}
                   target={item.isExternal ? "_blank" : undefined}
                   rel={item.isExternal ? "noopener noreferrer" : undefined}
-                  className="text-sm font-medium text-ink/75 hover:text-ink transition-colors inline-flex items-center gap-1"
+                  className="nav-link-underline"
                 >
-                  <span>{item.label}</span>
-                  {item.isExternal && (
-                    <ArrowUpRight className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
-                  )}
+                  <span className="inline-flex items-center gap-1">
+                    {item.label}
+                    {item.isExternal && (
+                      <ArrowUpRight className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
+                    )}
+                  </span>
                 </a>
               ))}
             </nav>
