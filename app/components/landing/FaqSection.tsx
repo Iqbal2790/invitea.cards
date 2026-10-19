@@ -80,7 +80,7 @@ export function FaqSection() {
 
         {/* Framer-Style Unified Accordion Capsule Container */}
         <LayoutGroup id="invitea-faq-accordion">
-          <div className="w-full max-w-[800px] mx-auto p-1.5 rounded-[26px] bg-stone-200/50 border border-hairline/70 flex flex-col gap-1 shadow-xs">
+          <div className="w-full max-w-[800px] mx-auto p-1.5 rounded-[26px] bg-stone-200/50 dark:bg-neutral-900 border border-hairline/70 dark:border-neutral-800 flex flex-col gap-1 shadow-xs">
             {FAQ_ITEMS.map((item, index) => {
               const isOpen = openIndex === index;
               const contentId = `faq-answer-${index}`;
@@ -93,8 +93,8 @@ export function FaqSection() {
                   transition={springTransition}
                   className={`w-full rounded-[22px] transition-colors duration-200 select-none overflow-hidden ${
                     isOpen
-                      ? "bg-white border border-black/20 shadow-xs"
-                      : "bg-white/95 hover:bg-white border border-hairline/40 hover:border-hairline/70"
+                      ? "bg-white dark:bg-neutral-950 border border-black/20 dark:border-white/20 shadow-xs"
+                      : "bg-white/95 dark:bg-neutral-900 hover:bg-white dark:hover:bg-neutral-850 border border-hairline/40 dark:border-white/10 hover:border-hairline/70 dark:hover:border-white/20"
                   }`}
                 >
                   <button
@@ -103,11 +103,11 @@ export function FaqSection() {
                     aria-expanded={isOpen}
                     aria-controls={contentId}
                     onClick={() => toggleItem(index)}
-                    className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-[22px]"
+                    className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20 rounded-[22px]"
                   >
                     <span
                       className={`font-serif text-lg sm:text-xl font-medium leading-snug tracking-tight transition-colors duration-200 ${
-                        isOpen ? "text-black font-semibold" : "text-ink"
+                        isOpen ? "text-black dark:text-white font-semibold" : "text-ink"
                       }`}
                     >
                       {item.question}
@@ -117,8 +117,8 @@ export function FaqSection() {
                     <div
                       className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
                         isOpen
-                          ? "bg-black text-white"
-                          : "bg-stone-100 text-ink-soft hover:text-ink"
+                          ? "bg-black dark:bg-white text-white dark:text-black"
+                          : "bg-stone-100 dark:bg-neutral-800 text-ink-soft hover:text-ink"
                       }`}
                       aria-hidden="true"
                     >
@@ -165,7 +165,7 @@ export function FaqSection() {
         </LayoutGroup>
 
         {/* WhatsApp Help Prompt */}
-        <div className="mt-10 sm:mt-12 p-6 rounded-2xl border border-hairline/80 bg-white/70 backdrop-blur-xs flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-10 sm:mt-12 p-6 rounded-2xl border border-hairline/80 dark:border-white/10 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xs flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
             <h3 className="font-sans font-semibold text-base text-ink">
               Masih punya pertanyaan seputar pernikahan Anda?
@@ -178,7 +178,7 @@ export function FaqSection() {
             href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20ingin%20tanya%20seputar%20undangan%20pernikahan."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-sm bg-black text-white hover:bg-neutral-800 transition-all duration-150 active:scale-95 shrink-0 shadow-xs"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-sm bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all duration-150 active:scale-95 shrink-0 shadow-xs"
           >
             <MessageCircle className="w-4 h-4" aria-hidden="true" />
             <span>Tanya via WhatsApp</span>

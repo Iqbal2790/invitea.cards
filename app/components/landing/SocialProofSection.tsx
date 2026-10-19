@@ -77,12 +77,12 @@ export function SocialProofSection() {
   return (
     <section
       ref={sectionRef}
-      className="w-full border-y border-black/8 bg-white py-12 sm:py-16"
+      className="w-full border-y border-black/8 dark:border-white/10 bg-white dark:bg-black py-12 sm:py-16"
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Eyebrow Label */}
         <div className="text-center mb-8 sm:mb-10">
-          <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.2em] text-black/60 font-medium">
+          <p className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.2em] text-black/60 dark:text-white/60 font-medium">
             Dipercaya oleh Ribuan Pasangan di Seluruh Indonesia
           </p>
         </div>
@@ -94,14 +94,14 @@ export function SocialProofSection() {
               key={idx}
               className={`flex flex-col items-center text-center px-2 sm:px-4 ${
                 idx % 2 === 0
-                  ? "border-r border-black/8 lg:border-r"
-                  : "lg:border-r"
+                  ? "border-r border-black/8 dark:border-white/10 lg:border-r"
+                  : "lg:border-r dark:border-white/10"
               } ${idx === STATS.length - 1 ? "lg:border-r-0" : ""}`}
             >
-              <span className="font-sans font-bold tabular-nums text-3xl sm:text-4xl lg:text-[2.75rem] text-black tracking-tight leading-none">
+              <span className="font-sans font-bold tabular-nums text-3xl sm:text-4xl lg:text-[2.75rem] text-black dark:text-white tracking-tight leading-none">
                 {stat.format(counts[idx])}
               </span>
-              <p className="mt-3 text-xs sm:text-sm font-medium text-black/65 max-w-[22ch] leading-relaxed [text-wrap:balance]">
+              <p className="mt-3 text-xs sm:text-sm font-medium text-black/65 dark:text-white/70 max-w-[22ch] leading-relaxed [text-wrap:balance]">
                 {stat.label}
               </p>
             </div>

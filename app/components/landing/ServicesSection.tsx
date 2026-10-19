@@ -204,7 +204,7 @@ export function ServicesSection() {
                           <span className="font-medium text-ink">Rp85.000.000</span>
                         </div>
                         <div className="w-full h-2.5 rounded-full bg-black/10 overflow-hidden">
-                          <div className="h-full bg-[#9929EA] rounded-full w-[62%]" />
+                          <div className="h-full bg-[#9929EA] dark:bg-[#FF5FCF] rounded-full w-[62%]" />
                         </div>
                         <div className="flex items-center justify-between mt-2.5 text-xs">
                           <span className="text-black font-semibold">Terpakai: Rp52.700.000</span>
@@ -298,14 +298,14 @@ export function ServicesSection() {
                         href="https://create.invitea.cards"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] text-white text-sm sm:text-base font-medium hover:bg-[#851FD1] transition-colors shadow-sm active:scale-95"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-medium hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
                       >
                         <span>Buat Undangan Gratis</span>
                         <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
                       </a>
                       <a
                         href="#katalog"
-                        className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-black/15 bg-white text-black text-sm sm:text-base font-medium hover:bg-neutral-50 hover:border-black/35 transition-colors active:scale-95"
+                        className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 text-black dark:text-white text-sm sm:text-base font-medium hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-black/35 dark:hover:border-white/40 transition-colors active:scale-95"
                       >
                         <span>Lihat Katalog Tema</span>
                       </a>
@@ -473,7 +473,7 @@ export function ServicesSection() {
                           {/* RSVP Hook */}
                           <div className="p-2 rounded-lg bg-black/5 border border-black/10 flex items-center justify-between text-[7px] sm:text-[8px]">
                             <span className="text-ink font-medium">Konfirmasi Kehadiran Tamu</span>
-                            <span className="px-2 py-0.5 rounded bg-[#9929EA] text-white font-semibold">
+                            <span className="px-2 py-0.5 rounded bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black font-semibold">
                               Isi RSVP
                             </span>
                           </div>

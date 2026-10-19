@@ -2,14 +2,14 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden antialiased flex flex-col justify-between bg-white"
+      className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden antialiased flex flex-col justify-between bg-white dark:bg-black"
     >
       {/* Background Wildflower Meadow Illustration (Hero-36 Signature) */}
       <div className="pointer-events-none absolute inset-0 z-0 will-change-transform select-none animate-hero-bg">
         <img
           src="/bg-hero-36.avif"
           alt="Wildflower meadow illustration"
-          className="h-full w-full object-cover object-bottom"
+          className="h-full w-full object-cover object-bottom dark:opacity-20"
         />
       </div>
 
@@ -42,11 +42,7 @@ export function HeroSection() {
             target="_blank"
             rel="noopener noreferrer"
             data-ink-btn
-            style={{
-              "--ink-bg": "#851FD1",
-              "--ink-text": "#ffffff",
-            } as React.CSSProperties}
-            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#9929EA] px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-white shadow-md active:scale-[0.97]"
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-white dark:text-black shadow-md active:scale-[0.97]"
           >
             <span>Mulai bikin undangan gratis</span>
           </a>
@@ -55,12 +51,7 @@ export function HeroSection() {
             target="_blank"
             rel="noopener noreferrer"
             data-ink-btn
-            style={{
-              "--ink-bg": "rgba(0, 0, 0, 0.06)",
-              "--ink-text": "#000000",
-              "--ink-border": "rgba(0, 0, 0, 0.35)",
-            } as React.CSSProperties}
-            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black/15 bg-white backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black hover:border-black/35 active:scale-[0.97] transition-colors"
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black dark:text-white hover:border-black/35 dark:hover:border-white/40 active:scale-[0.97] transition-colors"
           >
             <span>Buka Wedding Planner</span>
           </a>

@@ -32,12 +32,17 @@
 html.dark,
 [data-theme="dark"] {
   --color-bg: #000000;
-  --color-bg-alt: #111111;
+  --color-bg-alt: #0a0a0a;
   --color-ink: #FFFFFF;
   --color-ink-soft: #A3A3A3;
   --color-header-bg: rgba(0, 0, 0, 0.9);
   --color-header-border: rgba(255, 255, 255, 0.12);
   --color-hairline: rgba(255, 255, 255, 0.12);
+
+  /* Dalam keadaan dark mode warna ungunya ganti jadi warna pink (#FF5FCF) */
+  --color-berry: #FF5FCF;
+  --color-berry-deep: #F04BBF;
+  --color-purple: #FF5FCF;
 }
 
 html {
@@ -182,13 +187,17 @@ html, body {
   color: #000000;
 }
 
+html.dark .nav-link-underline:hover {
+  color: #ffffff;
+}
+
 .nav-link-underline::before {
   content: "";
   position: absolute;
   inset-inline: 0;
   bottom: 0;
   height: 2px;
-  background-color: #9929EA;
+  background-color: var(--color-berry, #9929EA);
   transform: scaleX(0);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: center;
@@ -211,6 +220,11 @@ html, body {
   --ink-text: #ffffff;
   --ink-border: transparent;
   transition: border-color 0.35s ease, box-shadow 0.25s ease, transform 0.15s ease, background-color 0.3s ease;
+}
+
+html.dark .ink-btn {
+  --ink-bg: #F04BBF;
+  --ink-text: #000000;
 }
 
 .ink-btn::before {

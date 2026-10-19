@@ -159,7 +159,7 @@ export function WorkflowSection() {
     <section
       id="alur"
       ref={scrollyRef}
-      className="relative w-full h-[250vh] bg-white border-t border-black/8"
+      className="relative w-full h-[250vh] bg-white dark:bg-black border-t border-black/8 dark:border-white/10"
     >
       {/* Sticky Pin Container: stays locked in view while user scrolls through the 250vh range */}
       <div
@@ -206,13 +206,13 @@ export function WorkflowSection() {
                       }}
                       className={`relative rounded-2xl transition-colors duration-200 cursor-pointer select-none text-left ${
                         isActive
-                          ? "bg-black text-white p-4 sm:p-5 shadow-md"
-                          : "bg-transparent hover:bg-black/[0.03] text-ink/75 hover:text-ink px-4 py-3 sm:py-3.5"
+                          ? "bg-black dark:bg-neutral-900 border border-transparent dark:border-white/15 text-white p-4 sm:p-5 shadow-md"
+                          : "border border-transparent bg-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.05] text-ink/75 dark:text-white/70 hover:text-ink dark:hover:text-white px-4 py-3 sm:py-3.5"
                       }`}
                     >
                       <h3
                         className={`text-base font-bold leading-snug tracking-tight ${
-                          isActive ? "text-white" : "text-ink/80 hover:text-ink"
+                          isActive ? "text-white" : "text-ink/80 dark:text-white/80 hover:text-ink dark:hover:text-white"
                         }`}
                       >
                         {item.title}
@@ -220,7 +220,7 @@ export function WorkflowSection() {
 
                       {/* Expanded description on active state only (OpenDesign 1:1 typography) */}
                       {isActive && (
-                        <p className="mt-1.5 text-sm text-white/80 leading-relaxed font-normal">
+                        <p className="mt-1.5 text-sm text-white/80 dark:text-neutral-300 leading-relaxed font-normal">
                           {item.description}
                         </p>
                       )}
@@ -229,14 +229,14 @@ export function WorkflowSection() {
                 })}
               </div>
 
-              {/* Action button on step 3: solid black pill without ink-hover animation */}
+              {/* Action button on step 3: solid black/white pill without ink-hover animation */}
               {activeStep === 2 && (
                 <div className="pt-4 lg:pt-0">
                   <a
                     href="https://create.invitea.cards"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-black px-8 py-3.5 text-sm sm:text-base font-medium text-white shadow-md hover:bg-neutral-800 transition-colors active:scale-[0.97]"
+                    className="inline-flex items-center justify-center rounded-full bg-black dark:bg-white px-8 py-3.5 text-sm sm:text-base font-medium text-white dark:text-black shadow-md hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors active:scale-[0.97]"
                   >
                     <span>Mulai buat undangan</span>
                   </a>
@@ -248,7 +248,7 @@ export function WorkflowSection() {
             <div className="w-full min-w-0 flex items-center">
               <div
                 ref={previewRef}
-                className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-video bg-black/5 shadow-sm"
+                className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-video bg-black/5 dark:bg-white/5 shadow-sm"
               >
                 {STEP_IMAGES.map((img, idx) => {
                   return (
@@ -257,7 +257,7 @@ export function WorkflowSection() {
                       ref={(el) => {
                         panelRefs.current[idx] = el;
                       }}
-                      className="absolute inset-0 w-full h-full will-change-transform rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)] bg-white"
+                      className="absolute inset-0 w-full h-full will-change-transform rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_-4px_24px_rgba(0,0,0,0.12)] bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/15"
                       style={{
                         zIndex: idx + 10,
                         transform: idx === 0 ? "translate3d(0, 0%, 0)" : "translate3d(0, 100%, 0)",

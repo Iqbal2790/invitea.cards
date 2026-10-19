@@ -42,7 +42,7 @@ export function CtaSection() {
                   href="https://create.invitea.cards"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide bg-[#9929EA] text-white hover:bg-[#851FD1] transition-all duration-150 shadow-sm active:scale-95 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-all duration-150 shadow-sm active:scale-95 whitespace-nowrap"
                 >
                   <span>Mulai Buat Undangan Gratis</span>
                   <ArrowUpRight className="w-4 h-4" aria-hidden="true" />

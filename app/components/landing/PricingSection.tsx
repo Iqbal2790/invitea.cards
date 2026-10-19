@@ -73,14 +73,14 @@ export function PricingSection() {
               {/* Action: Split Button with Dropdown */}
               <div className="relative mb-6" ref={freeDropdownRef}>
                 <div
-                  className="group flex items-stretch w-full rounded-full border border-black/20 bg-white hover:border-black/40 transition-all shadow-2xs"
+                  className="group flex items-stretch w-full rounded-full border border-black/20 dark:border-white/20 bg-white dark:bg-neutral-900 hover:border-black/40 dark:hover:border-white/40 transition-all shadow-2xs"
                 >
                   {freeService === "undangan" ? (
                     <a
                       href="https://create.invitea.cards"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-black text-xs sm:text-sm font-semibold rounded-l-full hover:bg-black/5 transition-colors"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-black dark:text-white text-xs sm:text-sm font-semibold rounded-l-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                     >
                       <span className="truncate">Mulai Buat Undangan</span>
                       <ArrowUpRight className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
@@ -90,7 +90,7 @@ export function PricingSection() {
                       href="https://plan.invitea.cards"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-black text-xs sm:text-sm font-semibold rounded-l-full hover:bg-black/5 transition-colors"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 pl-4 pr-2 text-black dark:text-white text-xs sm:text-sm font-semibold rounded-l-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
                     >
                       <span className="truncate">Buka Wedding Planner</span>
                       <ArrowUpRight className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
@@ -102,7 +102,7 @@ export function PricingSection() {
                     aria-haspopup="listbox"
                     aria-expanded={isFreeDropdownOpen}
                     aria-label="Pilih jenis layanan gratis"
-                    className="px-3 border-l border-black/15 text-black hover:bg-black/5 transition-colors rounded-r-full flex items-center justify-center focus:outline-none"
+                    className="px-3 border-l border-black/15 dark:border-white/15 text-black dark:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors rounded-r-full flex items-center justify-center focus:outline-none"
                   >
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-200 ${
@@ -240,7 +240,7 @@ export function PricingSection() {
           className="h-full"
           once
         >
-          <div className="h-full relative rounded-3xl border border-black bg-black text-white p-6 sm:p-7 flex flex-col justify-between shadow-xl">
+          <div className="h-full relative rounded-3xl border border-black dark:border-white/15 bg-black dark:bg-neutral-950 text-white p-6 sm:p-7 flex flex-col justify-between shadow-xl">
             <div>
               {/* Top Row: Package Name + Recommended Badge */}
               <div className="flex items-center justify-between mb-2">
@@ -264,11 +264,7 @@ export function PricingSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   data-ink-btn
-                  style={{
-                    "--ink-bg": "#851FD1",
-                    "--ink-text": "#ffffff",
-                  } as React.CSSProperties}
-                  className="ink-btn w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-[#9929EA] text-white text-xs sm:text-sm font-semibold shadow-sm active:scale-[0.98]"
+                  className="ink-btn w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] text-xs sm:text-sm font-semibold shadow-sm active:scale-[0.98]"
                 >
                   <span>Pesan Paket Plus</span>
                   <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
@@ -360,7 +356,7 @@ export function PricingSection() {
                   href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20Paket%20Pro%20(Rp%20350.000)."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full border border-black/20 bg-white text-black hover:bg-black hover:text-white text-xs sm:text-sm font-semibold shadow-2xs transition-all duration-150 active:scale-[0.98]"
+                  className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full border border-black/20 dark:border-white/20 bg-white dark:bg-neutral-900 text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black text-xs sm:text-sm font-semibold shadow-2xs transition-all duration-150 active:scale-[0.98]"
                 >
                   <span>Konsultasi &amp; Pesan Pro</span>
                   <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />

@@ -215,7 +215,7 @@ export function ShowcaseSection() {
               href="https://create.invitea.cards"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-full border border-black/15 bg-white hover:bg-black hover:text-white hover:border-black text-xs font-medium text-black transition-all duration-150 shadow-2xs active:scale-95"
+              className="inline-flex items-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black hover:border-black dark:hover:border-white text-xs font-medium text-black dark:text-white transition-all duration-150 shadow-2xs active:scale-95"
             >
               <span>Lihat Lainnya</span>
               <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -226,7 +226,7 @@ export function ShowcaseSection() {
                 type="button"
                 onClick={handlePrev}
                 aria-label="Geser ke kiri"
-                className="p-2 sm:p-2.5 rounded-full border border-black/15 bg-white text-ink hover:bg-white hover:border-black/40 transition-all duration-150 active:scale-95 shadow-2xs"
+                className="p-2 sm:p-2.5 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 text-ink dark:text-white hover:border-black/40 dark:hover:border-white/40 transition-all duration-150 active:scale-95 shadow-2xs"
               >
                 <ChevronLeft className="w-4 h-4" aria-hidden="true" />
               </button>
@@ -234,7 +234,7 @@ export function ShowcaseSection() {
                 type="button"
                 onClick={handleNext}
                 aria-label="Geser ke kanan"
-                className="p-2 sm:p-2.5 rounded-full border border-black/15 bg-white text-ink hover:bg-white hover:border-black/40 transition-all duration-150 active:scale-95 shadow-2xs"
+                className="p-2 sm:p-2.5 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 text-ink dark:text-white hover:border-black/40 dark:hover:border-white/40 transition-all duration-150 active:scale-95 shadow-2xs"
               >
                 <ChevronRight className="w-4 h-4" aria-hidden="true" />
               </button>
@@ -335,7 +335,7 @@ export function ShowcaseSection() {
                     href={item.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full border border-black/15 bg-white text-xs font-semibold text-black hover:bg-neutral-50 hover:border-black/35 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
+                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 text-xs font-semibold text-black dark:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-black/35 dark:hover:border-white/40 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
                   >
                     <Eye className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
                     <span>Live Demo</span>
@@ -344,7 +344,7 @@ export function ShowcaseSection() {
                     href={`https://create.invitea.cards?theme=${item.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full bg-[#9929EA] text-white text-xs font-semibold hover:bg-[#851FD1] transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
+                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-xs font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
                   >
                     <span>Gunakan Tema</span>
                     <ExternalLink className="w-3 h-3 opacity-80 shrink-0" aria-hidden="true" />
