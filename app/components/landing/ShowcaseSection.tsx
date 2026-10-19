@@ -355,8 +355,8 @@ export function ShowcaseSection() {
 
       {/* Progress Dots: Centered under conveyor belt with comfortable spacing from scaled active card */}
       <div className="w-full px-6 sm:px-8 lg:px-12 mt-8 sm:mt-10 lg:mt-12 flex items-center justify-center relative z-20">
-        {/* Indicator dots */}
-        <div className="flex items-center gap-2 sm:gap-2.5 p-1 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-xs">
+        {/* Indicator dots: Direct dots without pill background */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
           {TEMPLATES.map((_, idx) => (
             <button
               key={idx}
