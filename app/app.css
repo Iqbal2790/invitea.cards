@@ -266,3 +266,20 @@ html.dark .ink-btn {
 .ink-btn:hover {
   border-color: var(--ink-border, currentColor);
 }
+
+/* ==========================================================================
+   Theme Switch Ink Ripple (View Transition API Circular Expansion)
+   ========================================================================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 99999;
+}

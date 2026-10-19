@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { flushSync } from "react-dom";
 import { ChevronDown, LayoutDashboard, PlusCircle, LogOut } from "lucide-react";
 
 interface UserProfileDropdownProps {
@@ -26,18 +27,67 @@ function useTheme() {
     }
   }, []);
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme);
-    try {
-      localStorage.setItem("invitea-theme", newTheme);
-      const isDark =
-        newTheme === "dark" ||
-        (newTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
-      document.documentElement.classList.toggle("dark", isDark);
-      document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
-    } catch {
-      // Ignore
+  const setTheme = (newTheme: Theme, event?: React.MouseEvent) => {
+    if (newTheme === theme) return;
+
+    const applyTheme = () => {
+      try {
+        flushSync(() => {
+          setThemeState(newTheme);
+        });
+      } catch {
+        setThemeState(newTheme);
+      }
+      try {
+        localStorage.setItem("invitea-theme", newTheme);
+        const isDark =
+          newTheme === "dark" ||
+          (newTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+      } catch {
+        // Ignore
+      }
+    };
+
+    const doc = document as unknown as {
+      startViewTransition?: (cb: () => void) => {
+        ready: Promise<void>;
+        finished: Promise<void>;
+      };
+    };
+
+    if (!doc.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      applyTheme();
+      return;
     }
+
+    const rect = event?.currentTarget?.getBoundingClientRect();
+    const x = event?.clientX || (rect ? rect.left + rect.width / 2 : window.innerWidth / 2);
+    const y = event?.clientY || (rect ? rect.top + rect.height / 2 : window.innerHeight / 2);
+
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = doc.startViewTransition(applyTheme);
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 520,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    });
   };
 
   useEffect(() => {
@@ -203,7 +253,7 @@ export function UserProfileDropdown({
                   <button
                     key={t}
                     type="button"
-                    onClick={() => setTheme(t)}
+                    onClick={(e) => setTheme(t, e)}
                     className={`py-1.5 px-2 rounded-lg font-medium transition-all text-center cursor-pointer ${
                       isActive
                         ? "bg-white dark:bg-neutral-700 text-black dark:text-white shadow-xs font-semibold"
