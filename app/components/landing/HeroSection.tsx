@@ -2,7 +2,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-[calc(100vh-80px)] w-full overflow-hidden antialiased flex flex-col justify-between bg-white dark:bg-black"
+      className="relative min-h-screen -mt-20 pt-20 w-full overflow-hidden antialiased flex flex-col justify-between bg-white dark:bg-black"
     >
       {/* Background Wildflower Meadow Illustration (Hero-36 Signature) */}
       <div className="pointer-events-none absolute inset-0 z-0 will-change-transform select-none animate-hero-bg">
@@ -20,8 +20,8 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Hero Content Stack */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-8 sm:pt-10 md:pt-12 pb-12 text-center max-w-5xl mx-auto w-full">
+      {/* Hero Content Stack (Lowered and comfortably spaced) */}
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 sm:px-6 pt-12 sm:pt-16 md:pt-20 pb-20 sm:pb-24 text-center max-w-5xl mx-auto w-full">
         {/* Eyebrow / Kicker Badge using #FAEB92 Butter Yellow */}
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-4 sm:mb-5 shadow-2xs will-change-transform animate-hero-badge">
           <span>Undangan nikah digital · Mulai gratis</span>

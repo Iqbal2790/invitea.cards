@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouteLoaderData } from "react-router";
 import { Menu, X, ArrowUpRight, LogOut, LayoutDashboard } from "lucide-react";
 import { buildSubdomainUrl, type HostContext } from "../../lib/host";
@@ -20,7 +20,32 @@ const NAV_ITEMS: NavItem[] = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const closeMenu = () => setIsOpen(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const hero = document.getElementById("hero");
+      if (hero) {
+        const heroRect = hero.getBoundingClientRect();
+        // Considered scrolled when hero's bottom edge leaves the header zone (<= 80px)
+        setIsScrolled(heroRect.bottom <= 80);
+      } else {
+        setIsScrolled(window.scrollY > 80);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("lenis-scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("lenis-scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   const rootData = useRouteLoaderData("root") as
     | {
@@ -33,8 +58,16 @@ export function Navbar() {
   const hostContext = rootData?.hostContext;
   const plannerUrl = buildSubdomainUrl("planner", "/", hostContext);
 
+  const hasSolidBackground = isScrolled || isOpen;
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-black/90 border-b border-black/8 dark:border-white/10 transition-all duration-300">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        hasSolidBackground
+          ? "backdrop-blur-md bg-white/85 dark:bg-neutral-950/85 border-b border-black/10 dark:border-white/15 shadow-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
+          : "bg-transparent border-b border-transparent backdrop-blur-none shadow-none"
+      }`}
+    >
       <div className="w-full px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-20">
           {/* Brand Mark & Left-Aligned Desktop Navigation (Rata Kiri) */}
