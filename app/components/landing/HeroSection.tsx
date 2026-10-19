@@ -34,7 +34,7 @@ export function HeroSection() {
 
         {/* Subtitle */}
         <p className="mt-4 sm:mt-5 max-w-lg sm:max-w-xl text-base sm:text-lg leading-relaxed text-ink-soft dark:text-white/85 will-change-transform font-sans animate-hero-sub">
-          Nggak perlu bisa desain, nggak perlu login buat mulai. Pilih template, isi datamu, sebar ke WhatsApp, lalu lanjut ke RSVP dan Wedding Planner kalau kamu butuh.
+          Pilih desain, isi detail acaramu, dan sebar undangan dalam hitungan menit. Dilengkapi RSVP tamu dan wedding planner otomatis.
         </p>
 
         {/* Dual CTA Actions */}
