@@ -58,4 +58,10 @@ Thumbs.db
 vault/
 .obsidian/
 
+# Temporary inspection captures & frames (Root-level only)
+/*.png
+/*.html
+video_frames*/
+reload1_60fps/
+
 

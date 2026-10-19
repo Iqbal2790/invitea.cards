@@ -38,7 +38,7 @@ export function HeroSection() {
         </h1>
 
         {/* Subtitle */}
-        <p className="mt-4 sm:mt-5 max-w-lg sm:max-w-xl text-base sm:text-lg leading-relaxed text-ink-soft will-change-transform font-sans animate-hero-sub">
+        <p className="mt-4 sm:mt-5 max-w-lg sm:max-w-xl text-base sm:text-lg leading-relaxed text-ink-soft dark:text-white/85 will-change-transform font-sans animate-hero-sub">
           Nggak perlu bisa desain, nggak perlu login buat mulai. Pilih template, isi datamu, sebar ke WhatsApp, lalu lanjut ke RSVP dan Wedding Planner kalau kamu butuh.
         </p>
 
@@ -58,7 +58,7 @@ export function HeroSection() {
             target="_blank"
             rel="noopener noreferrer"
             data-ink-btn
-            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black dark:text-white hover:border-black/35 dark:hover:border-white/40 active:scale-[0.97] transition-colors"
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black/15 dark:border-white/35 bg-white dark:bg-black/50 backdrop-blur-md px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black dark:text-white hover:border-black/35 dark:hover:border-white/60 dark:hover:bg-black/70 active:scale-[0.97] transition-all"
           >
             <span>Buka Wedding Planner</span>
           </a>
