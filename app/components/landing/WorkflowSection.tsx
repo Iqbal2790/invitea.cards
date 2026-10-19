@@ -183,7 +183,7 @@ export function WorkflowSection() {
             {/* Left Column: Interactive Step Selector Tabs (Locked 384px) with Dynamic Space Transfer */}
             <div
               ref={railRef}
-              className="w-full lg:w-[384px] flex flex-col justify-between"
+              className="w-full lg:w-[384px] flex flex-col"
             >
               <div className="flex flex-col gap-2">
                 {STEPS.map((item, idx) => {
@@ -206,7 +206,7 @@ export function WorkflowSection() {
                       }}
                       className={`relative rounded-2xl transition-colors duration-200 cursor-pointer select-none text-left ${
                         isActive
-                          ? "bg-[#2D1E1E] text-white p-4 sm:p-5 shadow-md"
+                          ? "bg-[#262626] text-white p-4 sm:p-5 shadow-md"
                           : "bg-transparent hover:bg-black/[0.03] text-ink/75 hover:text-ink px-4 py-3 sm:py-3.5"
                       }`}
                     >
@@ -229,16 +229,21 @@ export function WorkflowSection() {
                 })}
               </div>
 
-              {/* Action link on step 3 (OpenDesign download-style CTA) */}
+              {/* Action button on step 3: pill shaped with signature fluid ink-hover animation like in Hero */}
               {activeStep === 2 && (
-                <div className="pt-4 lg:pt-0">
+                <div className="pt-5 sm:pt-6">
                   <a
                     href="https://create.invitea.cards"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center px-6 py-3 rounded-xl bg-[#2D1E1E] text-white text-sm font-semibold hover:bg-[#3D2B2B] transition-all shadow-sm"
+                    data-ink-btn
+                    style={{
+                      "--ink-bg": "var(--color-ink)",
+                      "--ink-text": "var(--color-cream-text)",
+                    } as React.CSSProperties}
+                    className="ink-btn inline-flex items-center justify-center rounded-full bg-berry px-8 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md active:scale-[0.97]"
                   >
-                    Mulai Bikin Undangan
+                    <span>Mulai buat undangan</span>
                   </a>
                 </div>
               )}
