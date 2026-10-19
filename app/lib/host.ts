@@ -43,6 +43,10 @@ export function resolveHostContext(
     hostname === "www.invitea.cards" ||
     hostname === "localhost" ||
     hostname === "127.0.0.1" ||
+    hostname.startsWith("100.") ||
+    hostname.startsWith("192.168.") ||
+    hostname.startsWith("10.") ||
+    hostname.endsWith(".ts.net") ||
     !hostname
   ) {
     return {
