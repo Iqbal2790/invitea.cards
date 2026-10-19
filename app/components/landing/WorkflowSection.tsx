@@ -166,66 +166,65 @@ export function WorkflowSection() {
         ref={stickyRef}
         className="sticky top-14 sm:top-16 lg:top-20 w-full min-h-[calc(100vh-3.5rem)] sm:min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-5rem)] flex flex-col justify-center py-6 sm:py-8 lg:py-10 overflow-hidden"
       >
-        {/* OpenDesign Exact Width Container (1360px max, 64px padding, 1168px content grid) */}
-        <div className="w-full max-w-[1360px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="w-full max-w-[1168px] mx-auto">
-            {/* Section Header */}
-            <div className="max-w-2xl mb-8 sm:mb-10 lg:mb-12">
-              <p className="text-xs sm:text-sm font-mono font-semibold uppercase tracking-wider text-berry mb-2">
-                Alur 3 Langkah · Mulai Gratis
-              </p>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ink tracking-tight leading-[1.15]">
-                Dari pilih template, sampai undangan siap disebar.
-              </h2>
-            </div>
+        {/* OpenDesign Exact Width Container (1532px content canvas, 194px gutters on 1920px screen) */}
+        <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6">
+          {/* Section Header */}
+          <div className="max-w-3xl mb-6 sm:mb-8 lg:mb-10">
+            <p className="text-xs sm:text-sm font-mono font-semibold uppercase tracking-wider text-berry mb-2">
+              Alur 3 Langkah · Mulai Gratis
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ink tracking-tight leading-[1.15]">
+              Dari pilih template, sampai undangan siap disebar.
+            </h2>
+          </div>
 
-            {/* OpenDesign Architecture: 384px Stepper Tablist Left, 732px Panels Right, 20px Gap */}
-            <div className="grid grid-cols-1 lg:grid-cols-[384px_732px] gap-5 lg:gap-6 items-center">
-              {/* Left Column: Interactive Step Selector Tabs (384px) - Focused Visitor Attention */}
-              <div className="flex flex-col gap-2.5 sm:gap-3">
-                {STEPS.map((item, idx) => {
-                  const isActive = activeStep === idx;
+          {/* OpenDesign Architecture: Fixed 384px Stepper Tablist Left, Expansive 1fr Preview Right (1072-1120px at 1920px) */}
+          <div className="grid grid-cols-1 lg:grid-cols-[384px_1fr] gap-6 lg:gap-7 items-center">
+            {/* Left Column: Interactive Step Selector Tabs (Locked 384px) - Dominant Visitor Attention */}
+            <div className="w-full lg:w-[384px] flex flex-col gap-2.5 sm:gap-3">
+              {STEPS.map((item, idx) => {
+                const isActive = activeStep === idx;
 
-                  return (
-                    <div
-                      key={item.id}
-                      onClick={() => handleTabClick(idx)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleTabClick(idx);
-                        }
-                      }}
-                      className={`relative rounded-2xl transition-all duration-200 cursor-pointer select-none text-left ${
-                        isActive
-                          ? "bg-[#2D1E1E] text-white p-5 sm:p-6 shadow-md"
-                          : "bg-transparent hover:bg-black/[0.03] text-ink/70 hover:text-ink px-4 py-3 sm:py-3.5"
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => handleTabClick(idx)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleTabClick(idx);
+                      }
+                    }}
+                    className={`relative rounded-2xl transition-all duration-200 cursor-pointer select-none text-left ${
+                      isActive
+                        ? "bg-[#2D1E1E] text-white p-5 sm:p-6 shadow-md"
+                        : "bg-transparent hover:bg-black/[0.03] text-ink/70 hover:text-ink px-4 py-3 sm:py-3.5"
+                    }`}
+                  >
+                    <h3
+                      className={`text-base sm:text-lg lg:text-xl font-bold tracking-tight transition-colors duration-200 ${
+                        isActive ? "text-white" : "text-ink/75 hover:text-ink font-semibold"
                       }`}
                     >
-                      <h3
-                        className={`text-base sm:text-lg lg:text-xl font-bold tracking-tight transition-colors duration-200 ${
-                          isActive ? "text-white" : "text-ink/75 hover:text-ink font-semibold"
-                        }`}
-                      >
-                        {item.title}
-                      </h3>
+                      {item.title}
+                    </h3>
 
-                      {/* Expanded description on active state only (Clean minimal text) */}
-                      {isActive && (
-                        <p className="mt-2 text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
-                          {item.description}
-                        </p>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                    {/* Expanded description on active state only (Clean minimal text) */}
+                    {isActive && (
+                      <p className="mt-2 text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
 
-              {/* Right Column: Visual Preview Container (732px x 412px, Aspect 16:9 like OpenDesign) */}
-              <div className="w-full">
-                <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-video bg-black/5 shadow-sm">
+            {/* Right Column: Visual Preview Container (Expands up to 1072px, Aspect 16:9 like OpenDesign) */}
+            <div className="w-full min-w-0">
+              <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-video bg-black/5 shadow-sm">
                   {STEP_IMAGES.map((img, idx) => {
                     return (
                       <div
@@ -253,7 +252,6 @@ export function WorkflowSection() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
   );
 }
