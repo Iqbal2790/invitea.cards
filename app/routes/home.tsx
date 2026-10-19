@@ -43,11 +43,11 @@ export function meta({ matches }: Route.MetaArgs) {
   }
 
   return [
-    { title: "Invitea.cards — Undangan Pernikahan dengan Website & Domain Sendiri" },
+    { title: "Undangan Nikah Digital Gratis, Tanpa Login | Invitea" },
     {
       name: "description",
       content:
-        "Rayakan hari bahagiamu dengan undangan pernikahan digital yang indah dan bermakna. Setiap detail disiapkan untuk mengabadikan awal perjalanan cinta kalian berdua.",
+        "Bikin undangan nikah digital sendiri: pilih template, isi data, salin link, kirim lewat WhatsApp. Gratis, tanpa login. Ada RSVP dan Wedding Planner.",
     },
   ];
 }
