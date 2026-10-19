@@ -18,6 +18,7 @@ export function UserProfileDropdown({
   builderUrl = "https://create.invitea.cards",
 }: UserProfileDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside or pressing Escape
@@ -59,26 +60,28 @@ export function UserProfileDropdown({
         className="h-11 pl-2 pr-3.5 py-1.5 rounded-full border border-black/12 bg-white/95 hover:bg-white hover:border-black/25 text-[#2D1E1E] transition-all flex items-center gap-2.5 shadow-2xs cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[#6E182A]/20"
       >
         {/* Avatar */}
-        <div className="w-8 h-8 rounded-full overflow-hidden border border-black/10 shrink-0 bg-[#FAF5E9] flex items-center justify-center">
-          {user.avatarUrl ? (
+        <div className="w-8 h-8 rounded-full overflow-hidden border border-black/10 shrink-0 bg-neutral-100 flex items-center justify-center">
+          {user.avatarUrl && !imageError ? (
             <img
               src={user.avatarUrl}
-              alt={user.fullName || "Avatar"}
+              alt=""
+              referrerPolicy="no-referrer"
+              onError={() => setImageError(true)}
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-xs font-bold text-[#6E182A] font-sans">{initial}</span>
+            <span className="text-xs font-bold text-black font-sans">{initial}</span>
           )}
         </div>
 
         {/* User Name */}
-        <span className="text-sm font-medium text-[#2D1E1E] max-w-[140px] truncate">
+        <span className="text-sm font-medium text-black max-w-[140px] truncate">
           {firstName}
         </span>
 
         {/* Caret Chevron */}
         <ChevronDown
-          className={`w-4 h-4 text-[#2D1E1E]/50 group-hover:text-[#2D1E1E] transition-transform duration-200 ${
+          className={`w-4 h-4 text-black/50 group-hover:text-black transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -86,18 +89,20 @@ export function UserProfileDropdown({
 
       {/* Popover Dropdown Panel */}
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-white border border-black/10 shadow-xl p-3 z-50 text-[#2D1E1E] animate-in fade-in zoom-in-95 duration-150">
+        <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-white border border-black/10 shadow-xl p-3 z-50 text-black animate-in fade-in zoom-in-95 duration-150">
           {/* User Identity Header */}
-          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-[#FAF5E9]/60 border border-black/5 mb-1.5">
-            <div className="w-9 h-9 rounded-full overflow-hidden border border-black/10 shrink-0 bg-[#FAF5E9] flex items-center justify-center">
-              {user.avatarUrl ? (
+          <div className="flex items-center gap-3 p-2.5 rounded-xl bg-neutral-50 border border-black/5 mb-1.5">
+            <div className="w-9 h-9 rounded-full overflow-hidden border border-black/10 shrink-0 bg-neutral-100 flex items-center justify-center">
+              {user.avatarUrl && !imageError ? (
                 <img
                   src={user.avatarUrl}
                   alt=""
+                  referrerPolicy="no-referrer"
+                  onError={() => setImageError(true)}
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="text-xs font-bold text-[#6E182A]">{initial}</span>
+                <span className="text-xs font-bold text-black font-sans">{initial}</span>
               )}
             </div>
             <div className="min-w-0 flex-1">

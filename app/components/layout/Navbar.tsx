@@ -135,15 +135,16 @@ export function Navbar() {
             {user ? (
               <div className="space-y-2">
                 <div className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-black/10 shadow-2xs">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border border-black/10 shrink-0 bg-[#FAF5E9] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border border-black/10 shrink-0 bg-neutral-100 flex items-center justify-center">
                     {user.avatarUrl ? (
                       <img
                         src={user.avatarUrl}
                         alt=""
+                        referrerPolicy="no-referrer"
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <span className="text-sm font-bold text-[#9929EA]">
+                      <span className="text-sm font-bold text-black">
                         {user.fullName?.charAt(0).toUpperCase() || "U"}
                       </span>
                     )}

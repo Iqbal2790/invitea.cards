@@ -38,11 +38,15 @@ export async function loader({ request }: Route.LoaderArgs) {
         fullName:
           (user.user_metadata?.full_name as string) ||
           (user.user_metadata?.name as string) ||
+          (user.identities?.[0]?.identity_data?.full_name as string) ||
+          (user.identities?.[0]?.identity_data?.name as string) ||
           user.email?.split("@")[0] ||
           "User",
         avatarUrl:
           (user.user_metadata?.avatar_url as string) ||
           (user.user_metadata?.picture as string) ||
+          (user.identities?.[0]?.identity_data?.avatar_url as string) ||
+          (user.identities?.[0]?.identity_data?.picture as string) ||
           undefined,
       }
     : null;
