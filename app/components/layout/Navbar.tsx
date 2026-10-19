@@ -76,7 +76,13 @@ export function Navbar() {
             ) : (
               <a
                 href="/auth/login"
-                className="inline-flex items-center justify-center rounded-full border border-black/20 text-black hover:bg-black hover:text-white px-5 py-2 text-sm font-medium tracking-wide transition-all duration-150 active:scale-95"
+                data-ink-btn
+                style={{
+                  "--ink-bg": "#000000",
+                  "--ink-text": "#ffffff",
+                  "--ink-border": "#000000",
+                } as React.CSSProperties}
+                className="ink-btn inline-flex items-center justify-center rounded-full border border-black text-black bg-transparent px-5 py-2 text-sm font-medium tracking-wide active:scale-95"
               >
                 <span>Login</span>
               </a>
@@ -172,7 +178,13 @@ export function Navbar() {
               <a
                 href="/auth/login"
                 onClick={closeMenu}
-                className="block w-full text-center border border-black/20 text-black hover:bg-black hover:text-white rounded-full py-2.5 text-sm font-medium tracking-wide transition-all duration-150 active:scale-95"
+                data-ink-btn
+                style={{
+                  "--ink-bg": "#000000",
+                  "--ink-text": "#ffffff",
+                  "--ink-border": "#000000",
+                } as React.CSSProperties}
+                className="ink-btn block w-full text-center border border-black text-black bg-transparent rounded-full py-2.5 text-sm font-medium tracking-wide active:scale-95"
               >
                 <span>Login</span>
               </a>

@@ -229,19 +229,14 @@ export function WorkflowSection() {
                 })}
               </div>
 
-              {/* Action button on step 3: pill shaped with signature fluid ink-hover animation pinned to bottom like OpenDesign */}
+              {/* Action button on step 3: solid black pill without ink-hover animation */}
               {activeStep === 2 && (
                 <div className="pt-4 lg:pt-0">
                   <a
                     href="https://create.invitea.cards"
                     target="_blank"
                     rel="noopener noreferrer"
-                    data-ink-btn
-                    style={{
-                      "--ink-bg": "#851FD1",
-                      "--ink-text": "#ffffff",
-                    } as React.CSSProperties}
-                    className="ink-btn inline-flex items-center justify-center rounded-full bg-[#9929EA] px-8 py-3.5 text-sm sm:text-base font-medium text-white shadow-md active:scale-[0.97]"
+                    className="inline-flex items-center justify-center rounded-full bg-black px-8 py-3.5 text-sm sm:text-base font-medium text-white shadow-md hover:bg-neutral-800 transition-colors active:scale-[0.97]"
                   >
                     <span>Mulai buat undangan</span>
                   </a>
