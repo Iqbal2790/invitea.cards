@@ -273,7 +273,7 @@ export function Footer() {
             <text
               x="0"
               y="0"
-              className="font-serif font-bold fill-white/[0.14] tracking-tight"
+              className="font-serif font-bold fill-white tracking-tight"
               style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 letterSpacing: "-0.025em",
