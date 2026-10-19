@@ -23,12 +23,12 @@ export function HeroSection() {
           Undangan nikah digital · Mulai gratis
         </p>
 
-        {/* Staggered Line-by-Line Serif Headline */}
-        <h1 className="max-w-6xl font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] leading-[1.1] font-normal tracking-tight text-ink">
+        {/* Headline Utama Bold Tanpa Italic */}
+        <h1 className="max-w-6xl text-4xl sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] leading-[1.1] font-bold tracking-tight text-ink">
           <span className="block will-change-transform md:whitespace-nowrap animate-hero-title-1">
             Bikin undangan nikah digital sendiri.
           </span>
-          <span className="block will-change-transform italic font-serif text-berry mt-0.5 sm:mt-1 animate-hero-title-2">
+          <span className="block will-change-transform text-berry mt-0.5 sm:mt-1 animate-hero-title-2">
             Gratis, tanpa login.
           </span>
         </h1>
