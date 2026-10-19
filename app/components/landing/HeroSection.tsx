@@ -24,8 +24,8 @@ export function HeroSection() {
         </p>
 
         {/* Staggered Line-by-Line Serif Headline */}
-        <h1 className="max-w-4xl font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[3.75rem] xl:text-[4.25rem] leading-[1.12] font-normal tracking-tight text-ink">
-          <span className="block will-change-transform animate-hero-title-1">
+        <h1 className="max-w-5xl font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.35rem] xl:text-[3.75rem] leading-[1.12] font-normal tracking-tight text-ink">
+          <span className="block will-change-transform md:whitespace-nowrap animate-hero-title-1">
             Bikin undangan nikah digital sendiri.
           </span>
           <span className="block will-change-transform italic font-serif text-berry mt-0.5 sm:mt-1 animate-hero-title-2">
