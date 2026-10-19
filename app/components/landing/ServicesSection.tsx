@@ -94,7 +94,7 @@ export function ServicesSection() {
                         href="https://plan.invitea.cards"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink text-cream-text text-sm sm:text-base font-medium hover:bg-berry transition-colors shadow-sm"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black text-white text-sm sm:text-base font-medium hover:bg-neutral-800 transition-colors shadow-sm active:scale-95"
                       >
                         <span>Buka Planner</span>
                         <ArrowUpRight className="w-4 h-4 opacity-80" aria-hidden="true" />
@@ -298,14 +298,14 @@ export function ServicesSection() {
                         href="https://create.invitea.cards"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink text-cream-text text-sm sm:text-base font-medium hover:bg-berry transition-colors shadow-sm"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] text-white text-sm sm:text-base font-medium hover:bg-[#851FD1] transition-colors shadow-sm active:scale-95"
                       >
                         <span>Buat Undangan Gratis</span>
                         <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
                       </a>
                       <a
                         href="#katalog"
-                        className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-header-border bg-bg text-ink text-sm sm:text-base font-medium hover:border-berry/40 transition-colors"
+                        className="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-black/15 bg-white text-black text-sm sm:text-base font-medium hover:bg-neutral-50 hover:border-black/35 transition-colors active:scale-95"
                       >
                         <span>Lihat Katalog Tema</span>
                       </a>

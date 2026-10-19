@@ -215,7 +215,7 @@ export function ShowcaseSection() {
               href="https://create.invitea.cards"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-full border border-black/20 bg-white/90 hover:bg-black hover:text-white hover:border-black text-xs font-medium text-ink transition-all duration-150 shadow-2xs active:scale-95"
+              className="inline-flex items-center gap-1.5 px-4 py-2 sm:py-2.5 rounded-full border border-black/15 bg-white hover:bg-black hover:text-white hover:border-black text-xs font-medium text-black transition-all duration-150 shadow-2xs active:scale-95"
             >
               <span>Lihat Lainnya</span>
               <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -335,7 +335,7 @@ export function ShowcaseSection() {
                     href={item.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full border border-black/20 bg-white/95 backdrop-blur-xs text-xs font-semibold text-ink hover:bg-white hover:border-black/50 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
+                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full border border-black/15 bg-white text-xs font-semibold text-black hover:bg-neutral-50 hover:border-black/35 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
                   >
                     <Eye className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
                     <span>Live Demo</span>

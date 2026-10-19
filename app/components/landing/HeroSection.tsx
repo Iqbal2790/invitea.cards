@@ -43,10 +43,10 @@ export function HeroSection() {
             rel="noopener noreferrer"
             data-ink-btn
             style={{
-              "--ink-bg": "var(--color-ink)",
-              "--ink-text": "var(--color-cream-text)",
+              "--ink-bg": "#851FD1",
+              "--ink-text": "#ffffff",
             } as React.CSSProperties}
-            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-berry px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md active:scale-[0.97]"
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#9929EA] px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-white shadow-md active:scale-[0.97]"
           >
             <span>Mulai bikin undangan gratis</span>
           </a>
@@ -54,11 +54,11 @@ export function HeroSection() {
             href="#katalog"
             data-ink-btn
             style={{
-              "--ink-bg": "var(--color-berry)",
-              "--ink-text": "var(--color-cream-text)",
-              "--ink-border": "var(--color-berry)",
+              "--ink-bg": "rgba(0, 0, 0, 0.06)",
+              "--ink-text": "#000000",
+              "--ink-border": "rgba(0, 0, 0, 0.35)",
             } as React.CSSProperties}
-            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black/20 bg-white/90 backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-ink hover:border-black/40 active:scale-[0.97]"
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black/15 bg-white backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black hover:border-black/35 active:scale-[0.97] transition-colors"
           >
             <span>Lihat contoh undangan</span>
           </a>

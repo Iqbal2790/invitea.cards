@@ -238,10 +238,10 @@ export function WorkflowSection() {
                     rel="noopener noreferrer"
                     data-ink-btn
                     style={{
-                      "--ink-bg": "var(--color-ink)",
-                      "--ink-text": "var(--color-cream-text)",
+                      "--ink-bg": "#851FD1",
+                      "--ink-text": "#ffffff",
                     } as React.CSSProperties}
-                    className="ink-btn inline-flex items-center justify-center rounded-full bg-berry px-8 py-3.5 text-sm sm:text-base font-medium text-cream-text shadow-md active:scale-[0.97]"
+                    className="ink-btn inline-flex items-center justify-center rounded-full bg-[#9929EA] px-8 py-3.5 text-sm sm:text-base font-medium text-white shadow-md active:scale-[0.97]"
                   >
                     <span>Mulai buat undangan</span>
                   </a>

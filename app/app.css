@@ -156,8 +156,8 @@ html, body {
   position: relative !important;
   overflow: hidden !important;
   isolation: isolate;
-  --ink-bg: var(--color-berry);
-  --ink-text: var(--color-cream-text);
+  --ink-bg: #851FD1;
+  --ink-text: #ffffff;
   --ink-border: transparent;
   transition: border-color 0.35s ease, box-shadow 0.25s ease, transform 0.15s ease, background-color 0.3s ease;
 }
