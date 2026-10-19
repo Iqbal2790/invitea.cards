@@ -51,7 +51,9 @@ export function HeroSection() {
             <span>Mulai bikin undangan gratis</span>
           </a>
           <a
-            href="#katalog"
+            href="https://plan.invitea.cards"
+            target="_blank"
+            rel="noopener noreferrer"
             data-ink-btn
             style={{
               "--ink-bg": "rgba(0, 0, 0, 0.06)",
@@ -60,7 +62,7 @@ export function HeroSection() {
             } as React.CSSProperties}
             className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full border border-black/15 bg-white backdrop-blur-xs px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-black hover:border-black/35 active:scale-[0.97] transition-colors"
           >
-            <span>Lihat contoh undangan</span>
+            <span>Buka Wedding Planner</span>
           </a>
         </div>
       </div>
