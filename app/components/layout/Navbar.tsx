@@ -13,7 +13,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: "Fitur & Layanan", href: "#layanan" },
   { label: "Paket & Harga", href: "#pricing" },
-  { label: "Tanya Jawab", href: "#faq" },
+  { label: "FAQ", href: "#faq" },
   { label: "Template Instan", href: "https://create.invitea.cards", isExternal: true },
   { label: "Wedding Planner", href: "https://plan.invitea.cards", isExternal: true },
 ];
