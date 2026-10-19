@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/landing/HeroSection";
-import { SocialProofSection } from "../components/landing/SocialProofSection";
+import { WorkflowSection } from "../components/landing/WorkflowSection";
 import { ShowcaseSection } from "../components/landing/ShowcaseSection";
 import { ServicesSection } from "../components/landing/ServicesSection";
 import { PricingSection } from "../components/landing/PricingSection";
@@ -99,7 +99,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
       <main className="flex-1 w-full">
         <HeroSection />
-        <SocialProofSection />
+        <WorkflowSection />
         <ShowcaseSection />
         <ServicesSection />
         <PricingSection />
