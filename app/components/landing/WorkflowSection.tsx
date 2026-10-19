@@ -1,13 +1,9 @@
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
 
 interface StepItem {
   id: string;
   title: string;
   description: string;
-  linkText?: string;
-  linkHref?: string;
-  isExternal?: boolean;
 }
 
 const STEPS: StepItem[] = [
@@ -15,17 +11,11 @@ const STEPS: StepItem[] = [
     id: "step-1",
     title: "Pilih template",
     description: "Lihat dulu semua template undangan, lalu pilih yang paling cocok buat acaramu.",
-    linkText: "Lihat contoh undangan",
-    linkHref: "#katalog",
-    isExternal: false,
   },
   {
     id: "step-2",
     title: "Isi data",
     description: "Isi data acaramu, seperti nama, tanggal, dan lokasi. Langsung mulai tanpa perlu registrasi.",
-    linkText: "Mulai bikin undangan",
-    linkHref: "https://create.invitea.cards",
-    isExternal: true,
   },
   {
     id: "step-3",
@@ -98,26 +88,11 @@ export function WorkflowSection() {
                     {item.title}
                   </h3>
 
-                  {/* Expanded description on active state only (Identical to OpenDesign) */}
+                  {/* Expanded description on active state only (Pure text, zero icons) */}
                   {isActive && (
-                    <div className="mt-2 text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
-                      <p>{item.description}</p>
-
-                      {item.linkText && item.linkHref && (
-                        <div className="mt-3.5 pt-2.5 border-t border-white/15">
-                          <a
-                            href={item.linkHref}
-                            target={item.isExternal ? "_blank" : undefined}
-                            rel={item.isExternal ? "noopener noreferrer" : undefined}
-                            onClick={(e) => e.stopPropagation()}
-                            className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-pink hover:text-white transition-colors"
-                          >
-                            <span>{item.linkText}</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </a>
-                        </div>
-                      )}
-                    </div>
+                    <p className="mt-2 text-xs sm:text-sm text-white/80 leading-relaxed font-normal">
+                      {item.description}
+                    </p>
                   )}
                 </div>
               );
