@@ -6,10 +6,17 @@ export function HeroSection() {
     >
       {/* Background Wildflower Meadow Illustration (Hero-36 Signature) */}
       <div className="pointer-events-none absolute inset-0 z-0 will-change-transform select-none animate-hero-bg">
+        {/* Light Mode Hero Background */}
         <img
           src="/bg-hero-36.avif"
           alt="Wildflower meadow illustration"
-          className="h-full w-full object-cover object-bottom dark:opacity-20"
+          className="h-full w-full object-cover object-bottom dark:hidden"
+        />
+        {/* Dark Mode Hero Background (Dedicated) */}
+        <img
+          src="/bg-hero-36-dark.avif"
+          alt="Wildflower meadow dark illustration"
+          className="hidden h-full w-full object-cover object-bottom dark:block"
         />
       </div>
 
