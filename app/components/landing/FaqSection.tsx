@@ -67,9 +67,9 @@ export function FaqSection() {
       <div className="max-w-4xl mx-auto px-6 sm:px-8">
         {/* Section Header */}
         <div className="text-center mb-10 sm:mb-14">
-          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
-            Tanya Jawab
-          </span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
+            <span>Tanya Jawab</span>
+          </div>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
             Pertanyaan yang Sering Diajukan
           </h2>
@@ -93,7 +93,7 @@ export function FaqSection() {
                   transition={springTransition}
                   className={`w-full rounded-[22px] transition-colors duration-200 select-none overflow-hidden ${
                     isOpen
-                      ? "bg-white border border-berry/30 shadow-xs"
+                      ? "bg-white border border-black/20 shadow-xs"
                       : "bg-white/95 hover:bg-white border border-hairline/40 hover:border-hairline/70"
                   }`}
                 >
@@ -103,11 +103,11 @@ export function FaqSection() {
                     aria-expanded={isOpen}
                     aria-controls={contentId}
                     onClick={() => toggleItem(index)}
-                    className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berry/30 rounded-[22px]"
+                    className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 rounded-[22px]"
                   >
                     <span
                       className={`font-serif text-lg sm:text-xl font-medium leading-snug tracking-tight transition-colors duration-200 ${
-                        isOpen ? "text-berry" : "text-ink"
+                        isOpen ? "text-black font-semibold" : "text-ink"
                       }`}
                     >
                       {item.question}
@@ -117,7 +117,7 @@ export function FaqSection() {
                     <div
                       className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
                         isOpen
-                          ? "bg-berry/10 text-berry"
+                          ? "bg-black text-white"
                           : "bg-stone-100 text-ink-soft hover:text-ink"
                       }`}
                       aria-hidden="true"
@@ -178,7 +178,7 @@ export function FaqSection() {
             href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20ingin%20tanya%20seputar%20undangan%20pernikahan."
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-sm bg-berry text-white hover:bg-berry-deep transition-all duration-150 active:scale-95 shrink-0 shadow-xs"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-sm bg-black text-white hover:bg-neutral-800 transition-all duration-150 active:scale-95 shrink-0 shadow-xs"
           >
             <MessageCircle className="w-4 h-4" aria-hidden="true" />
             <span>Tanya via WhatsApp</span>

@@ -4,7 +4,7 @@ export function CtaSection() {
   return (
     <section id="inquiry" className="scroll-mt-20 py-14 sm:py-20 md:py-24 w-full">
       <div className="w-full px-6 sm:px-8 lg:px-12">
-        <div className="relative rounded-3xl sm:rounded-4xl bg-berry-deep text-cream-text px-6 py-10 sm:px-10 sm:py-14 lg:p-14 overflow-hidden border border-white/10 shadow-xl">
+        <div className="relative rounded-3xl sm:rounded-4xl bg-[#000000] text-white px-6 py-10 sm:px-10 sm:py-14 lg:p-14 overflow-hidden border border-white/10 shadow-xl">
           {/* Subtle curved background ornament matching Invitea brand mark */}
           <svg
             className="absolute -right-12 -bottom-12 sm:-right-16 sm:-bottom-16 w-72 h-72 sm:w-96 sm:h-96 opacity-10 pointer-events-none select-none"
@@ -15,24 +15,24 @@ export function CtaSection() {
           >
             <path
               d="M75 140C75 140 20 120 20 75C20 45 45 30 65 40C80 47 80 65 68 70C58 74 48 65 55 55"
-              stroke="oklch(94% 0.02 70)"
+              stroke="white"
               strokeWidth="1.5"
               strokeLinecap="round"
             />
-            <circle cx="75" cy="30" r="9" stroke="oklch(94% 0.02 70)" strokeWidth="1.5" />
+            <circle cx="75" cy="30" r="9" stroke="white" strokeWidth="1.5" />
           </svg>
 
           {/* Main 2-Column Grid: Left Content + Right Clean Device Showcase */}
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center">
             {/* Left Column: Left-aligned Content & Conversion Actions */}
             <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start text-left">
-              <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-pink-soft block mb-3 font-mono">
-                Mulai Hari Bahagiamu
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-cream-text leading-[1.15] text-balance">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-4 shadow-2xs">
+                <span>Mulai Hari Bahagiamu</span>
+              </div>
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-white leading-[1.15] text-balance">
                 Sampaikan Kabar Bahagiamu Mulai Hari Ini
               </h2>
-              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-cream-text/85 max-w-xl leading-relaxed font-sans text-balance">
+              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-white/80 max-w-xl leading-relaxed font-sans text-balance">
                 Mulai buat undangan pernikahan digital Anda secara mandiri dalam hitungan menit, atau konsultasikan konsep desain kustom bersama kami melalui WhatsApp.
               </p>
 
@@ -42,7 +42,7 @@ export function CtaSection() {
                   href="https://create.invitea.cards"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide bg-cream-text text-berry-deep hover:bg-white transition-all duration-150 shadow-sm active:scale-95 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide bg-[#9929EA] text-white hover:bg-[#851FD1] transition-all duration-150 shadow-sm active:scale-95 whitespace-nowrap"
                 >
                   <span>Mulai Buat Undangan Gratis</span>
                   <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -52,7 +52,7 @@ export function CtaSection() {
                   href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide border border-cream-text/60 text-cream-text hover:bg-cream-text/10 hover:border-cream-text transition-all duration-150 active:scale-95 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide border border-white/30 text-white hover:bg-white/10 hover:border-white transition-all duration-150 active:scale-95 whitespace-nowrap"
                 >
                   <MessageCircle className="w-4 h-4" aria-hidden="true" />
                   <span>Konsultasi via WhatsApp</span>

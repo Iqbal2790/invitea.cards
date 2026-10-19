@@ -117,29 +117,29 @@ export function Footer() {
   }, [isOpen]);
 
   return (
-    <footer className="relative w-full bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] border-t border-[oklch(38%_0.14_15)]">
-      {/* Tier 1 & 2: Wrapper Konten Solid */}
-      <div className="relative z-10 w-full bg-[oklch(28%_0.11_15)] px-6 sm:px-8 lg:px-12 pt-10 sm:pt-12">
-        {/* Tier 1: Navigasi Multi-Kolom */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pb-8 sm:pb-10">
+    <footer className="relative w-full bg-[#000000] text-white border-t border-white/10">
+      {/* Tier 1 & 2: Content Container */}
+      <div className="relative z-10 w-full bg-[#000000] px-6 sm:px-8 lg:px-12 pt-12 sm:pt-16">
+        {/* Tier 1: Multi-Column Navigation */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pb-10 sm:pb-14">
           {FOOTER_COLUMNS.map((column) => (
             <div key={column.title} className="space-y-4">
-              <h3 className="font-serif text-xs font-semibold uppercase tracking-wider text-[oklch(72%_0.09_16)]">
+              <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-white/50">
                 {column.title}
               </h3>
-              <ul className="space-y-3 text-sm text-[oklch(94%_0.02_70)]/80">
+              <ul className="space-y-2.5 text-sm text-white/70">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
                       target={link.isExternal ? "_blank" : undefined}
                       rel={link.isExternal ? "noopener noreferrer" : undefined}
-                      className="hover:text-[oklch(72%_0.09_16)] transition-colors inline-flex items-center gap-1 group"
+                      className="hover:text-white transition-colors inline-flex items-center gap-1 group"
                     >
                       <span>{link.label}</span>
                       {link.isExternal && (
                         <ArrowUpRight
-                          className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
+                          className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"
                           aria-hidden="true"
                         />
                       )}
@@ -152,17 +152,17 @@ export function Footer() {
         </div>
 
         {/* Tier 2: Options & Legal Bar */}
-        <div className="py-5 sm:py-6 border-t border-[oklch(38%_0.14_15)] flex flex-col xl:flex-row items-center justify-between gap-6 text-xs text-[oklch(94%_0.02_70)]/80">
-          {/* Kiri: Switch Bahasa (Interactive Dropdown) */}
+        <div className="py-6 border-t border-white/10 flex flex-col xl:flex-row items-center justify-between gap-6 text-xs text-white/60">
+          {/* Left: Language Selector */}
           <div ref={dropdownRef} className="relative">
             <button
               type="button"
               onClick={() => setIsOpen((prev) => !prev)}
               aria-haspopup="listbox"
               aria-expanded={isOpen}
-              className="flex items-center gap-2 text-xs font-medium text-[oklch(94%_0.02_70)]/90 hover:text-[oklch(72%_0.09_16)] cursor-pointer transition-colors group focus:outline-none"
+              className="flex items-center gap-2 text-xs font-medium text-white/80 hover:text-white cursor-pointer transition-colors group focus:outline-none"
             >
-              <Globe className="w-4 h-4 text-[oklch(72%_0.09_16)]" aria-hidden="true" />
+              <Globe className="w-4 h-4 text-white/60 group-hover:text-white" aria-hidden="true" />
               <span>{LANGUAGES.find((l) => l.code === selectedLang)?.label ?? "Indonesia (ID)"}</span>
               <ChevronDown
                 className={`w-3.5 h-3.5 opacity-60 transition-transform ${
@@ -175,7 +175,7 @@ export function Footer() {
             {isOpen && (
               <div
                 role="listbox"
-                className="absolute bottom-full mb-2 left-0 z-20 bg-[oklch(24%_0.09_15)] border border-[oklch(38%_0.14_15)] shadow-xl rounded-lg py-1 w-44 overflow-hidden"
+                className="absolute bottom-full mb-2 left-0 z-20 bg-[#121212] border border-white/15 shadow-2xl rounded-xl py-1.5 w-44 overflow-hidden"
               >
                 {LANGUAGES.map((item) => {
                   const isActive = selectedLang === item.code;
@@ -189,14 +189,14 @@ export function Footer() {
                         setSelectedLang(item.code);
                         setIsOpen(false);
                       }}
-                      className={`w-full text-left px-3 py-1.5 text-xs flex items-center justify-between transition-colors ${
+                      className={`w-full text-left px-3.5 py-2 text-xs flex items-center justify-between transition-colors ${
                         isActive
-                          ? "text-[oklch(72%_0.09_16)] font-semibold bg-[oklch(28%_0.11_15)]"
-                          : "text-[oklch(94%_0.02_70)]/80 hover:bg-[oklch(34%_0.12_15)] hover:text-white"
+                          ? "text-[#FAEB92] font-semibold bg-white/10"
+                          : "text-white/80 hover:bg-white/5 hover:text-white"
                       }`}
                     >
                       <span>{item.label}</span>
-                      {isActive && <span className="text-[oklch(72%_0.09_16)] text-xs font-bold">✓</span>}
+                      {isActive && <span className="text-[#FAEB92] text-xs font-bold">✓</span>}
                     </button>
                   );
                 })}
@@ -204,27 +204,27 @@ export function Footer() {
             )}
           </div>
 
-          {/* Tengah: Baris Copyright & Tautan Hukum */}
-          <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-1.5 text-center text-xs text-[oklch(94%_0.02_70)]/75">
+          {/* Center: Copyright & Legal */}
+          <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-1.5 text-center text-xs text-white/50">
             <span>© {currentYear} Invitea. Hak cipta dilindungi undang-undang.</span>
-            <span className="hidden sm:inline opacity-40">/</span>
-            <a href="#faq" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
+            <span className="hidden sm:inline opacity-30">/</span>
+            <a href="#faq" className="hover:text-white transition-colors">
               Kebijakan Privasi
             </a>
-            <span className="opacity-40">/</span>
-            <a href="#faq" className="hover:text-[oklch(72%_0.09_16)] transition-colors">
+            <span className="opacity-30">/</span>
+            <a href="#faq" className="hover:text-white transition-colors">
               Syarat &amp; Ketentuan
             </a>
           </div>
 
-          {/* Kanan: Tautan Ikon Media Sosial */}
-          <div className="flex items-center gap-4 text-[oklch(94%_0.02_70)]/80">
+          {/* Right: Social Media Icons */}
+          <div className="flex items-center gap-4 text-white/60">
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="hover:text-[oklch(72%_0.09_16)] transition-colors p-1"
+              className="hover:text-white transition-colors p-1"
             >
               <InstagramIcon className="w-4 h-4" />
             </a>
@@ -233,7 +233,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Threads"
-              className="hover:text-[oklch(72%_0.09_16)] transition-colors p-1"
+              className="hover:text-white transition-colors p-1"
             >
               <ThreadsIcon className="w-4 h-4" />
             </a>
@@ -242,7 +242,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="TikTok"
-              className="hover:text-[oklch(72%_0.09_16)] transition-colors p-1"
+              className="hover:text-white transition-colors p-1"
             >
               <TikTokIcon className="w-4 h-4" />
             </a>
@@ -251,7 +251,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="WhatsApp"
-              className="hover:text-[oklch(72%_0.09_16)] transition-colors p-1"
+              className="hover:text-white transition-colors p-1"
             >
               <WhatsAppIcon className="w-4 h-4" />
             </a>
@@ -259,9 +259,9 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Tier 3: Wordmark Container */}
+      {/* Tier 3: Giant Wordmark Watermark */}
       <div
-        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[oklch(28%_0.11_15)] border-t border-[oklch(38%_0.14_15)]/30 flex items-center justify-center select-none pointer-events-none pt-2 sm:pt-3 pb-1 sm:pb-2"
+        className="sticky bottom-0 z-0 w-full overflow-hidden bg-[#000000] border-t border-white/5 flex items-center justify-center select-none pointer-events-none pt-4 pb-2"
         aria-hidden="true"
       >
         <div className="w-full flex items-center justify-center">
@@ -273,7 +273,7 @@ export function Footer() {
             <text
               x="0"
               y="0"
-              className="font-serif font-bold fill-[oklch(94%_0.02_70)] tracking-tight"
+              className="font-serif font-bold fill-white/[0.14] tracking-tight"
               style={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 letterSpacing: "-0.025em",

@@ -170,9 +170,9 @@ export function WorkflowSection() {
         <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6">
           {/* Section Header */}
           <div className="max-w-3xl mb-6 sm:mb-8 lg:mb-10">
-            <p className="text-xs sm:text-sm font-mono font-semibold uppercase tracking-wider text-berry mb-2">
-              Alur 3 Langkah · Mulai Gratis
-            </p>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
+              <span>Alur 3 Langkah · Mulai Gratis</span>
+            </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ink tracking-tight leading-[1.15]">
               Dari pilih template, sampai undangan siap disebar.
             </h2>

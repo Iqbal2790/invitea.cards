@@ -15,10 +15,10 @@ export function HeroSection() {
 
       {/* Hero Content Stack */}
       <div className="relative z-10 flex flex-1 flex-col items-center justify-start px-4 sm:px-6 pt-8 sm:pt-10 md:pt-12 pb-12 text-center max-w-5xl mx-auto w-full">
-        {/* Eyebrow / Kicker */}
-        <p className="text-xs sm:text-sm font-medium tracking-wide text-ink/75 font-sans mb-3 sm:mb-4 will-change-transform animate-hero-badge">
-          Undangan nikah digital · Mulai gratis
-        </p>
+        {/* Eyebrow / Kicker Badge using #FAEB92 Butter Yellow */}
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-4 sm:mb-5 shadow-2xs will-change-transform animate-hero-badge">
+          <span>Undangan nikah digital · Mulai gratis</span>
+        </div>
 
         {/* Headline Utama Bold Tanpa Italic */}
         <h1 className="max-w-6xl text-4xl sm:text-5xl md:text-6xl lg:text-[3.85rem] xl:text-[4.35rem] leading-[1.1] font-bold tracking-tight text-ink">

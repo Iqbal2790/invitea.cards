@@ -96,7 +96,7 @@ export function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               aria-expanded={isOpen}
               aria-label={isOpen ? "Tutup menu" : "Buka menu"}
-              className="p-2 rounded-lg text-[oklch(23%_0.03_40)] hover:bg-[oklch(84%_0.05_18)]/30 focus:outline-none transition-colors"
+              className="p-2 rounded-lg text-black hover:bg-black/5 focus:outline-none transition-colors"
             >
               {isOpen ? (
                 <X className="w-6 h-6" aria-hidden="true" />
@@ -141,7 +141,7 @@ export function Navbar() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <span className="text-sm font-bold text-[#6E182A]">
+                      <span className="text-sm font-bold text-[#9929EA]">
                         {user.fullName?.charAt(0).toUpperCase() || "U"}
                       </span>
                     )}
@@ -159,7 +159,7 @@ export function Navbar() {
                 <a
                   href={plannerUrl}
                   onClick={closeMenu}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-[oklch(38%_0.14_15)] text-white text-xs font-semibold shadow-xs hover:bg-[oklch(34%_0.14_15)] transition-colors"
+                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-black text-white text-xs font-semibold shadow-xs hover:bg-neutral-800 transition-colors"
                 >
                   <LayoutDashboard className="w-3.5 h-3.5" />
                   <span>Buka Wedding Planner</span>

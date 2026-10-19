@@ -45,9 +45,9 @@ export function ServicesSection() {
       <div className="w-full px-6 sm:px-8 lg:px-12">
         {/* Section Header: Static crisp typography (no blur reveal on section header) */}
         <div className="max-w-3xl mb-12 sm:mb-16">
-          <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
-            Ekosistem Layanan
-          </span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
+            <span>Ekosistem Layanan</span>
+          </div>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
             Mulai dari yang kalian butuhkan.
           </h2>
@@ -69,7 +69,7 @@ export function ServicesSection() {
               <div className="lg:col-span-7 flex flex-col justify-between">
                 <div>
                   <BlurRevealItem staggerIndex={0}>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-pink-soft text-berry border border-pink-line/70 mb-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#FAEB92] text-black mb-4 shadow-2xs">
                       Gratis Digunakan
                     </div>
                   </BlurRevealItem>
@@ -107,7 +107,7 @@ export function ServicesSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
                   <BlurRevealCardItem index={0}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -123,7 +123,7 @@ export function ServicesSection() {
 
                   <BlurRevealCardItem index={1}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <Wallet className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -139,7 +139,7 @@ export function ServicesSection() {
 
                   <BlurRevealCardItem index={2}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <Users2 className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -155,7 +155,7 @@ export function ServicesSection() {
 
                   <BlurRevealCardItem index={3}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <CalendarDays className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -189,7 +189,7 @@ export function ServicesSection() {
                             Sarah &amp; Dimas
                           </h5>
                         </div>
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-pink-soft text-berry">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-black/5 text-black">
                           <Clock className="w-3.5 h-3.5" aria-hidden="true" />
                           H-30
                         </span>
@@ -203,11 +203,11 @@ export function ServicesSection() {
                           <span>Total Anggaran</span>
                           <span className="font-medium text-ink">Rp85.000.000</span>
                         </div>
-                        <div className="w-full h-2.5 rounded-full bg-pink-soft/80 overflow-hidden">
-                          <div className="h-full bg-berry rounded-full w-[62%]" />
+                        <div className="w-full h-2.5 rounded-full bg-black/10 overflow-hidden">
+                          <div className="h-full bg-[#9929EA] rounded-full w-[62%]" />
                         </div>
                         <div className="flex items-center justify-between mt-2.5 text-xs">
-                          <span className="text-berry font-medium">Terpakai: Rp52.700.000</span>
+                          <span className="text-black font-semibold">Terpakai: Rp52.700.000</span>
                           <span className="text-ink-soft">Sisa: Rp32.300.000</span>
                         </div>
                       </div>
@@ -224,25 +224,25 @@ export function ServicesSection() {
                         </div>
                         <div className="flex flex-col gap-2">
                           <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25">
-                            <CheckCircle2 className="w-4 h-4 text-berry shrink-0" />
+                            <CheckCircle2 className="w-4 h-4 text-black shrink-0" />
                             <span className="line-through text-ink-soft">
                               Konfirmasi Venue &amp; Katering
                             </span>
                           </div>
                           <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25">
-                            <CheckCircle2 className="w-4 h-4 text-berry shrink-0" />
+                            <CheckCircle2 className="w-4 h-4 text-black shrink-0" />
                             <span className="line-through text-ink-soft">
                               Pilih Desain Undangan Digital
                             </span>
                           </div>
                           <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25">
-                            <CheckCircle2 className="w-4 h-4 text-berry shrink-0" />
+                            <CheckCircle2 className="w-4 h-4 text-black shrink-0" />
                             <span className="line-through text-ink-soft">
                               Fitting Busana Pengantin
                             </span>
                           </div>
                           <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/50 font-medium">
-                            <div className="w-4 h-4 rounded-full border border-berry/60 shrink-0" />
+                            <div className="w-4 h-4 rounded-full border border-black/40 shrink-0" />
                             <span>Finalisasi Daftar Nama Tamu VIP</span>
                           </div>
                         </div>
@@ -253,7 +253,7 @@ export function ServicesSection() {
                     <BlurRevealItem staggerIndex={4}>
                       <div className="flex items-center justify-between pt-3 border-t border-hairline/60 text-xs">
                         <span className="text-ink-soft">Vendor Deal: 6 dari 8</span>
-                        <span className="text-berry font-semibold">Terkontrol</span>
+                        <span className="text-black font-semibold">Terkontrol</span>
                       </div>
                     </BlurRevealItem>
                   </div>
@@ -272,7 +272,7 @@ export function ServicesSection() {
               <div className="lg:col-span-6 flex flex-col justify-between">
                 <div>
                   <BlurRevealItem staggerIndex={0}>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-pink-soft text-berry border border-pink-line/70 mb-4">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#FAEB92] text-black mb-4 shadow-2xs">
                       Coba Gratis
                     </div>
                   </BlurRevealItem>
@@ -317,7 +317,7 @@ export function ServicesSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
                   <BlurRevealCardItem index={0}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <UserCheck className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -333,7 +333,7 @@ export function ServicesSection() {
 
                   <BlurRevealCardItem index={1}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <MessageSquareHeart className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -349,7 +349,7 @@ export function ServicesSection() {
 
                   <BlurRevealCardItem index={2}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <Globe2 className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -365,7 +365,7 @@ export function ServicesSection() {
 
                   <BlurRevealCardItem index={3}>
                     <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-pink-soft flex items-center justify-center text-berry shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-black shrink-0">
                         <MapPin className="w-5 h-5" aria-hidden="true" />
                       </div>
                       <div>
@@ -440,7 +440,7 @@ export function ServicesSection() {
                         {/* Section 2: Event Schedule & Map */}
                         <div className="w-full p-3 sm:p-4 bg-bg text-ink flex flex-col gap-2 sm:gap-2.5">
                           <div className="text-center">
-                            <span className="text-[7px] sm:text-[8px] uppercase tracking-wider text-berry font-semibold">
+                            <span className="text-[7px] sm:text-[8px] uppercase tracking-wider text-black/60 font-semibold">
                               Rangkaian Acara
                             </span>
                             <h6 className="font-serif text-xs sm:text-sm font-semibold text-ink mt-0.5">
@@ -450,12 +450,12 @@ export function ServicesSection() {
 
                           <div className="grid grid-cols-2 gap-1.5 text-[7px] sm:text-[8px]">
                             <div className="p-2 rounded-lg bg-bg-alt/40 border border-header-border">
-                              <span className="font-semibold text-berry block">Akad Nikah</span>
+                              <span className="font-semibold text-black block">Akad Nikah</span>
                               <span className="text-ink-soft block mt-0.5">08.00 - 10.00 WIB</span>
                               <span className="text-ink block mt-0.5 font-medium">Masjid Al-Barkah</span>
                             </div>
                             <div className="p-2 rounded-lg bg-bg-alt/40 border border-header-border">
-                              <span className="font-semibold text-berry block">Resepsi</span>
+                              <span className="font-semibold text-black block">Resepsi</span>
                               <span className="text-ink-soft block mt-0.5">11.00 - 14.00 WIB</span>
                               <span className="text-ink block mt-0.5 font-medium">Grand Ballroom</span>
                             </div>
@@ -464,16 +464,16 @@ export function ServicesSection() {
                           {/* Location Hook */}
                           <div className="p-1.5 sm:p-2 rounded-lg bg-bg-alt/30 border border-header-border flex items-center justify-between text-[7px] sm:text-[8px]">
                             <div className="flex items-center gap-1">
-                              <MapPin className="w-2.5 h-2.5 text-berry shrink-0" />
+                              <MapPin className="w-2.5 h-2.5 text-black shrink-0" />
                               <span className="text-ink font-medium">Jl. Sudirman No. 12, Jakarta</span>
                             </div>
-                            <span className="text-berry font-semibold">Buka Maps</span>
+                            <span className="text-black font-semibold">Buka Maps</span>
                           </div>
 
                           {/* RSVP Hook */}
-                          <div className="p-2 rounded-lg bg-pink-soft/50 border border-pink-line/60 flex items-center justify-between text-[7px] sm:text-[8px]">
+                          <div className="p-2 rounded-lg bg-black/5 border border-black/10 flex items-center justify-between text-[7px] sm:text-[8px]">
                             <span className="text-ink font-medium">Konfirmasi Kehadiran Tamu</span>
-                            <span className="px-2 py-0.5 rounded bg-berry text-white font-semibold">
+                            <span className="px-2 py-0.5 rounded bg-[#9929EA] text-white font-semibold">
                               Isi RSVP
                             </span>
                           </div>

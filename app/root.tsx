@@ -109,16 +109,16 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="pt-24 p-6 container mx-auto text-center">
-      <h1 className="font-serif text-4xl font-bold text-[oklch(23%_0.03_40)] mb-2">{message}</h1>
-      <p className="text-[oklch(40%_0.03_35)] mb-6">{details}</p>
+      <h1 className="font-serif text-4xl font-bold text-black mb-2">{message}</h1>
+      <p className="text-black/60 mb-6">{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto text-left text-xs bg-[oklch(28%_0.11_15)] text-[oklch(94%_0.02_70)] rounded-lg">
+        <pre className="w-full p-4 overflow-x-auto text-left text-xs bg-black text-white rounded-lg">
           <code>{stack}</code>
         </pre>
       )}
       <a
         href="/"
-        className="inline-block mt-4 px-6 py-2 rounded-full bg-[oklch(58%_0.13_15)] text-[oklch(94%_0.02_70)] text-sm font-medium hover:bg-[oklch(38%_0.14_15)] transition-colors"
+        className="inline-block mt-4 px-6 py-2 rounded-full bg-[#9929EA] text-white text-sm font-medium hover:bg-[#851FD1] transition-colors"
       >
         Kembali ke Beranda
       </a>

@@ -158,13 +158,13 @@ function ConveyorRow({
             <div>
               {/* Top: 5-Star Rating (Pure Stars, No Badges) */}
               <div
-                className="flex items-center gap-1 text-berry mb-3"
+                className="flex items-center gap-1 text-[#FAEB92] mb-3"
                 aria-label="Rating 5 bintang"
               >
                 {[...Array(5)].map((_, i) => (
                   <Star
                     key={i}
-                    className="w-4 h-4 fill-berry text-berry"
+                    className="w-4 h-4 fill-[#FAEB92] text-[#FAEB92]"
                     aria-hidden="true"
                   />
                 ))}
@@ -202,9 +202,9 @@ export function TestimonialsSection() {
     >
       {/* Section Header: Standardized font and size */}
       <div className="max-w-6xl mx-auto px-6 sm:px-8 text-center mb-10 sm:mb-14">
-        <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase text-berry block mb-2 font-mono">
-          Testimoni Pasangan
-        </span>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
+          <span>Testimoni Pasangan</span>
+        </div>
         <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
           Cerita Bahagia Bersama Invitea
         </h2>
