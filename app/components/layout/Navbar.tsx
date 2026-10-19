@@ -40,7 +40,7 @@ export function Navbar() {
           {/* Brand Mark */}
           <a
             href="#hero"
-            className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-[oklch(23%_0.03_40)] hover:text-[oklch(38%_0.14_15)] transition-colors"
+            className="font-logo text-2xl md:text-3xl font-bold tracking-tight text-[oklch(23%_0.03_40)] hover:text-[oklch(38%_0.14_15)] transition-colors"
           >
             Invitea.
           </a>

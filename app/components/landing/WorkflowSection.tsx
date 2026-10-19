@@ -83,8 +83,8 @@ export function WorkflowSection() {
                   onClick={() => setActiveStep(idx)}
                   className={`relative rounded-2xl transition-all duration-300 cursor-pointer ${
                     isActive
-                      ? "bg-[#2D1E1E] text-white p-6 sm:p-7 shadow-lg shadow-black/10 ring-1 ring-black/20"
-                      : "bg-white/60 hover:bg-white text-ink border border-black/6 hover:border-black/15 p-5 sm:p-6"
+                      ? "bg-[#2D1E1E] text-white p-6 sm:p-7 shadow-lg shadow-black/10"
+                      : "bg-transparent hover:bg-black/[0.03] text-ink p-5 sm:p-6"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -138,14 +138,14 @@ export function WorkflowSection() {
             })}
           </div>
 
-          {/* Right Column: Visual Preview Container with Dummy Images (7 cols) */}
+          {/* Right Column: Visual Preview Container with Dummy Images (7 cols) - Borderless OpenDesign Style */}
           <div className="lg:col-span-7">
-            <div className="relative w-full rounded-3xl bg-[#FAF5E9]/60 border border-black/10 overflow-hidden shadow-sm aspect-16/10 sm:aspect-4/3 lg:aspect-16/10 flex items-center justify-center p-2.5 sm:p-3.5">
+            <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-16/10 sm:aspect-4/3 lg:aspect-16/10">
               <img
                 key={activeStep}
                 src={STEP_IMAGES[activeStep].src}
                 alt={STEP_IMAGES[activeStep].alt}
-                className="w-full h-full object-cover rounded-2xl border border-black/8 shadow-2xs transition-all duration-300"
+                className="w-full h-full object-cover rounded-2xl sm:rounded-3xl transition-all duration-300"
               />
             </div>
           </div>

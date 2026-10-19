@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Google+Sans+Flex:opsz,wght@6..72,400..700&family=Google+Sans+Text:wght@400;500;700&display=swap');
 @import "tailwindcss" source(".");
 
 @theme {
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-logo: "Cormorant Garamond", Georgia, serif;
+  --font-serif: "Google Sans Flex", "Google Sans", "Google Sans Text", sans-serif;
+  --font-sans: "Google Sans Flex", "Google Sans", "Google Sans Text", sans-serif;
 
   --color-bg: oklch(96% 0.02 75);
   --color-bg-alt: oklch(91% 0.035 25);
@@ -36,6 +37,10 @@ html, body {
 
 .font-editorial {
   font-family: var(--font-serif);
+}
+
+.font-logo {
+  font-family: var(--font-logo);
 }
 
 .no-scrollbar::-webkit-scrollbar {

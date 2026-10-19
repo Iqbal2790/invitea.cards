@@ -63,7 +63,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Manrope:wght@300;400;500;600;700&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Google+Sans+Flex:opsz,wght@6..72,400..700&family=Google+Sans+Text:wght@400;500;700&display=swap",
   },
 ];
 
