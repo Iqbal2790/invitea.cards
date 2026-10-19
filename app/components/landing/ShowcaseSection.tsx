@@ -353,10 +353,10 @@ export function ShowcaseSection() {
         </div>
       </div>
 
-      {/* Progress Dots: Centered under conveyor belt */}
-      <div className="w-full px-6 sm:px-8 lg:px-12 mt-4 sm:mt-5 flex items-center justify-center">
+      {/* Progress Dots: Centered under conveyor belt with comfortable spacing from scaled active card */}
+      <div className="w-full px-6 sm:px-8 lg:px-12 mt-8 sm:mt-10 lg:mt-12 flex items-center justify-center relative z-20">
         {/* Indicator dots */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-2 sm:gap-2.5 p-1 rounded-full bg-black/5 dark:bg-white/10 backdrop-blur-xs">
           {TEMPLATES.map((_, idx) => (
             <button
               key={idx}
@@ -366,10 +366,10 @@ export function ShowcaseSection() {
                 setActiveIndex(BASE_OFFSET + idx);
               }}
               aria-label={`Lihat tema nomor ${idx + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                 currentDisplayIndex === idx
-                  ? "w-7 bg-black"
-                  : "w-2 bg-black/20 hover:bg-black/40"
+                  ? "w-7 bg-black dark:bg-white shadow-2xs"
+                  : "w-2 bg-black/25 dark:bg-white/40 hover:bg-black/50 dark:hover:bg-white/70"
               }`}
             />
           ))}
