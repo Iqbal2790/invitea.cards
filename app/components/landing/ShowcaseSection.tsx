@@ -81,25 +81,50 @@ export function ShowcaseSection() {
   const trackRef = useRef<HTMLDivElement>(null);
   const touchStartXRef = useRef<number | null>(null);
   const isSlidingRef = useRef(false);
+  const slideWatchdogRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Failsafe watchdog: guarantee sliding lock is always released even if transitionend is dropped
+  const startSlideWatchdog = useCallback(() => {
+    if (slideWatchdogRef.current) clearTimeout(slideWatchdogRef.current);
+    slideWatchdogRef.current = setTimeout(() => {
+      isSlidingRef.current = false;
+    }, 750);
+  }, []);
 
   // Enable transitions only after client-side mount
   useEffect(() => {
     setHasMounted(true);
+    return () => {
+      if (slideWatchdogRef.current) clearTimeout(slideWatchdogRef.current);
+    };
+  }, []);
+
+  // Unlock slider when document is hidden or returns to view (tab switch protection)
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden) {
+        isSlidingRef.current = false;
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
   }, []);
 
   const handleNext = useCallback(() => {
     if (isSlidingRef.current) return;
     isSlidingRef.current = true;
+    startSlideWatchdog();
     setIsTransitioning(true);
     setActiveIndex((prev) => prev + 1);
-  }, []);
+  }, [startSlideWatchdog]);
 
   const handlePrev = useCallback(() => {
     if (isSlidingRef.current) return;
     isSlidingRef.current = true;
+    startSlideWatchdog();
     setIsTransitioning(true);
     setActiveIndex((prev) => prev - 1);
-  }, []);
+  }, [startSlideWatchdog]);
 
   // Endless loop wrap-around without visual jump
   const handleTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
@@ -112,9 +137,11 @@ export function ShowcaseSection() {
     } else if (activeIndex < BASE_OFFSET) {
       setIsTransitioning(false);
       setActiveIndex(activeIndex + TEMPLATES.length);
-    } else {
-      isSlidingRef.current = false;
     }
+
+    // Always release lock when transform finishes
+    isSlidingRef.current = false;
+    if (slideWatchdogRef.current) clearTimeout(slideWatchdogRef.current);
   };
 
   // Re-enable smooth transition after silent loop jump via double rAF + reflow
@@ -168,8 +195,6 @@ export function ShowcaseSection() {
   return (
     <section
       id="katalog"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
       className="scroll-mt-20 py-6 sm:py-9 md:py-12 w-full overflow-hidden"
     >
       <style
@@ -243,8 +268,6 @@ export function ShowcaseSection() {
       {/* Endless Conveyor Belt Track: Full Viewport Width */}
       <div
         ref={containerRef}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         className="w-full overflow-visible py-3 sm:py-5 md:py-6 select-none relative"
@@ -265,7 +288,9 @@ export function ShowcaseSection() {
             <div
               key={`${item.id}-${idx}`}
               onClick={() => {
-                if (!isActive) {
+                if (!isActive && !isSlidingRef.current) {
+                  isSlidingRef.current = true;
+                  startSlideWatchdog();
                   setIsTransitioning(true);
                   setActiveIndex(idx);
                 }
@@ -322,34 +347,36 @@ export function ShowcaseSection() {
                 />
               </div>
 
-              {/* Action Buttons Below Smartphone: Only visible on active center card */}
-                <div
-                  className={`w-full mt-3.5 flex flex-col sm:flex-row items-center justify-center gap-2 transition-all duration-300 ${
-                    isActive ? "opacity-100" : "opacity-0 pointer-events-none select-none"
-                  }`}
+              {/* Action Buttons Below Smartphone: Only visible on active center card (Pause autoplay only when targeting buttons) */}
+              <div
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                className={`w-full mt-3.5 flex flex-col sm:flex-row items-center justify-center gap-2 transition-all duration-300 ${
+                  isActive ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none select-none"
+                }`}
+              >
+                <a
+                  href={item.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:flex-1 h-9.5 px-3 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 text-xs font-semibold text-black dark:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-black/35 dark:hover:border-white/40 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
                 >
-                  <a
-                    href={item.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 text-xs font-semibold text-black dark:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-black/35 dark:hover:border-white/40 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
-                  >
-                    <Eye className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
-                    <span>Live Demo</span>
-                  </a>
-                  <a
-                    href={`https://create.invitea.cards?theme=${item.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:flex-1 h-9.5 px-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-xs font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
-                  >
-                    <span>Gunakan Tema</span>
-                    <ExternalLink className="w-3 h-3 opacity-80 shrink-0" aria-hidden="true" />
-                  </a>
-                </div>
+                  <Eye className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
+                  <span>Live Demo</span>
+                </a>
+                <a
+                  href={`https://create.invitea.cards?theme=${item.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:flex-1 h-9.5 px-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-xs font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
+                >
+                  <span>Gunakan Tema</span>
+                  <ExternalLink className="w-3 h-3 opacity-80 shrink-0" aria-hidden="true" />
+                </a>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
         </div>
       </div>
 
@@ -362,8 +389,12 @@ export function ShowcaseSection() {
               key={idx}
               type="button"
               onClick={() => {
+                const target = BASE_OFFSET + idx;
+                if (target === activeIndex || isSlidingRef.current) return;
+                isSlidingRef.current = true;
+                startSlideWatchdog();
                 setIsTransitioning(true);
-                setActiveIndex(BASE_OFFSET + idx);
+                setActiveIndex(target);
               }}
               aria-label={`Lihat tema nomor ${idx + 1}`}
               className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
