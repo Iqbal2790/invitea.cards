@@ -71,22 +71,18 @@ function useTheme() {
       Math.max(y, window.innerHeight - y)
     );
 
+    document.documentElement.style.setProperty("--vt-x", `${x}px`);
+    document.documentElement.style.setProperty("--vt-y", `${y}px`);
+    document.documentElement.style.setProperty("--vt-r", `${endRadius}px`);
+    document.documentElement.classList.add("theme-transitioning");
+
     const transition = doc.startViewTransition(applyTheme);
 
-    transition.ready.then(() => {
-      document.documentElement.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 750,
-          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-          pseudoElement: "::view-transition-new(root)",
-        }
-      );
+    transition.finished.finally(() => {
+      document.documentElement.classList.remove("theme-transitioning");
+      document.documentElement.style.removeProperty("--vt-x");
+      document.documentElement.style.removeProperty("--vt-y");
+      document.documentElement.style.removeProperty("--vt-r");
     });
   };
 
