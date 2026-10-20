@@ -81,8 +81,16 @@ export function WorkflowSection() {
       p.style.transform = `translate3d(0, ${ty}%, 0)`;
     });
 
-    // 2. Active step highlight (switch at 50% midpoint of panel transition)
-    const currentIdx = Math.min(STEPS.length - 1, Math.max(0, Math.round(progress)));
+    // 2. Active step highlight: only expand when the step has arrived at the top (>= 0.90 threshold)
+    let currentIdx = 0;
+    if (progress >= 1.90) {
+      currentIdx = 2;
+    } else if (progress >= 0.90) {
+      currentIdx = 1;
+    } else {
+      currentIdx = 0;
+    }
+
     if (!isClickScrollingRef.current && currentIdx !== activeStepRef.current) {
       activeStepRef.current = currentIdx;
       setActiveStep(currentIdx);
