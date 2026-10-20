@@ -20,7 +20,7 @@ const FEATURES: readonly Feature[] = [
   {
     title: "Kontrol Anggaran",
     description:
-      "Catat rencana biaya, uang muka (DP), dan pelunasan vendor dalam satu tempat rapi.",
+      "Catat rencana biaya, uang muka (DP), dan pelunasan seluruh vendor dalam satu tempat rapi.",
   },
   {
     title: "Sinkronisasi Otomatis",
@@ -52,10 +52,10 @@ function FeatureCard({ feature, index }: FeatureCardProps) {
         visible: { opacity: 1, y: 0 },
       }}
       viewOptions={{ amount: 0.2 }}
-      className="h-full"
+      className="w-full"
       once
     >
-      <article className="group relative h-full overflow-hidden rounded-2xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 backdrop-blur-sm shadow-2xs hover:border-hairline transition-all duration-300 flex flex-col justify-between">
+      <article className="group relative w-full overflow-hidden rounded-2xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 backdrop-blur-sm shadow-2xs hover:border-hairline transition-all duration-300">
         <DottedGlow />
 
         <div className="relative z-10 flex flex-col gap-2.5">
@@ -93,8 +93,8 @@ export function ServicesSection() {
           </h2>
         </div>
 
-        {/* Offset 2-Column Grid (Hirael Feature 05 pattern) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl">
+        {/* Offset 2-Column Grid (Hirael Feature 05 pattern with items-start and uniform cards) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-5xl items-start">
           {columns.map((column, colIndex) => (
             <div
               key={colIndex}
