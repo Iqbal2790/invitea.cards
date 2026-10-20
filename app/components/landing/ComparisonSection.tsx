@@ -57,7 +57,7 @@ export function ComparisonSection() {
                   aria-hidden="true"
                   className="w-4 h-4 text-neutral-500 dark:text-neutral-400 shrink-0"
                 />
-                <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-neutral-600 dark:text-neutral-400">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-neutral-600 dark:text-neutral-400">
                   Cara lama / Vendor konvensional
                 </h3>
               </div>
@@ -88,7 +88,7 @@ export function ComparisonSection() {
                   aria-hidden="true"
                   className="w-4 h-4 text-[#9929EA] dark:text-[#FF5FCF] shrink-0"
                 />
-                <h3 className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-black dark:text-white">
+                <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-black dark:text-white">
                   Bikin di Invitea
                 </h3>
               </div>
@@ -118,7 +118,7 @@ export function ComparisonSection() {
                 <dt className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-sans">
                   {outcome.label}
                 </dt>
-                <dd className="order-first font-mono text-sm sm:text-base font-bold tracking-tight text-black dark:text-white">
+                <dd className="order-first text-sm sm:text-base font-bold tracking-tight text-black dark:text-white">
                   {outcome.value}
                 </dd>
               </div>

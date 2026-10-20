@@ -359,7 +359,7 @@ export function ShowcaseSection() {
                   href={item.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:flex-1 h-9.5 px-3 rounded-full border border-black/15 dark:border-white/20 bg-white dark:bg-neutral-900 text-xs font-semibold text-black dark:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:border-black/35 dark:hover:border-white/40 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
+                  className="w-full sm:flex-1 h-9.5 px-3 rounded-full ring-1 ring-inset ring-black/15 dark:ring-white/20 bg-white dark:bg-neutral-900 text-xs font-semibold text-black dark:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:ring-black/35 dark:hover:ring-white/40 transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
                 >
                   <Eye className="w-3.5 h-3.5 opacity-70 shrink-0" aria-hidden="true" />
                   <span>Live Demo</span>
