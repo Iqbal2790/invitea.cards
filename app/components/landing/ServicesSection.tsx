@@ -62,18 +62,12 @@ export function ServicesSection() {
               <div className="lg:col-span-7 flex flex-col justify-between">
                 <div>
                   <BlurRevealItem staggerIndex={0}>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#FAEB92] text-black mb-4 shadow-2xs">
-                      Gratis Digunakan
-                    </div>
-                  </BlurRevealItem>
-
-                  <BlurRevealItem staggerIndex={1}>
                     <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ink tracking-tight">
                       Wedding Planner
                     </h3>
                   </BlurRevealItem>
 
-                  <BlurRevealItem staggerIndex={2}>
+                  <BlurRevealItem staggerIndex={1}>
                     <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
                       Checklist, anggaran, vendor, jadwal, dan hari-H. Kelola seluruh
                       persiapan pernikahan dengan rapi dalam satu tempat tanpa
@@ -81,13 +75,13 @@ export function ServicesSection() {
                     </p>
                   </BlurRevealItem>
 
-                  <BlurRevealItem staggerIndex={3}>
+                  <BlurRevealItem staggerIndex={2}>
                     <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4">
                       <a
                         href="https://plan.invitea.cards"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-black dark:bg-white text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors shadow-sm active:scale-95"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
                       >
                         <span>Buka Planner</span>
                         <ArrowUpRight className="w-4 h-4 opacity-80" aria-hidden="true" />
@@ -265,18 +259,12 @@ export function ServicesSection() {
               <div className="lg:col-span-6 flex flex-col justify-between">
                 <div>
                   <BlurRevealItem staggerIndex={0}>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#FAEB92] text-black mb-4 shadow-2xs">
-                      Coba Gratis
-                    </div>
-                  </BlurRevealItem>
-
-                  <BlurRevealItem staggerIndex={1}>
                     <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ink tracking-tight">
                       Undangan Digital
                     </h3>
                   </BlurRevealItem>
 
-                  <BlurRevealItem staggerIndex={2}>
+                  <BlurRevealItem staggerIndex={1}>
                     <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
                       Website undangan pernikahan berdomain nama sendiri. Bagikan
                       momen berharga dengan RSVP otomatis, rute peta presisi, dan buku
@@ -285,7 +273,7 @@ export function ServicesSection() {
                     </p>
                   </BlurRevealItem>
 
-                  <BlurRevealItem staggerIndex={3}>
+                  <BlurRevealItem staggerIndex={2}>
                     <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5">
                       <a
                         href="https://create.invitea.cards"
@@ -293,7 +281,7 @@ export function ServicesSection() {
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
                       >
-                        <span>Buat Undangan Gratis</span>
+                        <span>Buat Undangan</span>
                         <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
                       </a>
                       <a
