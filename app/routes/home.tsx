@@ -4,6 +4,7 @@ import { Footer } from "../components/layout/Footer";
 import { HeroSection } from "../components/landing/HeroSection";
 import { WorkflowSection } from "../components/landing/WorkflowSection";
 import { ShowcaseSection } from "../components/landing/ShowcaseSection";
+import { ComparisonSection } from "../components/landing/ComparisonSection";
 import { ServicesSection } from "../components/landing/ServicesSection";
 import { PricingSection } from "../components/landing/PricingSection";
 import { TestimonialsSection } from "../components/landing/TestimonialsSection";
@@ -105,6 +106,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <HeroSection />
         <WorkflowSection />
         <ShowcaseSection />
+        <ComparisonSection />
         <ServicesSection />
         <PricingSection />
         <TestimonialsSection />
