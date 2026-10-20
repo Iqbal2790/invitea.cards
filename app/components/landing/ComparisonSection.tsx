@@ -1,130 +1,142 @@
-import { X, Check } from "lucide-react";
+import {
+  ArrowRight,
+  Check,
+  CircleAlert,
+  CircleCheck,
+  Minus,
+} from "lucide-react";
 
-interface ComparisonItem {
-  id: string;
-  title: string;
-  before: {
-    tag: string;
-    text: string;
-  };
-  after: {
-    tag: string;
-    text: string;
-  };
-}
+const BEFORE = [
+  "Typo nama orang tua atau gelar, harus antre chat dan tunggu berjam-jam untuk revisi vendor",
+  "Mau lihat preview jadinya saja wajib registrasi akun, isi formulir, atau transfer DP di muka",
+  "Konfirmasi kehadiran tercecer di chat WhatsApp dan spreadsheet manual, rawan salah porsi katering",
+  "Salin-tempel dan ganti nama tamu satu per satu secara manual, rawan salah sapa tamu penting",
+] as const;
 
-const COMPARISON_ITEMS: ComparisonItem[] = [
-  {
-    id: "typo",
-    title: "Salah Ketik & Perubahan Data",
-    before: {
-      tag: "Cara lama",
-      text: "Ada salah ketik nama atau perubahan jam acara, harus antre chat vendor dan tunggu berjam-jam untuk revisi.",
-    },
-    after: {
-      tag: "Di Invitea",
-      text: "Buka editor, edit sendiri, langsung ter-update detik itu juga tanpa perlu nunggu siapa pun.",
-    },
-  },
-  {
-    id: "trial",
-    title: "Coba Desain & Bikin Undangan",
-    before: {
-      tag: "Cara lama",
-      text: "Mau lihat jadinya saja wajib registrasi akun, verifikasi nomor HP, atau bayar DP di awal.",
-    },
-    after: {
-      tag: "Di Invitea",
-      text: "Bebas pilih template dan isi data tanpa login. Puas lihat jadinya, baru putuskan lanjut.",
-    },
-  },
-  {
-    id: "rsvp",
-    title: "Rekap Tamu & RSVP Katering",
-    before: {
-      tag: "Cara lama",
-      text: "Konfirmasi kehadiran tercecer di chat WhatsApp dan spreadsheet manual. Rawan salah hitung porsi.",
-    },
-    after: {
-      tag: "Di Invitea",
-      text: "Tamu konfirmasi langsung di undangan, jumlah kehadiran dan ucapan otomatis terekap rapi di Wedding Planner.",
-    },
-  },
-  {
-    id: "personalization",
-    title: "Sebar Undangan Personal",
-    before: {
-      tag: "Cara lama",
-      text: "Ketik dan ganti nama tamu satu per satu secara manual di pesan broadcast, rawan salah nama atau salah kirim.",
-    },
-    after: {
-      tag: "Di Invitea",
-      text: "Generator nama tamu otomatis, satu klik langsung kirim link personal ke WhatsApp masing-masing.",
-    },
-  },
-];
+const AFTER = [
+  "Buka editor dari HP, ralat sendiri dalam hitungan detik, langsung live tanpa nunggu siapa pun",
+  "Bebas pilih template dan isi detail acaramu tanpa login. Puas dengan hasilnya, baru lanjut",
+  "Tamu konfirmasi di undangan, data RSVP dan ucapan otomatis terekap rapi di Wedding Planner",
+  "Generator link personal otomatis per tamu, satu klik langsung siap kirim ke WhatsApp",
+] as const;
+
+const OUTCOMES = [
+  { value: "10 detik", label: "revisi mandiri langsung live" },
+  { value: "0 login", label: "bebas coba template tanpa akun" },
+  { value: "1 klik", label: "generator link personal WhatsApp" },
+] as const;
 
 export function ComparisonSection() {
   return (
     <section
       id="perbandingan"
-      className="scroll-mt-20 py-12 sm:py-16 md:py-20 w-full"
+      className="scroll-mt-20 py-16 sm:py-20 lg:py-24 w-full bg-transparent"
+      aria-labelledby="comparison-heading"
     >
       {/* Anchor alias */}
       <div id="skenario" className="sr-only" aria-hidden="true" />
 
-      {/* Section Header: Aligned with Section 2 & 3 Margin (1580px max-w, px-4 sm:px-6) */}
-      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6 mb-8 sm:mb-10 lg:mb-12">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-ink tracking-tight leading-[1.15]">
-          Bikin undangan nggak harus seribet itu.
-        </h2>
-      </div>
-
-      {/* Comparison Grid: 2x2 on desktop, 1 col on mobile */}
       <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-          {COMPARISON_ITEMS.map((item) => (
-            <div
-              key={item.id}
-              className="rounded-2xl sm:rounded-3xl border border-black/10 dark:border-white/10 bg-white/70 dark:bg-neutral-900/60 backdrop-blur-xs p-5 sm:p-7 flex flex-col justify-between shadow-2xs hover:border-black/20 dark:hover:border-white/20 transition-colors"
-            >
-              {/* Card Title */}
-              <h3 className="text-lg sm:text-xl font-bold text-ink tracking-tight mb-4 sm:mb-5">
-                {item.title}
-              </h3>
+        {/* Section Header: Aligned with Section 2 & 3 Margin, bold Google Sans, no subtitle */}
+        <div className="max-w-3xl mb-8 sm:mb-10 lg:mb-12">
+          <h2
+            id="comparison-heading"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-ink tracking-tight leading-[1.15]"
+          >
+            Bikin undangan nggak harus seribet itu.
+          </h2>
+        </div>
 
-              {/* Juxtaposed Comparison Sub-cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 flex-1">
-                {/* Sebelum / Cara Lama */}
-                <div className="rounded-xl p-4 bg-stone-100/70 dark:bg-neutral-950/70 border border-black/5 dark:border-white/5 flex flex-col">
-                  <div className="flex items-center gap-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-semibold uppercase tracking-wider mb-2">
-                    <X
-                      className="w-3.5 h-3.5 text-neutral-400 dark:text-neutral-500 shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>{item.before.tag}</span>
-                  </div>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-sans flex-1">
-                    {item.before.text}
-                  </p>
-                </div>
-
-                {/* Sesudah / Di Invitea */}
-                <div className="rounded-xl p-4 bg-white dark:bg-neutral-950 border border-black/15 dark:border-white/20 shadow-2xs flex flex-col">
-                  <div className="flex items-center gap-1.5 text-black dark:text-white text-xs font-bold uppercase tracking-wider mb-2">
-                    <Check
-                      className="w-3.5 h-3.5 text-[#9929EA] dark:text-[#FF5FCF] shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span>{item.after.tag}</span>
-                  </div>
-                  <p className="text-sm text-black dark:text-white font-medium leading-relaxed font-sans flex-1">
-                    {item.after.text}
-                  </p>
-                </div>
+        {/* Juxtaposed Comparison Grid (Hirael Comparison 03 Pattern) */}
+        <div className="grid gap-px overflow-hidden rounded-2xl sm:rounded-3xl border border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/10 md:grid-cols-2 shadow-2xs">
+          {/* Sisi Kiri: Cara Lama / Vendor Konvensional */}
+          <div className="bg-white/90 dark:bg-neutral-950 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-8">
+                <CircleAlert
+                  aria-hidden="true"
+                  className="w-4 h-4 text-neutral-500 dark:text-neutral-400 shrink-0"
+                />
+                <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-neutral-600 dark:text-neutral-400">
+                  Cara lama / Vendor konvensional
+                </h3>
               </div>
+              <ul className="flex flex-col gap-4 sm:gap-5">
+                {BEFORE.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-sm sm:text-base text-neutral-800 dark:text-neutral-200 leading-relaxed font-sans"
+                  >
+                    <Minus
+                      aria-hidden="true"
+                      className="mt-1 w-4 h-4 shrink-0 text-neutral-400 dark:text-neutral-500"
+                    />
+                    <span className="line-through decoration-neutral-400/60 dark:decoration-neutral-500/60">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          ))}
+          </div>
+
+          {/* Sisi Kanan: Bikin di Invitea */}
+          <div className="bg-stone-50/70 dark:bg-neutral-900/70 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-8">
+                <CircleCheck
+                  aria-hidden="true"
+                  className="w-4 h-4 text-[#9929EA] dark:text-[#FF5FCF] shrink-0"
+                />
+                <h3 className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-black dark:text-white">
+                  Bikin di Invitea
+                </h3>
+              </div>
+              <ul className="flex flex-col gap-4 sm:gap-5">
+                {AFTER.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-sm sm:text-base text-black dark:text-white font-medium leading-relaxed font-sans"
+                  >
+                    <Check
+                      aria-hidden="true"
+                      className="mt-1 w-4 h-4 shrink-0 text-[#9929EA] dark:text-[#FF5FCF]"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Outcomes & CTA Row */}
+        <div className="mt-8 sm:mt-10 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+          <dl className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
+            {OUTCOMES.map((outcome) => (
+              <div key={outcome.value} className="flex items-baseline gap-2">
+                <dt className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 font-sans">
+                  {outcome.label}
+                </dt>
+                <dd className="order-first font-mono text-sm sm:text-base font-bold tracking-tight text-black dark:text-white">
+                  {outcome.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <a
+            href="https://create.invitea.cards"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center gap-2 rounded-full bg-black dark:bg-white px-6 py-3 text-sm font-medium text-white dark:text-black shadow-xs hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all cursor-pointer active:scale-[0.98]"
+          >
+            <span>Mulai buat undangan</span>
+            <ArrowRight
+              aria-hidden="true"
+              className="w-3.5 h-3.5 transition-transform duration-150 ease-out group-hover:translate-x-0.5"
+            />
+          </a>
         </div>
       </div>
     </section>
