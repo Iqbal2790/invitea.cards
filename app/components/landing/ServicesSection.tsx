@@ -1,5 +1,3 @@
-import { useRef } from "react";
-import { useScroll } from "framer-motion";
 import {
   CheckCircle2,
   CalendarDays,
@@ -13,25 +11,8 @@ import {
   ArrowRight,
   ArrowUpRight,
 } from "lucide-react";
-import {
-  BlurRevealItem,
-  BlurRevealCardItem,
-  BlurRevealContainer,
-} from "~/components/ui/ScrollText";
 
 export function ServicesSection() {
-  const card1Ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: card1Progress } = useScroll({
-    target: card1Ref,
-    offset: ["start 95%", "start 80%"],
-  });
-
-  const card2Ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: card2Progress } = useScroll({
-    target: card2Ref,
-    offset: ["start 95%", "start 80%"],
-  });
-
   return (
     <section
       id="layanan"
@@ -50,324 +31,270 @@ export function ServicesSection() {
           </h2>
         </div>
 
-        {/* Services Showcase Cards: All inner elements with Framer Blur Reveal */}
+        {/* Services Showcase Cards */}
         <div className="flex flex-col gap-10 sm:gap-12 lg:gap-16">
           {/* Card 1: Wedding Planner */}
-          <div
-            ref={card1Ref}
-            className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 transition-all shadow-sm"
-          >
+          <div className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 transition-all shadow-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Copy & Sub-features */}
               <div className="lg:col-span-7 flex flex-col justify-between">
                 <div>
-                  <BlurRevealItem staggerIndex={0}>
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ink tracking-tight">
-                      Wedding Planner
-                    </h3>
-                  </BlurRevealItem>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ink tracking-tight">
+                    Wedding Planner
+                  </h3>
 
-                  <BlurRevealItem staggerIndex={1}>
-                    <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
-                      Checklist, anggaran, vendor, jadwal, dan hari-H. Kelola seluruh
-                      persiapan pernikahan dengan rapi dalam satu tempat tanpa
-                      spreadsheet manual.
-                    </p>
-                  </BlurRevealItem>
+                  <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
+                    Checklist, anggaran, vendor, jadwal, dan hari-H. Kelola seluruh
+                    persiapan pernikahan dengan rapi dalam satu tempat tanpa
+                    spreadsheet manual.
+                  </p>
 
-                  <BlurRevealItem staggerIndex={2}>
-                    <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4">
-                      <a
-                        href="https://plan.invitea.cards"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
-                      >
-                        <span>Buka Planner</span>
-                        <ArrowUpRight className="w-4 h-4 opacity-80" aria-hidden="true" />
-                      </a>
-                    </div>
-                  </BlurRevealItem>
+                  <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4">
+                    <a
+                      href="https://plan.invitea.cards"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
+                    >
+                      <span>Buka Planner Gratis</span>
+                      <ArrowUpRight className="w-4 h-4 opacity-80" aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
 
-                {/* Sub-features 2x2 Grid with Blur Reveal Animation */}
+                {/* Sub-features 2x2 Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
-                  <BlurRevealCardItem index={0}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          Checklist Persiapan
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Tugas terstruktur bertahap, pantau dan centang satu per satu.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        Checklist Persiapan
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Tugas terstruktur bertahap, pantau dan centang satu per satu.
+                      </p>
+                    </div>
+                  </div>
 
-                  <BlurRevealCardItem index={1}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <Wallet className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          Kontrol Anggaran
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Rencana alokasi dana dan rekap pengeluaran riil per kategori.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <Wallet className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        Kontrol Anggaran
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Rencana alokasi dana dan rekap pengeluaran riil per kategori.
+                      </p>
+                    </div>
+                  </div>
 
-                  <BlurRevealCardItem index={2}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <Users2 className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          Manajemen Vendor
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Kandidat, harga kesepakatan, DP, dan histori pembayaran.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <Users2 className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        Manajemen Vendor
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Kandidat, harga kesepakatan, DP, dan histori pembayaran.
+                      </p>
+                    </div>
+                  </div>
 
-                  <BlurRevealCardItem index={3}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <CalendarDays className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          Jadwal &amp; Rundown
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Hitung mundur hari-H dan susunan waktu acara terkoordinasi.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <CalendarDays className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        Jadwal &amp; Rundown
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Hitung mundur hari-H dan susunan waktu acara terkoordinasi.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Right Column: Planner UI Mockup with Inner Elements Blur Reveal */}
+              {/* Right Column: Planner UI Mockup */}
               <div className="lg:col-span-5 flex justify-center mt-6 lg:mt-0">
-                <BlurRevealContainer
-                  initialBlur={12}
-                  className="w-full max-w-md"
-                >
+                <div className="w-full max-w-md">
                   <div className="w-full rounded-2xl border border-header-border bg-bg p-5 sm:p-6 shadow-sm flex flex-col gap-5">
                     {/* Mockup Header */}
-                    <BlurRevealItem staggerIndex={1}>
-                      <div className="flex items-center justify-between pb-4 border-b border-hairline/60">
-                        <div>
-                          <p className="text-xs uppercase tracking-wider text-ink-soft font-semibold">
-                            Dashboard Persiapan
-                          </p>
-                          <h5 className="font-bold text-lg text-ink">
-                            Sarah &amp; Dimas
-                          </h5>
-                        </div>
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-black/5 dark:bg-white/10 text-black dark:text-white">
-                          <Clock className="w-3.5 h-3.5" aria-hidden="true" />
-                          H-30
-                        </span>
+                    <div className="flex items-center justify-between pb-4 border-b border-hairline/60">
+                      <div>
+                        <p className="text-xs uppercase tracking-wider text-ink-soft font-semibold">
+                          Dashboard Persiapan
+                        </p>
+                        <h5 className="font-bold text-lg text-ink">
+                          Sarah &amp; Dimas
+                        </h5>
                       </div>
-                    </BlurRevealItem>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-black/5 dark:bg-white/10 text-black dark:text-white">
+                        <Clock className="w-3.5 h-3.5" aria-hidden="true" />
+                        H-30
+                      </span>
+                    </div>
 
                     {/* Budget Widget */}
-                    <BlurRevealItem staggerIndex={2}>
-                      <div className="p-4 rounded-xl bg-bg-alt/40 dark:bg-white/5 border border-header-border">
-                        <div className="flex items-center justify-between text-xs text-ink-soft mb-1.5">
-                          <span>Total Anggaran</span>
-                          <span className="font-medium text-ink">Rp85.000.000</span>
-                        </div>
-                        <div className="w-full h-2.5 rounded-full bg-black/10 dark:bg-white/10 overflow-hidden">
-                          <div className="h-full bg-[#9929EA] dark:bg-[#FF5FCF] rounded-full w-[62%]" />
-                        </div>
-                        <div className="flex items-center justify-between mt-2.5 text-xs">
-                          <span className="text-black dark:text-white font-semibold">Terpakai: Rp52.700.000</span>
-                          <span className="text-ink-soft">Sisa: Rp32.300.000</span>
-                        </div>
+                    <div className="p-4 rounded-xl bg-bg-alt/40 dark:bg-white/5 border border-header-border">
+                      <div className="flex items-center justify-between text-xs text-ink-soft mb-1.5">
+                        <span>Total Anggaran</span>
+                        <span className="font-medium text-ink">Rp85.000.000</span>
                       </div>
-                    </BlurRevealItem>
+                      <div className="w-full h-2.5 rounded-full bg-black/10 dark:bg-white/10 overflow-hidden">
+                        <div className="h-full bg-[#9929EA] dark:bg-[#FF5FCF] rounded-full w-[62%]" />
+                      </div>
+                      <div className="flex items-center justify-between mt-2.5 text-xs">
+                        <span className="text-black dark:text-white font-semibold">Terpakai: Rp52.700.000</span>
+                        <span className="text-ink-soft">Sisa: Rp32.300.000</span>
+                      </div>
+                    </div>
 
                     {/* Checklist Widget */}
-                    <BlurRevealItem staggerIndex={3}>
-                      <div>
-                        <div className="flex items-center justify-between text-xs text-ink-soft mb-3">
-                          <span className="font-semibold uppercase tracking-wider text-ink">
-                            Checklist Prioritas
+                    <div>
+                      <div className="flex items-center justify-between text-xs text-ink-soft mb-3">
+                        <span className="font-semibold uppercase tracking-wider text-ink">
+                          Checklist Prioritas
+                        </span>
+                        <span>18 / 24 Selesai (75%)</span>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25 dark:bg-white/5">
+                          <CheckCircle2 className="w-4 h-4 text-black dark:text-[#FF5FCF] shrink-0" />
+                          <span className="line-through text-ink-soft">
+                            Konfirmasi Venue &amp; Katering
                           </span>
-                          <span>18 / 24 Selesai (75%)</span>
                         </div>
-                        <div className="flex flex-col gap-2">
-                          <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25 dark:bg-white/5">
-                            <CheckCircle2 className="w-4 h-4 text-black dark:text-[#FF5FCF] shrink-0" />
-                            <span className="line-through text-ink-soft">
-                              Konfirmasi Venue &amp; Katering
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25 dark:bg-white/5">
-                            <CheckCircle2 className="w-4 h-4 text-black dark:text-[#FF5FCF] shrink-0" />
-                            <span className="line-through text-ink-soft">
-                              Pilih Desain Undangan Digital
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25 dark:bg-white/5">
-                            <CheckCircle2 className="w-4 h-4 text-black dark:text-[#FF5FCF] shrink-0" />
-                            <span className="line-through text-ink-soft">
-                              Fitting Busana Pengantin
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/50 dark:bg-white/10 font-medium">
-                            <div className="w-4 h-4 rounded-full border border-black/40 dark:border-white/40 shrink-0" />
-                            <span>Finalisasi Daftar Nama Tamu VIP</span>
-                          </div>
+                        <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25 dark:bg-white/5">
+                          <CheckCircle2 className="w-4 h-4 text-black dark:text-[#FF5FCF] shrink-0" />
+                          <span className="line-through text-ink-soft">
+                            Pilih Desain Undangan Digital
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/25 dark:bg-white/5">
+                          <CheckCircle2 className="w-4 h-4 text-black dark:text-[#FF5FCF] shrink-0" />
+                          <span className="line-through text-ink-soft">
+                            Fitting Busana Pengantin
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2.5 text-xs sm:text-sm text-ink p-2 rounded-lg bg-bg-alt/50 dark:bg-white/10 font-medium">
+                          <div className="w-4 h-4 rounded-full border border-black/40 dark:border-white/40 shrink-0" />
+                          <span>Finalisasi Daftar Nama Tamu VIP</span>
                         </div>
                       </div>
-                    </BlurRevealItem>
+                    </div>
 
                     {/* Vendor Status Pill */}
-                    <BlurRevealItem staggerIndex={4}>
-                      <div className="flex items-center justify-between pt-3 border-t border-hairline/60 text-xs">
-                        <span className="text-ink-soft">Vendor Deal: 6 dari 8</span>
-                        <span className="text-black dark:text-white font-semibold">Terkontrol</span>
-                      </div>
-                    </BlurRevealItem>
+                    <div className="flex items-center justify-between pt-3 border-t border-hairline/60 text-xs">
+                      <span className="text-ink-soft">Vendor Deal: 6 dari 8</span>
+                      <span className="text-black dark:text-white font-semibold">Terkontrol</span>
+                    </div>
                   </div>
-                </BlurRevealContainer>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Card 2: Undangan Digital */}
-          <div
-            ref={card2Ref}
-            className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 pb-12 sm:pb-14 lg:pb-16 transition-all shadow-sm"
-          >
+          <div className="w-full rounded-3xl border border-header-border bg-bg-alt/25 p-6 sm:p-8 md:p-10 lg:p-12 pb-12 sm:pb-14 lg:pb-16 transition-all shadow-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column: Copy & Sub-features */}
               <div className="lg:col-span-6 flex flex-col justify-between">
                 <div>
-                  <BlurRevealItem staggerIndex={0}>
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ink tracking-tight">
-                      Undangan Digital
-                    </h3>
-                  </BlurRevealItem>
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-ink tracking-tight">
+                    Undangan Digital
+                  </h3>
 
-                  <BlurRevealItem staggerIndex={1}>
-                    <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
-                      Website undangan pernikahan berdomain nama sendiri. Bagikan
-                      momen berharga dengan RSVP otomatis, rute peta presisi, dan buku
-                      ucapan doa dalam tampilan responsif yang anggun di laptop maupun
-                      smartphone.
-                    </p>
-                  </BlurRevealItem>
+                  <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl">
+                    Website undangan pernikahan berdomain nama sendiri. Bagikan
+                    momen berharga dengan RSVP otomatis, rute peta presisi, dan buku
+                    ucapan doa dalam tampilan responsif yang anggun di laptop maupun
+                    smartphone.
+                  </p>
 
-                  <BlurRevealItem staggerIndex={2}>
-                    <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5">
-                      <a
-                        href="https://create.invitea.cards"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
-                      >
-                        <span>Buat Undangan</span>
-                        <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
-                      </a>
-                      <a
-                        href="#katalog"
-                        className="inline-flex items-center gap-2 px-5 py-3 rounded-full ring-1 ring-inset ring-black/15 dark:ring-white/20 bg-white dark:bg-neutral-900 text-black dark:text-white text-sm sm:text-base font-semibold hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-colors active:scale-95 shadow-2xs"
-                      >
-                        <span>Lihat Katalog Tema</span>
-                      </a>
-                    </div>
-                  </BlurRevealItem>
+                  <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5">
+                    <a
+                      href="https://create.invitea.cards"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
+                    >
+                      <span>Buat Undangan Gratis</span>
+                      <ArrowRight className="w-4 h-4 opacity-80" aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
 
-                {/* Sub-features 2x2 Grid with Blur Reveal Animation */}
+                {/* Sub-features 2x2 Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 mt-8 sm:mt-10 pt-8 border-t border-hairline/60">
-                  <BlurRevealCardItem index={0}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <UserCheck className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          Tamu Personal
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Nama tamu tertera khusus pada cover dan tautan undangan personal.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <UserCheck className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        Tamu Personal
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Nama tamu tertera khusus pada cover dan tautan undangan personal.
+                      </p>
+                    </div>
+                  </div>
 
-                  <BlurRevealCardItem index={1}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <MessageSquareHeart className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          RSVP &amp; Buku Ucapan
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Konfirmasi kehadiran otomatis terdata tanpa rekap manual.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <MessageSquareHeart className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        RSVP &amp; Buku Ucapan
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Konfirmasi kehadiran otomatis terdata tanpa rekap manual.
+                      </p>
+                    </div>
+                  </div>
 
-                  <BlurRevealCardItem index={2}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <Globe2 className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          Domain Nama Sendiri
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Tautan eksklusif nama berdua untuk kesan personal sejak awal.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <Globe2 className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        Domain Nama Sendiri
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Tautan eksklusif nama berdua untuk kesan personal sejak awal.
+                      </p>
+                    </div>
+                  </div>
 
-                  <BlurRevealCardItem index={3}>
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
-                        <MapPin className="w-5 h-5" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-sm sm:text-base text-ink">
-                          Navigasi Peta Presisi
-                        </h4>
-                        <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
-                          Arah rute langsung menuju Google Maps &amp; Waze lokasi acara.
-                        </p>
-                      </div>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-black dark:text-white shrink-0">
+                      <MapPin className="w-5 h-5" aria-hidden="true" />
                     </div>
-                  </BlurRevealCardItem>
+                    <div>
+                      <h4 className="font-semibold text-sm sm:text-base text-ink">
+                        Navigasi Peta Presisi
+                      </h4>
+                      <p className="mt-1 text-xs sm:text-sm text-ink-soft leading-relaxed">
+                        Arah rute langsung menuju Google Maps &amp; Waze lokasi acara.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Right Column: Composite Laptop + Phone Mockup with Blur Reveal */}
+              {/* Right Column: Composite Laptop + Phone Mockup */}
               <div className="lg:col-span-6 flex justify-center items-center mt-6 lg:mt-0">
-                <BlurRevealContainer
-                  initialBlur={12}
-                  className="w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px]"
-                >
+                <div className="w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px]">
                   <div className="relative w-full aspect-[800/489] select-none">
                     {/* Laptop Screen Content (Behind bezel, visible through transparent screen cutout) */}
                     <div className="absolute top-[4.3%] bottom-[10.6%] left-[9.6%] right-[9.6%] overflow-hidden bg-bg rounded-t-[5px]">
@@ -470,10 +397,7 @@ export function ServicesSection() {
                     />
 
                     {/* Overlapping Phone Mockup (Bottom-Right) */}
-                    <BlurRevealItem
-                      staggerIndex={3}
-                      className="absolute -bottom-1 -right-0.5 sm:-bottom-3 sm:-right-2 md:-right-3 w-[64px] sm:w-[95px] lg:w-[130px] aspect-[9/18.5] z-20 drop-shadow-2xl"
-                    >
+                    <div className="absolute -bottom-1 -right-0.5 sm:-bottom-3 sm:-right-2 md:-right-3 w-[64px] sm:w-[95px] lg:w-[130px] aspect-[9/18.5] z-20 drop-shadow-2xl">
                       <div className="relative w-full h-full">
                         {/* Screen Content */}
                         <div className="absolute top-[1.2%] bottom-[1.2%] left-[3.5%] right-[3.5%] rounded-[10px] sm:rounded-[16px] lg:rounded-[20px] overflow-hidden bg-stone-900 shadow-xl">
@@ -512,9 +436,9 @@ export function ServicesSection() {
                           className="absolute inset-0 w-full h-full pointer-events-none object-fill z-10"
                         />
                       </div>
-                    </BlurRevealItem>
+                    </div>
                   </div>
-                </BlurRevealContainer>
+                </div>
               </div>
             </div>
           </div>
