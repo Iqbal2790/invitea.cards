@@ -44,14 +44,18 @@ export function WorkflowSection() {
   const activeStepRef = useRef<number>(0);
   const scrollyRef = useRef<HTMLElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const panelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isClickScrollingRef = useRef(false);
   const clickTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Continuous 1:1 scroll tracking and card stacking
+  // Continuous 1:1 scroll tracking, dynamic space transfer, and card stacking
   const handleScroll = useCallback(() => {
     if (!scrollyRef.current || !stickyRef.current) return;
 
+    const isDesktop = typeof window !== "undefined" && window.innerWidth >= 1024;
     const scrollyRect = scrollyRef.current.getBoundingClientRect();
     const stickyTop = parseFloat(window.getComputedStyle(stickyRef.current).top) || 64;
     const maxScroll = Math.max(1, scrollyRef.current.offsetHeight - window.innerHeight);
@@ -82,6 +86,34 @@ export function WorkflowSection() {
     if (!isClickScrollingRef.current && currentIdx !== activeStepRef.current) {
       activeStepRef.current = currentIdx;
       setActiveStep(currentIdx);
+    }
+
+    // 3. Dynamic step space transfer (OpenDesign rail mechanics)
+    // Keeps upcoming unopened steps pinned to the bottom of the card height, then smoothly
+    // transfers the empty space below the next step as it rises with its preview.
+    if (isDesktop && previewRef.current && railRef.current) {
+      const previewH = previewRef.current.getBoundingClientRect().height;
+      const gap = 8; // Row gap between tabs in px
+      const totalLabelH = labelRefs.current.reduce(
+        (sum, el) => sum + (el ? el.getBoundingClientRect().height : 0),
+        0
+      );
+      const free = Math.max(0, previewH - totalLabelH - gap * (STEPS.length - 1));
+
+      labelRefs.current.forEach((label, k) => {
+        if (!label) return;
+        if (!isClickScrollingRef.current) {
+          label.style.transition = "none";
+        }
+        const space = k === base ? free * (1 - frac) : k === base + 1 ? free * frac : 0;
+        const targetMargin = k < STEPS.length - 1 ? space : 0;
+        label.style.marginBottom = `${targetMargin}px`;
+      });
+    } else {
+      // Clean up desktop margins on mobile
+      labelRefs.current.forEach((label) => {
+        if (label) label.style.marginBottom = "0px";
+      });
     }
   }, []);
 
@@ -120,13 +152,32 @@ export function WorkflowSection() {
       isClickScrollingRef.current = false;
     }, 700);
 
-    // Also update panels immediately with smooth transition if clicked
+    // Update panels with smooth transition during click
     panelRefs.current.forEach((p, k) => {
       if (!p) return;
       p.style.transition = "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)";
       p.style.zIndex = String(k + 10);
       p.style.transform = `translate3d(0, ${k <= idx ? 0 : 100}%, 0)`;
     });
+
+    // Update step space transfer with smooth transition during click
+    if (previewRef.current && railRef.current) {
+      const previewH = previewRef.current.getBoundingClientRect().height;
+      const gap = 8;
+      const totalLabelH = labelRefs.current.reduce(
+        (sum, el) => sum + (el ? el.getBoundingClientRect().height : 0),
+        0
+      );
+      const free = Math.max(0, previewH - totalLabelH - gap * (STEPS.length - 1));
+
+      labelRefs.current.forEach((label, k) => {
+        if (!label) return;
+        label.style.transition = "margin-bottom 0.5s cubic-bezier(0.22, 1, 0.36, 1)";
+        const space = k === idx ? free : 0;
+        const targetMargin = k < STEPS.length - 1 ? space : 0;
+        label.style.marginBottom = `${targetMargin}px`;
+      });
+    }
 
     if (!scrollyRef.current) return;
     const scrollyRect = scrollyRef.current.getBoundingClientRect();
@@ -166,17 +217,23 @@ export function WorkflowSection() {
             </h2>
           </div>
 
-          {/* 384px Stepper Tablist Left, Expansive 1fr Preview Right */}
+          {/* OpenDesign Architecture: Fixed 384px Stepper Tablist Left, Expansive 1fr Preview Right */}
           <div className="grid grid-cols-1 lg:grid-cols-[384px_1fr] gap-6 lg:gap-7 items-stretch">
-            {/* Left Column: Interactive Step Selector Tabs with Hirael Feature 11 Expand Transition */}
-            <div className="w-full lg:w-[384px] flex flex-col justify-between">
-              <div className="flex flex-col gap-3">
+            {/* Left Column: Interactive Step Selector Tabs with Dynamic Step Space Transfer */}
+            <div
+              ref={railRef}
+              className="w-full lg:w-[384px] flex flex-col justify-between"
+            >
+              <div className="flex flex-col gap-2">
                 {STEPS.map((item, idx) => {
                   const isActive = activeStep === idx;
 
                   return (
                     <div
                       key={item.id}
+                      ref={(el) => {
+                        labelRefs.current[idx] = el;
+                      }}
                       onClick={() => handleTabClick(idx)}
                       role="button"
                       tabIndex={0}
@@ -186,7 +243,7 @@ export function WorkflowSection() {
                           handleTabClick(idx);
                         }
                       }}
-                      className={`relative rounded-2xl p-4 sm:p-5 transition-all duration-300 ease-out cursor-pointer select-none text-left ${
+                      className={`relative rounded-2xl p-4 sm:p-5 transition-colors duration-200 cursor-pointer select-none text-left ${
                         isActive
                           ? "bg-black dark:bg-neutral-900 border border-transparent dark:border-white/15 text-white shadow-md"
                           : "border border-transparent bg-transparent hover:bg-black/[0.03] dark:hover:bg-white/[0.05] text-ink/75 dark:text-white/70 hover:text-ink dark:hover:text-white shadow-none"
@@ -242,9 +299,12 @@ export function WorkflowSection() {
               </div>
             </div>
 
-            {/* Right Column: Visual Preview Container (Aspect 16:9) */}
+            {/* Right Column: Visual Preview Container (1120px at 1920px, Aspect 16:9 like OpenDesign) */}
             <div className="w-full min-w-0 flex items-center">
-              <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-video bg-black/5 dark:bg-white/5 shadow-sm">
+              <div
+                ref={previewRef}
+                className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden aspect-video bg-black/5 dark:bg-white/5 shadow-sm"
+              >
                 {STEP_IMAGES.map((img, idx) => {
                   return (
                     <div
