@@ -70,7 +70,7 @@ export function FaqSection() {
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
             <span>Tanya Jawab</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
+          <h2 className="font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-ink leading-[1.15]">
             Pertanyaan yang Sering Diajukan
           </h2>
           <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl mx-auto text-balance font-sans">
@@ -80,7 +80,7 @@ export function FaqSection() {
 
         {/* Framer-Style Unified Accordion Capsule Container */}
         <LayoutGroup id="invitea-faq-accordion">
-          <div className="w-full max-w-[800px] mx-auto p-1.5 rounded-[26px] bg-stone-200/50 dark:bg-neutral-900 border border-hairline/70 dark:border-neutral-800 flex flex-col gap-1 shadow-xs">
+          <div className="w-full max-w-[800px] mx-auto p-1.5 rounded-[26px] bg-stone-200/50 dark:bg-neutral-950 border border-hairline/70 dark:border-white/10 flex flex-col gap-1 shadow-xs">
             {FAQ_ITEMS.map((item, index) => {
               const isOpen = openIndex === index;
               const contentId = `faq-answer-${index}`;
@@ -93,8 +93,8 @@ export function FaqSection() {
                   transition={springTransition}
                   className={`w-full rounded-[22px] transition-colors duration-200 select-none overflow-hidden ${
                     isOpen
-                      ? "bg-white dark:bg-neutral-950 border border-black/20 dark:border-white/20 shadow-xs"
-                      : "bg-white/95 dark:bg-neutral-900 hover:bg-white dark:hover:bg-neutral-850 border border-hairline/40 dark:border-white/10 hover:border-hairline/70 dark:hover:border-white/20"
+                      ? "bg-white dark:bg-neutral-900 border border-black/20 dark:border-white/25 shadow-xs"
+                      : "bg-white/95 dark:bg-neutral-900/70 hover:bg-white dark:hover:bg-neutral-800 border border-hairline/40 dark:border-white/10 hover:border-hairline/70 dark:hover:border-white/20"
                   }`}
                 >
                   <button
@@ -103,11 +103,13 @@ export function FaqSection() {
                     aria-expanded={isOpen}
                     aria-controls={contentId}
                     onClick={() => toggleItem(index)}
-                    className="w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20 rounded-[22px]"
+                    className="group w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20 rounded-[22px]"
                   >
                     <span
-                      className={`font-serif text-lg sm:text-xl font-medium leading-snug tracking-tight transition-colors duration-200 ${
-                        isOpen ? "text-black dark:text-white font-semibold" : "text-ink"
+                      className={`font-sans text-base sm:text-lg leading-snug tracking-tight transition-colors duration-200 ${
+                        isOpen
+                          ? "text-black dark:text-white font-semibold"
+                          : "text-ink group-hover:text-black dark:group-hover:text-white"
                       }`}
                     >
                       {item.question}
@@ -118,7 +120,7 @@ export function FaqSection() {
                       className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
                         isOpen
                           ? "bg-black dark:bg-white text-white dark:text-black"
-                          : "bg-stone-100 dark:bg-neutral-800 text-ink-soft hover:text-ink"
+                          : "bg-stone-100 dark:bg-neutral-800 text-ink-soft group-hover:bg-stone-200 dark:group-hover:bg-neutral-700 group-hover:text-ink dark:group-hover:text-white"
                       }`}
                       aria-hidden="true"
                     >
@@ -152,7 +154,7 @@ export function FaqSection() {
                         transition={springTransition}
                         className="overflow-hidden"
                       >
-                        <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 text-sm sm:text-base text-ink-soft leading-relaxed font-sans">
+                        <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 text-sm sm:text-base text-ink-soft dark:text-neutral-300 leading-relaxed font-sans">
                           <p>{item.answer}</p>
                         </div>
                       </motion.div>
