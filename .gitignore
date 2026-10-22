@@ -1,6 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.*
@@ -10,58 +8,78 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
+# Testing & Coverage
 /coverage
+.playwright/
+test-results/
 
-# next.js
+# Production & Build Artifacts
+/build
+/build/
+/dist
 /.next/
 /out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# React Router & Build
 /.react-router/
-/build/
 *.tsbuildinfo
 
-# Cloudflare Workers
+# Cloudflare Workers & Runtime
 .mf
 .wrangler
-.dev.vars*
 worker-configuration.d.ts
 
-# OS & IDE Files
-.vscode/
-.idea/
-Thumbs.db
-*.swp
-.DS_Store
+# Secrets & Environment Variables (Strict)
+.env*
+!.env.example
+.dev.vars*
+!.dev.vars.example
+*.pem
+*.key
+*.cert
 
-# Obsidian Vault & Local Docs (Rebuild Documentation)
+# AI Agents & LLM Workspaces
+.agent/
+.agents/
+.hermes/
+.claude/
+.cursor/
+.impeccable/
+
+# Archive, Legacy & Scratch Folders
+legacy*/
+archive*/
+backup*/
+*.bak
+scratch/
+
+# Internal Work Logs & Local Documentation
 vault/
 .obsidian/
+log.md
 
-# Temporary inspection captures & frames (Root-level only)
+# Inspection Captures, Screenshots & Media Dumps
+docs/screenshots/
+screenshots/
 /*.png
+/*.jpg
+/*.jpeg
+/*.webp
 /*.html
 video_frames*/
 reload1_60fps/
 
+# Debug Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
 
+# Deployments
+.vercel
+
+# OS & IDE Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
