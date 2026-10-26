@@ -16,11 +16,11 @@ interface UserProfileDropdownProps {
 type Theme = "light" | "dark" | "system";
 
 function useTheme() {
-  const [theme, setThemeState] = useState<Theme>("system");
+  const [theme, setThemeState] = useState<Theme>("light");
 
   useEffect(() => {
     try {
-      const saved = (localStorage.getItem("invitea-theme") as Theme) || "system";
+      const saved = (localStorage.getItem("invitea-theme") as Theme) || "light";
       setThemeState(saved);
     } catch {
       // Ignore in restricted environments

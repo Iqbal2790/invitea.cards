@@ -24,11 +24,9 @@ export async function loader({ request }: Route.LoaderArgs) {
   const hostHeader = request.headers.get("x-forwarded-host") || request.headers.get("host");
   const hostContext = resolveHostContext(hostHeader, url.searchParams);
 
-  // 1. If already logged in, redirect straight to intended destination or planner
+  // 1. If already logged in, redirect straight to intended destination or home
   const { user } = await getAuthUser(request);
-  const returnTo =
-    url.searchParams.get("redirectTo") ||
-    buildSubdomainUrl("planner", "/", hostContext);
+  const returnTo = url.searchParams.get("redirectTo") || "/";
 
   if (user) {
     throw redirect(returnTo);
