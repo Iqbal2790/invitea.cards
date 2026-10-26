@@ -198,19 +198,18 @@ export function TestimonialsSection() {
   return (
     <section
       id="testimoni"
-      className="scroll-mt-20 py-14 sm:py-20 md:py-24 w-full border-t border-hairline/60 bg-bg-alt/30 overflow-hidden"
+      className="scroll-mt-20 py-16 sm:py-20 lg:py-24 w-full border-t border-hairline/60 bg-bg-alt/30 overflow-hidden"
     >
-      {/* Section Header: Standardized font and size */}
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 text-center mb-10 sm:mb-14">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
-          <span>Testimoni Pasangan</span>
+      {/* Section Header: Aligned with Section 2, 3, 4, 8, 9 Standard */}
+      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6 mb-10 sm:mb-12 lg:mb-14">
+        <div className="max-w-3xl">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink leading-[1.15]">
+            Cerita Bahagia Bersama Invitea
+          </h2>
+          <p className="mt-3 sm:mt-4 text-base sm:text-lg text-ink-soft dark:text-neutral-400 leading-relaxed font-sans">
+            Kisah nyata dari pasangan yang telah mempercayakan hari bahagia mereka bersama Invitea.
+          </p>
         </div>
-        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-ink leading-tight">
-          Cerita Bahagia Bersama Invitea
-        </h2>
-        <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl mx-auto text-balance">
-          Kisah nyata dari pasangan yang telah mempercayakan hari bahagia mereka bersama Invitea.
-        </p>
       </div>
 
       {/* 2-Row Infinite Conveyor with Scroll Velocity Acceleration & Smooth Fade Edges */}

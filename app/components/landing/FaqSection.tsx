@@ -64,127 +64,128 @@ export function FaqSection() {
       id="faq"
       className="scroll-mt-20 py-16 sm:py-24 md:py-28 w-full border-t border-hairline/60 bg-bg transition-colors"
     >
-      <div className="max-w-4xl mx-auto px-6 sm:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-3 sm:mb-4 shadow-2xs">
-            <span>Tanya Jawab</span>
-          </div>
-          <h2 className="font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-ink leading-[1.15]">
-            Pertanyaan yang Sering Diajukan
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-ink-soft leading-relaxed max-w-xl mx-auto text-balance font-sans">
-            Semua hal penting yang perlu Anda ketahui tentang pembuatan undangan pernikahan digital dan wedding planner di Invitea.
-          </p>
-        </div>
-
-        {/* Framer-Style Unified Accordion Capsule Container */}
-        <LayoutGroup id="invitea-faq-accordion">
-          <div className="w-full max-w-[800px] mx-auto p-1.5 rounded-[26px] bg-stone-200/50 dark:bg-neutral-950 border border-hairline/70 dark:border-white/10 flex flex-col gap-1 shadow-xs">
-            {FAQ_ITEMS.map((item, index) => {
-              const isOpen = openIndex === index;
-              const contentId = `faq-answer-${index}`;
-              const buttonId = `faq-question-${index}`;
-
-              return (
-                <motion.div
-                  key={item.question}
-                  layout
-                  transition={springTransition}
-                  className={`w-full rounded-[22px] transition-colors duration-200 select-none overflow-hidden ${
-                    isOpen
-                      ? "bg-white dark:bg-neutral-900 border border-black/20 dark:border-white/25 shadow-xs"
-                      : "bg-white/95 dark:bg-neutral-900/70 hover:bg-white dark:hover:bg-neutral-800 border border-hairline/40 dark:border-white/10 hover:border-hairline/70 dark:hover:border-white/20"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    id={buttonId}
-                    aria-expanded={isOpen}
-                    aria-controls={contentId}
-                    onClick={() => toggleItem(index)}
-                    className="group w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20 rounded-[22px]"
-                  >
-                    <span
-                      className={`font-sans text-base sm:text-lg leading-snug tracking-tight transition-colors duration-200 ${
-                        isOpen
-                          ? "text-black dark:text-white font-semibold"
-                          : "text-ink group-hover:text-black dark:group-hover:text-white"
-                      }`}
-                    >
-                      {item.question}
-                    </span>
-
-                    {/* Framer Plus/Minus Morphing Icon */}
-                    <div
-                      className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
-                        isOpen
-                          ? "bg-black dark:bg-white text-white dark:text-black"
-                          : "bg-stone-100 dark:bg-neutral-800 text-ink-soft group-hover:bg-stone-200 dark:group-hover:bg-neutral-700 group-hover:text-ink dark:group-hover:text-white"
-                      }`}
-                      aria-hidden="true"
-                    >
-                      {/* Horizontal stroke: -90deg (closed) -> 90deg (opened) */}
-                      <motion.span
-                        className="absolute w-[1.5px] h-[12px] bg-current rounded-full"
-                        initial={false}
-                        animate={{ rotate: isOpen ? 90 : -90 }}
-                        transition={springTransition}
-                      />
-                      {/* Vertical stroke: -180deg (closed) -> 90deg (opened) */}
-                      <motion.span
-                        className="absolute w-[1.5px] h-[12px] bg-current rounded-full"
-                        initial={false}
-                        animate={{ rotate: isOpen ? 90 : -180 }}
-                        transition={springTransition}
-                      />
-                    </div>
-                  </button>
-
-                  {/* Framer-Motion Spring Content */}
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        id={contentId}
-                        role="region"
-                        aria-labelledby={buttonId}
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={springTransition}
-                        className="overflow-hidden"
-                      >
-                        <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 text-sm sm:text-base text-ink-soft dark:text-neutral-300 leading-relaxed font-sans">
-                          <p>{item.answer}</p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })}
-          </div>
-        </LayoutGroup>
-
-        {/* WhatsApp Help Prompt */}
-        <div className="mt-10 sm:mt-12 p-6 rounded-2xl border border-hairline/80 dark:border-white/10 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xs flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <div>
-            <h3 className="font-sans font-semibold text-base text-ink">
-              Masih punya pertanyaan seputar pernikahan Anda?
-            </h3>
-            <p className="text-sm text-ink-soft mt-0.5 font-sans">
-              Tim kami siap membantu menjawab dan mendampingi persiapan undangan Anda.
+      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          {/* Left Column: Title & Description (Sticky on Desktop) */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <h2 className="font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-ink leading-[1.15]">
+              Pertanyaan yang Sering Diajukan
+            </h2>
+            <p className="mt-4 sm:mt-6 text-base sm:text-lg text-ink-soft leading-relaxed max-w-lg font-sans">
+              Semua hal penting yang perlu Anda ketahui tentang pembuatan undangan pernikahan digital dan wedding planner di Invitea.
             </p>
+
+            {/* WhatsApp Help Prompt */}
+            <div className="mt-8 sm:mt-10 p-6 rounded-2xl border border-hairline/80 dark:border-white/10 bg-white/70 dark:bg-neutral-900/70 backdrop-blur-xs flex flex-col gap-3">
+              <div>
+                <h3 className="font-sans font-semibold text-base text-ink">
+                  Masih punya pertanyaan?
+                </h3>
+                <p className="text-sm text-ink-soft mt-1 font-sans">
+                  Tim kami siap membantu menjawab dan mendampingi persiapan undangan Anda.
+                </p>
+              </div>
+              <a
+                href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20ingin%20tanya%20seputar%20undangan%20pernikahan."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-sm bg-[#25D366] text-white hover:bg-[#20bd5a] transition-colors duration-150 active:scale-[0.98] shadow-xs w-full sm:w-fit"
+              >
+                <MessageCircle className="w-4 h-4 fill-white shrink-0" aria-hidden="true" />
+                <span>Tanya via WhatsApp</span>
+              </a>
+            </div>
           </div>
-          <a
-            href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20ingin%20tanya%20seputar%20undangan%20pernikahan."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full font-sans font-semibold text-sm bg-black dark:bg-white text-white dark:text-black hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-all duration-150 active:scale-95 shrink-0 shadow-xs"
-          >
-            <MessageCircle className="w-4 h-4" aria-hidden="true" />
-            <span>Tanya via WhatsApp</span>
-          </a>
+
+          {/* Right Column: Framer-Style Unified Accordion Capsule Container */}
+          <div className="lg:col-span-7">
+            <LayoutGroup id="invitea-faq-accordion">
+              <div className="w-full p-1.5 rounded-[26px] bg-stone-200/50 dark:bg-neutral-950 border border-hairline/70 dark:border-white/10 flex flex-col gap-1 shadow-xs">
+                {FAQ_ITEMS.map((item, index) => {
+                  const isOpen = openIndex === index;
+                  const contentId = `faq-answer-${index}`;
+                  const buttonId = `faq-question-${index}`;
+
+                  return (
+                    <motion.div
+                      key={item.question}
+                      layout
+                      transition={springTransition}
+                      className={`w-full rounded-[22px] transition-colors duration-200 select-none overflow-hidden ${
+                        isOpen
+                          ? "bg-white dark:bg-neutral-900 border border-transparent shadow-xs"
+                          : "bg-white/95 dark:bg-neutral-900 hover:bg-white dark:hover:bg-neutral-800/90 border border-transparent"
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        id={buttonId}
+                        aria-expanded={isOpen}
+                        aria-controls={contentId}
+                        onClick={() => toggleItem(index)}
+                        className="group w-full flex items-center justify-between gap-4 p-5 sm:p-6 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20 rounded-[22px]"
+                      >
+                        <span
+                          className={`font-sans text-base sm:text-lg leading-snug tracking-tight transition-colors duration-200 ${
+                            isOpen
+                              ? "text-black dark:text-white font-semibold"
+                              : "text-ink group-hover:text-black dark:group-hover:text-white"
+                          }`}
+                        >
+                          {item.question}
+                        </span>
+
+                        {/* Framer Plus/Minus Morphing Icon */}
+                        <div
+                          className={`relative w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                            isOpen
+                              ? "bg-black dark:bg-white text-white dark:text-black"
+                              : "bg-stone-100 dark:bg-neutral-800 text-ink-soft group-hover:bg-stone-200 dark:group-hover:bg-neutral-700 group-hover:text-ink dark:group-hover:text-white"
+                          }`}
+                          aria-hidden="true"
+                        >
+                          {/* Horizontal stroke: -90deg (closed) -> 90deg (opened) */}
+                          <motion.span
+                            className="absolute w-[1.5px] h-[12px] bg-current rounded-full"
+                            initial={false}
+                            animate={{ rotate: isOpen ? 90 : -90 }}
+                            transition={springTransition}
+                          />
+                          {/* Vertical stroke: -180deg (closed) -> 90deg (opened) */}
+                          <motion.span
+                            className="absolute w-[1.5px] h-[12px] bg-current rounded-full"
+                            initial={false}
+                            animate={{ rotate: isOpen ? 90 : -180 }}
+                            transition={springTransition}
+                          />
+                        </div>
+                      </button>
+
+                      {/* Framer-Motion Spring Content */}
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            id={contentId}
+                            role="region"
+                            aria-labelledby={buttonId}
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={springTransition}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 text-sm sm:text-base text-ink-soft dark:text-neutral-300 leading-relaxed font-sans">
+                              <p>{item.answer}</p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </LayoutGroup>
+          </div>
         </div>
       </div>
     </section>

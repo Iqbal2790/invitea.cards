@@ -56,7 +56,12 @@ vault/
 .obsidian/
 log.md
 
+# Syncthing
+.stfolder
+.stignore
+
 # Inspection Captures, Screenshots & Media Dumps
+public/screenshots/
 docs/screenshots/
 screenshots/
 /*.png

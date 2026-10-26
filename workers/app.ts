@@ -25,7 +25,9 @@ export default {
       duplex: request.body ? "half" : undefined,
     });
 
-    const response = await requestHandler(enrichedRequest);
+    const response = await requestHandler(enrichedRequest, {
+      cloudflare: { env, ctx },
+    });
 
     // Defensive Security Headers & Edge Subdomain Dispatch metadata
     const headers = new Headers(response.headers);

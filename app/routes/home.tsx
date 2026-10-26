@@ -1,3 +1,4 @@
+import { redirect } from "react-router";
 import type { Route } from "./+types/home";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
@@ -11,8 +12,8 @@ import { TestimonialsSection } from "../components/landing/TestimonialsSection";
 import { FaqSection } from "../components/landing/FaqSection";
 import { CtaSection } from "../components/landing/CtaSection";
 import { resolveHostContext, type HostContext } from "../lib/host";
-import { getAuthUser } from "../lib/auth.server";
-import { PlannerShell } from "../components/planner/PlannerShell";
+import { getAuthUser, createServerSupabase } from "../lib/auth.server";
+import { PlannerShell, type WeddingProject } from "../components/planner/PlannerShell";
 import { BuilderShell } from "../components/builder/BuilderShell";
 import { CustomDomainShell } from "../components/custom/CustomDomainShell";
 
@@ -57,10 +58,28 @@ export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const hostHeader = request.headers.get("x-forwarded-host") || request.headers.get("host");
   const hostContext = resolveHostContext(hostHeader, url.searchParams);
-  const { user } = await getAuthUser(request);
+  const { user, tokens } = await getAuthUser(request);
+
+  // If accessed via plan.invitea.cards, enforce auth guard and fetch project
+  let project: WeddingProject | null = null;
+  if (hostContext.type === "planner") {
+    if (!user || !tokens) {
+      throw redirect(`/auth/login?redirectTo=${encodeURIComponent(url.pathname + url.search)}`);
+    }
+    const supabase = createServerSupabase(tokens.access_token);
+    const { data } = await supabase
+      .from("wedding_projects")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    project = (data as WeddingProject) || null;
+  }
 
   return {
     hostContext,
+    project,
     user: user
       ? {
           id: user.id,
@@ -84,10 +103,11 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { hostContext, user } = loaderData;
+  const { hostContext, user, project } = loaderData;
 
   if (hostContext.type === "planner") {
-    return <PlannerShell hostContext={hostContext} user={user} />;
+    if (!user) return null;
+    return <PlannerShell hostContext={hostContext} user={user} project={project} />;
   }
 
   if (hostContext.type === "builder") {
@@ -110,8 +130,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <ServicesSection />
         <PricingSection />
         <TestimonialsSection />
-        <CtaSection />
         <FaqSection />
+        <CtaSection />
       </main>
 
       <Footer />

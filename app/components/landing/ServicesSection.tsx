@@ -33,7 +33,7 @@ function DottedGlow() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 bg-[radial-gradient(#9929EA_1.6px,transparent_1.6px)] dark:bg-[radial-gradient(#FF5FCF_1.6px,transparent_1.6px)] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] bg-size-[14px_14px] opacity-25 dark:opacity-20 group-hover:opacity-40 transition-opacity duration-300"
+      className="pointer-events-none absolute inset-0 bg-[radial-gradient(#DE7272_1.6px,transparent_1.6px)] dark:bg-[radial-gradient(#FFCED8_1.6px,transparent_1.6px)] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)] bg-size-[14px_14px] opacity-25 dark:opacity-20 group-hover:opacity-40 transition-opacity duration-300"
     />
   );
 }
@@ -82,7 +82,7 @@ export function ServicesSection() {
               href="https://plan.invitea.cards"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-colors shadow-sm active:scale-95"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#DE7272] dark:bg-[#FFCED8] text-white dark:text-black text-sm sm:text-base font-semibold hover:bg-[#C85E5E] dark:hover:bg-[#E8B4C0] transition-colors shadow-sm active:scale-95"
             >
               <span>Buka Wedding Planner</span>
               <ArrowUpRight className="w-4 h-4 opacity-80" aria-hidden="true" />

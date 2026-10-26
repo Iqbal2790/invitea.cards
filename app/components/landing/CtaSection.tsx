@@ -2,8 +2,8 @@ import { MessageCircle, ArrowUpRight, Check } from "lucide-react";
 
 export function CtaSection() {
   return (
-    <section id="inquiry" className="scroll-mt-20 py-14 sm:py-20 md:py-24 w-full">
-      <div className="w-full px-6 sm:px-8 lg:px-12">
+    <section id="inquiry" className="scroll-mt-20 py-16 sm:py-20 lg:py-24 w-full">
+      <div className="w-full max-w-[1580px] mx-auto px-4 sm:px-6">
         <div className="relative rounded-3xl sm:rounded-4xl bg-[#000000] text-white px-6 py-10 sm:px-10 sm:py-14 lg:p-14 overflow-hidden border border-white/10 shadow-xl">
           {/* Subtle curved background ornament matching Invitea brand mark */}
           <svg
@@ -26,13 +26,10 @@ export function CtaSection() {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 items-center">
             {/* Left Column: Left-aligned Content & Conversion Actions */}
             <div className="lg:col-span-7 xl:col-span-6 flex flex-col items-start text-left">
-              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FAEB92] text-black text-xs font-semibold tracking-wide font-sans mb-4 shadow-2xs">
-                <span>Mulai Hari Bahagiamu</span>
-              </div>
-              <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-medium tracking-tight text-white leading-[1.15] text-balance">
+              <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-[1.15]">
                 Sampaikan Kabar Bahagiamu Mulai Hari Ini
               </h2>
-              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-white/80 max-w-xl leading-relaxed font-sans text-balance">
+              <p className="mt-4 sm:mt-5 text-base sm:text-lg text-white/80 max-w-xl leading-relaxed font-sans">
                 Mulai buat undangan pernikahan digital Anda secara mandiri dalam hitungan menit, atau konsultasikan konsep desain kustom bersama kami melalui WhatsApp.
               </p>
 
@@ -42,7 +39,8 @@ export function CtaSection() {
                   href="https://create.invitea.cards"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-all duration-150 shadow-sm active:scale-95 whitespace-nowrap"
+                  data-ink-btn
+                  className="ink-btn inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide bg-white text-black hover:bg-neutral-100 transition-all duration-150 shadow-sm active:scale-[0.97] whitespace-nowrap"
                 >
                   <span>Mulai Buat Undangan Gratis</span>
                   <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -52,9 +50,9 @@ export function CtaSection() {
                   href="https://wa.me/6282255667944?text=Halo%20Invitea%2C%20saya%20tertarik%20konsultasi%20undangan%20pernikahan."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide border border-white/30 text-white hover:bg-white/10 hover:border-white transition-all duration-150 active:scale-95 whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full font-sans font-semibold text-sm sm:text-base tracking-wide bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all duration-150 active:scale-[0.98] whitespace-nowrap shadow-xs"
                 >
-                  <MessageCircle className="w-4 h-4" aria-hidden="true" />
+                  <MessageCircle className="w-4 h-4 fill-white shrink-0" aria-hidden="true" />
                   <span>Konsultasi via WhatsApp</span>
                 </a>
               </div>

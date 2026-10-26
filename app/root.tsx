@@ -127,7 +127,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
       )}
       <a
         href="/"
-        className="inline-block mt-4 px-6 py-2 rounded-full bg-[#9929EA] text-white text-sm font-medium hover:bg-[#851FD1] transition-colors"
+        className="inline-block mt-4 px-6 py-2 rounded-full bg-[#DE7272] text-white text-sm font-medium hover:bg-[#C85E5E] transition-colors"
       >
         Kembali ke Beranda
       </a>

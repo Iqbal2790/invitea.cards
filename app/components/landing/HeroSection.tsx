@@ -44,7 +44,7 @@ export function HeroSection() {
             target="_blank"
             rel="noopener noreferrer"
             data-ink-btn
-            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-white dark:text-black shadow-md active:scale-[0.97]"
+            className="ink-btn w-full sm:w-auto inline-flex items-center justify-center rounded-full bg-[#DE7272] dark:bg-[#FFCED8] px-8 sm:px-9 py-3.5 text-sm sm:text-base font-medium text-white dark:text-black shadow-md active:scale-[0.97]"
           >
             <span>Mulai bikin undangan gratis</span>
           </a>

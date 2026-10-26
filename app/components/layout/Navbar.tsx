@@ -11,9 +11,9 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Fitur & Layanan", href: "#layanan" },
-  { label: "Paket & Harga", href: "#pricing" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Fitur & Layanan", href: "/#layanan" },
+  { label: "Paket & Harga", href: "/pricing" },
+  { label: "FAQ", href: "/#faq" },
   { label: "Template Instan", href: "https://create.invitea.cards", isExternal: true },
   { label: "Wedding Planner", href: "https://plan.invitea.cards", isExternal: true },
 ];
@@ -73,7 +73,7 @@ export function Navbar() {
           {/* Brand Mark & Left-Aligned Desktop Navigation (Rata Kiri) */}
           <div className="flex items-center gap-8 lg:gap-10">
             <a
-              href="#hero"
+              href="/"
               className="font-logo text-2xl md:text-3xl font-bold tracking-tight text-ink hover:text-berry transition-colors"
             >
               Invitea.

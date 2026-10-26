@@ -86,7 +86,7 @@ export function ComparisonSection() {
               <div className="flex items-center gap-2 mb-8">
                 <CircleCheck
                   aria-hidden="true"
-                  className="w-4 h-4 text-[#9929EA] dark:text-[#FF5FCF] shrink-0"
+                  className="w-4 h-4 text-[#DE7272] dark:text-[#FFCED8] shrink-0"
                 />
                 <h3 className="text-xs font-bold uppercase tracking-[0.14em] text-black dark:text-white">
                   Bikin di Invitea
@@ -100,7 +100,7 @@ export function ComparisonSection() {
                   >
                     <Check
                       aria-hidden="true"
-                      className="mt-1 w-4 h-4 shrink-0 text-[#9929EA] dark:text-[#FF5FCF]"
+                      className="mt-1 w-4 h-4 shrink-0 text-[#DE7272] dark:text-[#FFCED8]"
                     />
                     <span>{item}</span>
                   </li>

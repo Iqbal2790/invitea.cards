@@ -3,25 +3,67 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@layer utilities {
+  .dark .pricing-plus-card {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background-color: #0c0a06 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 50px -10px rgba(250, 235, 146, 0.18) !important;
+  }
+  .dark .pricing-plus-title,
+  .dark .pricing-plus-price {
+    color: #FFFFFF !important;
+  }
+  .dark .pricing-plus-desc,
+  .dark .pricing-plus-sub {
+    color: rgba(255, 255, 255, 0.7) !important;
+  }
+  .dark .pricing-plus-badge {
+    background-color: #FAEB92 !important;
+    color: #000000 !important;
+    border-color: transparent !important;
+  }
+  .dark .pricing-plus-btn {
+    background-color: #FAEB92 !important;
+    color: #000000 !important;
+    --ink-bg: #171717 !important;
+    --ink-text: #FFFFFF !important;
+    --ink-border: rgba(255, 255, 255, 0.2) !important;
+  }
+  .dark .pricing-plus-btn:hover {
+    background-color: #FAEB92 !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+  }
+  .dark .pricing-plus-divider {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+  .dark .pricing-plus-check {
+    color: #FAEB92 !important;
+  }
+  .dark .pricing-plus-feature-text {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+}
+
 @theme {
   --font-logo: "Cormorant Garamond", Georgia, serif;
   --font-serif: "Google Sans Flex", "Google Sans", "Google Sans Text", sans-serif;
   --font-sans: "Google Sans Flex", "Google Sans", "Google Sans Text", sans-serif;
   --font-mono: "Google Sans Flex", "Google Sans", "Google Sans Text", sans-serif;
 
-  /* Palette: 000000 9929EA FF5FCF FAEB92 FFFFFF */
+  /* Palette: 000000 DE7272 FFCED8 FAEB92 FFFFFF */
   --color-bg: #FFFFFF;
   --color-bg-alt: #FAFAFA;
   --color-ink: #000000;
   --color-ink-soft: #404040;
-  --color-berry: #9929EA;
-  --color-berry-deep: #7A18C2;
-  --color-purple: #9929EA;
-  --color-pink: #FF5FCF;
-  --color-pink-btn-bg: #FF5FCF;
-  --color-pink-btn-text: #000000;
-  --color-pink-soft: #FFF0FA;
-  --color-pink-line: #FFD4F3;
+  --color-berry: #DE7272;
+  --color-berry-deep: #C85E5E;
+  --color-purple: #DE7272;
+  --color-pink: #DE7272;
+  --color-pink-btn-bg: #DE7272;
+  --color-pink-btn-text: #FFFFFF;
+  --color-pink-soft: #FDF2F2;
+  --color-pink-line: #F9D5D5;
   --color-yellow: #FAEB92;
   --color-butter: #FAEB92;
   --color-cream-text: #FFFFFF;
@@ -40,10 +82,13 @@ html.dark,
   --color-header-border: rgba(255, 255, 255, 0.12);
   --color-hairline: rgba(255, 255, 255, 0.12);
 
-  /* Dalam keadaan dark mode warna ungunya ganti jadi warna pink (#FF5FCF) */
-  --color-berry: #FF5FCF;
-  --color-berry-deep: #F04BBF;
-  --color-purple: #FF5FCF;
+  /* Dark mode accent: FFCED8 */
+  --color-berry: #FFCED8;
+  --color-berry-deep: #E8B4C0;
+  --color-purple: #FFCED8;
+  --color-pink: #FFCED8;
+  --color-pink-btn-bg: #FFCED8;
+  --color-pink-btn-text: #000000;
 }
 
 html {
@@ -202,7 +247,7 @@ html, body {
   inset-inline: 0;
   bottom: 0;
   height: 2px;
-  background-color: var(--color-berry, #9929EA);
+  background-color: var(--color-berry, #DE7272);
   transform: scaleX(0);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   transform-origin: center;
@@ -221,14 +266,14 @@ html, body {
   position: relative !important;
   overflow: hidden !important;
   isolation: isolate;
-  --ink-bg: #851FD1;
+  --ink-bg: #C85E5E;
   --ink-text: #ffffff;
   --ink-border: transparent;
   transition: border-color 0.35s ease, box-shadow 0.25s ease, transform 0.15s ease, background-color 0.3s ease;
 }
 
 html.dark .ink-btn {
-  --ink-bg: #F04BBF;
+  --ink-bg: #E8B4C0;
   --ink-text: #000000;
 }
 

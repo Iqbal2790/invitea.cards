@@ -368,7 +368,7 @@ export function ShowcaseSection() {
                   href={`https://create.invitea.cards?theme=${item.id}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:flex-1 h-9.5 px-3 rounded-full bg-[#9929EA] dark:bg-[#FF5FCF] text-white dark:text-black text-xs font-semibold hover:bg-[#851FD1] dark:hover:bg-[#F04BBF] transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
+                  className="w-full sm:flex-1 h-9.5 px-3 rounded-full bg-[#DE7272] dark:bg-[#FFCED8] text-white dark:text-black text-xs font-semibold hover:bg-[#C85E5E] dark:hover:bg-[#E8B4C0] transition-all duration-150 inline-flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 whitespace-nowrap"
                 >
                   <span>Gunakan Tema</span>
                   <ExternalLink className="w-3 h-3 opacity-80 shrink-0" aria-hidden="true" />
