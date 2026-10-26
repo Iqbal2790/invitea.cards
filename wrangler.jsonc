@@ -14,7 +14,11 @@
 	"observability": {
 		"enabled": true
 	},
-	"upload_source_maps": true
+	"upload_source_maps": true,
+	"routes": [
+		{ "pattern": "invitea.cards/*", "zone_name": "invitea.cards" },
+		{ "pattern": "*.invitea.cards/*", "zone_name": "invitea.cards" }
+	]
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
