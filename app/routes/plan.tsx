@@ -25,23 +25,47 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   const hostHeader = request.headers.get("x-forwarded-host") || request.headers.get("host");
   const hostContext = resolveHostContext(hostHeader, url.searchParams);
 
-  // Auth Guard: Throws redirect to /auth/login?redirectTo=/plan if unauthenticated
-  const { user, tokens } = await requireAuthUser(request, undefined, url.pathname);
+  let user: any;
+  let tokens: any;
+  let project: any = null;
 
-  // Initialize server Supabase with user auth context
-  const supabase = createServerSupabase(tokens.access_token);
+  if (import.meta.env.DEV && url.searchParams.get("dev") === "1") {
+    user = {
+      id: "dev-user-id",
+      email: "demo@invitea.cards",
+      fullName: "Muhammad Iqbal",
+    };
+    project = {
+      id: "demo-project",
+      user_id: "dev-user-id",
+      groom_name: "Iqbal",
+      bride_name: "Aisyah",
+      wedding_date: "2026-12-25",
+      wedding_city: "Banjarmasin",
+      tier: "paid_template",
+      total_budget: 75000000,
+    };
+  } else {
+    const auth = await requireAuthUser(request, undefined, url.pathname);
+    user = auth.user;
+    tokens = auth.tokens;
 
-  // Query wedding project for this user
-  const { data: project, error: projectError } = await supabase
-    .from("wedding_projects")
-    .select("*")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
+    // Initialize server Supabase with user auth context
+    const supabase = createServerSupabase(tokens.access_token);
 
-  if (projectError) {
-    console.error("Error fetching wedding project:", projectError);
+    // Query wedding project for this user
+    const { data: projectData, error: projectError } = await supabase
+      .from("wedding_projects")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (projectError) {
+      console.error("Error fetching wedding project:", projectError);
+    }
+    project = projectData;
   }
 
   return {
